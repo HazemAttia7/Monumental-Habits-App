@@ -7,7 +7,7 @@ abstract class AppColors {
   static const Color twilight = Color(0xff29319F);
   static const Color morning = Color(0xffFC9D45);
   static const Color fog = Color(0xff973456);
-  
+
   static const Color primaryTextColor = Color(0xff573353);
   static const Color secondaryTextColor = Color(0xffFDA758);
 }
