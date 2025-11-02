@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
 
 abstract class AppRouter {
@@ -6,10 +8,25 @@ abstract class AppRouter {
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
-      // GoRoute(
-      //   path: kOnboardingView,
-      //   builder: (context, state) => const OnboardingView(),
-      // ),
+      GoRoute(
+        path: kOnboardingView,
+        pageBuilder: (context, state) => CustomTransitionPage(
+          key: state.pageKey,
+          child: const OnboardingView(),
+          transitionDuration: const Duration(milliseconds: 700),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            const begin = Offset(0.0, 1.0);
+            const end = Offset.zero;
+            final tween = Tween(
+              begin: begin,
+              end: end,
+            ).chain(CurveTween(curve: Curves.easeInOut));
+            final offsetAnimation = animation.drive(tween);
+
+            return SlideTransition(position: offsetAnimation, child: child);
+          },
+        ),
+      ),
     ],
   );
 }

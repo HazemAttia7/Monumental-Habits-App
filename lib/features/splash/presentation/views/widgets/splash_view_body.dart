@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/widgets/fading_text.dart';
 
@@ -14,6 +16,14 @@ class _SplashViewBodyState extends State<SplashViewBody>
     with SingleTickerProviderStateMixin {
   late Animation<double> fadeAnimation;
   late AnimationController animationController;
+
+  
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -22,15 +32,15 @@ class _SplashViewBodyState extends State<SplashViewBody>
   }
 
   void navigateToOnboarding() {
-    // Future.delayed(const Duration(seconds: 2), () {
-    //   GoRouter.of(context).pushReplacement(AppRouter.kOnboardingView);
-    // });
+    Future.delayed(const Duration(seconds: 2), () {
+      GoRouter.of(context).pushReplacement(AppRouter.kOnboardingView);
+    });
   }
 
   void initFadeAnimation() {
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: const Duration(seconds: 2),
     );
     fadeAnimation = Tween<double>(
       begin: 0,
