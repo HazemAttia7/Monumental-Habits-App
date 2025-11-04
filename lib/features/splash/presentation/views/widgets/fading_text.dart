@@ -18,8 +18,8 @@ class FadingText extends StatelessWidget {
             "WELCOME TO Monumental habits",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 35.sp,
-              color: AppColors.primaryTextColor,
+              fontSize: 40.sp,
+              color: AppColors.primaryColor,
               fontFamily: "Klasik",
               height: 1,
             ),
