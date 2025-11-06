@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
+import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/widgets/onboarding_controls.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/widgets/onboarding_page.dart';
@@ -73,13 +74,18 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
                         pagesNum: pages.length,
                         selectedPageIndex: currentPageIndex,
                       )
-                    : CustomButton(
-                        text: 'Get Started',
-                        onTap: () {
-                          GoRouter.of(
-                            context,
-                          ).pushReplacement(AppRouter.kLoginView);
-                        },
+                    : Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: kPagePadding.w,
+                        ),
+                        child: CustomButton(
+                          text: 'Get Started',
+                          onTap: () {
+                            GoRouter.of(
+                              context,
+                            ).pushReplacement(AppRouter.kLoginView);
+                          },
+                        ),
                       ),
               ],
             ),

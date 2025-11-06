@@ -17,7 +17,6 @@ class _SplashViewBodyState extends State<SplashViewBody>
   late Animation<double> fadeAnimation;
   late AnimationController animationController;
 
-  
   @override
   void dispose() {
     animationController.dispose();
