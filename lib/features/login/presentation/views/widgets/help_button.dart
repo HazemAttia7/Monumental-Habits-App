@@ -10,7 +10,7 @@ class HelpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // show alert dialog
+        // TODO : show alert dialog
       },
       child: Container(
         padding: EdgeInsets.all(11.sp),
