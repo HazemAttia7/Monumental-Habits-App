@@ -24,10 +24,13 @@ class LoginViewBodyContent extends StatelessWidget {
           ),
         ),
         Gap(219.h),
-        Text(
-          "WELCOME TO Monumental habits",
-          textAlign: TextAlign.center,
-          style: AppStyles.textStyle32,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
+          child: Text(
+            "WELCOME TO Monumental habits",
+            textAlign: TextAlign.center,
+            style: AppStyles.textStyle32,
+          ),
         ),
         Gap(41.h),
         Padding(

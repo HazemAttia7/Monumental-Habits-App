@@ -20,16 +20,25 @@ class MonumentalHabits extends StatefulWidget {
 }
 
 class _MonumentalHabitsState extends State<MonumentalHabits> {
+  bool _imagesPrecached = false; 
+
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    await precacheImage(const AssetImage(AssetsData.splashBackground), context);
-    await precacheImage(const AssetImage(AssetsData.loginBackground), context);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       FlutterNativeSplash.remove();
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_imagesPrecached) {
+      precacheImage(const AssetImage(AssetsData.splashBackground), context);
+      precacheImage(const AssetImage(AssetsData.loginBackground), context);
+      _imagesPrecached = true;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
