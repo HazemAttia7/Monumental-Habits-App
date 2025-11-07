@@ -21,7 +21,7 @@ class OnboardingPage extends StatelessWidget {
             textAlign: TextAlign.center,
             style: AppStyles.textStyle32,
           ),
-          Image.asset(image, height: 500.sp),
+          Expanded(child: Image.asset(image)),
         ],
       ),
     );
