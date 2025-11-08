@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
-import 'package:pixel_true_app/features/login/presentation/views/widgets/gradient_login_background_and_content.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/gradient_login_background_and_content.dart';
 
 class LoginViewBody extends StatelessWidget {
   const LoginViewBody({super.key});

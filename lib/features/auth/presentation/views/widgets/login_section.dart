@@ -6,8 +6,8 @@ import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/utils/monumental_habits_icons.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
-import 'package:pixel_true_app/features/login/presentation/views/widgets/forgot_password_text.dart';
-import 'package:pixel_true_app/features/login/presentation/views/widgets/sign_up_text.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/forgot_password_text.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/sign_up_text.dart';
 
 class LoginSection extends StatelessWidget {
   const LoginSection({super.key});
@@ -41,6 +41,7 @@ class LoginSection extends StatelessWidget {
           const CustomTextFormField(
             icon: MonumentalHabitsIcons.lock,
             hintText: "Password",
+            isPassword: true,
           ),
           Gap(20.h),
           CustomButton(text: "Login", onTap: () {

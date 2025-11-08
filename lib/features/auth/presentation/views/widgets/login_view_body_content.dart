@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/features/login/presentation/views/widgets/continue_with_button.dart';
-import 'package:pixel_true_app/features/login/presentation/views/widgets/help_button.dart';
-import 'package:pixel_true_app/features/login/presentation/views/widgets/login_section.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/continue_with_button.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/help_button.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/login_section.dart';
 
 class LoginViewBodyContent extends StatelessWidget {
   const LoginViewBodyContent({super.key});

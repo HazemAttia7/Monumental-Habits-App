@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pixel_true_app/features/login/presentation/views/widgets/custom_list_tile.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/custom_list_tile.dart';
 
 class ContinueWithButton extends StatelessWidget {
   final String image;
