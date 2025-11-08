@@ -2,16 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/core/widgets/show_password_text.dart';
 
 class CustomTextFormField extends StatefulWidget {
   final IconData icon;
   final String hintText;
   final double? iconSize;
+  final Color? fillColor;
+  final bool isPassword;
   const CustomTextFormField({
     super.key,
     required this.icon,
     required this.hintText,
     this.iconSize,
+    this.fillColor,
+    this.isPassword = false,
   });
 
   @override
@@ -19,6 +24,7 @@ class CustomTextFormField extends StatefulWidget {
 }
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  late bool _obscureText;
   final FocusNode _focusNode = FocusNode();
   @override
   void initState() {
@@ -26,6 +32,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     _focusNode.addListener(() {
       setState(() {}); // rebuild when focus changes
     });
+    _obscureText = widget.isPassword;
   }
 
   @override
@@ -37,6 +44,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: _obscureText,
       focusNode: _focusNode,
       style: AppStyles.textStyle16.copyWith(
         color: _focusNode.hasFocus
@@ -68,7 +76,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           borderSide: BorderSide.none,
         ),
         filled: true,
-        fillColor: const Color(0xffFFF6ED),
+        fillColor: widget.fillColor ?? const Color(0xffFFF6ED),
         hintText: widget.hintText,
         hintStyle: AppStyles.textStyle16.copyWith(
           fontWeight: FontWeight.w500,
@@ -76,6 +84,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               ? AppColors.secondaryColor
               : AppColors.primaryColor.withValues(alpha: .5),
         ),
+        suffix: widget.isPassword
+            ? ShowHidePasswrodText(
+                onTap: () {
+                  setState(() {
+                    _obscureText = !_obscureText;
+                  });
+                },
+                isObsecured: _obscureText,
+              )
+            : null,
       ),
     );
   }

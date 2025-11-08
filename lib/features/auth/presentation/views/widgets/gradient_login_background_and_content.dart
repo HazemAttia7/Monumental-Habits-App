@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/login/presentation/views/widgets/login_view_body_content.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/login_view_body_content.dart';
 
 class GradientLoginBackgroundAndContent extends StatelessWidget {
   const GradientLoginBackgroundAndContent({super.key});
