@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/features/login/presentation/views/widgets/help_dialog.dart';
 
 class HelpButton extends StatelessWidget {
   const HelpButton({super.key});
@@ -10,7 +11,7 @@ class HelpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // TODO : show alert dialog
+        showDialog(context: context, builder: (context) => const HelpDialog());
       },
       child: Container(
         padding: EdgeInsets.all(11.sp),
