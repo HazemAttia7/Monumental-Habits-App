@@ -1,29 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/auth/presentation/views/widgets/help_dialog.dart';
 
-class HelpButton extends StatelessWidget {
-  const HelpButton({super.key});
+class CustomIconButton extends StatelessWidget {
+  final VoidCallback onTap;
+  final IconData icon;
+  const CustomIconButton({super.key, required this.onTap, required this.icon});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        showDialog(context: context, builder: (context) => const HelpDialog());
-      },
+      onTap: onTap,
       child: Container(
         padding: EdgeInsets.all(11.sp),
         foregroundDecoration: BoxDecoration(
           shape: BoxShape.circle,
           color: AppColors.primaryColor.withValues(alpha: .1),
         ),
-        child: Icon(
-          FontAwesomeIcons.question,
-          color: AppColors.primaryColor,
-          size: 22.sp,
-        ),
+        child: Icon(icon, color: AppColors.primaryColor, size: 22.sp),
       ),
     );
   }

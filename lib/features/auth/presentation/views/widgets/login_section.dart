@@ -33,20 +33,23 @@ class LoginSection extends StatelessWidget {
           ),
           Gap(28.h),
           CustomTextFormField(
-            icon: MonumentalHabitsIcons.email,
+            prefixIcon: MonumentalHabitsIcons.email,
             hintText: "Email",
             iconSize: 15.sp,
           ),
           Gap(8.h),
           const CustomTextFormField(
-            icon: MonumentalHabitsIcons.lock,
+            prefixIcon: MonumentalHabitsIcons.lock,
             hintText: "Password",
             isPassword: true,
           ),
           Gap(20.h),
-          CustomButton(text: "Login", onTap: () {
-            // TODO : Login Logic
-          }),
+          CustomButton(
+            text: "Login",
+            onTap: () {
+              // TODO : Login Logic
+            },
+          ),
           Gap(13.h),
           const ForgotPasswordText(),
           Gap(12.h),
