@@ -9,4 +9,5 @@ abstract class AssetsData {
   static const facebookImage = "assets/images/facebook.png";
   static const createYourAccountImage =
       "assets/images/create your account image.png";
+  static const forgotPasswordImage = "assets/images/forgot password image.png";
 }

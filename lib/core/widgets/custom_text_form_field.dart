@@ -5,14 +5,14 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/show_password_text.dart';
 
 class CustomTextFormField extends StatefulWidget {
-  final IconData icon;
+  final IconData? prefixIcon;
   final String hintText;
   final double? iconSize;
   final Color? fillColor;
   final bool isPassword;
   const CustomTextFormField({
     super.key,
-    required this.icon,
+    this.prefixIcon,
     required this.hintText,
     this.iconSize,
     this.fillColor,
@@ -56,13 +56,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
           vertical: 20.sp,
           horizontal: 17.sp,
         ),
-        prefixIcon: Icon(
-          widget.icon,
-          size: widget.iconSize ?? 20.sp,
-          color: _focusNode.hasFocus
-              ? AppColors.secondaryColor
-              : AppColors.primaryColor.withValues(alpha: .5),
-        ),
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide.none,
@@ -84,6 +78,15 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
               ? AppColors.secondaryColor
               : AppColors.primaryColor.withValues(alpha: .5),
         ),
+        prefixIcon: widget.prefixIcon != null
+            ? Icon(
+                widget.prefixIcon,
+                size: widget.iconSize ?? 20.sp,
+                color: _focusNode.hasFocus
+                    ? AppColors.secondaryColor
+                    : AppColors.primaryColor.withValues(alpha: .5),
+              )
+            : null,
         suffix: widget.isPassword
             ? ShowHidePasswrodText(
                 onTap: () {
