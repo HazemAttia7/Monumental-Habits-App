@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/create_account_view_body.dart';
 
 class CreateAccountView extends StatelessWidget {
-  const CreateAccountView({super.key});
+  final VoidCallback togglePages;
+  const CreateAccountView({super.key, required this.togglePages});
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(body: CreateAccountViewBody(),);
+    return  Scaffold(body: CreateAccountViewBody(togglePages:togglePages));
   }
 }

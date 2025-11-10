@@ -9,8 +9,9 @@ import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/forgot_password_text.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/sign_up_text.dart';
 
-class LoginSection extends StatelessWidget {
-  const LoginSection({super.key});
+class LoginSheet extends StatelessWidget {
+  final VoidCallback togglePages;
+  const LoginSheet({super.key, required this.togglePages});
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class LoginSection extends StatelessWidget {
           Gap(13.h),
           const ForgotPasswordText(),
           Gap(12.h),
-          const SignUpText(),
+          SignUpText(togglePages: togglePages),
           Gap(28.h),
         ],
       ),

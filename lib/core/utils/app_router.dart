@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pixel_true_app/features/auth/presentation/views/create_account_view.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
-import 'package:pixel_true_app/features/auth/presentation/views/login_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
 
 abstract class AppRouter {
   static const String kOnboardingView = "/onboarding";
-  static const String kLoginView = "/login";
+  static const String kAuthView = "/auth";
   static const String kCreateAccountView = "/create-account";
   static const String kForgotPasswordView = "/forgot-password";
   static final router = GoRouter(
@@ -33,9 +32,11 @@ abstract class AppRouter {
           },
         ),
       ),
-      GoRoute(path: kLoginView, builder: (context, state) => const LoginView()),
-      GoRoute(path: kCreateAccountView, builder: (context, state) => const CreateAccountView()),
-      GoRoute(path: kForgotPasswordView, builder: (context, state) => const ForgotPasswordView()),
+      GoRoute(path: kAuthView, builder: (context, state) => const AuthView()),
+      GoRoute(
+        path: kForgotPasswordView,
+        builder: (context, state) => const ForgotPasswordView(),
+      ),
     ],
   );
 }

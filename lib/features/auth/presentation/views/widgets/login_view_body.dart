@@ -3,7 +3,8 @@ import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/gradient_login_background_and_content.dart';
 
 class LoginViewBody extends StatelessWidget {
-  const LoginViewBody({super.key});
+  final VoidCallback togglePages;
+  const LoginViewBody({super.key, required this.togglePages});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,9 @@ class LoginViewBody extends StatelessWidget {
           right: 0,
           child: Image.asset(AssetsData.loginBackground),
         ),
-        const Positioned(child: GradientLoginBackgroundAndContent()),
+        Positioned(
+          child: GradientLoginBackgroundAndContent(togglePages: togglePages),
+        ),
       ],
     );
   }

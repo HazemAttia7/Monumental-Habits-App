@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,9 +6,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
+import 'package:pixel_true_app/firebase_options.dart';
 
-void main() {
+void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   runApp(const MonumentalHabits());
 }
@@ -20,7 +23,7 @@ class MonumentalHabits extends StatefulWidget {
 }
 
 class _MonumentalHabitsState extends State<MonumentalHabits> {
-  bool _imagesPrecached = false; 
+  bool _imagesPrecached = false;
 
   @override
   void initState() {
@@ -39,6 +42,7 @@ class _MonumentalHabitsState extends State<MonumentalHabits> {
       _imagesPrecached = true;
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
