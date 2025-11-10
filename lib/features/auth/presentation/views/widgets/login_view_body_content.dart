@@ -8,10 +8,11 @@ import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/continue_with_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/help_dialog.dart';
-import 'package:pixel_true_app/features/auth/presentation/views/widgets/login_section.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/login_sheet.dart';
 
 class LoginViewBodyContent extends StatelessWidget {
-  const LoginViewBodyContent({super.key});
+  final VoidCallback togglePages;
+  const LoginViewBodyContent({super.key, required this.togglePages});
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class LoginViewBodyContent extends StatelessWidget {
           ),
         ),
         Gap(25.h),
-        const LoginSection(),
+        LoginSheet(togglePages: togglePages),
       ],
     );
   }

@@ -83,7 +83,7 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
                           onTap: () {
                             GoRouter.of(
                               context,
-                            ).pushReplacement(AppRouter.kLoginView);
+                            ).pushReplacement(AppRouter.kAuthView);
                           },
                         ),
                       ),
