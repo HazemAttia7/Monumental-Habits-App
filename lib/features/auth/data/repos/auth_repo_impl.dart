@@ -3,7 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/errors/failure.dart';
-import 'package:pixel_true_app/core/services/sendgrid_services.dart';
+import 'package:pixel_true_app/core/services/sendgrid_service.dart';
 import 'package:pixel_true_app/features/auth/data/models/app_user.dart';
 import 'package:pixel_true_app/features/auth/data/repos/auth_repo.dart';
 
