@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 import 'package:pixel_true_app/features/auth/data/models/app_user.dart';
 import 'package:pixel_true_app/features/auth/data/repos/auth_repo.dart';
 
@@ -51,11 +51,20 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> signUp({required String email, required String password}) async {
+  Future<void> signUp(
+    BuildContext context, {
+    required String username,
+    required String email,
+    required String password,
+    bool emailMe = false,
+  }) async {
     emit(AuthLoading());
     final result = await authRepo.signUpWithEmailPassword(
+      context,
+      username: username,
       email: email,
       password: password,
+      emailMe: emailMe,
     );
 
     result.fold(
@@ -63,7 +72,7 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthError(failure.errMessage));
         emit(Unauthenticated());
       },
-      (user) {
+      (user) async {
         _currentUser = user;
         emit(Authenticated(user: user));
       },

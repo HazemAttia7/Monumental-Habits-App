@@ -4,8 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/features/auth/presentation/views/widgets/create_account_section.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/create_account_form.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/mixed_weight_text.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/sign_in_with_section.dart';
 
 class CreateAccountViewBody extends StatelessWidget {
   final VoidCallback togglePages;
@@ -28,7 +29,9 @@ class CreateAccountViewBody extends StatelessWidget {
                 style: AppStyles.textStyle24.copyWith(fontFamily: "Klasik"),
               ),
               Gap(32.h),
-              const CreateAccountSection(),
+              const CreateAccountForm(),
+              Gap(20.h),
+              const SignInWithSection(),
               Gap(32.h),
               MixedWeightText(
                 togglePages: togglePages,
