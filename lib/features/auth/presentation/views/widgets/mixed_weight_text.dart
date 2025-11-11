@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
-class LoginText extends StatelessWidget {
+class MixedWeightText extends StatelessWidget {
   final VoidCallback togglePages;
-  const LoginText({super.key, required this.togglePages});
+  final String normalText, boldText;
+  const MixedWeightText({
+    super.key,
+    required this.togglePages,
+    required this.normalText,
+    required this.boldText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +23,9 @@ class LoginText extends StatelessWidget {
             color: AppColors.primaryColor,
           ),
           children: [
-            const TextSpan(text: "Already have an account? "),
+            TextSpan(text: "$normalText "),
             TextSpan(
-              text: "Sign In",
+              text: boldText,
               style: AppStyles.textStyle14.copyWith(
                 fontWeight: FontWeight.bold,
               ),

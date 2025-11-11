@@ -10,6 +10,8 @@ class CustomTextFormField extends StatefulWidget {
   final double? iconSize;
   final Color? fillColor;
   final bool isPassword;
+  final String? Function(String? data)? validator;
+  final void Function(String? data)? onSaved;
   const CustomTextFormField({
     super.key,
     this.prefixIcon,
@@ -17,6 +19,8 @@ class CustomTextFormField extends StatefulWidget {
     this.iconSize,
     this.fillColor,
     this.isPassword = false,
+    this.validator,
+    this.onSaved,
   });
 
   @override
@@ -30,7 +34,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   void initState() {
     super.initState();
     _focusNode.addListener(() {
-      setState(() {}); // rebuild when focus changes
+      setState(() {});
     });
     _obscureText = widget.isPassword;
   }
@@ -51,12 +55,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             ? AppColors.secondaryColor
             : AppColors.primaryColor.withValues(alpha: .5),
       ),
+      validator: widget.validator,
+      onSaved: widget.onSaved,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(
           vertical: 20.sp,
           horizontal: 17.sp,
         ),
-
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide.none,
@@ -97,6 +102,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
                 isObsecured: _obscureText,
               )
             : null,
+        errorMaxLines: 2,
       ),
     );
   }

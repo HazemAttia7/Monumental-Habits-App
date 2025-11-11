@@ -5,7 +5,7 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/create_account_section.dart';
-import 'package:pixel_true_app/features/auth/presentation/views/widgets/login_text.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/mixed_weight_text.dart';
 
 class CreateAccountViewBody extends StatelessWidget {
   final VoidCallback togglePages;
@@ -30,7 +30,11 @@ class CreateAccountViewBody extends StatelessWidget {
               Gap(32.h),
               const CreateAccountSection(),
               Gap(32.h),
-               LoginText(togglePages : togglePages),
+              MixedWeightText(
+                togglePages: togglePages,
+                normalText: 'Already have an account?',
+                boldText: 'Sign In',
+              ),
               Gap(34.h),
             ],
           ),

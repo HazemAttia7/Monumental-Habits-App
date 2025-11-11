@@ -29,6 +29,12 @@ class FirebaseFailure extends Failure {
       case 'network-request-failed':
         return const FirebaseFailure('No internet connection.');
       default:
+        if (e.code == 'unknown' &&
+            (e.message?.contains('CONFIGURATION_NOT_FOUND') ?? false)) {
+          return const FirebaseFailure(
+            'Firebase Auth is not configured correctly. Please contact support or try again later.',
+          );
+        }
         return FirebaseFailure(
           'Unexpected Firebase error: ${e.message ?? 'Unknown error'}',
         );

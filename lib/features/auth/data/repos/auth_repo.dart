@@ -14,4 +14,6 @@ abstract class AuthRepo {
     required String password,
   });
   Future<Either<Failure, Unit>> logout();
+
+  Future<Either<Failure, Unit>> sendPasswordResetEmail({required String email});
 }

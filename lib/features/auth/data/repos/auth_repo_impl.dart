@@ -53,9 +53,20 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
+
   Future<Either<Failure, Unit>> logout() async {
     try {
       await FirebaseAuth.instance.signOut();
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, Unit>> sendPasswordResetEmail({required String email}) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return const Right(unit);
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));

@@ -3,11 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/core/utils/monumental_habits_icons.dart';
-import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/forgot_password_text.dart';
-import 'package:pixel_true_app/features/auth/presentation/views/widgets/sign_up_text.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/login_form.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/mixed_weight_text.dart';
 
 class LoginSheet extends StatelessWidget {
   final VoidCallback togglePages;
@@ -33,28 +31,11 @@ class LoginSheet extends StatelessWidget {
             style: AppStyles.textStyle16.copyWith(fontWeight: FontWeight.w500),
           ),
           Gap(28.h),
-          CustomTextFormField(
-            prefixIcon: MonumentalHabitsIcons.email,
-            hintText: "Email",
-            iconSize: 15.sp,
-          ),
-          Gap(8.h),
-          const CustomTextFormField(
-            prefixIcon: MonumentalHabitsIcons.lock,
-            hintText: "Password",
-            isPassword: true,
-          ),
-          Gap(20.h),
-          CustomButton(
-            text: "Login",
-            onTap: () {
-              // TODO : Login Logic
-            },
-          ),
+          const LoginForm(),
           Gap(13.h),
           const ForgotPasswordText(),
           Gap(12.h),
-          SignUpText(togglePages: togglePages),
+          MixedWeightText(togglePages: togglePages, normalText: 'Don’t have an account?',boldText: 'Sign Up',),
           Gap(28.h),
         ],
       ),

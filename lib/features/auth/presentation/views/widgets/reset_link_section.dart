@@ -3,8 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
+import 'package:pixel_true_app/features/auth/presentation/views/widgets/forgot_password_form.dart';
 
 class ResetLinkSection extends StatelessWidget {
   const ResetLinkSection({super.key});
@@ -25,9 +24,7 @@ class ResetLinkSection extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Gap(30.h),
-          const CustomTextFormField(hintText: "Email"),
-          Gap(32.h),
-          CustomButton(onTap: () {}, text: "Send Reset Link"),
+          const ForgotPasswordForm(),
         ],
       ),
     );

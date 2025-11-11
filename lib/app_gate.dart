@@ -25,6 +25,7 @@ class AppGate extends StatelessWidget {
           return const SplashView();
         }
         return BlocConsumer<AuthCubit, AuthState>(
+          buildWhen: (previous, current) => current is! AuthLoading,
           builder: (context, state) {
             if (state is Authenticated) {
               return const HomeView();
