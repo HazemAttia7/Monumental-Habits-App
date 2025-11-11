@@ -9,6 +9,7 @@ import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/widgets/onboarding_controls.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/widgets/onboarding_page.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/widgets/onboarding_subtitle.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnboardingViewBody extends StatefulWidget {
   const OnboardingViewBody({super.key});
@@ -43,6 +44,17 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
   void dispose() {
     pageController.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setOnboardingSeen();
+  }
+
+  void _setOnboardingSeen() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool("seenOnboarding", true);
   }
 
   @override

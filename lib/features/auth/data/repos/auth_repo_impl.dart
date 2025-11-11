@@ -6,6 +6,19 @@ import 'package:pixel_true_app/features/auth/data/repos/auth_repo.dart';
 
 class AuthRepoImpl implements AuthRepo {
   @override
+  Future<Either<Failure, AppUser?>> getCurrentUser() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        return Right(AppUser.fromFirebaseUser(user));
+      }
+      return const Right(null);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
+
+  @override
   Future<Either<Failure, AppUser>> loginWithEmailPassword({
     required String email,
     required String password,
@@ -43,7 +56,7 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<Failure, Unit>> logout() async {
     try {
       await FirebaseAuth.instance.signOut();
-      return  const Right(unit);
+      return const Right(unit);
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
     }
