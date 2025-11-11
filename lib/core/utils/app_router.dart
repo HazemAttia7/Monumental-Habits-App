@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
-import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
 
 abstract class AppRouter {
   static const String kOnboardingView = "/onboarding";
@@ -12,7 +12,10 @@ abstract class AppRouter {
   static const String kForgotPasswordView = "/forgot-password";
   static final router = GoRouter(
     routes: [
-      GoRoute(path: "/", builder: (context, state) => const SplashView()),
+        GoRoute(
+        path: "/",
+        builder: (context, state) => const AppGate(),
+      ),
       GoRoute(
         path: kOnboardingView,
         pageBuilder: (context, state) => CustomTransitionPage(
