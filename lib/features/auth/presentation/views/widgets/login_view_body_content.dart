@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/continue_with_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/help_dialog.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/login_sheet.dart';
 
-class LoginViewBodyContent extends StatelessWidget {
+class LoginViewBodyContent extends StatefulWidget {
   final VoidCallback togglePages;
   const LoginViewBodyContent({super.key, required this.togglePages});
 
+  @override
+  State<LoginViewBodyContent> createState() => _LoginViewBodyContentState();
+}
+
+class _LoginViewBodyContentState extends State<LoginViewBodyContent> {
+  bool _isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -49,9 +57,8 @@ class LoginViewBodyContent extends StatelessWidget {
           child: ContinueWithButton(
             image: AssetsData.googleImge,
             text: 'Continue with Google',
-            onTap: () {
-              // TODO : Login With Google Account
-            },
+            onTap: continueWithGoogle,
+            isLoading: _isLoading,
           ),
         ),
         Gap(8.h),
@@ -66,8 +73,18 @@ class LoginViewBodyContent extends StatelessWidget {
           ),
         ),
         Gap(25.h),
-        LoginSheet(togglePages: togglePages),
+        LoginSheet(togglePages: widget.togglePages),
       ],
     );
+  }
+
+  void continueWithGoogle() async {
+    setState(() {
+      _isLoading = true;
+    });
+    await BlocProvider.of<AuthCubit>(context).signupWithGoogle();
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

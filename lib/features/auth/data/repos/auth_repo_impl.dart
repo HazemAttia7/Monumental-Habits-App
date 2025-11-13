@@ -152,14 +152,17 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<Failure, AppUser>> signUpWithGoogle() async {
     try {
-      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      final googleSignIn = GoogleSignIn();
+      await googleSignIn.signOut();
+
+      final GoogleSignInAccount? gUser = await googleSignIn.signIn();
 
       if (gUser == null) {
         return const Left(
           FirebaseFailure("Google sign-in was cancelled by user."),
         );
       }
-      
+
       final GoogleSignInAuthentication gAuth = await gUser.authentication;
       final credential = GoogleAuthProvider.credential(
         accessToken: gAuth.accessToken,

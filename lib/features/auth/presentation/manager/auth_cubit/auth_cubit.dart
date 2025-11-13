@@ -112,7 +112,8 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthError(failure.errMessage));
         emit(Unauthenticated());
       },
-      (_) {
+      (user) {
+        _currentUser = user;
         emit(Authenticated(user: _currentUser!));
       },
     );
