@@ -21,7 +21,7 @@ class AppGate extends StatelessWidget {
     return FutureBuilder(
       future: _hasSeenOnboarding(),
       builder: (context, asyncSnapshot) {
-        if (asyncSnapshot.data == false) {
+        if (asyncSnapshot.data == true) {
           return const SplashView();
         }
         return BlocConsumer<AuthCubit, AuthState>(
