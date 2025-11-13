@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:pixel_true_app/core/errors/failure.dart';
 import 'package:pixel_true_app/core/services/sendgrid_service.dart';
 import 'package:pixel_true_app/features/auth/data/models/app_user.dart';
@@ -143,6 +144,37 @@ class AuthRepoImpl implements AuthRepo {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
       return const Right(unit);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, AppUser>> signUpWithGoogle() async {
+    try {
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+
+      if (gUser == null) {
+        return const Left(
+          FirebaseFailure("Google sign-in was cancelled by user."),
+        );
+      }
+      
+      final GoogleSignInAuthentication gAuth = await gUser.authentication;
+      final credential = GoogleAuthProvider.credential(
+        accessToken: gAuth.accessToken,
+        idToken: gAuth.idToken,
+      );
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+      final user = userCredential.user;
+
+      if (user == null) {
+        return const Left(FirebaseFailure("Failed to sign in with Google."));
+      }
+      return Right(AppUser.fromFirebaseUser(user));
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
     }

@@ -21,4 +21,6 @@ abstract class AuthRepo {
   Future<Either<Failure, Unit>> logout();
 
   Future<Either<Failure, Unit>> sendPasswordResetEmail({required String email});
+
+  Future<Either<Failure, AppUser>> signUpWithGoogle();
 }
