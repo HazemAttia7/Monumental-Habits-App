@@ -9,7 +9,6 @@ import 'package:pixel_true_app/core/widgets/animated_slide_widget.dart';
 import 'package:pixel_true_app/core/widgets/animated_top_padding.dart';
 import 'package:pixel_true_app/core/widgets/custom_animated_scale.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
-import 'package:pixel_true_app/core/widgets/staggered_item.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/remember_password_text.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/reset_link_section.dart';
 
@@ -18,7 +17,6 @@ class ForgotPasswordViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const delay = 100;
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
@@ -27,12 +25,22 @@ class ForgotPasswordViewBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Gap(8.h),
-              Align(
-                alignment: Alignment.centerLeft,
-                child: CustomIconButton(
-                  onTap: () => GoRouter.of(context).pop(),
-                  icon: Icons.arrow_back_rounded,
-                ),
+              TweenAnimationBuilder<double>(
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.easeInOut,
+                tween: Tween(begin: 0.0, end: 1.0),
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: CustomIconButton(
+                        onTap: () => GoRouter.of(context).pop(),
+                        icon: Icons.arrow_back_rounded,
+                      ),
+                    ),
+                  );
+                },
               ),
               Gap(37.h),
               CustomAnimatedTopPadding(
@@ -51,20 +59,14 @@ class ForgotPasswordViewBody extends StatelessWidget {
                 ),
               ),
               Gap(45.h),
-              const StaggeredItem(
-                delay: Duration(milliseconds: delay),
-                child: AnimatedSlideWidget(
-                  opacityDuration: Duration(milliseconds: 500),
-                  child: ResetLinkSection(),
-                ),
+              const AnimatedSlideWidget(
+                opacityDuration: Duration(milliseconds: 500),
+                child: ResetLinkSection(),
               ),
               Gap(20.h),
-              const StaggeredItem(
-                delay: Duration(milliseconds: delay * 2),
-                child: CustomAnimatedTopPadding(
-                  padding: 20,
-                  child: RememberPasswordText(),
-                ),
+              const CustomAnimatedTopPadding(
+                padding: 20,
+                child: RememberPasswordText(),
               ),
             ],
           ),
