@@ -28,9 +28,9 @@ class _SignInWithSectionState extends State<SignInWithSection> {
             Expanded(
               child: SignInWithButton(
                 text: "Google",
-                image: AssetsData.googleImge,
+                image: AssetsData.googleImage,
                 onTap: signupWithGoogle,
-                isLoading : _isLoading
+                isLoading: _isLoading,
               ),
             ),
             Expanded(

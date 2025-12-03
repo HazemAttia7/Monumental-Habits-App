@@ -55,7 +55,7 @@ class _LoginViewBodyContentState extends State<LoginViewBodyContent> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
           child: ContinueWithButton(
-            image: AssetsData.googleImge,
+            image: AssetsData.googleImage,
             text: 'Continue with Google',
             onTap: continueWithGoogle,
             isLoading: _isLoading,

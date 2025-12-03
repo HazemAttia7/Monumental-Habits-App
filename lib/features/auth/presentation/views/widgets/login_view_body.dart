@@ -16,9 +16,7 @@ class LoginViewBody extends StatelessWidget {
           right: 0,
           child: Image.asset(AssetsData.loginBackground),
         ),
-        Positioned(
-          child: GradientLoginBackgroundAndContent(togglePages: togglePages),
-        ),
+        GradientLoginBackgroundAndContent(togglePages: togglePages),
       ],
     );
   }

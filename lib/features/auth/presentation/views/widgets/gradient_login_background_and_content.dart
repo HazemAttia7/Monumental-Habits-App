@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/widgets/animated_top_padding.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/login_view_body_content.dart';
 
 class GradientLoginBackgroundAndContent extends StatelessWidget {
@@ -26,10 +25,7 @@ class GradientLoginBackgroundAndContent extends StatelessWidget {
             stops: const [0.18, 0.37],
           ),
         ),
-        child: CustomAnimatedTopPadding(
-          padding: 20,
-          child: LoginViewBodyContent(togglePages: togglePages),
-        ),
+        child: LoginViewBodyContent(togglePages: togglePages),
       ),
     );
   }

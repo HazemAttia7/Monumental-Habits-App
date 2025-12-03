@@ -6,7 +6,7 @@ import 'package:pixel_true_app/core/utils/prefs.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
-import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
+import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
 
 class AppGate extends StatelessWidget {
   const AppGate({super.key});
@@ -17,7 +17,7 @@ class AppGate extends StatelessWidget {
       future: Prefs.getSeenOnboarding(),
       builder: (context, asyncSnapshot) {
         if (asyncSnapshot.data == false) {
-          return const SplashView();
+          return const OnboardingView();
         }
         return BlocConsumer<AuthCubit, AuthState>(
           buildWhen: (previous, current) => current is! AuthLoading,
