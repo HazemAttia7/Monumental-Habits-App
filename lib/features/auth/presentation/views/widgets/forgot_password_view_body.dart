@@ -5,7 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/core/widgets/animated_slide_widget.dart';
+import 'package:pixel_true_app/core/widgets/animated_top_padding.dart';
+import 'package:pixel_true_app/core/widgets/custom_animated_scale.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
+import 'package:pixel_true_app/core/widgets/staggered_item.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/remember_password_text.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/reset_link_section.dart';
 
@@ -14,6 +18,7 @@ class ForgotPasswordViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    const delay = 100;
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
@@ -30,16 +35,37 @@ class ForgotPasswordViewBody extends StatelessWidget {
                 ),
               ),
               Gap(37.h),
-              Text(
-                "Forgot your password?",
-                style: AppStyles.textStyle24.copyWith(fontFamily: "Klasik"),
+              CustomAnimatedTopPadding(
+                padding: 20,
+                child: Text(
+                  "Forgot your password?",
+                  style: AppStyles.textStyle24.copyWith(fontFamily: "Klasik"),
+                ),
               ),
               Gap(39.h),
-              Image.asset(AssetsData.forgotPasswordImage, width: 414.sp),
+              CustomAnimatedScale(
+                opacityDuration: const Duration(milliseconds: 700),
+                child: Image.asset(
+                  AssetsData.forgotPasswordImage,
+                  width: 414.sp,
+                ),
+              ),
               Gap(45.h),
-              const ResetLinkSection(),
+              const StaggeredItem(
+                delay: Duration(milliseconds: delay),
+                child: AnimatedSlideWidget(
+                  opacityDuration: Duration(milliseconds: 500),
+                  child: ResetLinkSection(),
+                ),
+              ),
               Gap(20.h),
-              const RememberPasswordText(),
+              const StaggeredItem(
+                delay: Duration(milliseconds: delay * 2),
+                child: CustomAnimatedTopPadding(
+                  padding: 20,
+                  child: RememberPasswordText(),
+                ),
+              ),
             ],
           ),
         ),

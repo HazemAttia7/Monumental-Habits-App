@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:pixel_true_app/app.dart';
+import 'package:pixel_true_app/core/utils/prefs.dart';
 import 'package:pixel_true_app/firebase_options.dart';
 
 void main() async {
@@ -12,7 +13,7 @@ void main() async {
   await dotenv.load();
 
   // For testing purposes
-  // Prefs.setSeenOnboarding(value: false);
+  Prefs.setSeenOnboarding(value: false);
 
   runApp(const MonumentalHabits());
 }
