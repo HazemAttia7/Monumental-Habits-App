@@ -47,17 +47,6 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    _setOnboardingSeen();
-  }
-
-  void _setOnboardingSeen() async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setBool("seenOnboarding", true);
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Center(
@@ -92,10 +81,12 @@ class _OnboardingViewBodyState extends State<OnboardingViewBody> {
                         ),
                         child: CustomButton(
                           text: 'Get Started',
-                          onTap: () {
+                          onTap: () async {
+                            final prefs = await SharedPreferences.getInstance();
+                            await prefs.setBool("seenOnboarding", true);
                             GoRouter.of(
                               context,
-                            ).pushReplacement(AppRouter.kAuthView);
+                            ).pushReplacement(AppRouter.kAppGate);
                           },
                         ),
                       ),

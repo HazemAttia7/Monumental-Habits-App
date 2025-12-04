@@ -5,6 +5,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/widgets/fading_text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -31,7 +32,7 @@ class _SplashViewBodyState extends State<SplashViewBody>
       precacheImages();
     });
     initFadeAnimation();
-    navigateToAppGate();
+    navigateToNextScreen();
   }
 
   void precacheImages() async {
@@ -43,11 +44,19 @@ class _SplashViewBodyState extends State<SplashViewBody>
     await precacheImage(const AssetImage(AssetsData.onboardingImage4), context);
   }
 
-  void navigateToAppGate() {
-    Future.delayed(const Duration(seconds: 5), () {
-      GoRouter.of(context).pushReplacement(AppRouter.kAppGate);
-    });
+void navigateToNextScreen() async {
+  final prefs = await SharedPreferences.getInstance();
+  final hasSeenOnboarding = prefs.getBool("seenOnboarding") ?? false;
+
+  await Future.delayed(const Duration(seconds: 3));
+
+  if (hasSeenOnboarding) {
+    GoRouter.of(context).pushReplacement(AppRouter.kAppGate);
+  } else {
+    GoRouter.of(context).pushReplacement(AppRouter.kOnboardingView);
   }
+}
+
 
   void initFadeAnimation() {
     animationController = AnimationController(
