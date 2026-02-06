@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
@@ -53,9 +54,9 @@ class ForgotPasswordViewBody extends StatelessWidget {
               Gap(39.h),
               CustomAnimatedScale(
                 opacityDuration: const Duration(milliseconds: 700),
-                child: Image.asset(
+                child: SvgPicture.asset(
                   AssetsData.forgotPasswordImage,
-                  width: 414.sp,
+                  width: 264.sp,
                 ),
               ),
               Gap(45.h),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
@@ -30,7 +31,7 @@ class CreateAccountViewBody extends StatelessWidget {
               children: [
                 Gap(17.h),
                 CustomAnimatedScale(
-                  child: Image.asset(
+                  child: SvgPicture.asset(
                     AssetsData.createYourAccountImage,
                     height: 200.sp,
                   ),

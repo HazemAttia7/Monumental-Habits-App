@@ -1,6 +1,13 @@
 import 'dart:ui';
 
 abstract class AppColors {
+  static const List<Color> habitsColorsSequence = [
+    morning,
+    sunset,
+    twilight,
+    fog,
+  ];
+
   static const Color scaffoldColor = Color(0xffFFF3E9);
   // temp names until i use them and give clear name
   static const Color sunset = Color(0xffF65B4E);

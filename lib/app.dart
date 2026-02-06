@@ -13,7 +13,7 @@ class MonumentalHabits extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(414, 866),
+      designSize: const Size(411.42857142857144, 832.7619047619048),
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, widget) {

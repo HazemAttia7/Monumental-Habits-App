@@ -28,7 +28,7 @@ class _SignInWithSectionState extends State<SignInWithSection> {
             Expanded(
               child: SignInWithButton(
                 text: "Google",
-                image: AssetsData.googleImage,
+                image: AssetsData.googleIcon,
                 onTap: signupWithGoogle,
                 isLoading: _isLoading,
               ),
@@ -36,7 +36,7 @@ class _SignInWithSectionState extends State<SignInWithSection> {
             Expanded(
               child: SignInWithButton(
                 text: "Facebook",
-                image: AssetsData.facebookImage,
+                image: AssetsData.facebookIcon,
                 onTap: () {
                   // TODO : Login With Facebook
                 },
