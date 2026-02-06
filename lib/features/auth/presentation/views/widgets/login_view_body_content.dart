@@ -55,7 +55,7 @@ class _LoginViewBodyContentState extends State<LoginViewBodyContent> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
           child: ContinueWithButton(
-            image: AssetsData.googleImage,
+            image: AssetsData.googleIcon,
             text: 'Continue with Google',
             onTap: continueWithGoogle,
             isLoading: _isLoading,
@@ -65,7 +65,7 @@ class _LoginViewBodyContentState extends State<LoginViewBodyContent> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
           child: ContinueWithButton(
-            image: AssetsData.facebookImage,
+            image: AssetsData.facebookIcon,
             text: 'Continue with Facebook',
             onTap: () {
               // TODO : Login With Facebook Account
