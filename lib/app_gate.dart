@@ -4,7 +4,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
-import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
+import 'package:pixel_true_app/features/main/presentation/views/main_view.dart';
 
 class AppGate extends StatelessWidget {
   const AppGate({super.key});
@@ -15,11 +15,11 @@ class AppGate extends StatelessWidget {
       buildWhen: (previous, current) => current is! AuthLoading,
       builder: (context, state) {
         if (state is Authenticated) {
-          return const HomeView();
+          return const MainView();
         } else if (state is Unauthenticated || state is AuthLoading) {
           return const AuthView();
         }
-    
+
         return const Scaffold(
           body: Center(
             child: CircularProgressIndicator(color: AppColors.primaryColor),
