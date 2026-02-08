@@ -5,7 +5,8 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/bottom_n
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_floating_button.dart';
 
 class CustomBottomNavBar extends StatefulWidget {
-  const CustomBottomNavBar({super.key});
+  final void Function(int selectedIndex) changePage;
+  const CustomBottomNavBar({super.key, required this.changePage});
 
   @override
   State<CustomBottomNavBar> createState() => _CustomBottomNavBarState();
@@ -16,6 +17,7 @@ class _CustomBottomNavBarState extends State<CustomBottomNavBar> {
 
   void selectItem(int index) {
     setState(() {
+      widget.changePage(index);
       selectedIndex = index;
     });
   }
