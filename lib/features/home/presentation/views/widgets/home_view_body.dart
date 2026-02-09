@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/home_body_content.dart';
 
-// TODO : Home loading animations and Main view 
+// TODO : Home loading animations
 class HomeViewBody extends StatefulWidget {
   const HomeViewBody({super.key});
 

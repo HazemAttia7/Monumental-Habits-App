@@ -42,7 +42,7 @@ class WeekDaysListViewItem extends StatelessWidget {
               ),
             ),
           ),
-          if (index == DateTime.now().weekday)
+          if (index == DateTime.now().weekday % 7)
             const Positioned(
               left: 0,
               right: 0,
@@ -74,10 +74,11 @@ class WeekDaysListViewItem extends StatelessWidget {
     }
   }
 
+  // TODO : Solve Week days problem
   String getDateDay() {
     final currentDate = DateTime.now();
     return currentDate
-        .subtract(Duration(days: currentDate.weekday - index))
+        .subtract(Duration(days: currentDate.weekday % 7 - index))
         .day
         .toString();
   }
