@@ -74,7 +74,6 @@ class WeekDaysListViewItem extends StatelessWidget {
     }
   }
 
-  // TODO : Solve Week days problem
   String getDateDay() {
     final currentDate = DateTime.now();
     return currentDate

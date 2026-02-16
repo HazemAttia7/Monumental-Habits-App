@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
+import 'package:pixel_true_app/features/home/presentation/views/add_new_habit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_floating_button.dart';
 
 class MainViewBody extends StatefulWidget {
   const MainViewBody({super.key});
@@ -13,6 +16,7 @@ class MainViewBody extends StatefulWidget {
 
 class _MainViewBodyState extends State<MainViewBody> {
   PageController pageController = PageController(initialPage: 0);
+  bool _isActive = false;
 
   @override
   void dispose() {
@@ -42,6 +46,7 @@ class _MainViewBodyState extends State<MainViewBody> {
               Center(child: Text("Courses View")),
               Center(child: Text("Community View")),
               Center(child: Text("Settings View")),
+              AddNewHabit(),
             ],
           ),
           Positioned(
@@ -51,7 +56,26 @@ class _MainViewBodyState extends State<MainViewBody> {
             child: CustomBottomNavBar(
               changePage: (selectedIndex) {
                 pageController.jumpToPage(selectedIndex);
+                setState(() {
+                  _isActive = false;
+                });
               },
+            ),
+          ),
+          Positioned(
+            bottom: 60.sp,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: CustomFloatingButton(
+                onTap: () {
+                  setState(() {
+                    pageController.jumpToPage(4);
+                    _isActive = true;
+                  });
+                },
+                isActive: _isActive,
+              ),
             ),
           ),
         ],
