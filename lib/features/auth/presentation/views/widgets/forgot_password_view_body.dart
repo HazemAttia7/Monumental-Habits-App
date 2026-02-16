@@ -9,7 +9,7 @@ import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/animated_slide_widget.dart';
 import 'package:pixel_true_app/core/widgets/animated_top_padding.dart';
 import 'package:pixel_true_app/core/widgets/custom_animated_scale.dart';
-import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
+import 'package:pixel_true_app/core/widgets/custom_circle_icon_button.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/remember_password_text.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/widgets/reset_link_section.dart';
 
@@ -35,7 +35,7 @@ class ForgotPasswordViewBody extends StatelessWidget {
                     opacity: value,
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: CustomIconButton(
+                      child: CustomCircleIconButton(
                         onTap: () => GoRouter.of(context).pop(),
                         icon: Icons.arrow_back_rounded,
                       ),

@@ -17,6 +17,7 @@ class MainViewBody extends StatefulWidget {
 class _MainViewBodyState extends State<MainViewBody> {
   PageController pageController = PageController(initialPage: 0);
   bool _isActive = false;
+  int _currentPage = 0; // Add this
 
   @override
   void dispose() {
@@ -41,12 +42,20 @@ class _MainViewBodyState extends State<MainViewBody> {
           PageView(
             controller: pageController,
             physics: const NeverScrollableScrollPhysics(),
-            children: const [
-              HomeView(),
-              Center(child: Text("Courses View")),
-              Center(child: Text("Community View")),
-              Center(child: Text("Settings View")),
-              AddNewHabit(),
+            children: [
+              const HomeView(),
+              const Center(child: Text("Courses View")),
+              const Center(child: Text("Community View")),
+              const Center(child: Text("Settings View")),
+              AddNewHabit(
+                backToHome: () {
+                  pageController.jumpToPage(0);
+                  setState(() {
+                    _currentPage = 0;
+                    _isActive = false;
+                  });
+                },
+              ),
             ],
           ),
           Positioned(
@@ -57,12 +66,13 @@ class _MainViewBodyState extends State<MainViewBody> {
               changePage: (selectedIndex) {
                 pageController.jumpToPage(selectedIndex);
                 setState(() {
+                  _currentPage = selectedIndex;
                   _isActive = false;
                 });
               },
             ),
           ),
-          if (pageController.page == 0 || pageController.page == 4)
+          if (_currentPage == 0 || _currentPage == 4)
             Positioned(
               bottom: 60.sp,
               left: 0,

@@ -12,6 +12,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool isPassword;
   final String? Function(String? data)? validator;
   final void Function(String? data)? onSaved;
+  final EdgeInsets? contentPadding;
   const CustomTextFormField({
     super.key,
     this.prefixIcon,
@@ -20,7 +21,7 @@ class CustomTextFormField extends StatefulWidget {
     this.fillColor,
     this.isPassword = false,
     this.validator,
-    this.onSaved,
+    this.onSaved, this.contentPadding,
   });
 
   @override
@@ -58,10 +59,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       validator: widget.validator,
       onSaved: widget.onSaved,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-          vertical: 20.sp,
-          horizontal: 17.sp,
-        ),
+        contentPadding:
+            widget.contentPadding ??
+            EdgeInsets.symmetric(vertical: 20.sp, horizontal: 17.sp),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide.none,
