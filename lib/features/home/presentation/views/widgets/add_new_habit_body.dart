@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_name_input.dart';
 
 class AddNewHabitBody extends StatelessWidget {
-  const AddNewHabitBody({super.key});
+  final VoidCallback? backToHome;
+  const AddNewHabitBody({super.key, required this.backToHome});
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [],);
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
+        child: Column(
+          children: [
+            Gap(10.h),
+            SizedBox(
+              height: 44.sp,
+              child: AddNewHabitHeader(backToHome: backToHome),
+            ),
+            Gap(24.h),
+            const HabitNameInput(),
+            Gap(10.h),
+          ],
+        ),
+      ),
+    );
   }
 }

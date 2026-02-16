@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 
-class CustomIconButton extends StatelessWidget {
+class CustomCircleIconButton extends StatelessWidget {
   final VoidCallback onTap;
   final IconData icon;
-  const CustomIconButton({super.key, required this.onTap, required this.icon});
+  const CustomCircleIconButton({
+    super.key,
+    required this.onTap,
+    required this.icon,
+  });
 
   @override
   Widget build(BuildContext context) {
