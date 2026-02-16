@@ -62,22 +62,23 @@ class _MainViewBodyState extends State<MainViewBody> {
               },
             ),
           ),
-          Positioned(
-            bottom: 60.sp,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: CustomFloatingButton(
-                onTap: () {
-                  setState(() {
-                    pageController.jumpToPage(4);
-                    _isActive = true;
-                  });
-                },
-                isActive: _isActive,
+          if (pageController.page == 0 || pageController.page == 4)
+            Positioned(
+              bottom: 60.sp,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: CustomFloatingButton(
+                  onTap: () {
+                    setState(() {
+                      pageController.jumpToPage(4);
+                      _isActive = true;
+                    });
+                  },
+                  isActive: _isActive,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );
