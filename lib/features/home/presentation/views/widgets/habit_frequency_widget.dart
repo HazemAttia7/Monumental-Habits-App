@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_frequency_day_item.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/text_icon_widget.dart';
 
 class HabitFrequencyWidget extends StatelessWidget {
   const HabitFrequencyWidget({super.key});
+
+  static const List<String> weekDays = [
+    'Sun',
+    'Mon',
+    'Tue',
+    'Wed',
+    'Thu',
+    'Fri',
+    'Sat',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +41,11 @@ class HabitFrequencyWidget extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const TextIconWidget(),
+                const TextIconWidget(
+                  text: 'Custom',
+                  icon: FontAwesomeIcons.chevronRight,
+                  color: AppColors.secondaryColor,
+                ),
               ],
             ),
           ),
@@ -39,7 +55,10 @@ class HabitFrequencyWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
               7,
-              (index) => HabitFrequencyDayItem(showBorder: index != 6),
+              (index) => HabitFrequencyDayItem(
+                showBorder: index != 6,
+                day: weekDays[index],
+              ),
             ),
           ),
         ],

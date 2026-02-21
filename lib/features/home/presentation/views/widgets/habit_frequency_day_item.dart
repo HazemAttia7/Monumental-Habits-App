@@ -6,7 +6,12 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/rounded_
 
 class HabitFrequencyDayItem extends StatelessWidget {
   final bool showBorder;
-  const HabitFrequencyDayItem({super.key, this.showBorder = true});
+  final String day;
+  const HabitFrequencyDayItem({
+    super.key,
+    this.showBorder = true,
+    required this.day,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +29,7 @@ class HabitFrequencyDayItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "SUN",
+            day.toUpperCase(),
             style: AppStyles.textStyle10.copyWith(
               color: AppColors.primaryColor.withValues(alpha: 0.5),
             ),
