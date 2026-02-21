@@ -2,13 +2,19 @@ import 'package:flutter/material.dart';
 
 class RoundedBottomLeftTriangle extends StatelessWidget {
   final Color color;
-  const RoundedBottomLeftTriangle({super.key, required this.color});
+  final double? width, height;
+  const RoundedBottomLeftTriangle({
+    super.key,
+    required this.color,
+    this.width,
+    this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: RoundedBottomLeftTriangleClipper(),
-      child: Container(width: 50, height: 50, color: color),
+      child: Container(width: width ?? 50, height: height ?? 50, color: color),
     );
   }
 }

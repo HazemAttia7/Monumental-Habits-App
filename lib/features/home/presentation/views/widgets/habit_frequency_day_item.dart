@@ -1,0 +1,41 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/rounded_bottom_left_triangle.dart';
+
+class HabitFrequencyDayItem extends StatelessWidget {
+  final bool showBorder;
+  const HabitFrequencyDayItem({super.key, this.showBorder = true});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 16.h),
+      decoration: BoxDecoration(
+        border: showBorder
+            ? Border(
+                right: BorderSide(width: 1.sp, color: const Color(0xffFFF3E9)),
+              )
+            : null,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            "SUN",
+            style: AppStyles.textStyle10.copyWith(
+              color: AppColors.primaryColor.withValues(alpha: 0.5),
+            ),
+          ),
+          RoundedBottomLeftTriangle(
+            color: AppColors.morning,
+            width: 34.sp,
+            height: 34.sp,
+          ),
+        ],
+      ),
+    );
+  }
+}

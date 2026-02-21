@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_frequency_widget.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_name_input.dart';
 
 class AddNewHabitBody extends StatelessWidget {
@@ -24,9 +25,11 @@ class AddNewHabitBody extends StatelessWidget {
             Gap(24.h),
             const HabitNameInput(),
             Gap(10.h),
+            const HabitFrequencyWidget(),
           ],
         ),
       ),
     );
   }
 }
+
