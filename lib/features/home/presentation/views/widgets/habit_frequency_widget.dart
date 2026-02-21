@@ -41,10 +41,11 @@ class HabitFrequencyWidget extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const TextIconWidget(
+                TextIconWidget(
                   text: 'Custom',
                   icon: FontAwesomeIcons.chevronRight,
                   color: AppColors.secondaryColor,
+                  onTap: () {},
                 ),
               ],
             ),

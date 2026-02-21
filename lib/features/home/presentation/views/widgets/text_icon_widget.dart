@@ -8,6 +8,7 @@ class TextIconWidget extends StatelessWidget {
   final IconData icon;
   final Color color;
   final double? size, fontSize;
+  final VoidCallback onTap;
   const TextIconWidget({
     super.key,
     required this.text,
@@ -15,22 +16,30 @@ class TextIconWidget extends StatelessWidget {
     required this.color,
     this.size,
     this.fontSize,
+    required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Text(
-          text,
-          style: AppStyles.textStyle16.copyWith(
-            fontSize: fontSize,
-            color: color,
-          ),
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10.r),
+        onTap: onTap,
+        child: Row(
+          children: [
+            Text(
+              text,
+              style: AppStyles.textStyle16.copyWith(
+                fontSize: fontSize,
+                color: color,
+              ),
+            ),
+            Gap(5.w),
+            Icon(icon, color: color, size: size ?? 18.sp),
+          ],
         ),
-        Gap(5.w),
-        Icon(icon, color: color, size: size ?? 18.sp),
-      ],
+      ),
     );
   }
 }
