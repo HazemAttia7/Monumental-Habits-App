@@ -7,6 +7,9 @@ class AddNewHabit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: AddNewHabitViewBody(backToHome: backToHome));
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: AddNewHabitViewBody(backToHome: backToHome),
+    );
   }
 }
