@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_floating_button.dart';
+import 'package:pixel_true_app/features/main/presentation/views/widgets/message_popup.dart';
 
 class MainViewBody extends StatefulWidget {
   const MainViewBody({super.key});
@@ -16,7 +18,7 @@ class MainViewBody extends StatefulWidget {
 
 class _MainViewBodyState extends State<MainViewBody> {
   PageController pageController = PageController(initialPage: 0);
-  bool _isActive = false;
+  bool _isActive = false, _showStartPopup = false;
   int _currentPage = 0; // Add this
 
   @override
@@ -53,6 +55,7 @@ class _MainViewBodyState extends State<MainViewBody> {
                   setState(() {
                     _currentPage = 0;
                     _isActive = false;
+                    _showStartPopup = false;
                   });
                 },
               ),
@@ -68,6 +71,7 @@ class _MainViewBodyState extends State<MainViewBody> {
                 setState(() {
                   _currentPage = selectedIndex;
                   _isActive = false;
+                  _showStartPopup = false;
                 });
               },
             ),
@@ -78,14 +82,28 @@ class _MainViewBodyState extends State<MainViewBody> {
               left: 0,
               right: 0,
               child: Center(
-                child: CustomFloatingButton(
-                  onTap: () {
-                    setState(() {
-                      pageController.jumpToPage(4);
-                      _isActive = true;
-                    });
-                  },
-                  isActive: _isActive,
+                child: Column(
+                  children: [
+                    if (_showStartPopup)
+                      MessagePopup(
+                        onClose: () => setState(() => _showStartPopup = false),
+                      ),
+                    Gap(10.h),
+                    CustomFloatingButton(
+                      onTap: () {
+                        if (!_isActive) {
+                          setState(() {
+                            pageController.jumpToPage(4);
+                            _isActive = true;
+                            _showStartPopup = true;
+                          });
+                        } else {
+                          // TODO : store the habit in firebase
+                        }
+                      },
+                      isActive: _isActive,
+                    ),
+                  ],
                 ),
               ),
             ),

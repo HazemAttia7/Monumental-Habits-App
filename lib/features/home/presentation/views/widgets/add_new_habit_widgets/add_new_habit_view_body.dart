@@ -15,24 +15,26 @@ class AddNewHabitViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
-        child: Column(
-          children: [
-            Gap(10.h),
-            SizedBox(
-              height: 44.sp,
-              child: AddNewHabitHeader(backToHome: backToHome),
-            ),
-            Gap(24.h),
-            const HabitNameInput(),
-            Gap(10.h),
-            const HabitFrequencyWidget(),
-            Gap(10.h),
-            const ReminderWidget(),
-            Gap(10.h),
-            const NotificationsWidget(),
-          ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
+          child: Column(
+            children: [
+              Gap(10.h),
+              SizedBox(
+                height: 44.sp,
+                child: AddNewHabitHeader(backToHome: backToHome),
+              ),
+              Gap(24.h),
+              const HabitNameInput(),
+              Gap(10.h),
+              const HabitFrequencyWidget(),
+              Gap(10.h),
+              const ReminderWidget(),
+              Gap(10.h),
+              const NotificationsWidget(),
+            ],
+          ),
         ),
       ),
     );
