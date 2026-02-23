@@ -5,6 +5,7 @@ import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_new_habit_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_widget.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_name_input.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/notifications_widget.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/reminder_widget.dart';
 
 class AddNewHabitViewBody extends StatelessWidget {
@@ -30,6 +31,7 @@ class AddNewHabitViewBody extends StatelessWidget {
             Gap(10.h),
             const ReminderWidget(),
             Gap(10.h),
+            const NotificationsWidget(),
           ],
         ),
       ),
