@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
-import 'package:pixel_true_app/features/home/presentation/views/add_new_habit.dart';
+import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_floating_button.dart';

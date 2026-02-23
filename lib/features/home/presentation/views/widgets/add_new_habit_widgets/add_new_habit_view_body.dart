@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_header.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_frequency_widget.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_name_input.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_new_habit_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_widget.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_name_input.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/reminder_widget.dart';
 
-class AddNewHabitBody extends StatelessWidget {
+class AddNewHabitViewBody extends StatelessWidget {
   final VoidCallback? backToHome;
-  const AddNewHabitBody({super.key, required this.backToHome});
+  const AddNewHabitViewBody({super.key, required this.backToHome});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +27,12 @@ class AddNewHabitBody extends StatelessWidget {
             const HabitNameInput(),
             Gap(10.h),
             const HabitFrequencyWidget(),
+            Gap(10.h),
+            const ReminderWidget(),
+            Gap(10.h),
           ],
         ),
       ),
     );
   }
 }
-
