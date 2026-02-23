@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
-import 'package:pixel_true_app/features/home/presentation/views/add_new_habit.dart';
+import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
 
