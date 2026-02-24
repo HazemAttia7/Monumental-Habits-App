@@ -4,21 +4,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_bottom_sheet.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_frequency_day_item.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/text_icon_widget.dart';
 
 class HabitFrequencyWidget extends StatelessWidget {
   const HabitFrequencyWidget({super.key});
-
-  static const List<String> weekDays = [
-    'Sun',
-    'Mon',
-    'Tue',
-    'Wed',
-    'Thu',
-    'Fri',
-    'Sat',
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +37,15 @@ class HabitFrequencyWidget extends StatelessWidget {
                   text: 'Custom',
                   icon: FontAwesomeIcons.chevronRight,
                   color: AppColors.secondaryColor,
-                  onTap: () {},
+                  onTap: () {
+                    showModalBottomSheet(
+                      isScrollControlled: true,
+                      elevation: 10,
+                      context: context,
+                      builder: (_) =>
+                          const Wrap(children: [HabitFrequencyBottomSheet()]),
+                    );
+                  },
                 ),
               ],
             ),
