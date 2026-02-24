@@ -18,6 +18,7 @@ class _AnimatedOffOnButtonState extends State<AnimatedOffOnButton> {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
+      shape: const StadiumBorder(),
       child: InkWell(
         onTap: () {
           setState(() {
@@ -25,7 +26,7 @@ class _AnimatedOffOnButtonState extends State<AnimatedOffOnButton> {
           });
           widget.onTap.call();
         },
-        borderRadius: BorderRadius.circular(9999.r),
+        customBorder: const StadiumBorder(),
         child: Container(
           width: 60.w,
           height: 30.h,

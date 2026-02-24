@@ -20,22 +20,23 @@ class ContinueWithButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AbsorbPointer(
       absorbing: isLoading,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          width: double.infinity,
-          padding: EdgeInsets.symmetric(vertical: 13.sp),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.r),
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12.r),
+          onTap: onTap,
+          child: Container(
+            width: double.infinity,
+            padding: EdgeInsets.symmetric(vertical: 13.sp),
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                    ),
+                  )
+                : CustomListTile(leadingImage: image, title: text),
           ),
-          child: isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primaryColor,
-                  ),
-                )
-              : CustomListTile(leadingImage: image, title: text),
         ),
       ),
     );

@@ -18,20 +18,21 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AbsorbPointer(
       absorbing: isLoading,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          height: 60.h,
-          decoration: BoxDecoration(
-            color: AppColors.secondaryColor,
-            borderRadius: BorderRadius.circular(8.r),
-          ),
-          child: Center(
-            child: isLoading
-                ? const CircularProgressIndicator(
-                    color: AppColors.scaffoldColor,
-                  )
-                : Text(text, style: AppStyles.textStyle16),
+      child: Material(
+        color: AppColors.secondaryColor,
+        borderRadius: BorderRadius.circular(8.r),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(8.r),
+          onTap: onTap,
+          child: SizedBox(
+            height: 60.h,
+            child: Center(
+              child: isLoading
+                  ? const CircularProgressIndicator(
+                      color: AppColors.scaffoldColor,
+                    )
+                  : Text(text, style: AppStyles.textStyle16),
+            ),
           ),
         ),
       ),

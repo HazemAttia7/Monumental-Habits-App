@@ -15,40 +15,41 @@ class WeekDaysListViewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Stack(
-        children: [
-          Container(
-            width: 50.sp,
-            height: 50.sp,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    getDay(),
-                    style: AppStyles.textStyle10.copyWith(
-                      color: AppColors.primaryColor.withValues(alpha: .5),
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(12.r),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12.r),
+        onTap: onTap,
+        child: Stack(
+          children: [
+            SizedBox(
+              width: 50.sp,
+              height: 50.sp,
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      getDay(),
+                      style: AppStyles.textStyle10.copyWith(
+                        color: AppColors.primaryColor.withValues(alpha: .5),
+                      ),
                     ),
-                  ),
-                  Text(getDateDay(), style: AppStyles.textStyle16),
-                ],
+                    Text(getDateDay(), style: AppStyles.textStyle16),
+                  ],
+                ),
               ),
             ),
-          ),
-          if (index == DateTime.now().weekday % 7)
-            const Positioned(
-              left: 0,
-              right: 0,
-              child: Center(child: CurrentDayBadge()),
-            ),
-        ],
+            if (index == DateTime.now().weekday % 7)
+              const Positioned(
+                left: 0,
+                right: 0,
+                child: Center(child: CurrentDayBadge()),
+              ),
+          ],
+        ),
       ),
     );
   }

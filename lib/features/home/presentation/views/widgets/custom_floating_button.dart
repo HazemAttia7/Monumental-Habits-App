@@ -15,25 +15,27 @@ class CustomFloatingButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: EdgeInsets.all(6.sp),
-        width: 64.sp,
-        height: 64.sp,
-        decoration: BoxDecoration(
-          color: AppColors.morning.withValues(alpha: .2),
-          shape: BoxShape.circle,
-        ),
-        child: Container(
-          decoration: const BoxDecoration(
-            color: AppColors.morning,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Icon(
-              isActive ? FontAwesomeIcons.check : MonumentalHabitsIcons.plus,
-              size: isActive ? 24.sp : 18.sp,
+    return Container(
+      padding: EdgeInsets.all(6.sp),
+      width: 64.sp,
+      height: 64.sp,
+      decoration: BoxDecoration(
+        color: AppColors.morning.withValues(alpha: .2),
+        shape: BoxShape.circle,
+      ),
+      child: Material(
+        color: AppColors.morning,
+        shape: const CircleBorder(),
+        child: InkWell(
+          onTap: onTap,
+          customBorder: const CircleBorder(),
+          child: Container(
+            decoration: const BoxDecoration(shape: BoxShape.circle),
+            child: Center(
+              child: Icon(
+                isActive ? FontAwesomeIcons.check : MonumentalHabitsIcons.plus,
+                size: isActive ? 24.sp : 18.sp,
+              ),
             ),
           ),
         ),
