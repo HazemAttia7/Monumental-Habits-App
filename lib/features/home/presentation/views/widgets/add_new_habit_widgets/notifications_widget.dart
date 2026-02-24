@@ -3,9 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/animated_off_on_button.dart';
 
-class NotificationsWidget extends StatelessWidget {
+class NotificationsWidget extends StatefulWidget {
   const NotificationsWidget({super.key});
 
+  @override
+  State<NotificationsWidget> createState() => _NotificationsWidgetState();
+}
+
+class _NotificationsWidgetState extends State<NotificationsWidget> {
+  bool _isOn = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +27,14 @@ class NotificationsWidget extends StatelessWidget {
             "Notification",
             style: AppStyles.textStyle16.copyWith(fontWeight: FontWeight.w500),
           ),
-          AnimatedOffOnButton(onTap: () {}),
+          AnimatedOffOnButton(
+            onTap: (isOn) {
+              setState(() {
+                _isOn = isOn;
+              });
+            },
+            isOn: _isOn,
+          ),
         ],
       ),
     );

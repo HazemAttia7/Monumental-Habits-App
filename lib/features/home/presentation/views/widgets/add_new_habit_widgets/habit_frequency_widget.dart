@@ -58,7 +58,7 @@ class HabitFrequencyWidget extends StatelessWidget {
               7,
               (index) => HabitFrequencyDayItem(
                 showBorder: index != 6,
-                day: weekDays[index],
+                day: weekDaysShort[index],
               ),
             ),
           ),
