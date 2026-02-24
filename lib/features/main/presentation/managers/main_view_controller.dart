@@ -3,13 +3,34 @@ import 'package:pixel_true_app/core/enums/main_page_enum.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
 
-class MainViewController extends ChangeNotifier {
+class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
+  MainViewController() {
+    WidgetsBinding.instance.addObserver(this);
+  }
   final PageController pageController = PageController();
+
+  @override
+  void didChangeMetrics() {
+    final bottomInset = WidgetsBinding
+        .instance
+        .platformDispatcher
+        .views
+        .first
+        .viewInsets
+        .bottom;
+    final isVisible = bottomInset > 0;
+    if (_isKeyboardVisible != isVisible) {
+      _isKeyboardVisible = isVisible;
+      notifyListeners();
+    }
+  }
 
   MainPage _currentPage = MainPage.home;
   bool _isActive = false;
   bool _showStartPopup = false;
+  bool _isKeyboardVisible = false;
 
+  bool get isKeyboardVisible => _isKeyboardVisible;
   MainPage get currentPage => _currentPage;
   bool get isActive => _isActive;
   bool get showStartPopup => _showStartPopup;
@@ -60,6 +81,7 @@ class MainViewController extends ChangeNotifier {
   }
 
   void disposeController() {
+    WidgetsBinding.instance.removeObserver(this);
     pageController.dispose();
   }
 }
