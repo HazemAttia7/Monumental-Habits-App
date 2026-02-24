@@ -5,27 +5,38 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/animated_off_on_button.dart';
 
 class HabitFrequencyGridViewItem extends StatelessWidget {
-  const HabitFrequencyGridViewItem({super.key});
+  final bool isOn;
+  final String day;
+  final Function(bool) onTap;
+
+  const HabitFrequencyGridViewItem({
+    super.key,
+    required this.day,
+    required this.isOn,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15.sp),
       decoration: BoxDecoration(
-        color: AppColors.primaryColor.withValues(alpha: .2),
+        color: isOn
+            ? AppColors.secondaryColor.withValues(alpha: .1)
+            : AppColors.primaryColor.withValues(alpha: .2),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Column(
+        spacing: 10.h,
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "SUN",
+            day,
             style: AppStyles.textStyle20.copyWith(
-              color: AppColors.primaryColor,
+              color: isOn ? AppColors.secondaryColor : AppColors.primaryColor,
             ),
           ),
-          AnimatedOffOnButton(onTap: () {}),
+          AnimatedOffOnButton(isOn: isOn, onTap: onTap),
         ],
       ),
     );

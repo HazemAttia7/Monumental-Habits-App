@@ -3,16 +3,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
-class AnimatedOffOnButton extends StatefulWidget {
-  final VoidCallback onTap;
-  const AnimatedOffOnButton({super.key, required this.onTap});
+class AnimatedOffOnButton extends StatelessWidget {
+  final bool isOn;
+  final Function(bool isOn) onTap;
 
-  @override
-  State<AnimatedOffOnButton> createState() => _AnimatedOffOnButtonState();
-}
-
-class _AnimatedOffOnButtonState extends State<AnimatedOffOnButton> {
-  bool isOn = false;
+  const AnimatedOffOnButton({
+    super.key,
+    required this.onTap,
+    required this.isOn,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,14 +19,10 @@ class _AnimatedOffOnButtonState extends State<AnimatedOffOnButton> {
       color: Colors.transparent,
       shape: const StadiumBorder(),
       child: InkWell(
-        onTap: () {
-          setState(() {
-            isOn = !isOn;
-          });
-          widget.onTap.call();
-        },
+        onTap: () => onTap(!isOn),
         customBorder: const StadiumBorder(),
-        child: Container(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 350),
           width: 60.w,
           height: 30.h,
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
@@ -41,9 +36,9 @@ class _AnimatedOffOnButtonState extends State<AnimatedOffOnButton> {
             alignment: Alignment.center,
             children: [
               AnimatedAlign(
-                alignment: isOn ? Alignment.centerLeft : Alignment.centerRight,
                 duration: const Duration(milliseconds: 350),
                 curve: Curves.easeInOut,
+                alignment: isOn ? Alignment.centerLeft : Alignment.centerRight,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 3.w),
                   child: AnimatedSwitcher(
@@ -61,10 +56,11 @@ class _AnimatedOffOnButtonState extends State<AnimatedOffOnButton> {
                   ),
                 ),
               ),
+
               AnimatedAlign(
-                alignment: isOn ? Alignment.centerRight : Alignment.centerLeft,
                 duration: const Duration(milliseconds: 350),
                 curve: Curves.easeInOut,
+                alignment: isOn ? Alignment.centerRight : Alignment.centerLeft,
                 child: Container(
                   width: 22.sp,
                   height: 22.sp,
@@ -76,10 +72,11 @@ class _AnimatedOffOnButtonState extends State<AnimatedOffOnButton> {
                     boxShadow: [
                       BoxShadow(
                         offset: const Offset(-2, 2),
-                        color: isOn
-                            ? AppColors.secondaryColor.withValues(alpha: .5)
-                            : AppColors.primaryColor.withValues(alpha: .5),
-                        spreadRadius: 0,
+                        color:
+                            (isOn
+                                    ? AppColors.secondaryColor
+                                    : AppColors.primaryColor)
+                                .withValues(alpha: .5),
                         blurRadius: 6,
                       ),
                     ],
