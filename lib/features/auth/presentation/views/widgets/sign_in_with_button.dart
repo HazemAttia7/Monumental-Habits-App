@@ -20,27 +20,28 @@ class SignInWithButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return AbsorbPointer(
       absorbing: isLoading,
-      child: GestureDetector(
-        onTap: onTap,
-        child: Container(
-          height: 50.sp,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: isLoading
-              ? const Center(
-                  child: CircularProgressIndicator(
-                    color: AppColors.primaryColor,
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12.r),
+          onTap: onTap,
+          child: SizedBox(
+            height: 50.sp,
+            child: isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                    ),
+                  )
+                : CustomListTile(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    leftPadding: 0,
+                    leadingImage: image,
+                    title: text,
+                    spacing: 16.w,
                   ),
-                )
-              : CustomListTile(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  leftPadding: 0,
-                  leadingImage: image,
-                  title: text,
-                  spacing: 16.w,
-                ),
+          ),
         ),
       ),
     );
