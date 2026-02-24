@@ -33,8 +33,8 @@ class _MainViewBodyState extends State<MainViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: controller,
+    return ListenableBuilder(
+      listenable: controller,
       builder: (context, _) {
         return SafeArea(
           child: Stack(
@@ -71,10 +71,10 @@ class _MainViewBodyState extends State<MainViewBody> {
                   child: Center(
                     child: Column(
                       children: [
-                        if (controller.showStartPopup)
-                          MessagePopup(
-                            onClose: controller.closePopup,
-                          ),
+                        if (controller.showStartPopup &&
+                            !controller
+                                .isKeyboardVisible) 
+                          MessagePopup(onClose: controller.closePopup),
                         Gap(10.h),
                         CustomFloatingButton(
                           onTap: controller.activateFloatingButton,
