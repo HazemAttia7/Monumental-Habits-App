@@ -4,12 +4,12 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/animated_off_on_button.dart';
 
-class HabitFrequencyGridViewItem extends StatelessWidget {
+class OnOffGridViewItem extends StatelessWidget {
   final bool isOn;
   final String day;
   final Function(bool) onTap;
 
-  const HabitFrequencyGridViewItem({
+  const OnOffGridViewItem({
     super.key,
     required this.day,
     required this.isOn,
@@ -32,7 +32,7 @@ class HabitFrequencyGridViewItem extends StatelessWidget {
         children: [
           Text(
             day,
-            style: AppStyles.textStyle20.copyWith(
+            style: AppStyles.textStyle18.copyWith(
               color: isOn ? AppColors.secondaryColor : AppColors.primaryColor,
             ),
           ),
