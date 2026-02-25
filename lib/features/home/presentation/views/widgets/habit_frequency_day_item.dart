@@ -6,10 +6,12 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 class HabitFrequencyDayItem extends StatelessWidget {
   final bool showBorder;
   final String day;
+  final bool isSelected;
   const HabitFrequencyDayItem({
     super.key,
     this.showBorder = true,
     required this.day,
+    required this.isSelected,
   });
 
   @override
@@ -37,7 +39,9 @@ class HabitFrequencyDayItem extends StatelessWidget {
             width: 34.sp,
             height: 34.sp,
             decoration: BoxDecoration(
-              color: AppColors.morning,
+              color: isSelected
+                  ? AppColors.morning
+                  : AppColors.morning.withValues(alpha: .1),
               borderRadius: BorderRadius.circular(12.r),
             ),
           ),

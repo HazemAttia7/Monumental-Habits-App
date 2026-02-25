@@ -60,7 +60,6 @@ class HabitFrequencyWidget extends StatelessWidget {
           ),
           Gap(17.h),
           Divider(thickness: 1.sp, color: const Color(0xffFFF3E9), height: 1),
-          // TODO : show frequency days
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
@@ -68,6 +67,9 @@ class HabitFrequencyWidget extends StatelessWidget {
               (index) => HabitFrequencyDayItem(
                 showBorder: index != 6,
                 day: weekDaysShort[index],
+                isSelected: Provider.of<AddNewHabitController>(
+                  context,
+                ).habitFrequencyList[index],
               ),
             ),
           ),
