@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
+import 'package:provider/provider.dart';
 
 class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
   MainViewController() {
@@ -40,7 +42,10 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
     const Center(child: Text("Courses View")),
     const Center(child: Text("Community View")),
     const Center(child: Text("Settings View")),
-    AddNewHabit(backToHome: backToHome),
+    ChangeNotifierProvider(
+      create: (_) => AddNewHabitController(),
+      child: AddNewHabitView(backToHome: backToHome),
+    ),
   ];
 
   int _indexOf(MainPage page) => MainPage.values.indexOf(page);
