@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/rounded_bottom_left_triangle.dart';
 
 class HabitFrequencyDayItem extends StatelessWidget {
   final bool showBorder;
@@ -34,10 +33,13 @@ class HabitFrequencyDayItem extends StatelessWidget {
               color: AppColors.primaryColor.withValues(alpha: 0.5),
             ),
           ),
-          RoundedBottomLeftTriangle(
-            color: AppColors.morning,
+          Container(
             width: 34.sp,
             height: 34.sp,
+            decoration: BoxDecoration(
+              color: AppColors.morning,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
           ),
         ],
       ),

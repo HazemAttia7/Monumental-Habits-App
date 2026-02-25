@@ -5,9 +5,11 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_bottom_sheet.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_frequency_day_item.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/text_icon_widget.dart';
+import 'package:provider/provider.dart';
 
 class HabitFrequencyWidget extends StatelessWidget {
   const HabitFrequencyWidget({super.key});
@@ -42,8 +44,14 @@ class HabitFrequencyWidget extends StatelessWidget {
                       isScrollControlled: true,
                       elevation: 10,
                       context: context,
-                      builder: (_) =>
-                          const Wrap(children: [HabitFrequencyBottomSheet()]),
+                      builder: (bottomSheetContext) {
+                        return ChangeNotifierProvider.value(
+                          value: context.read<AddNewHabitController>(),
+                          child: const Wrap(
+                            children: [HabitFrequencyBottomSheet()],
+                          ),
+                        );
+                      },
                     );
                   },
                 ),
@@ -52,7 +60,7 @@ class HabitFrequencyWidget extends StatelessWidget {
           ),
           Gap(17.h),
           Divider(thickness: 1.sp, color: const Color(0xffFFF3E9), height: 1),
-            // TODO : show frequency days
+          // TODO : show frequency days
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: List.generate(
