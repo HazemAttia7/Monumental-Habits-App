@@ -4,17 +4,12 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/monumental_habits_icons.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/reminders_grid_view.dart';
+import 'package:provider/provider.dart';
 
-class ReminderBottomSheet extends StatefulWidget {
+class ReminderBottomSheet extends StatelessWidget {
   const ReminderBottomSheet({super.key});
-
-  @override
-  State<ReminderBottomSheet> createState() => _ReminderBottomSheetState();
-}
-
-class _ReminderBottomSheetState extends State<ReminderBottomSheet> {
-  List<bool> selectedReminders = List.generate(12, (_) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -30,14 +25,7 @@ class _ReminderBottomSheetState extends State<ReminderBottomSheet> {
       child: Center(
         child: Column(
           children: [
-            RemindersGridView(
-              selectedReminders: selectedReminders,
-              onDayChanged: (index, value) {
-                setState(() {
-                  selectedReminders[index] = value;
-                });
-              },
-            ),
+            const RemindersGridView(),
             Gap(25.h),
             Row(
               children: [
@@ -58,11 +46,10 @@ class _ReminderBottomSheetState extends State<ReminderBottomSheet> {
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.r),
-                      onTap: () {
-                        setState(() {
-                          selectedReminders = List.generate(12, (_) => false);
-                        });
-                      },
+                      onTap: Provider.of<AddNewHabitController>(
+                        context,
+                        listen: false,
+                      ).clearReminders,
                       child: Container(
                         height: 60.h,
                         foregroundDecoration: BoxDecoration(

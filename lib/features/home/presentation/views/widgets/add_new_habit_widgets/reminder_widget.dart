@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/reminder_bottom_sheet.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/text_icon_widget.dart';
+import 'package:provider/provider.dart';
 
 class ReminderWidget extends StatelessWidget {
   const ReminderWidget({super.key});
@@ -25,15 +27,9 @@ class ReminderWidget extends StatelessWidget {
             style: AppStyles.textStyle16.copyWith(fontWeight: FontWeight.w500),
           ),
           TextIconWidget(
-            /* TODO :
-                If:
-                10:00 AM
-                3:00 PM
-                9:00 PM
-                Show:
-                Reminder -> 10:00 AM +2
-            */
-            text: "10:00 AM",
+            text: Provider.of<AddNewHabitController>(
+              context,
+            ).getRemindersText(),
             icon: FontAwesomeIcons.chevronRight,
             color: AppColors.secondaryColor,
             onTap: () {
@@ -41,7 +37,12 @@ class ReminderWidget extends StatelessWidget {
                 isScrollControlled: true,
                 elevation: 10,
                 context: context,
-                builder: (_) => const Wrap(children: [ReminderBottomSheet()]),
+                builder: (bottomSheetContext) {
+                  return ChangeNotifierProvider.value(
+                    value: context.read<AddNewHabitController>(),
+                    child: const Wrap(children: [ReminderBottomSheet()]),
+                  );
+                },
               );
             },
           ),
