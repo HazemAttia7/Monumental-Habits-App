@@ -60,7 +60,7 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
 
   void activateFloatingButton() {
     if (!_isActive) {
-      _currentPage = MainPage.addHabit;
+      _currentPage = MainPage.home;
       _isActive = true;
       _showStartPopup = true;
 

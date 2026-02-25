@@ -72,8 +72,7 @@ class _MainViewBodyState extends State<MainViewBody> {
                     child: Column(
                       children: [
                         if (controller.showStartPopup &&
-                            !controller
-                                .isKeyboardVisible) 
+                            !controller.isKeyboardVisible)
                           MessagePopup(onClose: controller.closePopup),
                         Gap(10.h),
                         CustomFloatingButton(
