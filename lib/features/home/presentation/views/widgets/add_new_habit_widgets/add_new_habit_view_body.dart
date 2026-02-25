@@ -9,6 +9,7 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/notifications_widget.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/reminder_widget.dart';
 
+// TODO : loading animations
 class AddNewHabitViewBody extends StatefulWidget {
   final VoidCallback? backToHome;
   const AddNewHabitViewBody({super.key, required this.backToHome});

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 
 class AddNewHabitController extends ChangeNotifier {
+  // TODO : Handle habit name text field validation and controller
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;
 

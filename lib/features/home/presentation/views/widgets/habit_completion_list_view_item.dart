@@ -10,13 +10,27 @@ class HabitCompletionListViewItem extends StatelessWidget {
     super.key,
     this.isCompleted = false,
     this.isPartiallyCompleted = false,
-    this.isDoneOnce = false, required this.themeColor, required this.habitName,
+    this.isDoneOnce = false,
+    required this.themeColor,
+    required this.habitName,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        /* TODO :
+        if -> the i-th day is -->|not|<-- a day in the frequency list of the habit :
+          transparent color non-clickable widget
+        if -> the i-th day is a day in the frequency list of the habit :
+          initial state is not done (light secondary color)
+
+        User taps it:
+        Tap 1 → Partial
+        Tap 2 → Complete
+        Tap 3 → None
+        */
+      },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12.r),
         child: Container(
@@ -31,7 +45,7 @@ class HabitCompletionListViewItem extends StatelessWidget {
           child: Align(
             alignment: Alignment.centerLeft,
             child: (isPartiallyCompleted)
-                ?  RoundedBottomLeftTriangle(color : themeColor)
+                ? RoundedBottomLeftTriangle(color: themeColor)
                 : (isCompleted)
                 ? Container(
                     decoration: BoxDecoration(

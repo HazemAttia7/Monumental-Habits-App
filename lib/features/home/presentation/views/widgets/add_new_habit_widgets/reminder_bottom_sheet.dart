@@ -34,8 +34,7 @@ class ReminderBottomSheet extends StatelessWidget {
                   child: CustomButton(
                     text: "Add Reminder",
                     onTap: () {
-                      // TODO : Show reminder time picker
-                      // TODO : Add Reminder logic
+                      // TODO : Show reminder time picker bottom sheet (Push Replacement)
                       Navigator.pop(context);
                     },
                   ),

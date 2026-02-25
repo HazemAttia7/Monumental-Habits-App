@@ -32,6 +32,20 @@ class _NotificationsWidgetState extends State<NotificationsWidget> {
               setState(() {
                 _isOn = isOn;
               });
+              /* TODO :
+              If the toggle is ON:
+
+              1. The app schedules a local notification.
+              2. It uses the selected Reminder time (e.g., 10:00 AM).
+              3. It respects the selected habit frequency days (Sun, Mon, Tue…).
+              4. The user receives a push/local notification at that time.
+              -------------------------------------------------------------------
+              If the toggle is OFF:
+
+              1. Cancel any previously scheduled notifications for this habit.
+              2. Do NOT schedule new notifications.
+              3. Reminder time can stay visible but becomes inactive logically.
+              */
             },
             isOn: _isOn,
           ),
