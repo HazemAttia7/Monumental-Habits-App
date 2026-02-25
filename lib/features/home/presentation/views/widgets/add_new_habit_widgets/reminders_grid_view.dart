@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_grid_view_item.dart';
 
-class HabitFrequencyGridView extends StatelessWidget {
-  final List<bool> selectedDays;
+class RemindersGridView extends StatelessWidget {
+  final List<bool> selectedReminders;
   final Function(int, bool) onDayChanged;
 
-  const HabitFrequencyGridView({
+  const RemindersGridView({
     super.key,
-    required this.selectedDays,
+    required this.selectedReminders,
     required this.onDayChanged,
   });
 
@@ -21,14 +21,15 @@ class HabitFrequencyGridView extends StatelessWidget {
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         mainAxisSpacing: 8.sp,
         crossAxisSpacing: 8.sp,
-        crossAxisCount: 4,
+        crossAxisCount: 3,
+        childAspectRatio: 120 / 92,
       ),
       itemBuilder: (context, index) => OnOffGridViewItem(
-        day: index == 7 ? 'Sat' : weekDaysShort[index],
-        isOn: selectedDays[index],
+        day: initialReminders[index],
+        isOn: selectedReminders[index],
         onTap: (value) => onDayChanged(index, value),
       ),
-      itemCount: 7,
+      itemCount: 12,
       shrinkWrap: true,
     );
   }
