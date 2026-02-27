@@ -74,4 +74,14 @@ abstract class Validator {
     }
     return null;
   }
+
+  static String? validateHabitName(String? data) {
+    if (data?.isEmpty ?? true) {
+      return "This field is required";
+    }
+    if (data!.length < 3) {
+      return "Habit name must be at least 3 characters";
+    }
+    return null;
+  }
 }

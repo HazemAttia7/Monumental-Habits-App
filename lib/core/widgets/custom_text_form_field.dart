@@ -13,6 +13,7 @@ class CustomTextFormField extends StatefulWidget {
   final String? Function(String? data)? validator;
   final void Function(String? data)? onSaved;
   final EdgeInsets? contentPadding;
+  final TextEditingController? controller;
   const CustomTextFormField({
     super.key,
     this.prefixIcon,
@@ -21,7 +22,9 @@ class CustomTextFormField extends StatefulWidget {
     this.fillColor,
     this.isPassword = false,
     this.validator,
-    this.onSaved, this.contentPadding,
+    this.onSaved,
+    this.contentPadding,
+    this.controller,
   });
 
   @override
@@ -49,6 +52,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       obscureText: _obscureText,
       focusNode: _focusNode,
       style: AppStyles.textStyle16.copyWith(
