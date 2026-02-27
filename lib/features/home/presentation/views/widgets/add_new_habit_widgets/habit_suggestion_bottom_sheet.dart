@@ -23,7 +23,7 @@ class HabitSuggestionsBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20.h, bottom: 35.h),
+      padding: EdgeInsets.only(top: 20.h, bottom: 20.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
