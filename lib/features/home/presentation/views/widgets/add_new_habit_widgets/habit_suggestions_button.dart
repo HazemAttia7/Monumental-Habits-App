@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_suggestion_bottom_sheet.dart';
 
 class HabitSuggestionsButton extends StatelessWidget {
   const HabitSuggestionsButton({super.key});
@@ -11,7 +12,12 @@ class HabitSuggestionsButton extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(12.r),
       onTap: () {
-        // TODO : Open bottom sheet with a list of predefined habits
+        showModalBottomSheet(
+          isScrollControlled: true,
+          elevation: 10,
+          context: context,
+          builder: (_) => Wrap(children: [HabitSuggestionsBottomSheet()]),
+        );
       },
       child: Stack(
         clipBehavior: Clip.none,
