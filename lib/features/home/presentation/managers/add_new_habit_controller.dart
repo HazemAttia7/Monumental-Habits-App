@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 
 class AddNewHabitController extends ChangeNotifier {
-  // TODO : Handle habit name text field validation and controller
+  final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;
 
@@ -66,5 +66,11 @@ class AddNewHabitController extends ChangeNotifier {
         ? ""
         : "+${remindersCount - 1}";
     return "$firstReminder $remindersSuffix";
+  }
+
+  @override
+  void dispose() {
+    habitNameController.dispose();
+    super.dispose();
   }
 }
