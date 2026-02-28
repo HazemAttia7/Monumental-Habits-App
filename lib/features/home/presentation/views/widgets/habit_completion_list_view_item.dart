@@ -1,62 +1,108 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/rounded_bottom_left_triangle.dart';
 
-class HabitCompletionListViewItem extends StatelessWidget {
+class HabitCompletionListViewItem extends StatefulWidget {
   final String habitName;
   final Color themeColor;
-  final bool isCompleted, isPartiallyCompleted, isDoneOnce;
+  final enHabitCompletionState habitCompletionState;
+  final bool isActive;
+
   const HabitCompletionListViewItem({
     super.key,
-    this.isCompleted = false,
-    this.isPartiallyCompleted = false,
-    this.isDoneOnce = false,
+    this.isActive = true,
     required this.themeColor,
     required this.habitName,
+    this.habitCompletionState = enHabitCompletionState.none,
   });
 
   @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        /* TODO :
-        if -> the i-th day is -->|not|<-- a day in the frequency list of the habit :
-          transparent color non-clickable widget
-        if -> the i-th day is a day in the frequency list of the habit :
-          initial state is not done (light secondary color)
+  State<HabitCompletionListViewItem> createState() =>
+      _HabitCompletionListViewItemState();
+}
 
-        User taps it:
-        Tap 1 → Partial
-        Tap 2 → Complete
-        Tap 3 → None
-        */
-      },
-      child: ClipRRect(
+class _HabitCompletionListViewItemState
+    extends State<HabitCompletionListViewItem> {
+  late enHabitCompletionState _habitCompletionState;
+
+  @override
+  void initState() {
+    super.initState();
+    _habitCompletionState = widget.habitCompletionState;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AbsorbPointer(
+      absorbing: !widget.isActive,
+      child: Material(
+        color: Colors.transparent,
         borderRadius: BorderRadius.circular(12.r),
-        child: Container(
-          width: 50.sp,
-          height: 50.sp,
-          padding: const EdgeInsets.all(2),
-          decoration: BoxDecoration(
-            color: (isDoneOnce || isPartiallyCompleted || isCompleted)
-                ? themeColor.withValues(alpha: .1)
-                : null,
-          ),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: (isPartiallyCompleted)
-                ? RoundedBottomLeftTriangle(color: themeColor)
-                : (isCompleted)
-                ? Container(
-                    decoration: BoxDecoration(
-                      color: themeColor,
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                  )
-                : const SizedBox.shrink(),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(12.r),
+          onTap: () {
+            setState(() {
+              _habitCompletionState = _habitCompletionState.next();
+            });
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.r),
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              width: 50.sp,
+              height: 50.sp,
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                color: _habitCompletionState == enHabitCompletionState.none
+                    ? widget.themeColor.withValues(alpha: .05)
+                    : widget.themeColor.withValues(alpha: .15),
+              ),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 200),
+                  transitionBuilder: (child, animation) {
+                    return FadeTransition(
+                      opacity: animation,
+                      child: SlideTransition(
+                        position: Tween<Offset>(
+                          begin: const Offset(0, 0.3),
+                          end: Offset.zero,
+                        ).animate(animation),
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: _buildShape(),
+                ),
+              ),
+            ),
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildShape() {
+    switch (_habitCompletionState) {
+      case enHabitCompletionState.partial:
+        return RoundedBottomLeftTriangle(
+          key: const ValueKey('partial'),
+          color: widget.themeColor,
+        );
+
+      case enHabitCompletionState.complete:
+        return Container(
+          key: const ValueKey('complete'),
+          decoration: BoxDecoration(
+            color: widget.themeColor,
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+        );
+
+      case enHabitCompletionState.none:
+        return const SizedBox.shrink(key: ValueKey('none'));
+    }
   }
 }
