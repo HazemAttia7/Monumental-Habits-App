@@ -23,7 +23,7 @@ class HabitCompletionListView extends StatelessWidget {
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.only(right: 6.sp),
           child: HabitCompletionListViewItem(
-            isPartiallyCompleted: true,
+            // isActive: User.habitFrequencyList[index] --> this list will be returned from Firebase after adding the habit,
             themeColor: color,
             habitName: 'Read A Book',
           ),
