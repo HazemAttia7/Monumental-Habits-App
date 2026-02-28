@@ -22,7 +22,7 @@ class AnimatedOffOnButton extends StatelessWidget {
         onTap: () => onTap(!isOn),
         customBorder: const StadiumBorder(),
         child: AnimatedContainer(
-          duration: const Duration(milliseconds: 350),
+          duration: const Duration(milliseconds: 300),
           width: 60.w,
           height: 30.h,
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
@@ -36,7 +36,7 @@ class AnimatedOffOnButton extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               AnimatedAlign(
-                duration: const Duration(milliseconds: 350),
+                duration: const Duration(milliseconds: 300),
                 curve: Curves.easeInOut,
                 alignment: isOn ? Alignment.centerLeft : Alignment.centerRight,
                 child: Padding(
