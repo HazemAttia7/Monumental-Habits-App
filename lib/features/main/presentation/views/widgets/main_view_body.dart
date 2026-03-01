@@ -37,6 +37,7 @@ class _MainViewBodyState extends State<MainViewBody> {
       listenable: controller,
       builder: (context, _) {
         return SafeArea(
+          top: false,
           child: Stack(
             children: [
               Positioned(

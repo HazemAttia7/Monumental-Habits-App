@@ -6,6 +6,8 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_circle_icon_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_button.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
+import 'package:provider/provider.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -17,7 +19,10 @@ class HomeHeader extends StatelessWidget {
       children: [
         CustomCircleIconButton(
           onTap: () {
-            // TODO : Open Side Menu
+            Provider.of<MainViewController>(
+              context,
+              listen: false,
+            ).openSideMenu();
           },
           icon: FontAwesomeIcons.bars,
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
@@ -6,8 +7,21 @@ import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
 import 'package:provider/provider.dart';
 
 class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
+  late AnimationController _sideMenuController;
+  AnimationController get sideMenuController => _sideMenuController;
+  late Animation<double> _slideAnimation;
+  Animation<double> get slideAnimation => _slideAnimation;
+
   MainViewController() {
     WidgetsBinding.instance.addObserver(this);
+    final tickerProvider = _SimpleTickerProvider();
+    _sideMenuController = AnimationController(
+      vsync: tickerProvider,
+      duration: const Duration(milliseconds: 250),
+    );
+    _slideAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(parent: _sideMenuController, curve: Curves.easeInOut),
+    );
   }
   final PageController pageController = PageController();
 
@@ -85,8 +99,18 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
     notifyListeners();
   }
 
+  void openSideMenu() => _sideMenuController.forward();
+
+  void closeSideMenu() => _sideMenuController.reverse();
+
   void disposeController() {
     WidgetsBinding.instance.removeObserver(this);
     pageController.dispose();
+    _sideMenuController.dispose();
   }
+}
+
+class _SimpleTickerProvider extends TickerProvider {
+  @override
+  Ticker createTicker(TickerCallback onTick) => Ticker(onTick);
 }

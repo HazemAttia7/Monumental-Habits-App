@@ -53,7 +53,6 @@ class _HabitFrequencyBottomSheetState extends State<HabitFrequencyBottomSheet> {
             CustomButton(
               text: "Save",
               onTap: () {
-                // TODO : Save frequency logic
                 Navigator.pop(context);
               },
             ),
