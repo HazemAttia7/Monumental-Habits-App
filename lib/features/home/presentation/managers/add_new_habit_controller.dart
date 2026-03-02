@@ -6,6 +6,11 @@ class AddNewHabitController extends ChangeNotifier {
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;
 
+  final FixedExtentScrollController hoursController =
+      FixedExtentScrollController();
+  final FixedExtentScrollController minutesController =
+      FixedExtentScrollController();
+
   List<bool> _habitFrequencyList = List.generate(7, (_) => false);
   List<bool> get habitFrequencyList => _habitFrequencyList;
 
@@ -68,9 +73,23 @@ class AddNewHabitController extends ChangeNotifier {
     return "$firstReminder $remindersSuffix";
   }
 
+  String getHoursSelectedText() {
+    final index = hoursController.selectedItem;
+    final value = (index % 12 + 1);
+    return value.toString().padLeft(2, '0');
+  }
+
+  String getMinutesSelectedText() {
+    final index = minutesController.selectedItem;
+    final value = index % 60;
+    return value.toString().padLeft(2, '0');
+  }
+
   @override
   void dispose() {
     habitNameController.dispose();
+    hoursController.dispose();
+    minutesController.dispose();
     super.dispose();
   }
 }

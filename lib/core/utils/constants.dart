@@ -1,4 +1,5 @@
 const kPagePadding = 20;
+const timePickerItemHeight = 50;
 
 const List<String> weekDaysShort = [
   'Sun',

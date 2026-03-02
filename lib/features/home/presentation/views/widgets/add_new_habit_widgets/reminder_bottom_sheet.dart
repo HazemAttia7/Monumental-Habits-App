@@ -38,7 +38,11 @@ class ReminderBottomSheet extends StatelessWidget {
                       Navigator.pop(context);
                       showModalBottomSheet(
                         context: context,
-                        builder: (context) => const AddReminderBottomSheet(),
+                        builder: (context) => ChangeNotifierProvider(
+                          create: (BuildContext context) =>
+                              AddNewHabitController(),
+                          child: const AddReminderBottomSheet(),
+                        ),
                       );
                     },
                   ),
