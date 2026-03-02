@@ -4,7 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_divider.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/custom_clickab;e_text.dart';
+import 'package:provider/provider.dart';
 
 class AddReminderHeader extends StatelessWidget {
   const AddReminderHeader({super.key});
@@ -18,14 +20,26 @@ class AddReminderHeader extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CustomClickableText(text: "Cancel", onTap: () {
-                Navigator.pop(context);
-              }),
+              CustomClickableText(
+                text: "Cancel",
+                onTap: () {
+                  Navigator.pop(context);
+                },
+              ),
               Text("Add Reminders", style: AppStyles.textStyle18),
-              CustomClickableText(text: "Save", onTap: () {
-                // TODO : Save reminder to the reminders list in controller
-                Navigator.pop(context);
-              }),
+              CustomClickableText(
+                text: "Save",
+                onTap: () {
+                  final controller = Provider.of<AddNewHabitController>(
+                    context,
+                    listen: false,
+                  );
+                  final String hour = controller.getHoursSelectedText();
+                  final String minutes = controller.getMinutesSelectedText();
+                  // TODO : Save reminder to the reminders list in controller
+                  Navigator.pop(context);
+                },
+              ),
             ],
           ),
         ),

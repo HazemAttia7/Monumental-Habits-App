@@ -21,14 +21,14 @@ class AddReminderBottomSheet extends StatelessWidget {
       child: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             AddReminderHeader(),
-            TimeScrollView(),
+            Expanded(child: TimeScrollView()),
             AmPmToggle(),
           ],
         ),
       ),
     );
   }
-
 }

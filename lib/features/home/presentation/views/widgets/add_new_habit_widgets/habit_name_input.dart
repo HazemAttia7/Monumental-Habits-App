@@ -23,7 +23,9 @@ class HabitNameInput extends StatelessWidget {
             hintText: "Enter habit name",
             fillColor: Colors.white,
             validator: Validator.validateHabitName,
-            controller: Provider.of<AddNewHabitController>(context).habitNameController,
+            controller: Provider.of<AddNewHabitController>(
+              context,
+            ).habitNameController,
           ),
         ),
         const HabitSuggestionsButton(),
