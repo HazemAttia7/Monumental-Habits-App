@@ -30,13 +30,10 @@ class AddReminderHeader extends StatelessWidget {
               CustomClickableText(
                 text: "Save",
                 onTap: () {
-                  final controller = Provider.of<AddNewHabitController>(
+                  Provider.of<AddNewHabitController>(
                     context,
                     listen: false,
-                  );
-                  final String hour = controller.getHoursSelectedText();
-                  final String minutes = controller.getMinutesSelectedText();
-                  // TODO : Save reminder to the reminders list in controller
+                  ).addReminder();
                   Navigator.pop(context);
                 },
               ),
