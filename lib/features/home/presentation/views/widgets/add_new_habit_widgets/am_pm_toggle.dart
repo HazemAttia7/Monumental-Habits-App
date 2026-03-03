@@ -1,44 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/am_pm_enums.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/am_pm_container.dart';
+import 'package:provider/provider.dart';
 
-class AmPmToggle extends StatefulWidget {
+class AmPmToggle extends StatelessWidget {
   const AmPmToggle({super.key});
 
   @override
-  State<AmPmToggle> createState() => _AmPmToggleState();
-}
-
-class _AmPmToggleState extends State<AmPmToggle> {
-  enAmPm _selectedPeriod = enAmPm.am;
-
-  void _toggle({required clickedPeriod}) {
-    if (_selectedPeriod == clickedPeriod) return;
-    setState(() {
-      if (_selectedPeriod == enAmPm.am) {
-        _selectedPeriod = enAmPm.pm;
-      } else {
-        _selectedPeriod = enAmPm.am;
-      }
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = Provider.of<AddNewHabitController>(context);
     return Row(
       children: [
         Expanded(
           child: AmPmContainer(
             period: 'am',
-            isSelected: _selectedPeriod == enAmPm.am,
-            toggle: () => _toggle(clickedPeriod: enAmPm.am),
+            isSelected: controller.selectedPeriod == enAmPm.am,
+            toggle: () => controller.toggleAmPm(clickedPeriod: enAmPm.am),
           ),
         ),
         Expanded(
           child: AmPmContainer(
             period: "pm",
-            isSelected: _selectedPeriod == enAmPm.pm,
-            toggle: () => _toggle(clickedPeriod: enAmPm.pm),
+            isSelected: controller.selectedPeriod == enAmPm.pm,
+            toggle: () => controller.toggleAmPm(clickedPeriod: enAmPm.pm),
           ),
         ),
       ],

@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/core/enums/am_pm_enums.dart';
 
 class AddNewHabitController extends ChangeNotifier {
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;
+  enAmPm selectedPeriod = enAmPm.am;
+
+  List<String> _remindersTime = [
+    '6:00 AM',
+    '6:30 AM',
+    '7:00 AM',
+    '7:30 AM',
+    '8:00 AM',
+    '8:30 AM',
+    '9:00 AM',
+    '9:30 AM',
+    '10:00 AM',
+    '10:30 AM',
+    '11:00 AM',
+    '11:30 AM',
+  ];
+
+  List<String> get remindersTime => _remindersTime;
 
   final FixedExtentScrollController hoursController =
       FixedExtentScrollController();
@@ -14,14 +32,14 @@ class AddNewHabitController extends ChangeNotifier {
   List<bool> _habitFrequencyList = List.generate(7, (_) => false);
   List<bool> get habitFrequencyList => _habitFrequencyList;
 
-  List<bool> _remindersList = List.generate(12, (_) => false);
-  List<bool> get remindersList => _remindersList;
+  List<bool> _remindersBoolList = List.generate(12, (_) => false, growable: true);
+  List<bool> get remindersList => _remindersBoolList;
 
   bool get isEverydaySwitched => _isEverydaySwitched;
   bool get isWeekendsSwitched => _isWeekendsSwitched;
 
   void clearReminders() {
-    _remindersList = List.generate(12, (_) => false);
+    _remindersBoolList = List.generate(12, (_) => false);
     notifyListeners();
   }
 
@@ -39,7 +57,7 @@ class AddNewHabitController extends ChangeNotifier {
   }
 
   void Function(bool)? onReminderChanged(index, value) {
-    _remindersList[index] = value;
+    _remindersBoolList[index] = value;
     notifyListeners();
     return null;
   }
@@ -59,12 +77,12 @@ class AddNewHabitController extends ChangeNotifier {
   }
 
   String getRemindersText() {
-    if (_remindersList.every((e) => !e)) return 'None';
-    final int firstReminderIndex = _remindersList.indexOf(
-      _remindersList.firstWhere((element) => element),
+    if (_remindersBoolList.every((e) => !e)) return 'None';
+    final int firstReminderIndex = _remindersBoolList.indexOf(
+      _remindersBoolList.firstWhere((element) => element),
     );
-    final String firstReminder = initialReminders[firstReminderIndex];
-    final int remindersCount = _remindersList
+    final String firstReminder = remindersTime[firstReminderIndex];
+    final int remindersCount = _remindersBoolList
         .where((element) => element)
         .length;
     final String remindersSuffix = remindersCount == 1
@@ -73,13 +91,33 @@ class AddNewHabitController extends ChangeNotifier {
     return "$firstReminder $remindersSuffix";
   }
 
-  String getHoursSelectedText() {
+  void addReminder() {
+    final time =
+        '${_getHoursSelectedText()}:${_getMinutesSelectedText()} ${getSelectedAmPmText()}';
+    _remindersTime.add(time);
+    _remindersBoolList.add(false);
+    notifyListeners();
+  }
+
+  void toggleAmPm({required clickedPeriod}) {
+    if (selectedPeriod == clickedPeriod) return;
+    if (selectedPeriod == enAmPm.am) {
+      selectedPeriod = enAmPm.pm;
+    } else {
+      selectedPeriod = enAmPm.am;
+    }
+    notifyListeners();
+  }
+
+  String getSelectedAmPmText() => selectedPeriod == enAmPm.am ? 'AM' : 'PM';
+
+  String _getHoursSelectedText() {
     final index = hoursController.selectedItem;
     final value = (index % 12 + 1);
     return value.toString().padLeft(2, '0');
   }
 
-  String getMinutesSelectedText() {
+  String _getMinutesSelectedText() {
     final index = minutesController.selectedItem;
     final value = index % 60;
     return value.toString().padLeft(2, '0');

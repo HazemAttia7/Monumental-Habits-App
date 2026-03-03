@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_grid_view_item.dart';
 
@@ -22,11 +21,11 @@ class RemindersGridView extends StatelessWidget {
         childAspectRatio: 120 / 92,
       ),
       itemBuilder: (context, index) => OnOffGridViewItem(
-        day: initialReminders[index],
+        day: controller.remindersTime[index],
         isOn: controller.remindersList[index],
         onTap: (value) => controller.onReminderChanged(index, value),
       ),
-      itemCount: 12,
+      itemCount:  controller.remindersTime.length,
       shrinkWrap: true,
     );
   }
