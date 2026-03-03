@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/home_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
 import 'package:provider/provider.dart';
@@ -52,12 +53,15 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
   bool get showStartPopup => _showStartPopup;
 
   late final List<Widget> pages = [
-    const HomeView(),
+    ChangeNotifierProvider(
+      create: (_) => HomeController(),
+      child: const HomeView(),
+    ),
     const Center(child: Text("Courses View")),
     const Center(child: Text("Community View")),
     const Center(child: Text("Settings View")),
     ChangeNotifierProvider(
-      create: (_) => AddNewHabitController(),
+      create: (_) => AddNewHabitController()..loadReminders(),
       child: AddNewHabitView(backToHome: backToHome),
     ),
   ];

@@ -1,11 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/am_pm_enums.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddNewHabitController extends ChangeNotifier {
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;
   enAmPm selectedPeriod = enAmPm.am;
+
+  static const String _remindersTimeKey = 'reminders_time';
+
+  Future<void> loadReminders() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? timesJson = prefs.getString(_remindersTimeKey);
+
+    if (timesJson != null) {
+      _remindersTime = List<String>.from(jsonDecode(timesJson));
+      _remindersBoolList = List.generate(
+        _remindersTime.length,
+        (_) => false,
+        growable: true,
+      );
+    }
+
+    notifyListeners();
+  }
 
   List<String> _remindersTime = [
     '6:00 AM',
@@ -32,7 +53,11 @@ class AddNewHabitController extends ChangeNotifier {
   List<bool> _habitFrequencyList = List.generate(7, (_) => false);
   List<bool> get habitFrequencyList => _habitFrequencyList;
 
-  List<bool> _remindersBoolList = List.generate(12, (_) => false, growable: true);
+  List<bool> _remindersBoolList = List.generate(
+    12,
+    (_) => false,
+    growable: true,
+  );
   List<bool> get remindersList => _remindersBoolList;
 
   bool get isEverydaySwitched => _isEverydaySwitched;
@@ -91,11 +116,17 @@ class AddNewHabitController extends ChangeNotifier {
     return "$firstReminder $remindersSuffix";
   }
 
+  Future<void> _saveReminders() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_remindersTimeKey, jsonEncode(_remindersTime));
+  }
+
   void addReminder() {
     final time =
         '${_getHoursSelectedText()}:${_getMinutesSelectedText()} ${getSelectedAmPmText()}';
     _remindersTime.add(time);
     _remindersBoolList.add(false);
+    _saveReminders();
     notifyListeners();
   }
 
