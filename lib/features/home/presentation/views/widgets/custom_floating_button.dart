@@ -28,6 +28,8 @@ class CustomFloatingButton extends StatelessWidget {
         shape: const CircleBorder(),
         child: InkWell(
           onTap: onTap,
+          highlightColor: AppColors.primaryColor.withValues(alpha: .1),
+          splashColor: AppColors.primaryColor.withValues(alpha: .1),
           customBorder: const CircleBorder(),
           child: Container(
             decoration: const BoxDecoration(shape: BoxShape.circle),

@@ -1,14 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
-import 'package:pixel_true_app/core/widgets/custom_circle_icon_button.dart';
+import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 
 class AddNewHabitHeader extends StatelessWidget {
-  const AddNewHabitHeader({
-    super.key,
-    required this.backToHome,
-  });
+  const AddNewHabitHeader({super.key, required this.backToHome});
 
   final VoidCallback? backToHome;
 
@@ -16,12 +12,10 @@ class AddNewHabitHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Center(
-          child: Text("New Habit", style: AppStyles.textStyle18),
-        ),
+        Center(child: Text("New Habit", style: AppStyles.textStyle18)),
         Align(
           alignment: Alignment.centerLeft,
-          child: CustomCircleIconButton(
+          child: CustomIconButton(
             onTap: () {
               backToHome?.call();
             },

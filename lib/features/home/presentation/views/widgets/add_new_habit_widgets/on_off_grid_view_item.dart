@@ -8,7 +8,6 @@ class OnOffGridViewItem extends StatelessWidget {
   final bool isOn;
   final String day;
   final Function(bool) onTap;
-
   const OnOffGridViewItem({
     super.key,
     required this.day,

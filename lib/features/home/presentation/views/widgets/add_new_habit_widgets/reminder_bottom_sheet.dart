@@ -35,10 +35,12 @@ class ReminderBottomSheet extends StatelessWidget {
                   child: CustomButton(
                     text: "Add Reminder",
                     onTap: () {
+                      final controller = context.read<AddNewHabitController>();
+                      if (controller.isRemindersListFull(context)) return;
                       showModalBottomSheet(
                         context: context,
                         builder: (_) => ChangeNotifierProvider.value(
-                          value: context.read<AddNewHabitController>(),
+                          value: controller,
                           child: const AddReminderBottomSheet(),
                         ),
                       );

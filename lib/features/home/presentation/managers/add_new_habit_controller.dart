@@ -1,10 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/am_pm_enums.dart';
+import 'package:pixel_true_app/core/widgets/closable_snack_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddNewHabitController extends ChangeNotifier {
+  // TODO : handle PM and Am in time order
   // TODO : limit reminders to 12 and add remove reminder ui and logic
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
@@ -127,12 +128,29 @@ class AddNewHabitController extends ChangeNotifier {
     await prefs.setString(_remindersTimeKey, jsonEncode(_remindersTime));
   }
 
-  void addReminder() {
+  bool isRemindersListFull(BuildContext context) {
+    if (remindersTime.length >= 12) {
+      buildClosableSnackBar(context);
+      return true;
+    }
+    return false;
+  }
+
+  void addReminder(BuildContext context) {
+    if (isRemindersListFull(context)) return;
+
     final String hour = _getHoursSelectedText();
     final String minutes = _getMinutesSelectedText();
     final time = '$hour:$minutes ${getSelectedAmPmText()}';
     if (_remindersTime.contains(time)) return;
     _insertTimeOrdered(timeToInsert: time);
+    _saveReminders();
+    notifyListeners();
+  }
+
+  void removeReminder(int index) {
+    _remindersTime.removeAt(index);
+    _remindersBoolList.removeAt(index);
     _saveReminders();
     notifyListeners();
   }
@@ -153,9 +171,17 @@ class AddNewHabitController extends ChangeNotifier {
   int _compareTime(String time) {
     final parts = time.split(' ');
     final timeParts = parts[0].split(':');
-    final int hour = int.parse(timeParts[0]);
+    int hour = int.parse(timeParts[0]);
     final int minutes = int.parse(timeParts[1]);
-    return hour * 100 + minutes;
+    final String period = parts[1];
+
+    if (period == 'PM' && hour != 12) {
+      hour += 12;
+    } else if (period == 'AM' && hour == 12) {
+      hour = 0;
+    }
+
+    return hour * 60 + minutes;
   }
 
   void toggleAmPm({required clickedPeriod}) {
