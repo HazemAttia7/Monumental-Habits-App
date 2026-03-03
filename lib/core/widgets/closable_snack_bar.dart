@@ -1,0 +1,112 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
+
+OverlayEntry? _snackBarEntry;
+Timer? _dismissTimer;
+
+class AnimatedClosableSnackBar extends StatefulWidget {
+  final String message;
+  const AnimatedClosableSnackBar({super.key, required this.message});
+
+  @override
+  State<AnimatedClosableSnackBar> createState() =>
+      _AnimatedClosableSnackBarState();
+}
+
+class _AnimatedClosableSnackBarState extends State<AnimatedClosableSnackBar>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideTransition(
+      position: _slideAnimation,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        decoration: BoxDecoration(
+          color: AppColors.primaryColor,
+          borderRadius: BorderRadius.circular(8.r),
+        ),
+        child: Row(
+          children: [
+            CustomIconButton(
+              padding: EdgeInsets.all(8.sp),
+              onTap: () {
+                _dismissTimer?.cancel();
+                _dismissTimer = null;
+                _snackBarEntry?.remove();
+                _snackBarEntry = null;
+              },
+              icon: Icons.close,
+              backColor: Colors.white,
+              shape: BoxShape.rectangle,
+            ),
+            Gap(20.w),
+            Expanded(
+              child: Text(
+                widget.message,
+                style: AppStyles.textStyle16.copyWith(color: Colors.white),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+void buildClosableSnackBar(BuildContext context) {
+  _dismissTimer?.cancel();
+  _snackBarEntry?.remove();
+
+  final overlay = Overlay.of(context, rootOverlay: true);
+
+  _snackBarEntry = OverlayEntry(
+    builder: (_) => Positioned(
+      bottom: 20.h,
+      left: 16.w,
+      right: 16.w,
+      child: const Material(
+        color: Colors.transparent,
+        child: AnimatedClosableSnackBar(
+          message: 'Maximum number of reminders reached!',
+        ),
+      ),
+    ),
+  );
+
+  overlay.insert(_snackBarEntry!);
+
+  _dismissTimer = Timer(const Duration(seconds: 3), () {
+    _snackBarEntry?.remove();
+    _snackBarEntry = null;
+    _dismissTimer = null;
+  });
+}

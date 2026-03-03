@@ -1,8 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
-import 'package:pixel_true_app/core/widgets/custom_circle_icon_button.dart';
+import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 
 class MessagePopup extends StatelessWidget {
   final VoidCallback onClose;
@@ -22,7 +21,7 @@ class MessagePopup extends StatelessWidget {
             alignment: AlignmentGeometry.topRight,
             child: Material(
               color: Colors.transparent,
-              child: CustomCircleIconButton(
+              child: CustomIconButton(
                 onTap: onClose,
                 icon: Icons.close,
                 padding: EdgeInsets.all(4.sp),

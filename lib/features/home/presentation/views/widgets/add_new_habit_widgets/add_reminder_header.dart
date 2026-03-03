@@ -33,7 +33,7 @@ class AddReminderHeader extends StatelessWidget {
                   Provider.of<AddNewHabitController>(
                     context,
                     listen: false,
-                  ).addReminder();
+                  ).addReminder(context);
                   Navigator.pop(context);
                 },
               ),
