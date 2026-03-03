@@ -5,6 +5,7 @@ import 'package:pixel_true_app/core/enums/am_pm_enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddNewHabitController extends ChangeNotifier {
+  // TODO : limit reminders to 12 and add remove reminder ui and logic
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;
@@ -64,7 +65,12 @@ class AddNewHabitController extends ChangeNotifier {
   bool get isWeekendsSwitched => _isWeekendsSwitched;
 
   void clearReminders() {
-    _remindersBoolList = List.generate(12, (_) => false);
+    if (!_remindersBoolList.contains(true)) return;
+    _remindersBoolList = List.generate(
+      _remindersTime.length,
+      (_) => false,
+      growable: true,
+    );
     notifyListeners();
   }
 
@@ -122,12 +128,34 @@ class AddNewHabitController extends ChangeNotifier {
   }
 
   void addReminder() {
-    final time =
-        '${_getHoursSelectedText()}:${_getMinutesSelectedText()} ${getSelectedAmPmText()}';
-    _remindersTime.add(time);
-    _remindersBoolList.add(false);
+    final String hour = _getHoursSelectedText();
+    final String minutes = _getMinutesSelectedText();
+    final time = '$hour:$minutes ${getSelectedAmPmText()}';
+    if (_remindersTime.contains(time)) return;
+    _insertTimeOrdered(timeToInsert: time);
     _saveReminders();
     notifyListeners();
+  }
+
+  void _insertTimeOrdered({required String timeToInsert}) {
+    final insertIndex = _remindersTime.indexWhere(
+      (t) => _compareTime(t) > _compareTime(timeToInsert),
+    );
+    if (insertIndex == -1) {
+      _remindersTime.add(timeToInsert);
+      _remindersBoolList.add(false);
+    } else {
+      _remindersTime.insert(insertIndex, timeToInsert);
+      _remindersBoolList.insert(insertIndex, false);
+    }
+  }
+
+  int _compareTime(String time) {
+    final parts = time.split(' ');
+    final timeParts = parts[0].split(':');
+    final int hour = int.parse(timeParts[0]);
+    final int minutes = int.parse(timeParts[1]);
+    return hour * 100 + minutes;
   }
 
   void toggleAmPm({required clickedPeriod}) {
@@ -145,7 +173,7 @@ class AddNewHabitController extends ChangeNotifier {
   String _getHoursSelectedText() {
     final index = hoursController.selectedItem;
     final value = (index % 12 + 1);
-    return value.toString().padLeft(2, '0');
+    return value.toString();
   }
 
   String _getMinutesSelectedText() {
