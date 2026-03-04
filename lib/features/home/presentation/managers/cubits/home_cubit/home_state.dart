@@ -5,14 +5,14 @@ sealed class HomeState {}
 
 final class HomeInitial extends HomeState {}
 
-final class LoadingUserData extends HomeState {}
+final class HabitsLoading extends HomeState {}
 
-final class LoadingSuccess extends HomeState {
+final class HabitsLoaded extends HomeState {
   final List<Habit> habits;
-  LoadingSuccess(this.habits);
+  HabitsLoaded(this.habits);
 }
 
-final class LoadingFailure extends HomeState {
-    final String errMessage;
-  LoadingFailure(this.errMessage);
+final class HabitsError extends HomeState {
+  final String errMessage;
+  HabitsError(this.errMessage);
 }

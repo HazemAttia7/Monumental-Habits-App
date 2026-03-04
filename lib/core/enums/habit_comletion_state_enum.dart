@@ -9,3 +9,13 @@ extension enHabitCompletionStateX on enHabitCompletionState {
         enHabitCompletionState.values.length];
   }
 }
+
+
+extension HabitCompletionParser on enHabitCompletionState {
+  static enHabitCompletionState fromString(String value) {
+    return enHabitCompletionState.values.firstWhere(
+      (e) => e.name == value,
+      orElse: () => enHabitCompletionState.none,
+    );
+  }
+}
