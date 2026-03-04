@@ -9,7 +9,6 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_t
 import 'package:pixel_true_app/features/home/presentation/views/widgets/home_header.dart';
 import 'package:provider/provider.dart';
 
-// TODO : Make home view cubit and search if should move the controller inside the cubit
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
 
