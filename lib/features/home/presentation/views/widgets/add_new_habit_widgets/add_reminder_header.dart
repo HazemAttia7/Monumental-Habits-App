@@ -46,7 +46,7 @@ class AddReminderHeader extends StatelessWidget {
           width: double.infinity,
           height: 1.sp,
           margin: 0,
-        ),
+        ), 
       ],
     );
   }
