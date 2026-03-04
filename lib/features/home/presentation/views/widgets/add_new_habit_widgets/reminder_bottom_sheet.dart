@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/monumental_habits_icons.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
@@ -26,6 +27,14 @@ class ReminderBottomSheet extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
+            Text(
+              "Long Press to Delete",
+              style: AppStyles.textStyle14.copyWith(
+                color: AppColors.sunset.withValues(alpha: .5),
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Gap(12.h),
             const RemindersGridView(),
             Gap(25.h),
             Row(
