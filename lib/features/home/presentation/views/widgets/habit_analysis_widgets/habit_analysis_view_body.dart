@@ -4,10 +4,16 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/habit_analysis_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/habit_summary_widget.dart';
 
 class HabitAnalysisViewBody extends StatelessWidget {
   final Habit habit;
-  const HabitAnalysisViewBody({super.key, required this.habit});
+  final Color themeColor;
+  const HabitAnalysisViewBody({
+    super.key,
+    required this.habit,
+    required this.themeColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +26,10 @@ class HabitAnalysisViewBody extends StatelessWidget {
             child: const HabitAnalysisHeader(),
           ),
           Gap(24.h),
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
+            child: HabitSummaryWidget(habit: habit, themeColor: themeColor),
+          ),
         ],
       ),
     );

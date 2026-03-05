@@ -3,13 +3,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
-class TextIconWidget extends StatelessWidget {
+class ClickableTextIconWidget extends StatelessWidget {
   final String text;
   final IconData icon;
   final Color color;
   final double? size, fontSize;
   final VoidCallback onTap;
-  const TextIconWidget({
+  final double? spacing;
+  const ClickableTextIconWidget({
     super.key,
     required this.text,
     required this.icon,
@@ -17,6 +18,7 @@ class TextIconWidget extends StatelessWidget {
     this.size,
     this.fontSize,
     required this.onTap,
+    this.spacing,
   });
 
   @override
@@ -35,7 +37,7 @@ class TextIconWidget extends StatelessWidget {
                 color: color,
               ),
             ),
-            Gap(5.w),
+            Gap(spacing ?? 5.w),
             Icon(icon, color: color, size: size ?? 18.sp),
           ],
         ),

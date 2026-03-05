@@ -57,8 +57,10 @@ abstract class AppRouter {
       GoRoute(
         path: kHabitAnalysis,
         builder: (context, state) {
-          final habit = state.extra as Habit;
-          return HabitAnalysisView(habit: habit);
+          final args = state.extra as Map<String, dynamic>;
+          final habit = args["habit"] as Habit;
+          final themeColor = args["themeColor"] as Color;
+          return HabitAnalysisView(habit: habit, themeColor: themeColor);
         },
       ),
     ],

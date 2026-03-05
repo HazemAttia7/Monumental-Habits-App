@@ -25,7 +25,10 @@ class HabitTrackingWidget extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12.r),
         onTap: () {
-          GoRouter.of(context).push(AppRouter.kHabitAnalysis, extra: habit);
+          GoRouter.of(context).push(
+            AppRouter.kHabitAnalysis,
+            extra: {"habit": habit, "themeColor": color},
+          );
         },
         splashColor: color.withValues(alpha: .1),
         highlightColor: color.withValues(alpha: .1),
