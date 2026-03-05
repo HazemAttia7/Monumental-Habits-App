@@ -1,34 +1,48 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_tracking_widget.dart';
 
-// ignore: must_be_immutable
 class HabitsTrackingSliverList extends StatelessWidget {
   final List<ScrollController> scrollControllers;
-  const HabitsTrackingSliverList({super.key, required this.scrollControllers});
+  final List<Habit> habitsList;
+  const HabitsTrackingSliverList({
+    super.key,
+    required this.scrollControllers,
+    required this.habitsList,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate((context, index) {
-        // Create a controller for each habit if it doesn't exist yet
-        if (scrollControllers.length <= index) {
-          final ctrl = ScrollController();
-          scrollControllers.add(ctrl);
-        }
+    return habitsList.isEmpty
+        ? SliverFillRemaining(
+            child: SizedBox(
+              child: Center(
+                child: Text('No habits yet', style: AppStyles.textStyle17),
+              ),
+            ),
+          )
+        : SliverList(
+            delegate: SliverChildBuilderDelegate((context, index) {
+              // Create a controller for each habit if it doesn't exist yet
+              if (scrollControllers.length <= index) {
+                final ctrl = ScrollController();
+                scrollControllers.add(ctrl);
+              }
 
-        return Padding(
-          padding: EdgeInsets.only(bottom: index == 4 - 1 ? 0 : 8.sp),
-          child: HabitTrackingWidget(
-            scrollController: scrollControllers[index],
-            text: 'Item ${index + 1}',
-            color:
-                AppColors.habitsColorsSequence[index %
-                    AppColors.habitsColorsSequence.length],
-          ),
-        );
-      }, childCount: 4),
-    );
+              return Padding(
+                padding: EdgeInsets.only(bottom: index == 4 - 1 ? 0 : 8.sp),
+                child: HabitTrackingWidget(
+                  scrollController: scrollControllers[index],
+                  habit: habitsList[index],
+                  color:
+                      AppColors.habitsColorsSequence[index %
+                          AppColors.habitsColorsSequence.length],
+                ),
+              );
+            }, childCount: habitsList.length),
+          );
   }
 }

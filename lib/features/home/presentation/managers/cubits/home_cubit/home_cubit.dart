@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/helper/date_helper.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
 
@@ -28,56 +29,43 @@ class HomeCubit extends Cubit<HomeState> {
     if (state is! HabitsLoaded) return;
     final habits = (state as HabitsLoaded).habits;
     final habit = habits.firstWhere((h) => h.id == habitId);
-    final dateKey = _dateKey(date);
-    final current = habit.logs[dateKey] ?? enHabitCompletionState.none;
-    final next = enHabitCompletionState
-        .values[(current.index + 1) % enHabitCompletionState.values.length];
+    final key = dateKey(date);
+    final current = habit.logs[key] ?? enHabitCompletionState.none;
+    final next = current.next();
 
     // Instant UI update
-    final updated = habit.copyWith(
-      logs: Map.from(habit.logs)..[dateKey] = next,
+    final updated = habit.copyWith(logs: Map.from(habit.logs)..[key] = next);
+    emit(
+      HabitsLoaded(habits.map((h) => h.id == habitId ? updated : h).toList()),
     );
-    emit(HabitsLoaded(
-      habits.map((h) => h.id == habitId ? updated : h).toList(),
-    ));
 
     // Debounced write
     _debounceTimer?.cancel();
     _debounceTimer = Timer(const Duration(milliseconds: 800), () {
-      _repo.updateHabitLog(_uid, habitId, dateKey, next);
+      _repo.updateHabitLog(_uid, habitId, key, next);
     });
   }
 
   Future<void> addHabit(Habit habit) async {
     final result = await _repo.addHabit(_uid, habit);
-    result.fold(
-      (failure) => emit(HabitsError(failure.errMessage)),
-      (_) {
-        if (state is HabitsLoaded) {
-          emit(HabitsLoaded([...(state as HabitsLoaded).habits, habit]));
-        }
-      },
-    );
+    result.fold((failure) => emit(HabitsError(failure.errMessage)), (_) {
+      if (state is HabitsLoaded) {
+        emit(HabitsLoaded([...(state as HabitsLoaded).habits, habit]));
+      }
+    });
   }
 
   Future<void> deleteHabit(String habitId) async {
     final result = await _repo.deleteHabit(_uid, habitId);
-    result.fold(
-      (failure) => emit(HabitsError(failure.errMessage)),
-      (_) {
-        if (state is HabitsLoaded) {
-          final updated = (state as HabitsLoaded)
-              .habits
-              .where((h) => h.id != habitId)
-              .toList();
-          emit(HabitsLoaded(updated));
-        }
-      },
-    );
+    result.fold((failure) => emit(HabitsError(failure.errMessage)), (_) {
+      if (state is HabitsLoaded) {
+        final updated = (state as HabitsLoaded).habits
+            .where((h) => h.id != habitId)
+            .toList();
+        emit(HabitsLoaded(updated));
+      }
+    });
   }
-
-  String _dateKey(DateTime date) =>
-      '${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
 
   @override
   Future<void> close() {

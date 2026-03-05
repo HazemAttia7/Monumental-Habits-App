@@ -5,15 +5,21 @@ import 'package:pixel_true_app/features/home/data/local/habit_isar.dart';
 class IsarService {
   static Isar? _instance;
 
+  static Isar get instance {
+    assert(
+      _instance != null && _instance!.isOpen,
+      'IsarService not initialized. Call getInstance() in main() first.',
+    );
+    return _instance!;
+  }
+
   static Future<Isar> getInstance() async {
     if (_instance != null && _instance!.isOpen) return _instance!;
-    
-    final dir = await getApplicationDocumentsDirectory(); 
-    
+    final dir = await getApplicationDocumentsDirectory();
     _instance = await Isar.open(
       [HabitIsarSchema],
-      directory: dir.path,   
-      inspector: true,    
+      directory: dir.path,
+      inspector: true, // remove in production
     );
     return _instance!;
   }

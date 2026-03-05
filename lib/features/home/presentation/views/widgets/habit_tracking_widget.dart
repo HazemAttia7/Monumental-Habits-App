@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_completion_list_view.dart';
 
 class HabitTrackingWidget extends StatelessWidget {
   final ScrollController scrollController;
-  final String text;
   final Color color;
-  const HabitTrackingWidget({super.key, required this.scrollController, required this.text, required this.color});
+  final Habit habit;
+  const HabitTrackingWidget({
+    super.key,
+    required this.scrollController,
+    required this.color,
+    required this.habit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +27,7 @@ class HabitTrackingWidget extends StatelessWidget {
         children: [
           Expanded(
             child: Text(
-              text,
+              habit.name,
               style: AppStyles.textStyle14.copyWith(
                 fontWeight: FontWeight.w900,
               ),
@@ -29,7 +35,11 @@ class HabitTrackingWidget extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: HabitCompletionListView(scrollController: scrollController , color: color),
+            child: HabitCompletionListView(
+              scrollController: scrollController,
+              color: color,
+              habit: habit,
+            ),
           ),
         ],
       ),
