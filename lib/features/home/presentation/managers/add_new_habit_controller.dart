@@ -5,8 +5,6 @@ import 'package:pixel_true_app/core/widgets/closable_snack_bar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddNewHabitController extends ChangeNotifier {
-  // TODO : handle PM and Am in time order
-  // TODO : limit reminders to 12 and add remove reminder ui and logic
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;

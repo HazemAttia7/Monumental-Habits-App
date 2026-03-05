@@ -32,16 +32,22 @@ class HabitCompletionListView extends StatelessWidget {
         itemCount: 7,
         itemBuilder: (context, index) => Padding(
           padding: EdgeInsets.only(right: 6.sp),
-          child: HabitCompletionListViewItem(
-            isActive: habit.frequency.contains(index),
-            habitCompletionState:
-                habit.logs[dateKey(weekStart.add(Duration(days: index)))] ??
-                enHabitCompletionState.none,
-            themeColor: color,
-            onTap: () => BlocProvider.of<HomeCubit>(
-              context,
-            ).cycleHabitStatus(habit.id, weekStart.add(Duration(days: index))),
-          ),
+          child: habit.frequency.contains(index)
+              ? HabitCompletionListViewItem(
+                  isActive: habit.frequency.contains(index),
+                  habitCompletionState:
+                      habit.logs[dateKey(
+                        weekStart.add(Duration(days: index)),
+                      )] ??
+                      enHabitCompletionState.none,
+                  themeColor: color,
+                  onTap: () =>
+                      BlocProvider.of<HomeCubit>(context).cycleHabitStatus(
+                        habit.id,
+                        weekStart.add(Duration(days: index)),
+                      ),
+                )
+              : SizedBox(width: 50.sp, height: 50.sp),
         ),
       ),
     );
