@@ -3,49 +3,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/rounded_bottom_left_triangle.dart';
 
-class HabitCompletionListViewItem extends StatefulWidget {
-  final String habitName;
+class HabitCompletionListViewItem extends StatelessWidget {
   final Color themeColor;
   final enHabitCompletionState habitCompletionState;
   final bool isActive;
-
+  final VoidCallback onTap;
   const HabitCompletionListViewItem({
     super.key,
-    this.isActive = true,
     required this.themeColor,
-    required this.habitName,
+    required this.onTap,
+    this.isActive = true,
     this.habitCompletionState = enHabitCompletionState.none,
   });
 
   @override
-  State<HabitCompletionListViewItem> createState() =>
-      _HabitCompletionListViewItemState();
-}
-
-class _HabitCompletionListViewItemState
-    extends State<HabitCompletionListViewItem> {
-  late enHabitCompletionState _habitCompletionState;
-
-  @override
-  void initState() {
-    super.initState();
-    _habitCompletionState = widget.habitCompletionState;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return AbsorbPointer(
-      absorbing: !widget.isActive,
+      absorbing: !isActive,
       child: Material(
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(12.r),
         child: InkWell(
           borderRadius: BorderRadius.circular(12.r),
-          onTap: () {
-            setState(() {
-              _habitCompletionState = _habitCompletionState.next();
-            });
-          },
+          onTap: onTap,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(12.r),
             child: AnimatedContainer(
@@ -54,9 +34,9 @@ class _HabitCompletionListViewItemState
               height: 50.sp,
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: _habitCompletionState == enHabitCompletionState.none
-                    ? widget.themeColor.withValues(alpha: .05)
-                    : widget.themeColor.withValues(alpha: .15),
+                color: habitCompletionState == enHabitCompletionState.none
+                    ? themeColor.withValues(alpha: .05)
+                    : themeColor.withValues(alpha: .15),
               ),
               child: Align(
                 alignment: Alignment.centerLeft,
@@ -85,18 +65,18 @@ class _HabitCompletionListViewItemState
   }
 
   Widget _buildShape() {
-    switch (_habitCompletionState) {
+    switch (habitCompletionState) {
       case enHabitCompletionState.partial:
         return RoundedBottomLeftTriangle(
           key: const ValueKey('partial'),
-          color: widget.themeColor,
+          color: themeColor,
         );
 
       case enHabitCompletionState.complete:
         return Container(
           key: const ValueKey('complete'),
           decoration: BoxDecoration(
-            color: widget.themeColor,
+            color: themeColor,
             borderRadius: BorderRadius.circular(12.r),
           ),
         );

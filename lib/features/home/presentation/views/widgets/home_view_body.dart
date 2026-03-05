@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/home_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_section_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_tracking_sliver_list.dart';
@@ -54,8 +58,31 @@ class HomeViewBody extends StatelessWidget {
               top: 13.h,
               bottom: 140.sp,
             ),
-            sliver: HabitsTrackingSliverList(
-              scrollControllers: controller.habitControllers,
+            sliver: BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                if (state is HabitsLoading) {
+                  return const SliverFillRemaining(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ),
+                    ),
+                  );
+                }
+                if (state is HabitsError) {
+                  return SliverFillRemaining(
+                    child: Center(child: Text(state.errMessage)),
+                  );
+                }
+                final List<Habit> habits = state is HabitsLoaded
+                    ? state.habits
+                    : [];
+
+                return HabitsTrackingSliverList(
+                  scrollControllers: controller.habitControllers,
+                  habitsList: habits,
+                );
+              },
             ),
           ),
         ],
