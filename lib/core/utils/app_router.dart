@@ -3,8 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
+import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
+import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +18,7 @@ abstract class AppRouter {
   static const String kForgotPasswordView = "/forgot-password";
   static const String kAppGate = "/app-gate";
   static const String kAddNewHabit = "/add-new-habit";
+  static const String kHabitAnalysis = "/habit-analysis";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -50,6 +53,13 @@ abstract class AppRouter {
           create: (_) => AddNewHabitController(),
           child: const AddNewHabitView(),
         ),
+      ),
+      GoRoute(
+        path: kHabitAnalysis,
+        builder: (context, state) {
+          final habit = state.extra as Habit;
+          return HabitAnalysisView(habit: habit);
+        },
       ),
     ],
   );
