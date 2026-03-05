@@ -11,8 +11,6 @@ import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_c
 import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
 import 'package:pixel_true_app/features/main/presentation/views/main_view.dart';
 import 'package:provider/provider.dart';
-
-// TODO : wire home cubit here
 class AppGate extends StatelessWidget {
   const AppGate({super.key});
 
