@@ -35,7 +35,7 @@ class HabitCompletionListViewItem extends StatelessWidget {
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 color: habitCompletionState == enHabitCompletionState.none
-                    ? themeColor.withValues(alpha: .05)
+                    ? themeColor.withValues(alpha: .1)
                     : themeColor.withValues(alpha: .15),
               ),
               child: Align(
