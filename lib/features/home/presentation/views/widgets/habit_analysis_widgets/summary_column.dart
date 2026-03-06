@@ -24,22 +24,16 @@ class SummaryColumn extends StatelessWidget {
       children: [
         Text(habit.name, style: AppStyles.textStyle16),
         Gap(5.h),
-        ClickableIconTextWidget(
+        IconTextWidget(
           icon: FontAwesomeIcons.bell,
           text: _getFrequencyText(habit.frequency),
           themeColor: themeColor,
-          onTap: () {
-            // TODO : show frequency bottom sheet
-          },
         ),
         Gap(3.h),
-        ClickableIconTextWidget(
+        IconTextWidget(
           icon: FontAwesomeIcons.repeat,
           text: _getRemindersText(habit.reminders),
           themeColor: themeColor,
-          onTap: () {
-            // TODO : show reminders bottom sheet
-          },
         ),
       ],
     );

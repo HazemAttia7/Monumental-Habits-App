@@ -5,11 +5,17 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_an
 class HabitAnalysisView extends StatelessWidget {
   final Habit habit;
   final Color themeColor;
-  const HabitAnalysisView({super.key, required this.habit, required this.themeColor});
+  const HabitAnalysisView({
+    super.key,
+    required this.habit,
+    required this.themeColor,
+  });
 
   @override
-
   Widget build(BuildContext context) {
-    return Scaffold(body: HabitAnalysisViewBody(habit: habit, themeColor: themeColor,));
+    return Scaffold(
+      backgroundColor: Color.lerp(themeColor, Colors.white, 0.9),
+      body: HabitAnalysisViewBody(habit: habit, themeColor: themeColor),
+    );
   }
 }
