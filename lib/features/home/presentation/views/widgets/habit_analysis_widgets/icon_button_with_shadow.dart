@@ -16,25 +16,31 @@ class IconButtonWithShadow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      borderRadius: BorderRadius.circular(12.r),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(12.r),
-        highlightColor: color.withValues(alpha: .1),
-        splashColor: color.withValues(alpha: .1),
-        onTap: () {},
-        child: Center(
-          child: Icon(
-            icon,
-            size: iconSize ?? 18.sp,
-            shadows: [
-              Shadow(
-                color: color.withValues(alpha: .5),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
-              ),
-            ],
+    final size = iconSize ?? 18.sp;
+    final buttonSize = size + 12.r;
+    return SizedBox(
+      width: buttonSize,
+      height: buttonSize,
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          highlightColor: color.withValues(alpha: .1),
+          splashColor: color.withValues(alpha: .1),
+          onTap: onTap,
+          child: Center(
+            child: Icon(
+              icon,
+              size: iconSize ?? 18.sp,
+              shadows: [
+                Shadow(
+                  color: color.withValues(alpha: .5),
+                  blurRadius: 6,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
           ),
         ),
       ),
