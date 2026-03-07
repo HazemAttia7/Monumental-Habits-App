@@ -5,9 +5,9 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_an
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/month_actions.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/week_days_row.dart';
 
-class CalendarWidget extends StatelessWidget {
+class CalendarSection extends StatelessWidget {
   final Color themeColor;
-  const CalendarWidget({super.key, required this.themeColor});
+  const CalendarSection({super.key, required this.themeColor});
 
   @override
   Widget build(BuildContext context) {
