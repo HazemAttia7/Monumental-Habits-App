@@ -27,7 +27,7 @@ class HabitAnalysisViewBody extends StatelessWidget {
             Gap(10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
-              child: const HabitAnalysisHeader(),
+              child:  HabitAnalysisHeader(themeColor : themeColor),
             ),
             Gap(24.h),
             Padding(
