@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
@@ -11,7 +10,6 @@ import 'package:pixel_true_app/features/home/presentation/managers/home_controll
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_section_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_tracking_sliver_list.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/home_header.dart';
-import 'package:provider/provider.dart';
 
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
@@ -60,15 +58,6 @@ class HomeViewBody extends StatelessWidget {
             ),
             sliver: BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
-                if (state is HabitsLoading) {
-                  return const SliverFillRemaining(
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        color: AppColors.primaryColor,
-                      ),
-                    ),
-                  );
-                }
                 if (state is HabitsError) {
                   return SliverFillRemaining(
                     child: Center(child: Text(state.errMessage)),
@@ -76,9 +65,17 @@ class HomeViewBody extends StatelessWidget {
                 }
                 final List<Habit> habits = state is HabitsLoaded
                     ? state.habits
+                    : state is HabitsLoading
+                    ? List.generate(
+                        4,
+                        (i) => Habit(
+                          name: 'Loading habit', id: '', frequency: [], reminders: [], logs: {} 
+                        ),
+                      )
                     : [];
 
                 return HabitsTrackingSliverList(
+                  isLoading: state is HabitsLoading,
                   scrollControllers: controller.habitControllers,
                   habitsList: habits,
                 );
