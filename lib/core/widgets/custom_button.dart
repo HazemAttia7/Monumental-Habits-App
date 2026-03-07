@@ -8,12 +8,17 @@ class CustomButton extends StatelessWidget {
   final VoidCallback onTap;
   final bool isLoading;
   final double? height;
+  final Color? backColor, textColor, splashColor, highlightColor;
   const CustomButton({
     super.key,
     required this.text,
     required this.onTap,
     this.isLoading = false,
     this.height,
+    this.backColor,
+    this.textColor,
+    this.splashColor,
+    this.highlightColor,
   });
 
   @override
@@ -21,11 +26,17 @@ class CustomButton extends StatelessWidget {
     return AbsorbPointer(
       absorbing: isLoading,
       child: Material(
-        color: AppColors.secondaryColor,
+        color: backColor ?? AppColors.secondaryColor,
         borderRadius: BorderRadius.circular(8.r),
         child: InkWell(
-          splashColor: AppColors.primaryColor.withValues(alpha: .1),
-          highlightColor: AppColors.primaryColor.withValues(alpha: .1),
+          splashColor:
+              splashColor?.withValues(alpha: .1) ??
+              textColor?.withValues(alpha: .1) ??
+              AppColors.primaryColor.withValues(alpha: .1),
+          highlightColor:
+              highlightColor?.withValues(alpha: .1) ??
+              textColor?.withValues(alpha: .1) ??
+              AppColors.primaryColor.withValues(alpha: .1),
           borderRadius: BorderRadius.circular(8.r),
           onTap: onTap,
           child: SizedBox(
@@ -35,7 +46,10 @@ class CustomButton extends StatelessWidget {
                   ? const CircularProgressIndicator(
                       color: AppColors.scaffoldColor,
                     )
-                  : Text(text, style: AppStyles.textStyle16),
+                  : Text(
+                      text,
+                      style: AppStyles.textStyle16.copyWith(color: textColor),
+                    ),
             ),
           ),
         ),

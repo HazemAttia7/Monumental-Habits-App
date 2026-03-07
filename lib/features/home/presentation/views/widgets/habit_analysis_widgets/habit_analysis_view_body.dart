@@ -41,7 +41,6 @@ class HabitAnalysisViewBody extends StatelessWidget {
             ),
             Gap(46.h),
             AnalyticsSection(themeColor: themeColor),
-            Gap(24.h),
           ],
         ),
       ),
