@@ -23,8 +23,8 @@ class FlatScrollPicker extends StatelessWidget {
           controller: controller,
           itemExtent: timePickerItemHeight.h,
           physics: const FixedExtentScrollPhysics(),
-          perspective: 0.005,
-          diameterRatio: 4.5,
+          perspective: 0.00001,
+          diameterRatio: 100,
           childDelegate: ListWheelChildLoopingListDelegate(
             children: List.generate(itemCount, (index) {
               final value = isHours ? index + 1 : index;
