@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 
 OverlayEntry? _snackBarEntry;
@@ -72,7 +71,11 @@ class _AnimatedClosableSnackBarState extends State<AnimatedClosableSnackBar>
             Expanded(
               child: Text(
                 widget.message,
-                style: AppStyles.textStyle16.copyWith(color: Colors.white),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.sp,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],
@@ -82,7 +85,7 @@ class _AnimatedClosableSnackBarState extends State<AnimatedClosableSnackBar>
   }
 }
 
-void buildClosableSnackBar(BuildContext context) {
+void buildClosableSnackBar(BuildContext context, {required String message}) {
   _dismissTimer?.cancel();
   _snackBarEntry?.remove();
 
@@ -93,11 +96,9 @@ void buildClosableSnackBar(BuildContext context) {
       bottom: 20.h,
       left: 16.w,
       right: 16.w,
-      child: const Material(
+      child: Material(
         color: Colors.transparent,
-        child: AnimatedClosableSnackBar(
-          message: 'Maximum number of reminders reached!',
-        ),
+        child: AnimatedClosableSnackBar(message: message),
       ),
     ),
   );

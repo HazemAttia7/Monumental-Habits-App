@@ -19,19 +19,25 @@ class Habit {
 
   /// 1–10 score calculated from consistency in the last 30 days
   int get easinessScore {
-    final now = DateTime.now();
+    final today = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+
     int scheduled = 0;
-    int completed = 0;
+    double completed = 0;
 
     for (int i = 0; i < 30; i++) {
-      final day = now.subtract(Duration(days: i));
+      final day = today.subtract(Duration(days: i));
       if (!isScheduledOn(day)) continue;
 
       scheduled++;
       final status = logs[dateKey(day)];
-      if (status == enHabitCompletionState.complete ||
-          status == enHabitCompletionState.partial) {
-        completed++;
+      if (status == enHabitCompletionState.complete) {
+        completed += 1.0;
+      } else if (status == enHabitCompletionState.partial) {
+        completed += 0.5;
       }
     }
 
@@ -39,59 +45,95 @@ class Habit {
     return ((completed / scheduled) * 9 + 1).round().clamp(1, 10);
   }
 
-  int get currentStreak {
-    int streak = 0;
-    DateTime day = DateTime.now();
-    while (true) {
-      // Skip non-scheduled days
-      if (!isScheduledOn(day)) {
-        day = day.subtract(const Duration(days: 1));
-        continue;
+  int get longestStreak {
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+
+    // find the earliest log date to start iterating from
+    if (logs.isEmpty) return 0;
+    final sortedKeys = logs.keys.toList()..sort();
+    DateTime cursor = DateTime.parse(sortedKeys.first);
+
+    int longest = 0, current = 0;
+
+    while (!cursor.isAfter(today)) {
+      if (isScheduledOn(cursor)) {
+        final key =
+            '${cursor.year}-${cursor.month.toString().padLeft(2, '0')}-${cursor.day.toString().padLeft(2, '0')}';
+        final status = logs[key] ?? enHabitCompletionState.none;
+
+        if (status == enHabitCompletionState.complete ||
+            status == enHabitCompletionState.partial) {
+          current++;
+          if (current > longest) longest = current;
+        } else {
+          // missed a scheduled day → reset
+          current = 0;
+        }
       }
-      final status = logs[dateKey(day)];
-      if (status == enHabitCompletionState.complete ||
-          status == enHabitCompletionState.partial) {
-        streak++;
-        day = day.subtract(const Duration(days: 1));
+      cursor = cursor.add(const Duration(days: 1));
+    }
+
+    return longest;
+  }
+
+  int get currentStreak {
+    final now = DateTime.now();
+    DateTime cursor = DateTime(now.year, now.month, now.day);
+
+    int current = 0;
+
+    while (true) {
+      if (isScheduledOn(cursor)) {
+        final key =
+            '${cursor.year}-${cursor.month.toString().padLeft(2, '0')}-${cursor.day.toString().padLeft(2, '0')}';
+        final status = logs[key] ?? enHabitCompletionState.none;
+
+        if (status == enHabitCompletionState.complete ||
+            status == enHabitCompletionState.partial) {
+          current++;
+        } else {
+          // hit a missed scheduled day → stop
+          break;
+        }
+      }
+      cursor = cursor.subtract(const Duration(days: 1));
+
+      // safety — don't go before the first log
+      if (logs.isNotEmpty) {
+        final sortedKeys = logs.keys.toList()..sort();
+        if (cursor.isBefore(DateTime.parse(sortedKeys.first))) break;
       } else {
         break;
       }
     }
-    return streak;
+
+    return current;
   }
 
-  int get longestStreak {
-    int longest = 0, current = 0;
-    final sortedKeys = logs.keys.toList()..sort();
-    for (final key in sortedKeys) {
-      final day = DateTime.parse(key);
-      if (!isScheduledOn(day)) continue;
-
-      final status = logs[key]!;
-      if (status != enHabitCompletionState.none) {
-        current++;
-        if (current > longest) longest = current;
-      } else {
-        current = 0;
-      }
-    }
-    return longest;
-  }
-
-  /// Only counts scheduled days as denominator
   double get completionRate {
+    final now = DateTime.now();
+    final currentMonth = now.month;
+    final currentYear = now.year;
+
+    // only scheduled days in current month up to today
     final scheduledLogs = logs.entries.where((e) {
       final day = DateTime.parse(e.key);
-      return isScheduledOn(day);
+      return day.year == currentYear &&
+          day.month == currentMonth &&
+          !day.isAfter(now) &&
+          isScheduledOn(day);
     });
+
     if (scheduledLogs.isEmpty) return 0;
-    final done = scheduledLogs
-        .where(
-          (e) =>
-              e.value == enHabitCompletionState.complete ||
-              e.value == enHabitCompletionState.partial,
-        )
-        .length;
+
+    // partial counts as 0.5
+    final done = scheduledLogs.fold<double>(0, (sum, e) {
+      if (e.value == enHabitCompletionState.complete) return sum + 1.0;
+      if (e.value == enHabitCompletionState.partial) return sum + 0.5;
+      return sum;
+    });
+
     return (done / scheduledLogs.length) * 100;
   }
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_completion_list_view.dart';
 import 'package:redacted/redacted.dart';
 
@@ -30,7 +32,11 @@ class HabitTrackingWidget extends StatelessWidget {
         onTap: () {
           GoRouter.of(context).push(
             AppRouter.kHabitAnalysis,
-            extra: {"habit": habit, "themeColor": color},
+            extra: {
+              "habit": habit,
+              "themeColor": color,
+              "cubit": context.read<HomeCubit>(),
+            },
           );
         },
         splashColor: color.withValues(alpha: .1),

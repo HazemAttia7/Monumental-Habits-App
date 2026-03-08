@@ -1,10 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
@@ -58,9 +60,15 @@ abstract class AppRouter {
         path: kHabitAnalysis,
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>;
+
           final habit = args["habit"] as Habit;
           final themeColor = args["themeColor"] as Color;
-          return HabitAnalysisView(habit: habit, themeColor: themeColor);
+          final cubit = args["cubit"] as HomeCubit;
+
+          return BlocProvider.value(
+            value: cubit,
+            child: HabitAnalysisView(habit: habit, themeColor: themeColor),
+          );
         },
       ),
     ],

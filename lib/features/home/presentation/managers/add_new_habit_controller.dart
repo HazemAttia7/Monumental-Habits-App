@@ -128,7 +128,7 @@ class AddNewHabitController extends ChangeNotifier {
 
   bool isRemindersListFull(BuildContext context) {
     if (remindersTime.length >= 12) {
-      buildClosableSnackBar(context);
+      buildClosableSnackBar(context, message: 'Reminders limit reached');
       return true;
     }
     return false;
