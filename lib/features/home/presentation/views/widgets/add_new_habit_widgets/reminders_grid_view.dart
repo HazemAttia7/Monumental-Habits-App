@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/removable_on_off_grid_view_item.dart';
 
 class RemindersGridView extends StatelessWidget {
@@ -10,7 +10,7 @@ class RemindersGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<AddNewHabitController>();
+    final controller = context.watch<AddEditHabitController>();
 
     return controller.remindersTime.isEmpty
         ? SizedBox(

@@ -5,8 +5,8 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/monumental_habits_icons.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_reminder_bottom_sheet.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_edit_reminder_bottom_sheet.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/reminders_grid_view.dart';
 import 'package:provider/provider.dart';
 
@@ -44,13 +44,13 @@ class ReminderBottomSheet extends StatelessWidget {
                   child: CustomButton(
                     text: "Add Reminder",
                     onTap: () {
-                      final controller = context.read<AddNewHabitController>();
+                      final controller = context.read<AddEditHabitController>();
                       if (controller.isRemindersListFull(context)) return;
                       showModalBottomSheet(
                         context: context,
                         builder: (_) => ChangeNotifierProvider.value(
                           value: controller,
-                          child: const AddReminderBottomSheet(),
+                          child: const AddEditReminderBottomSheet(),
                         ),
                       );
                     },
@@ -62,7 +62,7 @@ class ReminderBottomSheet extends StatelessWidget {
                     color: Colors.transparent,
                     child: InkWell(
                       borderRadius: BorderRadius.circular(8.r),
-                      onTap: Provider.of<AddNewHabitController>(
+                      onTap: Provider.of<AddEditHabitController>(
                         context,
                         listen: false,
                       ).clearReminders,

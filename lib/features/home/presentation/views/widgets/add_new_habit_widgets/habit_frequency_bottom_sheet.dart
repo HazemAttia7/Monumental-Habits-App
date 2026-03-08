@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/custom_switcher.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_grid_view.dart';
 
@@ -19,7 +19,7 @@ class HabitFrequencyBottomSheet extends StatefulWidget {
 class _HabitFrequencyBottomSheetState extends State<HabitFrequencyBottomSheet> {
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<AddNewHabitController>();
+    final controller = context.watch<AddEditHabitController>();
 
     return Container(
       padding: EdgeInsets.all(16.sp),

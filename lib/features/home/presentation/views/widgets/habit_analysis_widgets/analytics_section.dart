@@ -70,7 +70,9 @@ class AnalyticsSection extends StatelessWidget {
               );
               buildClosableSnackBar(
                 context,
-                message: "Habit(${habit.name}) marked as completed",
+                message:
+                    '"${habit.name}" marked as Completed. View/Edit from your Habits History.',
+                duration: const Duration(seconds: 5),
               );
               GoRouter.of(context).pop();
             },
@@ -91,7 +93,9 @@ class AnalyticsSection extends StatelessWidget {
               );
               buildClosableSnackBar(
                 context,
-                message: "Habit(${habit.name}) marked as missed",
+                message:
+                    '"${habit.name}" marked as Missed. View/Edit from your Habits History.',
+                duration: const Duration(seconds: 5),
               );
               GoRouter.of(context).pop();
             },

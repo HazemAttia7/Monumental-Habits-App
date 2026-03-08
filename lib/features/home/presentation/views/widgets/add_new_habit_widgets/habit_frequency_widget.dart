@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_bottom_sheet.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_frequency_day_item.dart';
 import 'package:pixel_true_app/core/widgets/clickable_text_icon_widget.dart';
@@ -46,7 +46,7 @@ class HabitFrequencyWidget extends StatelessWidget {
                       context: context,
                       builder: (bottomSheetContext) {
                         return ChangeNotifierProvider.value(
-                          value: context.read<AddNewHabitController>(),
+                          value: context.read<AddEditHabitController>(),
                           child: const Wrap(
                             children: [HabitFrequencyBottomSheet()],
                           ),
@@ -67,7 +67,7 @@ class HabitFrequencyWidget extends StatelessWidget {
               (index) => HabitFrequencyDayItem(
                 showBorder: index != 6,
                 day: weekDaysShort[index],
-                isSelected: Provider.of<AddNewHabitController>(
+                isSelected: Provider.of<AddEditHabitController>(
                   context,
                 ).habitFrequencyList[index],
               ),

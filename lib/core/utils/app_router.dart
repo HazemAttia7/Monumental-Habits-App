@@ -5,9 +5,9 @@ import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
-import 'package:pixel_true_app/features/home/presentation/views/add_new_habit_view.dart';
+import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
@@ -51,10 +51,17 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kAddNewHabit,
-        builder: (context, state) => ChangeNotifierProvider(
-          create: (_) => AddNewHabitController(),
-          child: const AddNewHabitView(),
-        ),
+        builder: (context, state) {
+          final args = state.extra as Map<String, dynamic>;
+          return ChangeNotifierProvider(
+            create: (_) => AddEditHabitController(habit: args["habit"]),
+            child: AddEditHabitView(
+              habitFormMode: args["mode"],
+              backToHome: args["backToHome"],
+              themeColor: args["themeColor"],
+            ),
+          );
+        },
       ),
       GoRoute(
         path: kHabitAnalysis,

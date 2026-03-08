@@ -5,12 +5,12 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_divider.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/custom_clickab;e_text.dart';
 import 'package:provider/provider.dart';
 
-class AddReminderHeader extends StatelessWidget {
-  const AddReminderHeader({super.key});
+class AddEditReminderHeader extends StatelessWidget {
+  const AddEditReminderHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class AddReminderHeader extends StatelessWidget {
               CustomClickableText(
                 text: "Save",
                 onTap: () {
-                  Provider.of<AddNewHabitController>(
+                  Provider.of<AddEditHabitController>(
                     context,
                     listen: false,
                   ).addReminder(context);

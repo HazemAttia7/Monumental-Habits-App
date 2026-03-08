@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_reminder_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_edit_reminder_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/am_pm_toggle.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/time_scroll_view.dart';
 
-class AddReminderBottomSheet extends StatelessWidget {
-  const AddReminderBottomSheet({super.key});
+class AddEditReminderBottomSheet extends StatelessWidget {
+  const AddEditReminderBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class AddReminderBottomSheet extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            AddReminderHeader(),
+            AddEditReminderHeader(),
             Expanded(child: TimeScrollView()),
             AmPmToggle(),
           ],
