@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/delete_dialog_actions.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/delete_dialog_message.dart';
@@ -20,10 +21,10 @@ class DeleteDialogBody extends StatelessWidget {
           DeleteDialogMessage(reminderTime: controller.remindersTime[index]),
           SizedBox(height: 24.h),
           DeleteDialogActions(
-            onCancel: () => Navigator.pop(context),
+            onCancel: () => GoRouter.of(context).pop(),
             onDelete: () {
               controller.removeReminder(index);
-              Navigator.pop(context);
+              GoRouter.of(context).pop();
             },
           ),
         ],

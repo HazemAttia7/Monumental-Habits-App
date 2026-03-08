@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 import 'package:pixel_true_app/core/widgets/closable_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
@@ -42,7 +42,7 @@ class HabitCompletionListView extends StatelessWidget {
                         habit.logs[dateKey(
                           weekStart.add(Duration(days: index)),
                         )] ??
-                        enHabitCompletionState.none,
+                        enHabitDailyStatus.none,
                     themeColor: color,
                     onTap: () {
                       final isFutureDay = weekStart

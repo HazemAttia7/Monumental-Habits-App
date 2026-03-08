@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/custom_switcher.dart';
@@ -53,7 +54,7 @@ class _HabitFrequencyBottomSheetState extends State<HabitFrequencyBottomSheet> {
             CustomButton(
               text: "Save",
               onTap: () {
-                Navigator.pop(context);
+                GoRouter.of(context).pop();
               },
             ),
           ],

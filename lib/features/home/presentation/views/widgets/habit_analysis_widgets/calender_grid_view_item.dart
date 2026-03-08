@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_completion_list_view_item.dart';
 
 class CalenderGridViewItem extends StatelessWidget {
   final Color themeColor;
   final int number;
-  final enHabitCompletionState habitCompletionState;
+  final enHabitDailyStatus habitCompletionState;
   final bool isActive;
   final VoidCallback? onTap;
   const CalenderGridViewItem({
     super.key,
     required this.themeColor,
     required this.number,
-    this.habitCompletionState = enHabitCompletionState.none,
+    this.habitCompletionState = enHabitDailyStatus.none,
     this.isActive = false,
     this.onTap,
   });

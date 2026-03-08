@@ -1,4 +1,4 @@
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 
 class Habit {
@@ -6,8 +6,9 @@ class Habit {
   final String name;
   final List<int> frequency; // [0,1,2,3,4,5] = Sun-Sat (DateTime.weekday)
   final List<String> reminders; // ["05:00", "21:00"]
-  final Map<String, enHabitCompletionState>
+  final Map<String, enHabitDailyStatus>
   logs; // {"2025-01-17": HabitStatus.complete}
+  final enHabitStatus status;
 
   Habit({
     required this.id,
@@ -15,6 +16,7 @@ class Habit {
     required this.frequency,
     required this.reminders,
     required this.logs,
+    this.status = enHabitStatus.inProgress,
   });
 
   /// 1–10 score calculated from consistency in the last 30 days
@@ -34,9 +36,9 @@ class Habit {
 
       scheduled++;
       final status = logs[dateKey(day)];
-      if (status == enHabitCompletionState.complete) {
+      if (status == enHabitDailyStatus.complete) {
         completed += 1.0;
-      } else if (status == enHabitCompletionState.partial) {
+      } else if (status == enHabitDailyStatus.partial) {
         completed += 0.5;
       }
     }
@@ -60,10 +62,10 @@ class Habit {
       if (isScheduledOn(cursor)) {
         final key =
             '${cursor.year}-${cursor.month.toString().padLeft(2, '0')}-${cursor.day.toString().padLeft(2, '0')}';
-        final status = logs[key] ?? enHabitCompletionState.none;
+        final status = logs[key] ?? enHabitDailyStatus.none;
 
-        if (status == enHabitCompletionState.complete ||
-            status == enHabitCompletionState.partial) {
+        if (status == enHabitDailyStatus.complete ||
+            status == enHabitDailyStatus.partial) {
           current++;
           if (current > longest) longest = current;
         } else {
@@ -87,10 +89,10 @@ class Habit {
       if (isScheduledOn(cursor)) {
         final key =
             '${cursor.year}-${cursor.month.toString().padLeft(2, '0')}-${cursor.day.toString().padLeft(2, '0')}';
-        final status = logs[key] ?? enHabitCompletionState.none;
+        final status = logs[key] ?? enHabitDailyStatus.none;
 
-        if (status == enHabitCompletionState.complete ||
-            status == enHabitCompletionState.partial) {
+        if (status == enHabitDailyStatus.complete ||
+            status == enHabitDailyStatus.partial) {
           current++;
         } else {
           // hit a missed scheduled day → stop
@@ -129,8 +131,8 @@ class Habit {
 
     // partial counts as 0.5
     final done = scheduledLogs.fold<double>(0, (sum, e) {
-      if (e.value == enHabitCompletionState.complete) return sum + 1.0;
-      if (e.value == enHabitCompletionState.partial) return sum + 0.5;
+      if (e.value == enHabitDailyStatus.complete) return sum + 1.0;
+      if (e.value == enHabitDailyStatus.partial) return sum + 0.5;
       return sum;
     });
 
@@ -147,8 +149,9 @@ class Habit {
       reminders: List<String>.from(json['reminders'] ?? []),
       logs: (json['logs'] as Map<String, dynamic>? ?? {}).map(
         (date, status) =>
-            MapEntry(date, HabitCompletionParser.fromString(status)),
+            MapEntry(date, enHabitDailyStatusParser.fromString(status)),
       ),
+      status: enHabitStatusParser.fromString(json['status'] ?? 'inProgress'),
     );
   }
 
@@ -158,13 +161,15 @@ class Habit {
     'frequency': frequency,
     'reminders': reminders,
     'logs': logs.map((date, status) => MapEntry(date, status.name)),
+    'status': status.name,
   };
 
   Habit copyWith({
     String? name,
     List<int>? frequency,
     List<String>? reminders,
-    Map<String, enHabitCompletionState>? logs,
+    Map<String, enHabitDailyStatus>? logs,
+    enHabitStatus? status,
   }) {
     return Habit(
       id: id,
@@ -172,6 +177,7 @@ class Habit {
       frequency: frequency ?? this.frequency,
       reminders: reminders ?? this.reminders,
       logs: logs ?? this.logs,
+      status: status ?? this.status,
     );
   }
 

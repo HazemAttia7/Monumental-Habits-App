@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 
 class HabitsRemoteDataSource {
   final FirebaseFirestore _firestore;
   HabitsRemoteDataSource({FirebaseFirestore? firestore})
-      : _firestore = firestore ?? FirebaseFirestore.instance;
+    : _firestore = firestore ?? FirebaseFirestore.instance;
 
   CollectionReference _ref(String uid) =>
       _firestore.collection('users').doc(uid).collection('habits');
@@ -31,5 +32,13 @@ class HabitsRemoteDataSource {
     String statusName,
   ) async {
     await _ref(uid).doc(habitId).update({'logs.$dateKey': statusName});
+  }
+
+  Future<void> updateHabitStatus(
+    String uid,
+    String habitId,
+    enHabitStatus status,
+  ) async {
+    await _ref(uid).doc(habitId).update({'status': status.name});
   }
 }

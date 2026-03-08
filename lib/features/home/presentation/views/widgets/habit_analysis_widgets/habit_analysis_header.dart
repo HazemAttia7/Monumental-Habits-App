@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 
@@ -14,7 +15,7 @@ class HabitAnalysisHeader extends StatelessWidget {
       children: [
         CustomIconButton(
           onTap: () {
-            Navigator.pop(context);
+            GoRouter.of(context).pop();
           },
           icon: FontAwesomeIcons.arrowLeft,
           iconColor: themeColor,

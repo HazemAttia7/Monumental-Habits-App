@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_divider.dart';
@@ -62,7 +63,7 @@ class HabitSuggestionsBottomSheet extends StatelessWidget {
                     context,
                     listen: false,
                   ).habitNameController.text = habitSuggestions[index];
-                  Navigator.pop(context);
+                  GoRouter.of(context).pop();
                 },
               ),
             ),

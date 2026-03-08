@@ -9,7 +9,15 @@ final class HabitsLoading extends HomeState {}
 
 final class HabitsLoaded extends HomeState {
   final List<Habit> habits;
-  HabitsLoaded(this.habits);
+  late final List<Habit> inProgressHabits;
+  late final List<Habit> completedHabits;
+  late final List<Habit> missedHabits;
+
+  HabitsLoaded(this.habits) {
+    inProgressHabits = habits.where((h) => h.status == enHabitStatus.inProgress).toList();
+    completedHabits = habits.where((h) => h.status == enHabitStatus.completed).toList();
+    missedHabits = habits.where((h) => h.status == enHabitStatus.missed).toList();
+  }
 }
 
 final class HabitsError extends HomeState {

@@ -52,13 +52,18 @@ const HabitIsarSchema = CollectionSchema(
       name: r'reminders',
       type: IsarType.stringList,
     ),
-    r'uid': PropertySchema(
+    r'status': PropertySchema(
       id: 7,
+      name: r'status',
+      type: IsarType.string,
+    ),
+    r'uid': PropertySchema(
+      id: 8,
       name: r'uid',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -94,6 +99,7 @@ int _habitIsarEstimateSize(
       bytesCount += value.length * 3;
     }
   }
+  bytesCount += 3 + object.status.length * 3;
   bytesCount += 3 + object.uid.length * 3;
   return bytesCount;
 }
@@ -111,8 +117,9 @@ void _habitIsarSerialize(
   writer.writeString(offsets[4], object.logsJson);
   writer.writeString(offsets[5], object.name);
   writer.writeStringList(offsets[6], object.reminders);
-  writer.writeString(offsets[7], object.uid);
-  writer.writeDateTime(offsets[8], object.updatedAt);
+  writer.writeString(offsets[7], object.status);
+  writer.writeString(offsets[8], object.uid);
+  writer.writeDateTime(offsets[9], object.updatedAt);
 }
 
 HabitIsar _habitIsarDeserialize(
@@ -129,8 +136,9 @@ HabitIsar _habitIsarDeserialize(
   object.logsJson = reader.readString(offsets[4]);
   object.name = reader.readString(offsets[5]);
   object.reminders = reader.readStringList(offsets[6]) ?? [];
-  object.uid = reader.readString(offsets[7]);
-  object.updatedAt = reader.readDateTime(offsets[8]);
+  object.status = reader.readString(offsets[7]);
+  object.uid = reader.readString(offsets[8]);
+  object.updatedAt = reader.readDateTime(offsets[9]);
   return object;
 }
 
@@ -158,6 +166,8 @@ P _habitIsarDeserializeProp<P>(
     case 7:
       return (reader.readString(offset)) as P;
     case 8:
+      return (reader.readString(offset)) as P;
+    case 9:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -1086,6 +1096,136 @@ extension HabitIsarQueryFilter
     });
   }
 
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'status',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'status',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'status',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'status',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'status',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'status',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'status',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'status',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'status',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> statusIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'status',
+        value: '',
+      ));
+    });
+  }
+
   QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> uidEqualTo(
     String value, {
     bool caseSensitive = true,
@@ -1338,6 +1478,18 @@ extension HabitIsarQuerySortBy on QueryBuilder<HabitIsar, HabitIsar, QSortBy> {
     });
   }
 
+  QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> sortByStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'status', Sort.asc);
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> sortByStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'status', Sort.desc);
+    });
+  }
+
   QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> sortByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
@@ -1437,6 +1589,18 @@ extension HabitIsarQuerySortThenBy
     });
   }
 
+  QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> thenByStatus() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'status', Sort.asc);
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> thenByStatusDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'status', Sort.desc);
+    });
+  }
+
   QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> thenByUid() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'uid', Sort.asc);
@@ -1509,6 +1673,13 @@ extension HabitIsarQueryWhereDistinct
     });
   }
 
+  QueryBuilder<HabitIsar, HabitIsar, QDistinct> distinctByStatus(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'status', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<HabitIsar, HabitIsar, QDistinct> distinctByUid(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1570,6 +1741,12 @@ extension HabitIsarQueryProperty
   QueryBuilder<HabitIsar, List<String>, QQueryOperations> remindersProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'reminders');
+    });
+  }
+
+  QueryBuilder<HabitIsar, String, QQueryOperations> statusProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'status');
     });
   }
 

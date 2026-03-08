@@ -8,16 +8,18 @@ class HabitIsar {
   Id get id => fastHash(habitId);
 
   late String habitId;
-  late String uid;          // owner — needed for multi-account edge cases
+  late String uid; // owner — needed for multi-account edge cases
   late String name;
   late List<int> frequency;
   late List<String> reminders;
-  late String logsJson;     // Map<String, String> serialized — Isar can't store Maps
+  late String
+  logsJson; // Map<String, String> serialized — Isar can't store Maps
+  late String status;
 
   // Sync metadata
   late bool isSynced;
-  late bool isDeleted;      // soft delete flag
-  late DateTime updatedAt;  // last write wins uses this
+  late bool isDeleted; // soft delete flag
+  late DateTime updatedAt; // last write wins uses this
 }
 
 Id fastHash(String string) {

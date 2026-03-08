@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
@@ -30,7 +30,7 @@ class HomeCubit extends Cubit<HomeState> {
     final habits = (state as HabitsLoaded).habits;
     final habit = habits.firstWhere((h) => h.id == habitId);
     final key = dateKey(date);
-    final current = habit.logs[key] ?? enHabitCompletionState.none;
+    final current = habit.logs[key] ?? enHabitDailyStatus.none;
     final next = current.next();
 
     // Instant UI update
@@ -65,6 +65,20 @@ class HomeCubit extends Cubit<HomeState> {
         emit(HabitsLoaded(updated));
       }
     });
+  }
+
+  Future<void> updateHabitStatus(String habitId, enHabitStatus status) async {
+    if (state is! HabitsLoaded) return;
+    final habits = (state as HabitsLoaded).habits;
+
+    // Instant UI update
+    final updated = habits.map((h) {
+      return h.id == habitId ? h.copyWith(status: status) : h;
+    }).toList();
+    emit(HabitsLoaded(updated));
+
+    // Persist
+    await _repo.updateHabitStatus(_uid, habitId, status);
   }
 
   @override
