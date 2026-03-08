@@ -2,13 +2,77 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/am_pm_enums.dart';
 import 'package:pixel_true_app/core/widgets/closable_snack_bar.dart';
+import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class AddNewHabitController extends ChangeNotifier {
+class AddEditHabitController extends ChangeNotifier {
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;
   enAmPm selectedPeriod = enAmPm.am;
+  bool _isInitialized = false;
+  bool get isInitialized => _isInitialized;
+  List<bool> _previousRemindersBoolList = [];
+  bool get isNotificationOn => _remindersBoolList.any((e) => e);
+
+  void onNotificationToggle(bool isOn) {
+    if (!isOn) {
+      clearReminders();
+    } else {
+      restoreReminders();
+    }
+  }
+
+  Habit? habit;
+
+  AddEditHabitController({this.habit}) {
+    _init();
+  }
+
+  Future<void> _init() async {
+    await loadReminders();
+
+    if (habit != null) {
+      _initializeForEdit();
+    }
+
+    _isInitialized = true;
+    notifyListeners();
+  }
+
+  void _initializeForEdit() {
+    habitNameController.text = habit!.name;
+
+    _isEverydaySwitched = habit!.frequency.length == 7;
+
+    _isWeekendsSwitched =
+        habit!.frequency.contains(6) || habit!.frequency.contains(7);
+
+    _remindersBoolList = _remindersTime.map((time) {
+      final normalized = _normalizeTime(time);
+
+      return habit!.reminders.any((r) => _normalizeTime(r) == normalized);
+    }).toList();
+
+    _habitFrequencyList = List.generate(
+      7,
+      (index) => habit!.frequency.contains(index),
+    );
+
+    notifyListeners();
+  }
+
+  String _normalizeTime(String time) {
+    final parts = time.split(' ');
+    final hm = parts[0].split(':');
+
+    final hour = int.parse(hm[0]);
+    final minute = hm[1].padLeft(2, '0');
+
+    final formattedHour = hour.toString(); // remove leading zero
+
+    return '$formattedHour:$minute ${parts[1]}';
+  }
 
   static const String _remindersTimeKey = 'reminders_time';
 
@@ -16,14 +80,26 @@ class AddNewHabitController extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     final String? timesJson = prefs.getString(_remindersTimeKey);
 
+    /// Load available reminder times
     if (timesJson != null) {
       _remindersTime = List<String>.from(jsonDecode(timesJson));
-      _remindersBoolList = List.generate(
-        _remindersTime.length,
-        (_) => false,
-        growable: true,
-      );
     }
+
+    if (habit != null) {
+      for (var reminder in habit!.reminders) {
+        if (!_remindersTime.contains(_normalizeTime(reminder))) {
+          _insertTimeOrdered(timeToInsert: _normalizeTime(reminder));
+        }
+      }
+    }
+
+    /// Build selection state
+    _remindersBoolList = _remindersTime.map((time) {
+      if (habit != null) {
+        return habit!.reminders.contains(time);
+      }
+      return false;
+    }).toList();
 
     notifyListeners();
   }
@@ -65,11 +141,19 @@ class AddNewHabitController extends ChangeNotifier {
 
   void clearReminders() {
     if (!_remindersBoolList.contains(true)) return;
+    _previousRemindersBoolList = List.from(_remindersBoolList);
     _remindersBoolList = List.generate(
       _remindersTime.length,
       (_) => false,
       growable: true,
     );
+    notifyListeners();
+  }
+
+  void restoreReminders() {
+    if (_previousRemindersBoolList.isEmpty) return;
+    _remindersBoolList = List.from(_previousRemindersBoolList);
+    _previousRemindersBoolList = [];
     notifyListeners();
   }
 

@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_divider.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_suggestion_unit.dart';
 import 'package:provider/provider.dart';
 
@@ -59,7 +59,7 @@ class HabitSuggestionsBottomSheet extends StatelessWidget {
               (index) => HabitSuggestionUnit(
                 text: habitSuggestions[index],
                 onTap: () {
-                  Provider.of<AddNewHabitController>(
+                  Provider.of<AddEditHabitController>(
                     context,
                     listen: false,
                   ).habitNameController.text = habitSuggestions[index];

@@ -42,15 +42,15 @@ class SideMenu extends StatelessWidget {
               icon: FontAwesomeIcons.solidRectangleList,
               title: "Activity Log",
               onTap: () {
-                // TODO : Open Activity Log
+                // TODO : Open Activity Log (Comments , liked comments , posts , like pots , saved courses)
               },
             ),
             Gap(24.h),
             SideMenuListTile(
               icon: FontAwesomeIcons.solidBookmark,
-              title: "Saved Courses",
+              title: "Habits History",
               onTap: () {
-                // TODO : Open Saved Courses
+                // TODO : Open Habits History
               },
             ),
             Gap(24.h),

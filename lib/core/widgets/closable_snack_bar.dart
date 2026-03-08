@@ -85,7 +85,7 @@ class _AnimatedClosableSnackBarState extends State<AnimatedClosableSnackBar>
   }
 }
 
-void buildClosableSnackBar(BuildContext context, {required String message}) {
+void buildClosableSnackBar(BuildContext context, {required String message , Duration duration = const Duration(seconds: 3)}) {
   _dismissTimer?.cancel();
   _snackBarEntry?.remove();
 
@@ -105,7 +105,7 @@ void buildClosableSnackBar(BuildContext context, {required String message}) {
 
   overlay.insert(_snackBarEntry!);
 
-  _dismissTimer = Timer(const Duration(seconds: 3), () {
+  _dismissTimer = Timer(duration, () {
     _snackBarEntry?.remove();
     _snackBarEntry = null;
     _dismissTimer = null;

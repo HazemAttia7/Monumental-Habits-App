@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/delete_dialog_actions.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/delete_dialog_message.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +12,7 @@ class DeleteDialogBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<AddNewHabitController>();
+    final controller = context.read<AddEditHabitController>();
     final index = controller.remindersTime.indexOf(unit);
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),

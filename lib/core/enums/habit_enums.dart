@@ -32,3 +32,9 @@ extension enHabitStatusParser on enHabitStatus {
     );
   }
 }
+
+// ignore: camel_case_types
+enum enHabitFormMode {
+  create,
+  edit,
+}

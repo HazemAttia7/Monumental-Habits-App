@@ -5,7 +5,7 @@ class Habit {
   final String id;
   final String name;
   final List<int> frequency; // [0,1,2,3,4,5] = Sun-Sat (DateTime.weekday)
-  final List<String> reminders; // ["05:00", "21:00"]
+  final List<String> reminders; // ["05:00 AM", "21:00 PM"]
   final Map<String, enHabitDailyStatus>
   logs; // {"2025-01-17": HabitStatus.complete}
   final enHabitStatus status;

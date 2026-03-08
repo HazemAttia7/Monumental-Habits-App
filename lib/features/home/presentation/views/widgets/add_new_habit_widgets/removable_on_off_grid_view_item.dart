@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_new_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/delete_dialog.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/on_off_grid_view_item.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +30,7 @@ class RemovableOnOffGridViewItem extends StatelessWidget {
           showDialog(
             context: context,
             builder: (dialogContext) => ChangeNotifierProvider.value(
-              value: context.read<AddNewHabitController>(),
+              value: context.read<AddEditHabitController>(),
               child: DeleteDialog(unit: unit),
             ),
           );
