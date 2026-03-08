@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/features/home/data/local/habit_isar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 
@@ -8,7 +8,7 @@ extension HabitIsarMapper on HabitIsar {
     final decoded = jsonDecode(logsJson) as Map<String, dynamic>;
     final logs = decoded.map(
       (date, status) =>
-          MapEntry(date, HabitCompletionParser.fromString(status)),
+          MapEntry(date, enHabitDailyStatusParser.fromString(status)),
     );
     return Habit(
       id: habitId,
@@ -16,6 +16,7 @@ extension HabitIsarMapper on HabitIsar {
       frequency: frequency,
       reminders: reminders,
       logs: logs,
+      status: enHabitStatusParser.fromString(status),
     );
   }
 }
@@ -35,6 +36,7 @@ extension HabitDomainMapper on Habit {
       ..logsJson = jsonEncode(logs.map((k, v) => MapEntry(k, v.name)))
       ..isSynced = isSynced
       ..isDeleted = isDeleted
-      ..updatedAt = DateTime.now();
+      ..updatedAt = DateTime.now()
+      ..status = status.name;
   }
 }

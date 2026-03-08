@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_divider.dart';
@@ -23,7 +24,7 @@ class AddReminderHeader extends StatelessWidget {
               CustomClickableText(
                 text: "Cancel",
                 onTap: () {
-                  Navigator.pop(context);
+                  GoRouter.of(context).pop();
                 },
               ),
               Text("Add Reminders", style: AppStyles.textStyle18),
@@ -34,7 +35,7 @@ class AddReminderHeader extends StatelessWidget {
                     context,
                     listen: false,
                   ).addReminder(context);
-                  Navigator.pop(context);
+                  GoRouter.of(context).pop();
                 },
               ),
             ],
@@ -46,7 +47,7 @@ class AddReminderHeader extends StatelessWidget {
           width: double.infinity,
           height: 1.sp,
           margin: 0,
-        ), 
+        ),
       ],
     );
   }

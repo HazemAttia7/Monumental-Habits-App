@@ -1,6 +1,6 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/errors/failure.dart';
 import 'package:pixel_true_app/features/home/data/local/habit_isar_mapper.dart';
 import 'package:pixel_true_app/features/home/data/local/habits_local_data_source.dart';
@@ -85,7 +85,7 @@ class HabitsRepoImpl implements HabitsRepo {
     String uid,
     String habitId,
     String dateKey,
-    enHabitCompletionState status,
+    enHabitDailyStatus status,
   ) async {
     try {
       // 1. Get current habit from local
@@ -104,6 +104,29 @@ class HabitsRepoImpl implements HabitsRepo {
         await _local.markSynced(habitId);
       }
 
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateHabitStatus(
+    String uid,
+    String habitId,
+    enHabitStatus status,
+  ) async {
+    try {
+      final habits = await _local.getHabits(uid);
+      final habit = habits.firstWhere((h) => h.id == habitId);
+      final updated = habit.copyWith(status: status);
+
+      await _local.saveHabit(updated, uid: uid, isSynced: false);
+
+      if (await _isOnline()) {
+        await _remote.updateHabitStatus(uid, habitId, status);
+        await _local.markSynced(habitId);
+      }
       return const Right(unit);
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));

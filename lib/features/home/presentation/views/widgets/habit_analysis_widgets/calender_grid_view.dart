@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/widgets/closable_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
@@ -51,21 +51,21 @@ class CalendarGridView extends StatelessWidget {
         mainAxisSpacing: 8.sp,
         crossAxisSpacing: 6.sp,
       ),
-      itemCount: 42,
+      itemCount: totalCells > 35 ? 42 : 35,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (_, index) {
         if (index > totalCells - 1) {
           return _buildDisabledItem(
             index - totalCells + 1,
-            enHabitCompletionState.none,
+            enHabitDailyStatus.none,
           );
         }
 
         if (index < startOffset) {
           final day = prevMonthDays - startOffset + index + 1;
           final dateKey = _formatDateKey(prevYear, prevMonth, day);
-          final state = habit.logs[dateKey] ?? enHabitCompletionState.none;
+          final state = habit.logs[dateKey] ?? enHabitDailyStatus.none;
           return _buildDisabledItem(day, state);
         }
 
@@ -75,7 +75,7 @@ class CalendarGridView extends StatelessWidget {
           currentDate.month,
           day,
         );
-        final state = habit.logs[dateKey] ?? enHabitCompletionState.none;
+        final state = habit.logs[dateKey] ?? enHabitDailyStatus.none;
 
         final date = DateTime(currentDate.year, currentDate.month, day);
         final weekDay = date.weekday == 7 ? 0 : date.weekday;
@@ -124,7 +124,7 @@ class CalendarGridView extends StatelessWidget {
 
   CalenderGridViewItem _buildDisabledItem(
     int number,
-    enHabitCompletionState state,
+    enHabitDailyStatus state,
   ) {
     return CalenderGridViewItem(
       themeColor: _mutedThemeColor,

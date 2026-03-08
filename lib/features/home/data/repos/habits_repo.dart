@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/errors/failure.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 
@@ -11,6 +11,11 @@ abstract class HabitsRepo {
     String uid,
     String habitId,
     String dateKey,
-    enHabitCompletionState status,
+    enHabitDailyStatus status,
+  );
+  Future<Either<Failure, Unit>> updateHabitStatus(
+    String uid,
+    String habitId,
+    enHabitStatus status,
   );
 }

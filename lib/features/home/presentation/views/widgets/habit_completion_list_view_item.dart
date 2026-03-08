@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pixel_true_app/core/enums/habit_comletion_state_enum.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/rounded_bottom_left_triangle.dart';
 
 class HabitCompletionListViewItem extends StatelessWidget {
   final Color themeColor;
-  final enHabitCompletionState habitCompletionState;
+  final enHabitDailyStatus habitCompletionState;
   final bool isActive;
   final VoidCallback onTap;
   const HabitCompletionListViewItem({
@@ -13,7 +13,7 @@ class HabitCompletionListViewItem extends StatelessWidget {
     required this.themeColor,
     required this.onTap,
     this.isActive = true,
-    this.habitCompletionState = enHabitCompletionState.none,
+    this.habitCompletionState = enHabitDailyStatus.none,
   });
 
   @override
@@ -34,7 +34,7 @@ class HabitCompletionListViewItem extends StatelessWidget {
               height: 50.sp,
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
-                color: habitCompletionState == enHabitCompletionState.none
+                color: habitCompletionState == enHabitDailyStatus.none
                     ? themeColor.withValues(alpha: .1)
                     : themeColor.withValues(alpha: .15),
               ),
@@ -66,13 +66,13 @@ class HabitCompletionListViewItem extends StatelessWidget {
 
   Widget _buildShape() {
     switch (habitCompletionState) {
-      case enHabitCompletionState.partial:
+      case enHabitDailyStatus.partial:
         return RoundedBottomLeftTriangle(
           key: const ValueKey('partial'),
           color: themeColor,
         );
 
-      case enHabitCompletionState.complete:
+      case enHabitDailyStatus.complete:
         return Container(
           key: const ValueKey('complete'),
           decoration: BoxDecoration(
@@ -81,7 +81,7 @@ class HabitCompletionListViewItem extends StatelessWidget {
           ),
         );
 
-      case enHabitCompletionState.none:
+      case enHabitDailyStatus.none:
         return const SizedBox.shrink(key: ValueKey('none'));
     }
   }

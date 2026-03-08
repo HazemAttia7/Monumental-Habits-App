@@ -34,13 +34,13 @@ class AnalyticsDetails extends StatelessWidget {
             mainAxisSpacing: 30.h,
             children: [
               AnalyticsWidget(
-                title: '$longestStreak DAYS',
+                title: _getStreakText(longestStreak),
                 subtitle: 'Longest Streak',
                 icon: FontAwesomeIcons.fireFlameCurved,
                 iconColor: AppColors.morning,
               ),
               AnalyticsWidget(
-                title: '$currentStreak DAYS',
+                title: _getStreakText(currentStreak),
                 subtitle: 'Current Streak',
                 icon: FontAwesomeIcons.bolt,
                 iconColor: AppColors.sunset,
@@ -84,4 +84,10 @@ class AnalyticsDetails extends StatelessWidget {
     );
   }
 
+  String _getStreakText(int streak) {
+    if (streak == 1) {
+      return '$streak DAY';
+    }
+    return '$streak DAYS';
+  }
 }

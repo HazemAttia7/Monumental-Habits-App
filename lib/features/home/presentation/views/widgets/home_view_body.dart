@@ -64,7 +64,7 @@ class HomeViewBody extends StatelessWidget {
                   );
                 }
                 final List<Habit> habits = state is HabitsLoaded
-                    ? state.habits
+                    ? state.inProgressHabits
                     : state is HabitsLoading
                     ? List.generate(
                         4,
