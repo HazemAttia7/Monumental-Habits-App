@@ -35,7 +35,6 @@ class HabitAnalysisViewBody extends StatelessWidget {
               child: HabitSummarySection(habit: habit, themeColor: themeColor),
             ),
             Gap(16.h),
-            // TODO : Revise & Study implemented logic here
             Padding(
               padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
               child: CalendarSection(habit : habit,themeColor: themeColor),
