@@ -47,7 +47,7 @@ class SideMenu extends StatelessWidget {
             ),
             Gap(24.h),
             SideMenuListTile(
-              icon: FontAwesomeIcons.solidBookmark,
+              icon: FontAwesomeIcons.clockRotateLeft,
               title: "Habits History",
               onTap: () {
                 // TODO : Open Habits History
