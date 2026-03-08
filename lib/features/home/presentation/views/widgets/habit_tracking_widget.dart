@@ -96,7 +96,7 @@ class HabitTrackingWidget extends StatelessWidget {
                   width: 50.sp,
                   height: 50.sp,
                   decoration: BoxDecoration(
-                    color: Colors.black.withValues(alpha: .1),
+                    color: color.withValues(alpha: .1),
                     borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
