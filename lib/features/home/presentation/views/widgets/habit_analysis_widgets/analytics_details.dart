@@ -5,7 +5,15 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/analytics_widget.dart';
 
 class AnalyticsDetails extends StatelessWidget {
-  const AnalyticsDetails({super.key});
+  final int longestStreak, currentStreak, easeinessScore;
+  final double completionRate;
+  const AnalyticsDetails({
+    super.key,
+    required this.longestStreak,
+    required this.currentStreak,
+    required this.easeinessScore,
+    required this.completionRate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,27 +32,27 @@ class AnalyticsDetails extends StatelessWidget {
             childAspectRatio: 2.6,
             crossAxisSpacing: 30.w,
             mainAxisSpacing: 30.h,
-            children: const [
+            children: [
               AnalyticsWidget(
-                title: '20 DAYS',
+                title: '$longestStreak DAYS',
                 subtitle: 'Longest Streak',
                 icon: FontAwesomeIcons.fireFlameCurved,
                 iconColor: AppColors.morning,
               ),
               AnalyticsWidget(
-                title: '0 DAYS',
+                title: '$currentStreak DAYS',
                 subtitle: 'Current Streak',
                 icon: FontAwesomeIcons.bolt,
                 iconColor: AppColors.sunset,
               ),
               AnalyticsWidget(
-                title: '98 %',
+                title: '${completionRate.toStringAsFixed(0)} %',
                 subtitle: 'Completion Ratio',
                 icon: FontAwesomeIcons.chartSimple,
                 iconColor: AppColors.twilight,
               ),
               AnalyticsWidget(
-                title: '7',
+                title: easeinessScore.toString(),
                 subtitle: 'Average Easiness Score',
                 icon: FontAwesomeIcons.leaf,
                 iconColor: AppColors.fog,
@@ -75,4 +83,5 @@ class AnalyticsDetails extends StatelessWidget {
       ],
     );
   }
+
 }

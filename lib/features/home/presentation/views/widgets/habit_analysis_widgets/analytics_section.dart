@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
+import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/analytics_details.dart';
 
 class AnalyticsSection extends StatelessWidget {
-  const AnalyticsSection({super.key, required this.themeColor});
+  final Habit habit;
   final Color themeColor;
+  const AnalyticsSection({
+    super.key,
+    required this.themeColor,
+    required this.habit,
+  });
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -35,7 +43,21 @@ class AnalyticsSection extends StatelessWidget {
             ),
           ),
           Gap(22.h),
-          const AnalyticsDetails(),
+          BlocSelector<HomeCubit, HomeState, Habit?>(
+            selector: (state) => state is HabitsLoaded
+                ? state.habits.firstWhere((h) => h.id == habit.id)
+                : null,
+            builder: (context, currentHabit) {
+              final h = currentHabit ?? habit;
+
+              return AnalyticsDetails(
+                longestStreak: h.longestStreak,
+                currentStreak: h.currentStreak,
+                easeinessScore: h.easinessScore,
+                completionRate: h.completionRate,
+              );
+            },
+          ),
           Gap(24.h),
           CustomButton(
             onTap: () {
