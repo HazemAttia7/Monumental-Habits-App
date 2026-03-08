@@ -28,6 +28,7 @@ class CalendarGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final today = DateTime.now();
     final firstDay = DateTime(currentDate.year, currentDate.month, 1);
     final daysInMonth = DateTime(
       currentDate.year,
@@ -50,7 +51,7 @@ class CalendarGridView extends StatelessWidget {
         mainAxisSpacing: 8.sp,
         crossAxisSpacing: 6.sp,
       ),
-      itemCount: 35,
+      itemCount: 42,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (_, index) {
@@ -86,10 +87,10 @@ class CalendarGridView extends StatelessWidget {
           isActive: true,
           onTap: () {
             final isInFrequency = habit.frequency.contains(weekDay);
-            final isFutureDay = date.isAfter(DateTime.now());
+            final isFutureDay = date.isAfter(today);
             final isInCurrentMonth =
-                currentDate.year == DateTime.now().year &&
-                currentDate.month == DateTime.now().month;
+                currentDate.year == today.year &&
+                currentDate.month == today.month;
 
             if (!isInCurrentMonth) {
               buildClosableSnackBar(
