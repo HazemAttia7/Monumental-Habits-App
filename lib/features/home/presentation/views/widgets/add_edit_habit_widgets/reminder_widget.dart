@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/reminder_bottom_sheet.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/reminder_bottom_sheet.dart';
 import 'package:pixel_true_app/core/widgets/clickable_text_icon_widget.dart';
 import 'package:provider/provider.dart';
 

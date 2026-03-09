@@ -47,7 +47,7 @@ class SummaryColumn extends StatelessWidget {
     if (frequency.length == 7) {
       return 'Repeat everyday';
     }
-    return '${frequency[0]} - ${frequency[1]}  days a week';
+    return '${frequency.length}  days a week';
   }
 
   String _getRemindersText(List<String> reminders) {

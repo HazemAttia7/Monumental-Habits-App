@@ -18,4 +18,5 @@ abstract class HabitsRepo {
     String habitId,
     enHabitStatus status,
   );
+  Future<Either<Failure, Unit>> updateHabit(String uid, Habit habit);
 }

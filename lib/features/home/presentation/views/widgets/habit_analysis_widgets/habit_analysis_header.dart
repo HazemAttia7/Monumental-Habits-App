@@ -6,6 +6,8 @@ import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:provider/provider.dart';
 
 class HabitAnalysisHeader extends StatelessWidget {
   final Color themeColor;
@@ -39,6 +41,7 @@ class HabitAnalysisHeader extends StatelessWidget {
                 "backToHome": () => GoRouter.of(context).pop(),
                 "themeColor": themeColor,
                 "habit": habit,
+                "homeCubit": context.read<HomeCubit>(),
               },
             );
           },

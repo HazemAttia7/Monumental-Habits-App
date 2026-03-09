@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/bordered_button.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/bordered_button.dart';
 
 class DeleteDialogActions extends StatelessWidget {
   final VoidCallback onCancel;

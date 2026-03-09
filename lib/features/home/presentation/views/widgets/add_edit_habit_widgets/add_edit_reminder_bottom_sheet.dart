@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_edit_reminder_header.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/am_pm_toggle.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/time_scroll_view.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/add_edit_reminder_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/am_pm_toggle.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/time_scroll_view.dart';
 
 class AddEditReminderBottomSheet extends StatelessWidget {
   const AddEditReminderBottomSheet({super.key});

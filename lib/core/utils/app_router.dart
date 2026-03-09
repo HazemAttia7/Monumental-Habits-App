@@ -53,12 +53,16 @@ abstract class AppRouter {
         path: kAddNewHabit,
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>;
-          return ChangeNotifierProvider(
-            create: (_) => AddEditHabitController(habit: args["habit"]),
-            child: AddEditHabitView(
-              habitFormMode: args["mode"],
-              backToHome: args["backToHome"],
-              themeColor: args["themeColor"],
+          final homeCubit = args["homeCubit"] as HomeCubit;
+          return BlocProvider.value(
+            value: homeCubit,
+            child : ChangeNotifierProvider(
+              create: (_) => AddEditHabitController(habit: args["habit"]),
+              child: AddEditHabitView(
+                habitFormMode: args["mode"],
+                backToHome: args["backToHome"],
+                themeColor: args["themeColor"],
+              ),
             ),
           );
         },

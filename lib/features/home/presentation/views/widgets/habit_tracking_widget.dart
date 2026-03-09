@@ -50,10 +50,13 @@ class HabitTrackingWidget extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Text(
-                      habit.name,
-                      style: AppStyles.textStyle14.copyWith(
-                        fontWeight: FontWeight.w900,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 10.w),
+                      child: Text(
+                        habit.name,
+                        style: AppStyles.textStyle14.copyWith(
+                          fontWeight: FontWeight.w900,
+                        ),
                       ),
                     ),
                   ),

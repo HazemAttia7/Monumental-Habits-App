@@ -81,6 +81,19 @@ class HomeCubit extends Cubit<HomeState> {
     await _repo.updateHabitStatus(_uid, habitId, status);
   }
 
+  Future<void> updateHabit(Habit habit) async {
+    if (state is! HabitsLoaded) return;
+    final habits = (state as HabitsLoaded).habits;
+
+    // Instant UI update
+    emit(
+      HabitsLoaded(habits.map((h) => h.id == habit.id ? habit : h).toList()),
+    );
+
+    // Persist
+    await _repo.updateHabit(_uid, habit);
+  }
+
   @override
   Future<void> close() {
     _debounceTimer?.cancel();

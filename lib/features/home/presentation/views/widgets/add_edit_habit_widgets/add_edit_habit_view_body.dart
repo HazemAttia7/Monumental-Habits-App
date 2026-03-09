@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_edit_habit_header.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_widget.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_name_input.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/notifications_widget.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/reminder_widget.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/add_edit_habit_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_frequency_widget.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_name_input.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_status_segmented_button.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/notifications_widget.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/reminder_widget.dart';
+import 'package:provider/provider.dart';
 
 class AddEditHabitViewBody extends StatelessWidget {
   final VoidCallback? backToHome;
@@ -50,11 +56,22 @@ class AddEditHabitViewBody extends StatelessWidget {
               Gap(24.h),
               if (mode == enHabitFormMode.edit)
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // TODO : Add segmented button to switch between habit status (complete or missed or in progress)
+                    HabitStatusSegmentedButton(themeColor: themeColor),
+                    Gap(12.h),
                     CustomButton(
                       onTap: () {
-                        // TODO : Update Habit
+                        final updatedHabit = context
+                            .read<AddEditHabitController>()
+                            .buildUpdatedHabit();
+                        context.read<HomeCubit>().updateHabit(updatedHabit);
+                        buildSuccessSnackBar(
+                          context,
+                          message: 'Habit updated successfully',
+                        );
+                        GoRouter.of(context).pop();
+                        backToHome?.call();
                       },
                       text: "Update Habit",
                       backColor: themeColor,

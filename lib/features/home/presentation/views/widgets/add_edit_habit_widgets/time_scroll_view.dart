@@ -5,7 +5,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/flat_scroll_picker.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/flat_scroll_picker.dart';
 import 'package:provider/provider.dart';
 
 class TimeScrollView extends StatelessWidget {

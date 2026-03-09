@@ -133,6 +133,24 @@ class HabitsRepoImpl implements HabitsRepo {
     }
   }
 
+  @override
+  Future<Either<Failure, Unit>> updateHabit(String uid, Habit habit) async {
+    try {
+      // Save locally first
+      await _local.saveHabit(habit, uid: uid, isSynced: false);
+
+      // Sync if online
+      if (await _isOnline()) {
+        await _remote.saveHabit(uid, habit);
+        await _local.markSynced(habit.id);
+      }
+
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
+
   // ── Sync helpers ────────────────────────────────────────────
 
   /// Push all local unsynced changes to Firestore
