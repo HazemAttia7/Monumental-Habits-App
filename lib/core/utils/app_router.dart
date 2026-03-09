@@ -7,6 +7,7 @@ import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/habit_analysis_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
@@ -56,7 +57,7 @@ abstract class AppRouter {
           final homeCubit = args["homeCubit"] as HomeCubit;
           return BlocProvider.value(
             value: homeCubit,
-            child : ChangeNotifierProvider(
+            child: ChangeNotifierProvider(
               create: (_) => AddEditHabitController(habit: args["habit"]),
               child: AddEditHabitView(
                 habitFormMode: args["mode"],
@@ -78,7 +79,10 @@ abstract class AppRouter {
 
           return BlocProvider.value(
             value: cubit,
-            child: HabitAnalysisView(habit: habit, themeColor: themeColor),
+            child: ChangeNotifierProvider(
+              create: (_) => HabitAnalysisController(),
+              child: HabitAnalysisView(habit: habit, themeColor: themeColor),
+            ),
           );
         },
       ),
