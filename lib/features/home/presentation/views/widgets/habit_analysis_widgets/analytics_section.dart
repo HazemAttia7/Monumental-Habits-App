@@ -15,11 +15,30 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_an
 class AnalyticsSection extends StatelessWidget {
   final Habit habit;
   final Color themeColor;
+
   const AnalyticsSection({
     super.key,
     required this.themeColor,
     required this.habit,
   });
+
+  Color get _buttonTextColor =>
+      ThemeData.estimateBrightnessForColor(themeColor) == Brightness.dark
+      ? Colors.white
+      : AppColors.primaryColor;
+
+  void _updateStatus(BuildContext context, enHabitStatus status) {
+    context.read<HomeCubit>().updateHabitStatus(habit.id, status);
+    buildSuccessSnackBar(
+      context,
+      message:
+          '"${habit.name}" marked as ${status == enHabitStatus.completed ? 'Completed' : 'Missed'}.'
+          ' View/Edit from your Habits History.',
+      duration: const Duration(seconds: 5),
+    );
+    GoRouter.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -52,7 +71,6 @@ class AnalyticsSection extends StatelessWidget {
                 : null,
             builder: (context, currentHabit) {
               final h = currentHabit ?? habit;
-
               return AnalyticsDetails(
                 longestStreak: h.longestStreak,
                 currentStreak: h.currentStreak,
@@ -63,42 +81,14 @@ class AnalyticsSection extends StatelessWidget {
           ),
           Gap(24.h),
           CustomButton(
-            onTap: () {
-              context.read<HomeCubit>().updateHabitStatus(
-                habit.id,
-                enHabitStatus.completed,
-              );
-              buildSuccessSnackBar(
-                context,
-                message:
-                    '"${habit.name}" marked as Completed. View/Edit from your Habits History.',
-                duration: const Duration(seconds: 5),
-              );
-              GoRouter.of(context).pop();
-            },
+            onTap: () => _updateStatus(context, enHabitStatus.completed),
             text: "Mark Habit as Complete",
             backColor: themeColor,
-            textColor:
-                ThemeData.estimateBrightnessForColor(themeColor) ==
-                    Brightness.dark
-                ? Colors.white
-                : AppColors.primaryColor,
+            textColor: _buttonTextColor,
           ),
           Gap(10.h),
           CustomButton(
-            onTap: () {
-              context.read<HomeCubit>().updateHabitStatus(
-                habit.id,
-                enHabitStatus.missed,
-              );
-              buildSuccessSnackBar(
-                context,
-                message:
-                    '"${habit.name}" marked as Missed. View/Edit from your Habits History.',
-                duration: const Duration(seconds: 5),
-              );
-              GoRouter.of(context).pop();
-            },
+            onTap: () => _updateStatus(context, enHabitStatus.missed),
             text: "Mark Habit as Missed",
             backColor: Colors.white,
             splashColor: themeColor,

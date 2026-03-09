@@ -5,11 +5,12 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/habit_analysis_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/calender_grid_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/month_actions.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/week_days_row.dart';
 
-class CalendarSection extends StatefulWidget {
+class CalendarSection extends StatelessWidget {
   final Habit habit;
   final Color themeColor;
   const CalendarSection({
@@ -19,14 +20,8 @@ class CalendarSection extends StatefulWidget {
   });
 
   @override
-  State<CalendarSection> createState() => _CalendarSectionState();
-}
-
-class _CalendarSectionState extends State<CalendarSection> {
-  DateTime _currentDate = DateTime(DateTime.now().year, DateTime.now().month, 1);
-
-  @override
   Widget build(BuildContext context) {
+    final controller = context.read<HabitAnalysisController>();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 12.h),
       decoration: BoxDecoration(
@@ -38,21 +33,9 @@ class _CalendarSectionState extends State<CalendarSection> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: MonthActions(
-              onNextTap: () => setState(() {
-                _currentDate = DateTime(
-                  _currentDate.year,
-                  _currentDate.month + 1,
-                  1,
-                );
-              }),
-              onBackTap: () => setState(() {
-                _currentDate = DateTime(
-                  _currentDate.year,
-                  _currentDate.month - 1,
-                  1,
-                );
-              }),
-              month: monthName(_currentDate.month),
+              onNextTap: controller.onNextTap ,
+              onBackTap:controller.onBackTap,
+              month: monthName(controller.currentDate.month),
             ),
           ),
           Gap(16.h),
@@ -61,13 +44,12 @@ class _CalendarSectionState extends State<CalendarSection> {
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               if (state is! HabitsLoaded) return const SizedBox.shrink();
-              final habit = state.habits.firstWhere(
-                (h) => h.id == widget.habit.id,
+              final loadedHabit = state.habits.firstWhere(
+                (h) => h.id == habit.id,
               );
               return CalendarGridView(
-                habit: habit,
-                themeColor: widget.themeColor,
-                currentDate: _currentDate,
+                habit: loadedHabit,
+                themeColor: themeColor,
               );
             },
           ),
