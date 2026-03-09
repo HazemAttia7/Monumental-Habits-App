@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/home_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
@@ -61,12 +60,9 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
     const Center(child: Text("Courses View")),
     const Center(child: Text("Community View")),
     const Center(child: Text("Settings View")),
-    ChangeNotifierProvider(
-      create: (_) => AddEditHabitController(),
-      child: AddEditHabitView(
-        backToHome: backToHome,
-        habitFormMode: enHabitFormMode.create,
-      ),
+    AddEditHabitView(
+      backToHome: backToHome,
+      habitFormMode: enHabitFormMode.create,
     ),
   ];
 
@@ -81,16 +77,11 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   void activateFloatingButton() {
-    if (!_isActive) {
-      _currentPage = MainPage.home;
-      _isActive = true;
-      _showStartPopup = true;
-
-      pageController.jumpToPage(_indexOf(MainPage.addHabit));
-      notifyListeners();
-    } else {
-      // TODO: Save habit to Firebase
-    }
+    _currentPage = MainPage.home;
+    _isActive = true;
+    _showStartPopup = true;
+    pageController.jumpToPage(_indexOf(MainPage.addHabit));
+    notifyListeners();
   }
 
   void backToHome() {

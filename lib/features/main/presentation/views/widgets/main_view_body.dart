@@ -4,35 +4,21 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_floating_button.dart';
 import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
 import 'package:pixel_true_app/features/main/presentation/views/widgets/message_popup.dart';
+import 'package:provider/provider.dart';
 
-class MainViewBody extends StatefulWidget {
+class MainViewBody extends StatelessWidget {
   const MainViewBody({super.key});
 
   @override
-  State<MainViewBody> createState() => _MainViewBodyState();
-}
-
-class _MainViewBodyState extends State<MainViewBody> {
-  late MainViewController controller;
-
-  @override
-  void initState() {
-    controller = MainViewController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    controller.disposeController();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final controller = context.watch<MainViewController>();
     return ListenableBuilder(
       listenable: controller,
       builder: (context, _) {
@@ -77,7 +63,28 @@ class _MainViewBodyState extends State<MainViewBody> {
                           MessagePopup(onClose: controller.closePopup),
                         Gap(10.h),
                         CustomFloatingButton(
-                          onTap: controller.activateFloatingButton,
+                          onTap: () {
+                            final mainController = context
+                                .read<MainViewController>();
+
+                            if (!mainController.isActive) {
+                              mainController.activateFloatingButton();
+                            } else {
+                              final addEditController = context
+                                  .read<AddEditHabitController>();
+                              if (!addEditController.validate(context)) return;
+                              final habit = addEditController.buildNewHabit();
+                              context.read<HomeCubit>().addHabit(habit);
+                              buildSuccessSnackBar(
+                                context,
+                                message:
+                                    "Habit added successfully. View/Edit from your Habits History.",
+                                duration: const Duration(seconds: 5),
+                              );
+                              addEditController.reset();
+                              mainController.backToHome();
+                            }
+                          },
                           isActive: controller.isActive,
                         ),
                       ],

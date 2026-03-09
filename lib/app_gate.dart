@@ -7,10 +7,12 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/auth/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
+import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
 import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
 import 'package:pixel_true_app/features/main/presentation/views/main_view.dart';
 import 'package:provider/provider.dart';
+
 class AppGate extends StatelessWidget {
   const AppGate({super.key});
 
@@ -25,7 +27,10 @@ class AppGate extends StatelessWidget {
                 HomeCubit(sl<HabitsRepo>(), state.user.uid)..fetchHabits(),
             child: ChangeNotifierProvider(
               create: (_) => MainViewController(),
-              child: const MainView(),
+              child: ChangeNotifierProvider(
+                create: (_) => AddEditHabitController()..loadReminders(),
+                child: const MainView(),
+              ),
             ),
           );
         } else if (state is Unauthenticated || state is AuthLoading) {

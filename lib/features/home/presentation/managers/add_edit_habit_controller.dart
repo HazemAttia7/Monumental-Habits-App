@@ -5,8 +5,8 @@ import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:uuid/uuid.dart';
 
-//TODO : implement add habit logic
 class AddEditHabitController extends ChangeNotifier {
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
@@ -102,6 +102,39 @@ class AddEditHabitController extends ChangeNotifier {
   void changeStatus(Set<enHabitStatus> status) {
     _status = status.first;
     notifyListeners();
+  }
+
+  Habit buildNewHabit() {
+    final reminders = <String>[];
+    for (int i = 0; i < _remindersBoolList.length; i++) {
+      if (_remindersBoolList[i]) reminders.add(_remindersTime[i]);
+    }
+
+    final frequency = <int>[];
+    for (int i = 0; i < _habitFrequencyList.length; i++) {
+      if (_habitFrequencyList[i]) frequency.add(i);
+    }
+
+    return Habit(
+      id: const Uuid().v4(),
+      name: habitNameController.text.trim(),
+      frequency: frequency,
+      reminders: reminders,
+      logs: {},
+      status: enHabitStatus.inProgress,
+    );
+  }
+
+  bool validate(BuildContext context) {
+    if (habitNameController.text.trim().isEmpty) {
+      buildClosableSnackBar(context, message: 'Habit name is required');
+      return false;
+    }
+    if (_habitFrequencyList.every((e) => !e)) {
+      buildClosableSnackBar(context, message: 'Select at least one day');
+      return false;
+    }
+    return true;
   }
 
   Habit buildUpdatedHabit() {
@@ -332,6 +365,31 @@ class AddEditHabitController extends ChangeNotifier {
 
   String getSelectedAmPmText() => selectedPeriod == enAmPm.am ? 'AM' : 'PM';
 
+  void reset() {
+    habitNameController.clear();
+    _habitFrequencyList = List.generate(7, (_) => false);
+    _isEverydaySwitched = false;
+    _isWeekendsSwitched = false;
+    _isNotificationOn = false;
+    _previousRemindersBoolList = [];
+    _remindersBoolList = List.generate(
+      _remindersTime.length,
+      (_) => false,
+      growable: true,
+    );
+    _status = enHabitStatus.inProgress;
+    selectedPeriod = enAmPm.am;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    habitNameController.dispose();
+    hoursController.dispose();
+    minutesController.dispose();
+    super.dispose();
+  }
+
   String _getHoursSelectedText() {
     final index = hoursController.selectedItem;
     final value = (index % 12 + 1);
@@ -342,13 +400,5 @@ class AddEditHabitController extends ChangeNotifier {
     final index = minutesController.selectedItem;
     final value = index % 60;
     return value.toString().padLeft(2, '0');
-  }
-
-  @override
-  void dispose() {
-    habitNameController.dispose();
-    hoursController.dispose();
-    minutesController.dispose();
-    super.dispose();
   }
 }
