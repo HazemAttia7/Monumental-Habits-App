@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/custom_switcher.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/habit_frequency_grid_view.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/custom_switcher.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_frequency_grid_view.dart';
 
 class HabitFrequencyBottomSheet extends StatefulWidget {
   const HabitFrequencyBottomSheet({super.key});

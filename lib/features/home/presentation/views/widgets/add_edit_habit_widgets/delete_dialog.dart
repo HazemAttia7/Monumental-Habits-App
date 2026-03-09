@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/delete_dialog_body.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/delete_dialog_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/delete_dialog_body.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/delete_dialog_header.dart';
 
 class DeleteDialog extends StatelessWidget {
   final String unit;

@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
-import 'package:pixel_true_app/core/widgets/closable_snack_bar.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
@@ -68,7 +68,7 @@ class AnalyticsSection extends StatelessWidget {
                 habit.id,
                 enHabitStatus.completed,
               );
-              buildClosableSnackBar(
+              buildSuccessSnackBar(
                 context,
                 message:
                     '"${habit.name}" marked as Completed. View/Edit from your Habits History.',
@@ -91,7 +91,7 @@ class AnalyticsSection extends StatelessWidget {
                 habit.id,
                 enHabitStatus.missed,
               );
-              buildClosableSnackBar(
+              buildSuccessSnackBar(
                 context,
                 message:
                     '"${habit.name}" marked as Missed. View/Edit from your Habits History.',

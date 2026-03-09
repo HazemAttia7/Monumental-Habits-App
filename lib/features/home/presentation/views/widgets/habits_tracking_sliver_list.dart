@@ -22,7 +22,11 @@ class HabitsTrackingSliverList extends StatelessWidget {
         ? SliverFillRemaining(
             child: SizedBox(
               child: Center(
-                child: Text('No habits yet', style: AppStyles.textStyle17),
+                child: Text(
+                  "No active habits yet. Add one to get started.",
+                  textAlign: TextAlign.center,
+                  style: AppStyles.textStyle17,
+                ),
               ),
             ),
           )

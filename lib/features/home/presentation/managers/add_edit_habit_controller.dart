@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/am_pm_enums.dart';
-import 'package:pixel_true_app/core/widgets/closable_snack_bar.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//TODO : implement add habit logic
 class AddEditHabitController extends ChangeNotifier {
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
@@ -13,7 +15,10 @@ class AddEditHabitController extends ChangeNotifier {
   bool _isInitialized = false;
   bool get isInitialized => _isInitialized;
   List<bool> _previousRemindersBoolList = [];
-  bool get isNotificationOn => _remindersBoolList.any((e) => e);
+  bool _isNotificationOn = false;
+  bool get isNotificationOn => _isNotificationOn;
+  enHabitStatus _status = enHabitStatus.inProgress;
+  enHabitStatus get status => _status;
 
   void onNotificationToggle(bool isOn) {
     /* TODO :
@@ -28,10 +33,12 @@ class AddEditHabitController extends ChangeNotifier {
       2. Do NOT schedule new notifications.
       3. Reminder time can stay visible but becomes inactive logically.
     */
+    _isNotificationOn = isOn;
     if (!isOn) {
       clearReminders();
     } else {
       restoreReminders();
+      notifyListeners();
     }
   }
 
@@ -53,12 +60,16 @@ class AddEditHabitController extends ChangeNotifier {
   }
 
   void _initializeForEdit() {
+    _status = habit!.status;
+
     habitNameController.text = habit!.name;
 
     _isEverydaySwitched = habit!.frequency.length == 7;
 
     _isWeekendsSwitched =
         habit!.frequency.contains(6) || habit!.frequency.contains(7);
+
+    _isNotificationOn = habit!.reminders.isNotEmpty;
 
     _remindersBoolList = _remindersTime.map((time) {
       final normalized = _normalizeTime(time);
@@ -87,6 +98,35 @@ class AddEditHabitController extends ChangeNotifier {
   }
 
   static const String _remindersTimeKey = 'reminders_time';
+
+  void changeStatus(Set<enHabitStatus> status) {
+    _status = status.first;
+    notifyListeners();
+  }
+
+  Habit buildUpdatedHabit() {
+    final reminders = <String>[];
+
+    for (int i = 0; i < _remindersBoolList.length; i++) {
+      if (_remindersBoolList[i]) {
+        reminders.add(_remindersTime[i]);
+      }
+    }
+
+    final frequency = <int>[];
+    for (int i = 0; i < _habitFrequencyList.length; i++) {
+      if (_habitFrequencyList[i]) {
+        frequency.add(i);
+      }
+    }
+
+    return habit!.copyWith(
+      name: habitNameController.text.trim(),
+      frequency: frequency,
+      reminders: reminders,
+      status: _status,
+    );
+  }
 
   Future<void> loadReminders() async {
     final prefs = await SharedPreferences.getInstance();
@@ -242,7 +282,9 @@ class AddEditHabitController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeReminder(int index) {
+  void removeReminder(String time) {
+    final index = _remindersTime.indexOf(time);
+    if (index == -1) return;
     _remindersTime.removeAt(index);
     _remindersBoolList.removeAt(index);
     _saveReminders();

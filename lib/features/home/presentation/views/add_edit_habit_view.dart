@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/add_edit_habit_view_body.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/add_edit_habit_view_body.dart';
 
 class AddEditHabitView extends StatelessWidget {
   final VoidCallback? backToHome;

@@ -8,16 +8,22 @@ import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 OverlayEntry? _snackBarEntry;
 Timer? _dismissTimer;
 
-class AnimatedClosableSnackBar extends StatefulWidget {
+class AnimatedSnackBar extends StatefulWidget {
   final String message;
-  const AnimatedClosableSnackBar({super.key, required this.message});
+  final Color backColor;
+  final IconData icon;
+  const AnimatedSnackBar({
+    super.key,
+    required this.message,
+    required this.backColor,
+    required this.icon,
+  });
 
   @override
-  State<AnimatedClosableSnackBar> createState() =>
-      _AnimatedClosableSnackBarState();
+  State<AnimatedSnackBar> createState() => _AnimatedSnackBarState();
 }
 
-class _AnimatedClosableSnackBarState extends State<AnimatedClosableSnackBar>
+class _AnimatedSnackBarState extends State<AnimatedSnackBar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
@@ -50,7 +56,7 @@ class _AnimatedClosableSnackBarState extends State<AnimatedClosableSnackBar>
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
         decoration: BoxDecoration(
-          color: AppColors.primaryColor,
+          color: widget.backColor,
           borderRadius: BorderRadius.circular(8.r),
         ),
         child: Row(
@@ -63,7 +69,7 @@ class _AnimatedClosableSnackBarState extends State<AnimatedClosableSnackBar>
                 _snackBarEntry?.remove();
                 _snackBarEntry = null;
               },
-              icon: Icons.close,
+              icon: widget.icon,
               backColor: Colors.white,
               shape: BoxShape.rectangle,
             ),
@@ -85,7 +91,11 @@ class _AnimatedClosableSnackBarState extends State<AnimatedClosableSnackBar>
   }
 }
 
-void buildClosableSnackBar(BuildContext context, {required String message , Duration duration = const Duration(seconds: 3)}) {
+void buildClosableSnackBar(
+  BuildContext context, {
+  required String message,
+  Duration duration = const Duration(seconds: 3),
+}) {
   _dismissTimer?.cancel();
   _snackBarEntry?.remove();
 
@@ -98,7 +108,46 @@ void buildClosableSnackBar(BuildContext context, {required String message , Dura
       right: 16.w,
       child: Material(
         color: Colors.transparent,
-        child: AnimatedClosableSnackBar(message: message),
+        child: AnimatedSnackBar(
+          message: message,
+          backColor: AppColors.primaryColor,
+          icon: Icons.close,
+        ),
+      ),
+    ),
+  );
+
+  overlay.insert(_snackBarEntry!);
+
+  _dismissTimer = Timer(duration, () {
+    _snackBarEntry?.remove();
+    _snackBarEntry = null;
+    _dismissTimer = null;
+  });
+}
+
+void buildSuccessSnackBar(
+  BuildContext context, {
+  required String message,
+  Duration duration = const Duration(seconds: 3),
+}) {
+  _dismissTimer?.cancel();
+  _snackBarEntry?.remove();
+
+  final overlay = Overlay.of(context, rootOverlay: true);
+
+  _snackBarEntry = OverlayEntry(
+    builder: (_) => Positioned(
+      bottom: 20.h,
+      left: 16.w,
+      right: 16.w,
+      child: Material(
+        color: Colors.transparent,
+        child: AnimatedSnackBar(
+          message: message,
+          backColor: const Color(0xFF2E7D32),
+          icon: Icons.check,
+        ),
       ),
     ),
   );

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_new_habit_widgets/on_off_grid_view_item.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/on_off_grid_view_item.dart';
 
 class HabitFrequencyGridView extends StatelessWidget {
   const HabitFrequencyGridView({super.key});
