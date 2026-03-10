@@ -15,6 +15,7 @@ class HabitIsar {
   late String
   logsJson; // Map<String, String> serialized — Isar can't store Maps
   late String status;
+  late DateTime createdAt;
 
   // Sync metadata
   late bool isSynced;

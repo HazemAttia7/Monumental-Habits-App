@@ -4,7 +4,13 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class DeleteDialogHeader extends StatelessWidget {
-  const DeleteDialogHeader({super.key});
+  final String itemType;
+  final IconData headerIcon;
+  const DeleteDialogHeader({
+    super.key,
+    required this.itemType,
+    required this.headerIcon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +36,11 @@ class DeleteDialogHeader extends StatelessWidget {
               color: Colors.white.withValues(alpha: .2),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              Icons.notifications_off_rounded,
-              color: Colors.white,
-              size: 28.sp,
-            ),
+            child: Icon(headerIcon, color: Colors.white, size: 28.sp),
           ),
           SizedBox(height: 10.h),
           Text(
-            'Delete Reminder',
+            'Delete ${_capitalize(itemType)}',
             style: AppStyles.textStyle16.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -48,5 +50,10 @@ class DeleteDialogHeader extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _capitalize(String text) {
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
   }
 }
