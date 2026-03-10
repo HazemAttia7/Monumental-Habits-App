@@ -3,8 +3,12 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class DeleteDialogMessage extends StatelessWidget {
-  final String reminderTime;
-  const DeleteDialogMessage({super.key, required this.reminderTime});
+  final String itemLabel, collectionLabel;
+  const DeleteDialogMessage({
+    super.key,
+    required this.itemLabel,
+    required this.collectionLabel,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +22,13 @@ class DeleteDialogMessage extends StatelessWidget {
         children: [
           const TextSpan(text: 'Are you sure you want to remove\n'),
           TextSpan(
-            text: '"$reminderTime"',
+            text: '"$itemLabel"',
             style: AppStyles.textStyle16.copyWith(
               color: AppColors.primaryColor,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const TextSpan(text: ' from your reminders?'),
+          TextSpan(text: ' from your $collectionLabel?'),
         ],
       ),
     );

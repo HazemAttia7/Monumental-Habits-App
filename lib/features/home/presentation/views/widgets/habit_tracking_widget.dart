@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_completion_list_view.dart';
 import 'package:redacted/redacted.dart';
 
@@ -29,6 +32,28 @@ class HabitTrackingWidget extends StatelessWidget {
       borderRadius: BorderRadius.circular(12.r),
       child: InkWell(
         borderRadius: BorderRadius.circular(12.r),
+        onLongPress: () {
+          showDialog(
+            context: context,
+            builder: (dialogContext) => BlocProvider.value(
+              value: context.read<HomeCubit>(),
+              child: DeleteDialog(
+                onDelete: () {
+                  context.read<HomeCubit>().deleteHabit(habit.id);
+                  buildSuccessSnackBar(
+                    context,
+                    message: '"${habit.name}" deleted successfully.',
+                  );
+                  GoRouter.of(context).pop();
+                },
+                headerIcon: FontAwesomeIcons.xmark,
+                itemLabel: habit.name,
+                collectionLabel: 'habits',
+                itemType: 'habit',
+              ),
+            ),
+          );
+        },
         onTap: () {
           GoRouter.of(context).push(
             AppRouter.kHabitAnalysis,

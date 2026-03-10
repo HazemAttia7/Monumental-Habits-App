@@ -17,6 +17,7 @@ extension HabitIsarMapper on HabitIsar {
       reminders: reminders,
       logs: logs,
       status: enHabitStatusParser.fromString(status),
+      createdAt: createdAt,
     );
   }
 }
@@ -37,6 +38,7 @@ extension HabitDomainMapper on Habit {
       ..isSynced = isSynced
       ..isDeleted = isDeleted
       ..updatedAt = DateTime.now()
-      ..status = status.name;
+      ..status = status.name
+      ..createdAt = createdAt;
   }
 }

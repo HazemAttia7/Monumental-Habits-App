@@ -21,7 +21,7 @@ class CalendarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<HabitAnalysisController>();
+    final controller = context.watch<HabitAnalysisController>();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 12.h),
       decoration: BoxDecoration(

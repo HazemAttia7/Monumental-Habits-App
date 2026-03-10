@@ -21,7 +21,11 @@ class HomeCubit extends Cubit<HomeState> {
     final result = await _repo.getHabits(_uid);
     result.fold(
       (failure) => emit(HabitsError(failure.errMessage)),
-      (habits) => emit(HabitsLoaded(habits)),
+      (habits) => emit(
+        HabitsLoaded(
+          habits..sort((a, b) => a.createdAt.compareTo(b.createdAt)),
+        ),
+      ),
     );
   }
 

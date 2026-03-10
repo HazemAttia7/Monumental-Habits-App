@@ -1,12 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/delete_dialog_body.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/delete_dialog_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog_body.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog_header.dart';
 
 class DeleteDialog extends StatelessWidget {
-  final String unit;
-  const DeleteDialog({super.key, required this.unit});
+  final String itemLabel, collectionLabel, itemType;
+  final IconData headerIcon;
+  final VoidCallback onDelete;
+  const DeleteDialog({
+    super.key,
+    required this.onDelete,
+    required this.headerIcon,
+    required this.itemLabel,
+    required this.collectionLabel,
+    required this.itemType,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +37,12 @@ class DeleteDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const DeleteDialogHeader(),
-            DeleteDialogBody(unit: unit),
+            DeleteDialogHeader(headerIcon: headerIcon, itemType: itemType),
+            DeleteDialogBody(
+              onDelete: onDelete,
+              itemLabel: itemLabel,
+              collectionLabel: collectionLabel,
+            ),
           ],
         ),
       ),

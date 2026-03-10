@@ -17,53 +17,58 @@ const HabitIsarSchema = CollectionSchema(
   name: r'HabitIsar',
   id: 8869242832082541991,
   properties: {
-    r'frequency': PropertySchema(
+    r'createdAt': PropertySchema(
       id: 0,
+      name: r'createdAt',
+      type: IsarType.dateTime,
+    ),
+    r'frequency': PropertySchema(
+      id: 1,
       name: r'frequency',
       type: IsarType.longList,
     ),
     r'habitId': PropertySchema(
-      id: 1,
+      id: 2,
       name: r'habitId',
       type: IsarType.string,
     ),
     r'isDeleted': PropertySchema(
-      id: 2,
+      id: 3,
       name: r'isDeleted',
       type: IsarType.bool,
     ),
     r'isSynced': PropertySchema(
-      id: 3,
+      id: 4,
       name: r'isSynced',
       type: IsarType.bool,
     ),
     r'logsJson': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'logsJson',
       type: IsarType.string,
     ),
     r'name': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'name',
       type: IsarType.string,
     ),
     r'reminders': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'reminders',
       type: IsarType.stringList,
     ),
     r'status': PropertySchema(
-      id: 7,
+      id: 8,
       name: r'status',
       type: IsarType.string,
     ),
     r'uid': PropertySchema(
-      id: 8,
+      id: 9,
       name: r'uid',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 9,
+      id: 10,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -110,16 +115,17 @@ void _habitIsarSerialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  writer.writeLongList(offsets[0], object.frequency);
-  writer.writeString(offsets[1], object.habitId);
-  writer.writeBool(offsets[2], object.isDeleted);
-  writer.writeBool(offsets[3], object.isSynced);
-  writer.writeString(offsets[4], object.logsJson);
-  writer.writeString(offsets[5], object.name);
-  writer.writeStringList(offsets[6], object.reminders);
-  writer.writeString(offsets[7], object.status);
-  writer.writeString(offsets[8], object.uid);
-  writer.writeDateTime(offsets[9], object.updatedAt);
+  writer.writeDateTime(offsets[0], object.createdAt);
+  writer.writeLongList(offsets[1], object.frequency);
+  writer.writeString(offsets[2], object.habitId);
+  writer.writeBool(offsets[3], object.isDeleted);
+  writer.writeBool(offsets[4], object.isSynced);
+  writer.writeString(offsets[5], object.logsJson);
+  writer.writeString(offsets[6], object.name);
+  writer.writeStringList(offsets[7], object.reminders);
+  writer.writeString(offsets[8], object.status);
+  writer.writeString(offsets[9], object.uid);
+  writer.writeDateTime(offsets[10], object.updatedAt);
 }
 
 HabitIsar _habitIsarDeserialize(
@@ -129,16 +135,17 @@ HabitIsar _habitIsarDeserialize(
   Map<Type, List<int>> allOffsets,
 ) {
   final object = HabitIsar();
-  object.frequency = reader.readLongList(offsets[0]) ?? [];
-  object.habitId = reader.readString(offsets[1]);
-  object.isDeleted = reader.readBool(offsets[2]);
-  object.isSynced = reader.readBool(offsets[3]);
-  object.logsJson = reader.readString(offsets[4]);
-  object.name = reader.readString(offsets[5]);
-  object.reminders = reader.readStringList(offsets[6]) ?? [];
-  object.status = reader.readString(offsets[7]);
-  object.uid = reader.readString(offsets[8]);
-  object.updatedAt = reader.readDateTime(offsets[9]);
+  object.createdAt = reader.readDateTime(offsets[0]);
+  object.frequency = reader.readLongList(offsets[1]) ?? [];
+  object.habitId = reader.readString(offsets[2]);
+  object.isDeleted = reader.readBool(offsets[3]);
+  object.isSynced = reader.readBool(offsets[4]);
+  object.logsJson = reader.readString(offsets[5]);
+  object.name = reader.readString(offsets[6]);
+  object.reminders = reader.readStringList(offsets[7]) ?? [];
+  object.status = reader.readString(offsets[8]);
+  object.uid = reader.readString(offsets[9]);
+  object.updatedAt = reader.readDateTime(offsets[10]);
   return object;
 }
 
@@ -150,24 +157,26 @@ P _habitIsarDeserializeProp<P>(
 ) {
   switch (propertyId) {
     case 0:
-      return (reader.readLongList(offset) ?? []) as P;
+      return (reader.readDateTime(offset)) as P;
     case 1:
-      return (reader.readString(offset)) as P;
+      return (reader.readLongList(offset) ?? []) as P;
     case 2:
-      return (reader.readBool(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
       return (reader.readBool(offset)) as P;
     case 4:
-      return (reader.readString(offset)) as P;
+      return (reader.readBool(offset)) as P;
     case 5:
       return (reader.readString(offset)) as P;
     case 6:
-      return (reader.readStringList(offset) ?? []) as P;
-    case 7:
       return (reader.readString(offset)) as P;
+    case 7:
+      return (reader.readStringList(offset) ?? []) as P;
     case 8:
       return (reader.readString(offset)) as P;
     case 9:
+      return (reader.readString(offset)) as P;
+    case 10:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -263,6 +272,60 @@ extension HabitIsarQueryWhere
 
 extension HabitIsarQueryFilter
     on QueryBuilder<HabitIsar, HabitIsar, QFilterCondition> {
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> createdAtEqualTo(
+      DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition>
+      createdAtGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> createdAtLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition> createdAtBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
   QueryBuilder<HabitIsar, HabitIsar, QAfterFilterCondition>
       frequencyElementEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
@@ -1418,6 +1481,18 @@ extension HabitIsarQueryLinks
     on QueryBuilder<HabitIsar, HabitIsar, QFilterCondition> {}
 
 extension HabitIsarQuerySortBy on QueryBuilder<HabitIsar, HabitIsar, QSortBy> {
+  QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> sortByHabitId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'habitId', Sort.asc);
@@ -1517,6 +1592,18 @@ extension HabitIsarQuerySortBy on QueryBuilder<HabitIsar, HabitIsar, QSortBy> {
 
 extension HabitIsarQuerySortThenBy
     on QueryBuilder<HabitIsar, HabitIsar, QSortThenBy> {
+  QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
   QueryBuilder<HabitIsar, HabitIsar, QAfterSortBy> thenByHabitId() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'habitId', Sort.asc);
@@ -1628,6 +1715,12 @@ extension HabitIsarQuerySortThenBy
 
 extension HabitIsarQueryWhereDistinct
     on QueryBuilder<HabitIsar, HabitIsar, QDistinct> {
+  QueryBuilder<HabitIsar, HabitIsar, QDistinct> distinctByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdAt');
+    });
+  }
+
   QueryBuilder<HabitIsar, HabitIsar, QDistinct> distinctByFrequency() {
     return QueryBuilder.apply(this, (query) {
       return query.addDistinctBy(r'frequency');
@@ -1699,6 +1792,12 @@ extension HabitIsarQueryProperty
   QueryBuilder<HabitIsar, int, QQueryOperations> idProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<HabitIsar, DateTime, QQueryOperations> createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
     });
   }
 

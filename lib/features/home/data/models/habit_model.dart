@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 
@@ -9,6 +10,7 @@ class Habit {
   final Map<String, enHabitDailyStatus>
   logs; // {"2025-01-17": HabitStatus.complete}
   final enHabitStatus status;
+  final DateTime createdAt;
 
   Habit({
     required this.id,
@@ -17,7 +19,8 @@ class Habit {
     required this.reminders,
     required this.logs,
     this.status = enHabitStatus.inProgress,
-  });
+    DateTime? createdAt,
+  }) : createdAt = createdAt ?? DateTime.now();
 
   /// 1–10 score calculated from consistency in the last 30 days
   int get easinessScore {
@@ -152,6 +155,7 @@ class Habit {
             MapEntry(date, enHabitDailyStatusParser.fromString(status)),
       ),
       status: enHabitStatusParser.fromString(json['status'] ?? 'inProgress'),
+      createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }
 
@@ -162,6 +166,7 @@ class Habit {
     'reminders': reminders,
     'logs': logs.map((date, status) => MapEntry(date, status.name)),
     'status': status.name,
+    'createdAt': Timestamp.fromDate(createdAt),
   };
 
   Habit copyWith({
@@ -170,6 +175,7 @@ class Habit {
     List<String>? reminders,
     Map<String, enHabitDailyStatus>? logs,
     enHabitStatus? status,
+    DateTime? createdAt,
   }) {
     return Habit(
       id: id,
@@ -178,6 +184,7 @@ class Habit {
       reminders: reminders ?? this.reminders,
       logs: logs ?? this.logs,
       status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 
