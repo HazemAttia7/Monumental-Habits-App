@@ -1,5 +1,5 @@
 # Monumental Habits
 
-A new Flutter project.
+A Habit Builder project.
 
 ## Work In Progress
