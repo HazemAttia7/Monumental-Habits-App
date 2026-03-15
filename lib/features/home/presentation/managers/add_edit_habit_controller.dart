@@ -21,18 +21,6 @@ class AddEditHabitController extends ChangeNotifier {
   enHabitStatus get status => _status;
 
   void onNotificationToggle(bool isOn) {
-    /* TODO :
-      If the toggle is ON:
-      1. The app schedules a local notification.
-      2. It uses the selected Reminder time (e.g., 10:00 AM).
-      3. It respects the selected habit frequency days (Sun, Mon, Tue…).
-      4. The user receives a push/local notification at that time.
-      -------------------------------------------------------------------
-      If the toggle is OFF:
-      1. Cancel any previously scheduled notifications for this habit.
-      2. Do NOT schedule new notifications.
-      3. Reminder time can stay visible but becomes inactive logically.
-    */
     _isNotificationOn = isOn;
     if (!isOn) {
       clearReminders();
@@ -295,17 +283,7 @@ class AddEditHabitController extends ChangeNotifier {
     await prefs.setString(_remindersTimeKey, jsonEncode(_remindersTime));
   }
 
-  bool isRemindersListFull(BuildContext context) {
-    if (remindersTime.length >= 12) {
-      buildClosableSnackBar(context, message: 'Reminders limit reached');
-      return true;
-    }
-    return false;
-  }
-
   void addReminder(BuildContext context) {
-    if (isRemindersListFull(context)) return;
-
     final String hour = _getHoursSelectedText();
     final String minutes = _getMinutesSelectedText();
     final time = '$hour:$minutes ${getSelectedAmPmText()}';

@@ -10,14 +10,15 @@ import 'package:pixel_true_app/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  NotificationService().init();
+  final notificationService = NotificationService();
   await Future.wait([
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
     dotenv.load(),
     IsarService.getInstance(),
   ]);
+  await notificationService.init();
   // // For testing purposes
   // Prefs.setSeenOnboarding(value: false);
-  await setupServiceLocator();
+  await setupServiceLocator(notificationService: notificationService);
   runApp(const MonumentalHabits());
 }

@@ -15,7 +15,11 @@ class ReminderBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.read<AddEditHabitController>();
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
+      height: screenHeight * 0.9,
       padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -24,72 +28,76 @@ class ReminderBottomSheet extends StatelessWidget {
           topRight: Radius.circular(12.r),
         ),
       ),
-      child: Center(
-        child: Column(
-          children: [
-            Text(
-              "Long Press to Delete",
-              style: AppStyles.textStyle14.copyWith(
-                color: AppColors.sunset.withValues(alpha: .5),
-                fontWeight: FontWeight.bold,
-              ),
+      child: Column(
+        children: [
+          Container(
+            width: 40.w,
+            height: 4.h,
+            margin: EdgeInsets.only(bottom: 12.h),
+            decoration: BoxDecoration(
+              color: AppColors.primaryColor.withValues(alpha: .2),
+              borderRadius: BorderRadius.circular(2.r),
             ),
-            Gap(12.h),
-            const RemindersGridView(),
-            Gap(25.h),
-            Row(
-              children: [
-                Expanded(
-                  flex: 4,
-                  child: CustomButton(
-                    text: "Add Reminder",
-                    onTap: () {
-                      final controller = context.read<AddEditHabitController>();
-                      if (controller.isRemindersListFull(context)) return;
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (_) => ChangeNotifierProvider.value(
-                          value: controller,
-                          child: const AddEditReminderBottomSheet(),
-                        ),
-                      );
-                    },
-                  ),
+          ),
+          Text(
+            "Long Press to Delete",
+            style: AppStyles.textStyle14.copyWith(
+              color: AppColors.sunset.withValues(alpha: .5),
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          Gap(12.h),
+          const Expanded(
+            child: SingleChildScrollView(child: RemindersGridView()),
+          ),
+          Gap(25.h),
+          Row(
+            children: [
+              Expanded(
+                flex: 4,
+                child: CustomButton(
+                  text: "Add Reminder",
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (_) => ChangeNotifierProvider.value(
+                        value: controller,
+                        child: const AddEditReminderBottomSheet(),
+                      ),
+                    );
+                  },
                 ),
-                Gap(12.w),
-                Expanded(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8.r),
-                      onTap: Provider.of<AddEditHabitController>(
-                        context,
-                        listen: false,
-                      ).clearReminders,
-                      child: Container(
-                        height: 60.h,
-                        foregroundDecoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8.r),
-                          border: Border.all(
-                            width: 3.sp,
-                            color: AppColors.primaryColor.withValues(alpha: .3),
-                          ),
+              ),
+              Gap(12.w),
+              Expanded(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(8.r),
+                    onTap: controller.clearReminders,
+                    child: Container(
+                      height: 60.h,
+                      foregroundDecoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(
+                          width: 3.sp,
+                          color: AppColors.primaryColor.withValues(alpha: .3),
                         ),
-                        child: Center(
-                          child: Icon(
-                            MonumentalHabitsIcons.mute_notifications,
-                            color: AppColors.primaryColor.withValues(alpha: .3),
-                            size: 26.sp,
-                          ),
+                      ),
+                      child: Center(
+                        child: Icon(
+                          MonumentalHabitsIcons.mute_notifications,
+                          color: AppColors.primaryColor.withValues(alpha: .3),
+                          size: 26.sp,
                         ),
                       ),
                     ),
                   ),
                 ),
-              ],
-            ),
-          ],
-        ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }

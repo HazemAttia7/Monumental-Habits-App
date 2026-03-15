@@ -48,10 +48,13 @@ class AddEditHabitViewBody extends StatelessWidget {
               Gap(24.h),
               const HabitNameInput(),
               Gap(10.h),
+              // TODO : make it use themeColor
               const HabitFrequencyWidget(),
               Gap(10.h),
+              // TODO : make it use themeColor
               const ReminderWidget(),
               Gap(10.h),
+              // TODO : make it use themeColor
               const NotificationsWidget(),
               Gap(24.h),
               if (mode == enHabitFormMode.edit)
