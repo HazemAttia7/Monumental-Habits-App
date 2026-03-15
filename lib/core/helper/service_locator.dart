@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:pixel_true_app/core/services/isar_service.dart';
+import 'package:pixel_true_app/core/services/notification_service.dart';
 import 'package:pixel_true_app/features/home/data/local/habits_local_data_source.dart';
 import 'package:pixel_true_app/features/home/data/remote/habits_remote_data_source.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
@@ -13,9 +14,13 @@ import 'package:pixel_true_app/features/auth/data/repos/user_profile_repo_impl.d
 
 final sl = GetIt.instance;
 
-Future<void> setupServiceLocator() async {
+Future<void> setupServiceLocator({
+  required NotificationService notificationService,
+}) async {
+  // ── Services ───────────────────────────────────────────────
   sl.registerSingleton<Isar>(IsarService.instance);
   sl.registerSingleton<Connectivity>(Connectivity());
+  sl.registerSingleton<NotificationService>(notificationService);
 
   sl.registerSingleton<HabitsLocalDataSource>(
     HabitsLocalDataSource(sl<Isar>()),

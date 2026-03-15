@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
+import 'package:pixel_true_app/core/services/notification_service.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
@@ -24,7 +25,7 @@ class AppGate extends StatelessWidget {
         if (state is Authenticated) {
           return BlocProvider(
             create: (_) =>
-                HomeCubit(sl<HabitsRepo>(), state.user.uid)..fetchHabits(),
+                HomeCubit(sl<HabitsRepo>(), state.user.uid ,  sl<NotificationService>(),)..fetchHabits(),
             child: ChangeNotifierProvider(
               create: (_) => MainViewController(),
               child: ChangeNotifierProvider(

@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
+import 'package:pixel_true_app/core/services/notification_service.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
 
@@ -13,20 +14,26 @@ class HomeCubit extends Cubit<HomeState> {
   final HabitsRepo _repo;
   final String _uid;
   Timer? _debounceTimer;
+  final NotificationService _notificationService;
 
-  HomeCubit(this._repo, this._uid) : super(HomeInitial());
+  HomeCubit(this._repo, this._uid, this._notificationService)
+    : super(HomeInitial());
 
   Future<void> fetchHabits() async {
     emit(HabitsLoading());
     final result = await _repo.getHabits(_uid);
-    result.fold(
-      (failure) => emit(HabitsError(failure.errMessage)),
-      (habits) => emit(
+    result.fold((failure) => emit(HabitsError(failure.errMessage)), (habits) {
+      emit(
         HabitsLoaded(
           habits..sort((a, b) => a.createdAt.compareTo(b.createdAt)),
         ),
-      ),
-    );
+      );
+      for (final habit in habits) {
+        if (habit.reminders.isNotEmpty) {
+          _notificationService.scheduleHabitReminders(habit);
+        }
+      }
+    });
   }
 
   void cycleHabitStatus(String habitId, DateTime date) {
@@ -56,10 +63,14 @@ class HomeCubit extends Cubit<HomeState> {
       if (state is HabitsLoaded) {
         emit(HabitsLoaded([...(state as HabitsLoaded).habits, habit]));
       }
+      if (habit.reminders.isNotEmpty) {
+        _notificationService.scheduleHabitReminders(habit);
+      }
     });
   }
 
   Future<void> deleteHabit(String habitId) async {
+    await _notificationService.cancelHabitReminders(habitId);
     final result = await _repo.deleteHabit(_uid, habitId);
     result.fold((failure) => emit(HabitsError(failure.errMessage)), (_) {
       if (state is HabitsLoaded) {
@@ -96,6 +107,13 @@ class HomeCubit extends Cubit<HomeState> {
 
     // Persist
     await _repo.updateHabit(_uid, habit);
+    if (habit.reminders.isNotEmpty) {
+      // Reschedule with new reminders/frequency
+      await _notificationService.scheduleHabitReminders(habit);
+    } else {
+      // User turned off notifications → cancel all
+      await _notificationService.cancelHabitReminders(habit.id);
+    }
   }
 
   @override
