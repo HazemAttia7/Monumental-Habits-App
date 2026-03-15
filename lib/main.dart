@@ -4,11 +4,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pixel_true_app/app.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/services/isar_service.dart';
+import 'package:pixel_true_app/core/services/notification_service.dart';
 // import 'package:pixel_true_app/core/utils/prefs.dart';
 import 'package:pixel_true_app/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  NotificationService().init();
   await Future.wait([
     Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform),
     dotenv.load(),
