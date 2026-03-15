@@ -6,11 +6,12 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 class AnimatedOffOnButton extends StatelessWidget {
   final bool isOn;
   final Function(bool isOn) onTap;
-
+  final Color themeColor;
   const AnimatedOffOnButton({
     super.key,
     required this.onTap,
     required this.isOn,
+    this.themeColor = AppColors.secondaryColor,
   });
 
   @override
@@ -28,7 +29,7 @@ class AnimatedOffOnButton extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 4.h),
           decoration: BoxDecoration(
             color: isOn
-                ? AppColors.secondaryColor.withValues(alpha: .1)
+                ? themeColor.withValues(alpha: .1)
                 : AppColors.primaryColor.withValues(alpha: .1),
             borderRadius: BorderRadius.circular(9999.r),
           ),
@@ -48,9 +49,7 @@ class AnimatedOffOnButton extends StatelessWidget {
                       key: ValueKey(isOn),
                       style: AppStyles.textStyle12.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: isOn
-                            ? AppColors.secondaryColor
-                            : AppColors.primaryColor,
+                        color: isOn ? themeColor : AppColors.primaryColor,
                       ),
                     ),
                   ),
@@ -65,18 +64,13 @@ class AnimatedOffOnButton extends StatelessWidget {
                   width: 22.sp,
                   height: 22.sp,
                   decoration: BoxDecoration(
-                    color: isOn
-                        ? AppColors.secondaryColor
-                        : AppColors.primaryColor,
+                    color: isOn ? themeColor : AppColors.primaryColor,
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
                         offset: const Offset(-2, 2),
-                        color:
-                            (isOn
-                                    ? AppColors.secondaryColor
-                                    : AppColors.primaryColor)
-                                .withValues(alpha: .5),
+                        color: (isOn ? themeColor : AppColors.primaryColor)
+                            .withValues(alpha: .5),
                         blurRadius: 6,
                       ),
                     ],

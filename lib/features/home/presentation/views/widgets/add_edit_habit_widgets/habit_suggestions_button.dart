@@ -7,7 +7,8 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit
 import 'package:provider/provider.dart';
 
 class HabitSuggestionsButton extends StatelessWidget {
-  const HabitSuggestionsButton({super.key});
+  final Color? themeColor;
+  const HabitSuggestionsButton({super.key, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class HabitSuggestionsButton extends StatelessWidget {
             right: -5.sp,
             child: Icon(
               FontAwesomeIcons.circlePlus,
-              color: AppColors.morning,
+              color: themeColor ?? AppColors.morning,
               size: 20.sp,
             ),
           ),

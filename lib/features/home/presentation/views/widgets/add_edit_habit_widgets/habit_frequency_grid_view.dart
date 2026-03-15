@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/on_off_grid_view_item.dart';
 
 class HabitFrequencyGridView extends StatelessWidget {
-  const HabitFrequencyGridView({super.key});
+  final Color? themeColor;
+  const HabitFrequencyGridView({super.key, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,7 @@ class HabitFrequencyGridView extends StatelessWidget {
         day: index == 7 ? 'Sat' : weekDaysShort[index],
         isOn: controller.habitFrequencyList[index],
         onTap: (value) => controller.onDayChanged(index, value),
+        themeColor: themeColor ?? AppColors.secondaryColor,
       ),
       itemCount: 7,
       shrinkWrap: true,

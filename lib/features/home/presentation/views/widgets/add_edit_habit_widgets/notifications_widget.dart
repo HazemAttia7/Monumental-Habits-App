@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/animated_off_on_button.dart';
 import 'package:provider/provider.dart';
 
 class NotificationsWidget extends StatelessWidget {
-  const NotificationsWidget({super.key});
+  final Color? themeColor;
+  const NotificationsWidget({super.key, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class NotificationsWidget extends StatelessWidget {
             style: AppStyles.textStyle16.copyWith(fontWeight: FontWeight.w500),
           ),
           AnimatedOffOnButton(
+            themeColor: themeColor ?? AppColors.secondaryColor,
             onTap: controller.onNotificationToggle,
             isOn: controller.isNotificationOn,
           ),

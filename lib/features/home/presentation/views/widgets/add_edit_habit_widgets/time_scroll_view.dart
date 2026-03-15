@@ -9,7 +9,8 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit
 import 'package:provider/provider.dart';
 
 class TimeScrollView extends StatelessWidget {
-  const TimeScrollView({super.key});
+  final Color themeColor;
+  const TimeScrollView({super.key, this.themeColor = AppColors.secondaryColor});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class TimeScrollView extends StatelessWidget {
               height: timePickerItemHeight.h,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.r),
-                color: AppColors.secondaryColor.withValues(alpha: 0.12),
+                color: themeColor.withValues(alpha: 0.12),
               ),
             ),
           ),
