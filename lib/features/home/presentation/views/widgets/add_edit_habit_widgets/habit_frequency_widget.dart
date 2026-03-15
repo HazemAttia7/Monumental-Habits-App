@@ -12,7 +12,8 @@ import 'package:pixel_true_app/core/widgets/clickable_text_icon_widget.dart';
 import 'package:provider/provider.dart';
 
 class HabitFrequencyWidget extends StatelessWidget {
-  const HabitFrequencyWidget({super.key});
+  final Color? themeColor;
+  const HabitFrequencyWidget({super.key, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +39,7 @@ class HabitFrequencyWidget extends StatelessWidget {
                 ClickableTextIconWidget(
                   text: 'Custom',
                   icon: FontAwesomeIcons.chevronRight,
-                  color: AppColors.secondaryColor,
+                  color: themeColor ?? AppColors.secondaryColor,
                   onTap: () {
                     showModalBottomSheet(
                       isScrollControlled: true,
@@ -47,8 +48,8 @@ class HabitFrequencyWidget extends StatelessWidget {
                       builder: (bottomSheetContext) {
                         return ChangeNotifierProvider.value(
                           value: context.read<AddEditHabitController>(),
-                          child: const Wrap(
-                            children: [HabitFrequencyBottomSheet()],
+                          child:  Wrap(
+                            children: [HabitFrequencyBottomSheet(themeColor: themeColor)],
                           ),
                         );
                       },
@@ -65,6 +66,7 @@ class HabitFrequencyWidget extends StatelessWidget {
             children: List.generate(
               7,
               (index) => HabitFrequencyDayItem(
+                themeColor: themeColor ?? AppColors.morning,
                 showBorder: index != 6,
                 day: weekDaysShort[index],
                 isSelected: Provider.of<AddEditHabitController>(

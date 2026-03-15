@@ -9,7 +9,8 @@ import 'package:pixel_true_app/core/widgets/clickable_text_icon_widget.dart';
 import 'package:provider/provider.dart';
 
 class ReminderWidget extends StatelessWidget {
-  const ReminderWidget({super.key});
+  final Color? themeColor;
+  const ReminderWidget({super.key, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class ReminderWidget extends StatelessWidget {
                   context,
                 ).getRemindersText(),
                 icon: FontAwesomeIcons.chevronRight,
-                color: AppColors.secondaryColor,
+                color: themeColor ?? AppColors.secondaryColor,
                 onTap: () {
                   showModalBottomSheet(
                     isScrollControlled: true,
@@ -51,7 +52,7 @@ class ReminderWidget extends StatelessWidget {
                     builder: (bottomSheetContext) {
                       return ChangeNotifierProvider.value(
                         value: context.read<AddEditHabitController>(),
-                        child: const Wrap(children: [ReminderBottomSheet()]),
+                        child:  Wrap(children: [ReminderBottomSheet(themeColor : themeColor)]),
                       );
                     },
                   );

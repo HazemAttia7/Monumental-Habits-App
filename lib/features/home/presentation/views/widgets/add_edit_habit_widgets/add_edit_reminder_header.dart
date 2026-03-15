@@ -6,11 +6,12 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_divider.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/custom_clickab;e_text.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/custom_clickable_text.dart';
 import 'package:provider/provider.dart';
 
 class AddEditReminderHeader extends StatelessWidget {
-  const AddEditReminderHeader({super.key});
+  final Color? themeColor;
+  const AddEditReminderHeader({super.key, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +27,12 @@ class AddEditReminderHeader extends StatelessWidget {
                 onTap: () {
                   GoRouter.of(context).pop();
                 },
+                textColor: themeColor ?? AppColors.secondaryColor,
               ),
               Text("Add Reminders", style: AppStyles.textStyle18),
               CustomClickableText(
                 text: "Save",
+                textColor: themeColor ?? AppColors.secondaryColor,
                 onTap: () {
                   Provider.of<AddEditHabitController>(
                     context,

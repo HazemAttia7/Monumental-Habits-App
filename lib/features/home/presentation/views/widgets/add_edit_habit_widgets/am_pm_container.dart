@@ -7,20 +7,24 @@ class AmPmContainer extends StatelessWidget {
   final String period;
   final bool isSelected;
   final VoidCallback toggle;
+  final Color themeColor;
   const AmPmContainer({
     super.key,
     required this.period,
-    this.isSelected = false, required this.toggle,
+    this.isSelected = false,
+    required this.toggle,
+    this.themeColor = AppColors.secondaryColor,
   });
+
+  Color get _buttonTextColor =>
+      ThemeData.estimateBrightnessForColor(themeColor) == Brightness.dark
+      ? Colors.white
+      : AppColors.primaryColor;
 
   @override
   Widget build(BuildContext context) {
-    final Color textColor = isSelected
-        ? AppColors.primaryColor
-        : AppColors.secondaryColor;
-    final Color backColor = isSelected
-        ? AppColors.secondaryColor
-        : AppColors.scaffoldColor;
+    final Color textColor = isSelected ? _buttonTextColor : themeColor;
+    final Color backColor = isSelected ? themeColor : AppColors.scaffoldColor;
     return Material(
       color: backColor,
       child: InkWell(

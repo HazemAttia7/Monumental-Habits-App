@@ -8,11 +8,13 @@ class OnOffGridViewItem extends StatelessWidget {
   final bool isOn;
   final String day;
   final Function(bool) onTap;
+  final Color themeColor;
   const OnOffGridViewItem({
     super.key,
     required this.day,
     required this.isOn,
     required this.onTap,
+    this.themeColor = AppColors.secondaryColor,
   });
 
   @override
@@ -21,7 +23,7 @@ class OnOffGridViewItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15.sp),
       decoration: BoxDecoration(
         color: isOn
-            ? AppColors.secondaryColor.withValues(alpha: .1)
+            ? themeColor.withValues(alpha: .1)
             : AppColors.primaryColor.withValues(alpha: .2),
         borderRadius: BorderRadius.circular(12.r),
       ),
@@ -32,10 +34,10 @@ class OnOffGridViewItem extends StatelessWidget {
           Text(
             day,
             style: AppStyles.textStyle18.copyWith(
-              color: isOn ? AppColors.secondaryColor : AppColors.primaryColor,
+              color: isOn ? themeColor : AppColors.primaryColor,
             ),
           ),
-          AnimatedOffOnButton(isOn: isOn, onTap: onTap),
+          AnimatedOffOnButton(isOn: isOn, onTap: onTap, themeColor: themeColor),
         ],
       ),
     );

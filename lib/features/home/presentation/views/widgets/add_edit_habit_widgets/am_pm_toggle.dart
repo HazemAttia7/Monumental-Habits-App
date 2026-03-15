@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/am_pm_enums.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/am_pm_container.dart';
 import 'package:provider/provider.dart';
 
 class AmPmToggle extends StatelessWidget {
-  const AmPmToggle({super.key});
+  final Color? themeColor;
+  const AmPmToggle({super.key, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,7 @@ class AmPmToggle extends StatelessWidget {
       children: [
         Expanded(
           child: AmPmContainer(
+            themeColor: themeColor ?? AppColors.secondaryColor,
             period: 'am',
             isSelected: controller.selectedPeriod == enAmPm.am,
             toggle: () => controller.toggleAmPm(clickedPeriod: enAmPm.am),
@@ -21,6 +24,7 @@ class AmPmToggle extends StatelessWidget {
         ),
         Expanded(
           child: AmPmContainer(
+            themeColor: themeColor ?? AppColors.secondaryColor,
             period: "pm",
             isSelected: controller.selectedPeriod == enAmPm.pm,
             toggle: () => controller.toggleAmPm(clickedPeriod: enAmPm.pm),

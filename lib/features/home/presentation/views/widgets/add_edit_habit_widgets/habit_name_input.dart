@@ -7,7 +7,8 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit
 import 'package:provider/provider.dart';
 
 class HabitNameInput extends StatelessWidget {
-  const HabitNameInput({super.key});
+  final Color? themeColor;
+  const HabitNameInput({super.key, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class HabitNameInput extends StatelessWidget {
             ).habitNameController,
           ),
         ),
-        const HabitSuggestionsButton(),
+        HabitSuggestionsButton(themeColor: themeColor),
       ],
     );
   }

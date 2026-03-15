@@ -11,11 +11,13 @@ class RemovableOnOffGridViewItem extends StatelessWidget {
   final bool isOn;
   final String unit;
   final Function(bool) onTap;
+  final Color? themeColor;
   const RemovableOnOffGridViewItem({
     super.key,
     required this.isOn,
     required this.unit,
     required this.onTap,
+    this.themeColor,
   });
 
   @override
@@ -44,7 +46,12 @@ class RemovableOnOffGridViewItem extends StatelessWidget {
             ),
           );
         },
-        child: OnOffGridViewItem(day: unit, isOn: isOn, onTap: onTap),
+        child: OnOffGridViewItem(
+          day: unit,
+          isOn: isOn,
+          onTap: onTap,
+          themeColor: themeColor ?? AppColors.secondaryColor,
+        ),
       ),
     );
   }

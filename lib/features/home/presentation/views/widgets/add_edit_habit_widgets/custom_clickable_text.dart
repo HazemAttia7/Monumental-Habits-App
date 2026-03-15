@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
@@ -7,8 +6,12 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 class CustomClickableText extends StatelessWidget {
   final String text;
   final void Function() onTap;
+  final Color? textColor;
   const CustomClickableText({
-    super.key, required this.text, required this.onTap,
+    super.key,
+    required this.text,
+    required this.onTap,
+    this.textColor,
   });
 
   @override
@@ -22,7 +25,7 @@ class CustomClickableText extends StatelessWidget {
         child: Text(
           text,
           style: AppStyles.textStyle17.copyWith(
-            color: AppColors.secondaryColor,
+            color: textColor ?? AppColors.secondaryColor,
           ),
         ),
       ),

@@ -5,8 +5,14 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 class CustomSwitcher extends StatelessWidget {
   final String text;
   final void Function(bool)? onChanged;
-  const CustomSwitcher({super.key, required bool isSwitched, this.onChanged, required this.text})
-    : _isSwitched = isSwitched;
+  final Color? themeColor;
+  const CustomSwitcher({
+    super.key,
+    required bool isSwitched,
+    this.onChanged,
+    required this.text,
+    this.themeColor,
+  }) : _isSwitched = isSwitched;
 
   final bool _isSwitched;
 
@@ -17,7 +23,7 @@ class CustomSwitcher extends StatelessWidget {
         Transform.scale(
           scale: 0.7,
           child: Switch(
-            activeThumbColor: AppColors.secondaryColor,
+            activeThumbColor: themeColor ?? AppColors.secondaryColor,
             value: _isSwitched,
             onChanged: onChanged,
           ),
@@ -26,7 +32,7 @@ class CustomSwitcher extends StatelessWidget {
           text,
           style: AppStyles.textStyle16.copyWith(
             color: _isSwitched
-                ? AppColors.secondaryColor
+                ? themeColor ?? AppColors.secondaryColor
                 : AppColors.primaryColor,
           ),
         ),

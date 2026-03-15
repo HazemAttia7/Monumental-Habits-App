@@ -26,8 +26,8 @@ class AddEditHabitController extends ChangeNotifier {
       clearReminders();
     } else {
       restoreReminders();
-      notifyListeners();
     }
+    notifyListeners();
   }
 
   Habit? habit;

@@ -7,11 +7,12 @@ class HabitFrequencyDayItem extends StatelessWidget {
   final bool showBorder;
   final String day;
   final bool isSelected;
+  final Color themeColor;
   const HabitFrequencyDayItem({
     super.key,
     this.showBorder = true,
     required this.day,
-    required this.isSelected,
+    required this.isSelected, this.themeColor = AppColors.morning,
   });
 
   @override
@@ -40,8 +41,8 @@ class HabitFrequencyDayItem extends StatelessWidget {
             height: 34.sp,
             decoration: BoxDecoration(
               color: isSelected
-                  ? AppColors.morning
-                  : AppColors.morning.withValues(alpha: .1),
+                  ? themeColor
+                  : themeColor.withValues(alpha: .1),
               borderRadius: BorderRadius.circular(12.r),
             ),
           ),
