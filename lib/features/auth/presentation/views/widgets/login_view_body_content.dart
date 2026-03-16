@@ -61,17 +61,6 @@ class _LoginViewBodyContentState extends State<LoginViewBodyContent> {
             isLoading: _isLoading,
           ),
         ),
-        Gap(8.h),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
-          child: ContinueWithButton(
-            image: AssetsData.facebookIcon,
-            text: 'Continue with Facebook',
-            onTap: () {
-              // TODO : Login With Facebook Account
-            },
-          ),
-        ),
         Gap(25.h),
         LoginSheet(togglePages: widget.togglePages),
       ],

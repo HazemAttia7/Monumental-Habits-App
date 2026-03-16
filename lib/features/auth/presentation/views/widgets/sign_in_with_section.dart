@@ -19,30 +19,17 @@ class _SignInWithSectionState extends State<SignInWithSection> {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         const OrSignInWithRow(),
         Gap(20.h),
-        Row(
-          spacing: 12.w,
-          children: [
-            Expanded(
-              child: SignInWithButton(
-                text: "Google",
-                image: AssetsData.googleIcon,
-                onTap: signupWithGoogle,
-                isLoading: _isLoading,
-              ),
-            ),
-            Expanded(
-              child: SignInWithButton(
-                text: "Facebook",
-                image: AssetsData.facebookIcon,
-                onTap: () {
-                  // TODO : Login With Facebook
-                },
-              ),
-            ),
-          ],
+        SizedBox(
+          child: SignInWithButton(
+            text: "Google",
+            image: AssetsData.googleIcon,
+            onTap: signupWithGoogle,
+            isLoading: _isLoading,
+          ),
         ),
       ],
     );
