@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/more_actions.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/side_menu_close_button.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/side_menu_list_tile.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/upgrade_to_pro_button.dart';
+import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
+import 'package:provider/provider.dart';
 
 class SideMenu extends StatelessWidget {
   const SideMenu({super.key});
@@ -34,7 +38,11 @@ class SideMenu extends StatelessWidget {
               icon: FontAwesomeIcons.solidUser,
               title: "Profile",
               onTap: () {
-                // TODO : Open Profile view
+                Provider.of<MainViewController>(
+                  context,
+                  listen: false,
+                ).closeSideMenu();
+                GoRouter.of(context).push(AppRouter.kProfileView);
               },
             ),
             Gap(24.h),

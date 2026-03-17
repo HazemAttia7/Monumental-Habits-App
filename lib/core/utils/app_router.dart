@@ -11,6 +11,7 @@ import 'package:pixel_true_app/features/home/presentation/managers/habit_analysi
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/profile_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
 import 'package:provider/provider.dart';
 
@@ -22,6 +23,7 @@ abstract class AppRouter {
   static const String kAppGate = "/app-gate";
   static const String kAddNewHabit = "/add-new-habit";
   static const String kHabitAnalysis = "/habit-analysis";
+  static const String kProfileView = "/profile";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -85,6 +87,10 @@ abstract class AppRouter {
             ),
           );
         },
+      ),
+      GoRoute(
+        path: kProfileView,
+        builder: (context, state) => const ProfileView(),
       ),
     ],
   );
