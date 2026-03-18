@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/billing_methods.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/profile_habits_analytics.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/profile_header.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/profile_summary.dart';
 
@@ -23,6 +24,7 @@ class ProfileViewBody extends StatelessWidget {
             Gap(8.h),
             const BillingMethods(),
             Gap(8.h),
+            const ProfileHabitsAnalytics(),
           ],
         ),
       ),
