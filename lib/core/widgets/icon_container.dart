@@ -6,12 +6,14 @@ class IconContainer extends StatelessWidget {
   final Color iconColor;
   final double? iconSize;
   final EdgeInsets? padding;
+  final BorderRadius? borderRadius;
   const IconContainer({
     super.key,
     required this.icon,
     required this.iconColor,
     this.iconSize,
     this.padding,
+    this.borderRadius,
   });
 
   @override
@@ -19,8 +21,9 @@ class IconContainer extends StatelessWidget {
     return Container(
       padding: padding ?? EdgeInsets.all(11.sp),
       decoration: BoxDecoration(
-        shape: BoxShape.circle,
+        shape: borderRadius == null ? BoxShape.circle : BoxShape.rectangle,
         color: iconColor.withValues(alpha: .15),
+        borderRadius: borderRadius,
       ),
       child: Icon(icon, color: iconColor, size: iconSize ?? 22.sp),
     );
