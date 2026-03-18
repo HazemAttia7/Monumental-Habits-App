@@ -12,28 +12,37 @@ class ProfileAnalyticsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Row(
-          children: [
-            const Expanded(
-              child: ProfileAnalyticsWidget(
-                title: "Longest Streak (Days)",
-                subtitle:
-                    "18", //TODO : imlpement get longest streak function in repo
-                icon: FontAwesomeIcons.fireFlameCurved,
-                iconColor: AppColors.secondaryColor,
-              ),
+        Container(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+          decoration: const BoxDecoration(
+            border: Border(
+              bottom: BorderSide(color: AppColors.scaffoldColor),
+              top: BorderSide(color: AppColors.scaffoldColor),
             ),
-            Gap(32.w),
-            const Expanded(
-              child: ProfileAnalyticsWidget(
-                title: "Habits Completed",
-                subtitle:
-                    "12", //TODO : imlpement get completed habits function in repo
-                icon: FontAwesomeIcons.flagCheckered,
-                iconColor: AppColors.twilight,
+          ),
+          child: Row(
+            children: [
+              const Expanded(
+                child: ProfileAnalyticsWidget(
+                  title: "Longest Streak (Days)",
+                  subtitle:
+                      "18", //TODO : imlpement get longest streak function in repo
+                  icon: FontAwesomeIcons.fireFlameCurved,
+                  iconColor: AppColors.secondaryColor,
+                ),
               ),
-            ),
-          ],
+              Gap(32.w),
+              const Expanded(
+                child: ProfileAnalyticsWidget(
+                  title: "Habits Completed",
+                  subtitle:
+                      "12", //TODO : imlpement get completed habits function in repo
+                  icon: FontAwesomeIcons.flagCheckered,
+                  iconColor: AppColors.twilight,
+                ),
+              ),
+            ],
+          ),
         ),
         Positioned.fill(
           child: Align(
