@@ -15,11 +15,6 @@ abstract class AppStyles {
   static final textStyle22 = TextStyle(
     fontSize: 22.sp,
     fontWeight: FontWeight.bold,
-  );
-
-  static final textStyle20 = TextStyle(
-    fontSize: 22.sp,
-    fontWeight: FontWeight.bold,
     color: AppColors.secondaryColor,
   );
 

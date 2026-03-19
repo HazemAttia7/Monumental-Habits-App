@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_bottom_sheet.dart';
 
 class ProfileHeader extends StatelessWidget {
   const ProfileHeader({super.key});
@@ -21,7 +22,10 @@ class ProfileHeader extends StatelessWidget {
         Text("Profile", style: AppStyles.textStyle18),
         CustomIconButton(
           onTap: () {
-            // TODO : edit profile
+            showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) => const EditProfileBottomSheet(),
+            );
           },
           iconColor: AppColors.primaryColor,
           icon: FontAwesomeIcons.pencil,
@@ -30,3 +34,4 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 }
+

@@ -49,7 +49,7 @@ class HabitSuggestionsBottomSheet extends StatelessWidget {
             Gap(24.h),
             Text(
               "Habit Suggestions",
-              style: AppStyles.textStyle20.copyWith(
+              style: AppStyles.textStyle22.copyWith(
                 color: AppColors.primaryColor,
               ),
             ),

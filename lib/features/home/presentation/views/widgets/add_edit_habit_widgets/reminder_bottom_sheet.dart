@@ -5,6 +5,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/monumental_habits_icons.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
+import 'package:pixel_true_app/core/widgets/custom_handler.dart';
 import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/add_reminder_bottom_sheet.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/reminders_grid_view.dart';
@@ -38,15 +39,7 @@ class ReminderBottomSheet extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Container(
-            width: 40.w,
-            height: 4.h,
-            margin: EdgeInsets.only(bottom: 12.h),
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor.withValues(alpha: .2),
-              borderRadius: BorderRadius.circular(2.r),
-            ),
-          ),
+          const CustomHandler(),
           Text(
             "Long Press to Delete",
             style: AppStyles.textStyle14.copyWith(
@@ -55,8 +48,10 @@ class ReminderBottomSheet extends StatelessWidget {
             ),
           ),
           Gap(12.h),
-           Expanded(
-            child: SingleChildScrollView(child: RemindersGridView(themeColor: themeColor)),
+          Expanded(
+            child: SingleChildScrollView(
+              child: RemindersGridView(themeColor: themeColor),
+            ),
           ),
           Gap(25.h),
           Row(
