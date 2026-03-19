@@ -182,4 +182,72 @@ class AuthRepoImpl implements AuthRepo {
       return Left(FirebaseFailure.fromException(e));
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> verifyPassword({
+    required String password,
+  }) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return const Left(FirebaseFailure("No user logged in"));
+
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: password,
+      );
+      await user.reauthenticateWithCredential(credential);
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> changeEmail({required String newEmail}) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) return const Left(FirebaseFailure("No user logged in"));
+
+      await user.verifyBeforeUpdateEmail(newEmail);
+
+      await FirebaseFirestore.instance.collection("users").doc(user.uid).update(
+        {"email": newEmail},
+      );
+
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> changeUsername({
+    required String newUsername,
+  }) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        return const Left(FirebaseFailure("No user logged in"));
+      }
+
+      if (user.displayName == newUsername) {
+        return const Right(unit);
+      }
+
+      if (await isUsernameExist(newUsername)) {
+        return const Left(FirebaseFailure("Username already exists"));
+      }
+
+      await user.updateDisplayName(newUsername);
+
+      await FirebaseFirestore.instance.collection("users").doc(user.uid).update(
+        {"username": newUsername, "username_lower": newUsername.toLowerCase()},
+      );
+
+      return const Right(unit);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
 }

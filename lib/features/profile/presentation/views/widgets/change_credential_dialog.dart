@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/confirmation_dialog.dart';
@@ -14,7 +13,7 @@ class ChangeCredentialDialog extends StatefulWidget {
   final String hint;
   final String confirmMessage;
   final bool isPassword;
-  final VoidCallback onConfirm;
+  final Future<void> Function(String value) onConfirm;
   final String? Function(String?)? validator;
 
   const ChangeCredentialDialog({
@@ -35,6 +34,7 @@ class ChangeCredentialDialog extends StatefulWidget {
 class _ChangeCredentialDialogState extends State<ChangeCredentialDialog> {
   final TextEditingController controller = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool isLoading = false;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
 
   @override
@@ -72,28 +72,40 @@ class _ChangeCredentialDialogState extends State<ChangeCredentialDialog> {
               ),
               Gap(12.h),
               CustomButton(
-                onTap: () {
-                  if (!_formKey.currentState!.validate()) {
-                    setState(() {
-                      autovalidateMode = AutovalidateMode.always;
-                    });
-                    return;
-                  }
-                  showDialog(
-                    context: context,
-                    builder: (context) => ConfirmationDialog(
-                      onConfirm: () {
-                        widget.onConfirm();
-                        GoRouter.of(context).pop();
-                        GoRouter.of(context).pop();
+                onTap: isLoading
+                    ? () {}
+                    : () async {
+                        if (!_formKey.currentState!.validate()) {
+                          setState(() {
+                            autovalidateMode = AutovalidateMode.always;
+                          });
+                          return;
+                        }
+
+                        showDialog(
+                          context: context,
+                          builder: (context) => ConfirmationDialog(
+                            onConfirm: () async {
+                              Navigator.pop(context);
+
+                              setState(() => isLoading = true);
+
+                              try {
+                                await widget.onConfirm(controller.text);
+                              } finally {
+                                if (mounted) {
+                                  setState(() => isLoading = false);
+                                  Navigator.pop(context);
+                                }
+                              }
+                            },
+                            confirmationMessage: widget.confirmMessage,
+                            confirmButtonText: "Change",
+                          ),
+                        );
                       },
-                      confirmationMessage: widget.confirmMessage,
-                      confirmButtonText: "Change",
-                    ),
-                  );
-                },
-                text: "Change",
-                backColor: AppColors.primaryColor,
+                text: isLoading ? "Loading..." : "Change",
+                backColor: isLoading ? Colors.grey : AppColors.primaryColor,
                 textColor: Colors.white,
               ),
             ],

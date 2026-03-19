@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/features/auth/data/models/app_user.dart';
 import 'package:pixel_true_app/features/auth/data/repos/auth_repo.dart';
@@ -118,4 +119,53 @@ class AuthCubit extends Cubit<AuthState> {
       },
     );
   }
+
+  // Withou emiting any state
+  Future<bool> verifyPassword({required String password}) async {
+    final result = await authRepo.verifyPassword(password: password);
+    return result.fold((failure) {
+      return false;
+    }, (_) => true);
+  }
+
+  Future<bool> changeEmail({required String newEmail}) async {
+    final result = await authRepo.changeEmail(newEmail: newEmail);
+    return result.fold(
+      (failure) {
+        emit(AuthError(failure.errMessage));
+        return false;
+      },
+      (_) {
+        _currentUser = _currentUser?.copyWith(email: newEmail);
+        if (_currentUser != null) emit(Authenticated(user: _currentUser!));
+        return true;
+      },
+    );
+  }
+
+  Future<bool> changeUsername({required String newUsername}) async {
+    final result = await authRepo.changeUsername(newUsername: newUsername);
+
+    return result.fold(
+      (failure) {
+        emit(AuthError(failure.errMessage));
+        return false;
+      },
+      (_) {
+        _currentUser = _currentUser?.copyWith(name: newUsername);
+
+        if (_currentUser != null) {
+          emit(Authenticated(user: _currentUser!));
+        }
+
+        return true;
+      },
+    );
+  }
+
+  bool get isGoogleUser =>
+      FirebaseAuth.instance.currentUser?.providerData.any(
+        (p) => p.providerId == 'google.com',
+      ) ??
+      false;
 }

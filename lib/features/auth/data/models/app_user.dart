@@ -22,4 +22,12 @@ class AppUser {
   factory AppUser.fromJSON(Map<String, dynamic> json) {
     return AppUser(uid: json['uid'], email: json['email'], name: json['name']);
   }
+
+  AppUser copyWith({String? uid, String? email, String? name}) {
+    return AppUser(
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      name: name ?? this.name,
+    );
+  }
 }

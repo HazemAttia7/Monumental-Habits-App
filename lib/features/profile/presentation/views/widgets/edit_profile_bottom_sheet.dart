@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/validator.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_handler.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/change_credential_dialog.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_section_header.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_password.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/privacy_section.dart';
+import 'package:provider/provider.dart';
 
 class EditProfileBottomSheet extends StatelessWidget {
   const EditProfileBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isGoogleUser = context.read<AuthCubit>().isGoogleUser;
     return Container(
       padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
@@ -28,84 +32,15 @@ class EditProfileBottomSheet extends StatelessWidget {
         children: [
           const CustomHandler(),
           Gap(12.h),
-          _buildSectionText(text: "Privacy"),
-          Gap(12.h),
-          Row(
-            spacing: 16.w,
-            children: [
-              Expanded(
-                child: CustomButton(
-                  text: "Edit Email",
-                  onTap: () {
-                    // TODO : Must enter password before changing email
-                    showDialog(
-                      context: context,
-                      builder: (context) => ChangeCredentialDialog(
-                        title: "Change Email",
-                        subtitle: "Enter your new email address",
-                        hint: "Enter your email",
-                        confirmMessage:
-                            "Are you sure you want to change your email?",
-                        isPassword: false,
-                        onConfirm: () {
-                          // TODO: Change Email
-                        },
-                        validator: Validator.validateEmail,
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Expanded(
-                child: CustomButton(
-                  text: "Edit Password",
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => ChangeCredentialDialog(
-                        title: "Change Password",
-                        subtitle: "Enter your new password",
-                        hint: "Enter your password",
-                        confirmMessage:
-                            "Are you sure you want to change your password?",
-                        isPassword: true,
-                        onConfirm: () {
-                          // TODO: Send change Password email
-                        },
-                        validator: Validator.validatePassword,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-          Gap(24.h),
-          Divider(
-            color: AppColors.primaryColor.withValues(alpha: .2),
-            thickness: 1.w,
-          ),
-          Gap(24.h),
-          _buildSectionText(text: "Display"),
+          if (!isGoogleUser) const PrivacySection(),
+          const EditProfileSectionHeader(text: "Display"),
           Gap(12.h),
           CustomButton(
             text: "Change Username",
             onTap: () {
-              // TODO : Must enter password before changing username
               showDialog(
                 context: context,
-                builder: (context) => ChangeCredentialDialog(
-                  title: "Change Username",
-                  subtitle: "Enter your new username",
-                  hint: "Enter your username",
-                  confirmMessage:
-                      "Are you sure you want to change your username?",
-                  isPassword: false,
-                  onConfirm: () {
-                    // TODO: Change Username
-                  },
-                  validator: Validator.validateUsername,
-                ),
+                builder: (context) => _buildChangeUsernameDialog(isGoogleUser),
               );
             },
           ),
@@ -115,12 +50,29 @@ class EditProfileBottomSheet extends StatelessWidget {
     );
   }
 
-  Text _buildSectionText({required String text}) {
-    return Text(
-      text,
-      style: AppStyles.textStyle22.copyWith(
-        color: AppColors.primaryColor.withValues(alpha: .75),
-      ),
-    );
+  StatefulWidget _buildChangeUsernameDialog(bool isGoogleUser) {
+    return isGoogleUser
+        ? ChangeCredentialDialog(
+            title: "Change Username",
+            subtitle: "Enter your new username",
+            hint: "Enter your username",
+            confirmMessage: "Are you sure you want to change your username?",
+            isPassword: false,
+            onConfirm: (username) async {
+              // TODO: Change Username
+            },
+            validator: Validator.validateUsername,
+          )
+        : PasswordConfirmationDialog(
+            title: "Change Username",
+            subtitle: "Enter your new username",
+            hint: "Enter your username",
+            confirmMessage: "Are you sure you want to change your username?",
+            isPassword: false,
+            onConfirm: (username) async {
+              // TODO: Change Username
+            },
+            validator: Validator.validateUsername,
+          );
   }
 }
