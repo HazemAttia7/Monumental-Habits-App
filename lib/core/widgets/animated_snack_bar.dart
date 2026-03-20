@@ -71,6 +71,7 @@ class _AnimatedSnackBarState extends State<AnimatedSnackBar>
               },
               icon: widget.icon,
               backColor: Colors.white,
+              iconColor: widget.backColor,
               shape: BoxShape.rectangle,
             ),
             Gap(20.w),
@@ -147,6 +148,41 @@ void buildSuccessSnackBar(
           message: message,
           backColor: const Color(0xFF2E7D32),
           icon: Icons.check,
+        ),
+      ),
+    ),
+  );
+
+  overlay.insert(_snackBarEntry!);
+
+  _dismissTimer = Timer(duration, () {
+    _snackBarEntry?.remove();
+    _snackBarEntry = null;
+    _dismissTimer = null;
+  });
+}
+
+void buildErrorSnackBar(
+  BuildContext context, {
+  required String message,
+  Duration duration = const Duration(seconds: 3),
+}) {
+  _dismissTimer?.cancel();
+  _snackBarEntry?.remove();
+
+  final overlay = Overlay.of(context, rootOverlay: true);
+
+  _snackBarEntry = OverlayEntry(
+    builder: (_) => Positioned(
+      bottom: 20.h,
+      left: 16.w,
+      right: 16.w,
+      child: Material(
+        color: Colors.transparent,
+        child: AnimatedSnackBar(
+          message: message,
+          backColor: const Color(0xFFD32F2F),
+          icon: Icons.error_outline,
         ),
       ),
     ),

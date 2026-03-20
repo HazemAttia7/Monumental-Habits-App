@@ -102,10 +102,12 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
 
   void closeSideMenu() => _sideMenuController.reverse();
 
-  void disposeController() {
+  @override
+  void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     pageController.dispose();
     _sideMenuController.dispose();
+    super.dispose();
   }
 }
 

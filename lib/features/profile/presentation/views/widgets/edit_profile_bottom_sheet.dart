@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/validator.dart';
@@ -7,9 +8,8 @@ import 'package:pixel_true_app/core/widgets/custom_handler.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/change_credential_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_section_header.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_password.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/privacy_section.dart';
-import 'package:provider/provider.dart';
 
 class EditProfileBottomSheet extends StatelessWidget {
   const EditProfileBottomSheet({super.key});
@@ -38,9 +38,17 @@ class EditProfileBottomSheet extends StatelessWidget {
           CustomButton(
             text: "Change Username",
             onTap: () {
+              final cubit = context.read<AuthCubit>();
               showDialog(
                 context: context,
-                builder: (context) => _buildChangeUsernameDialog(isGoogleUser),
+                builder: (context) => BlocProvider.value(
+                  value: cubit,
+                  child: _buildChangeUsernameDialog(
+                    context,
+                    isGoogleUser,
+                    cubit,
+                  ),
+                ),
               );
             },
           ),
@@ -50,7 +58,11 @@ class EditProfileBottomSheet extends StatelessWidget {
     );
   }
 
-  StatefulWidget _buildChangeUsernameDialog(bool isGoogleUser) {
+  StatefulWidget _buildChangeUsernameDialog(
+    BuildContext context,
+    bool isGoogleUser,
+    AuthCubit cubit,
+  ) {
     return isGoogleUser
         ? ChangeCredentialDialog(
             title: "Change Username",
@@ -59,7 +71,11 @@ class EditProfileBottomSheet extends StatelessWidget {
             confirmMessage: "Are you sure you want to change your username?",
             isPassword: false,
             onConfirm: (username) async {
-              // TODO: Change Username
+              await cubit.changeUsername(newUsername: username.trim());
+              if (context.mounted) {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
             },
             validator: Validator.validateUsername,
           )
@@ -70,7 +86,11 @@ class EditProfileBottomSheet extends StatelessWidget {
             confirmMessage: "Are you sure you want to change your username?",
             isPassword: false,
             onConfirm: (username) async {
-              // TODO: Change Username
+              await cubit.changeUsername(newUsername: username.trim());
+              if (context.mounted) {
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }
             },
             validator: Validator.validateUsername,
           );

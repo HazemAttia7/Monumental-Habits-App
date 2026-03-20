@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/services/notification_service.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
@@ -20,12 +20,16 @@ class AppGate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
-      buildWhen: (previous, current) => current is! AuthLoading,
+      buildWhen: (previous, current) =>
+          current is! AuthLoading && current is! AuthError,
       builder: (context, state) {
         if (state is Authenticated) {
           return BlocProvider(
-            create: (_) =>
-                HomeCubit(sl<HabitsRepo>(), state.user.uid ,  sl<NotificationService>(),)..fetchHabits(),
+            create: (_) => HomeCubit(
+              sl<HabitsRepo>(),
+              state.user.uid,
+              sl<NotificationService>(),
+            )..fetchHabits(),
             child: ChangeNotifierProvider(
               create: (_) => MainViewController(),
               child: ChangeNotifierProvider(
@@ -50,11 +54,7 @@ class AppGate extends StatelessWidget {
         } else if (state is Unauthenticated) {
           context.read<UserProfileCubit>().clear();
         } else if (state is AuthError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.errMessage, style: AppStyles.textStyle14),
-            ),
-          );
+          buildErrorSnackBar(context, message: state.errMessage);
         }
       },
     );

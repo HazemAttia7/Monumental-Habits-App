@@ -28,4 +28,8 @@ abstract class AuthRepo {
   Future<Either<Failure, Unit>> verifyPassword({required String password});
 
   Future<Either<Failure, Unit>> changeUsername({required String newUsername});
+
+  Future<Either<Failure, Unit>> changePassword({required String newPassword});
+
+  Future<Either<Failure, Unit>> syncEmailIfChanged();
 }

@@ -14,6 +14,7 @@ class ChangeCredentialDialog extends StatefulWidget {
   final String confirmMessage;
   final bool isPassword;
   final Future<void> Function(String value) onConfirm;
+  final VoidCallback? afterPop;
   final String? Function(String?)? validator;
 
   const ChangeCredentialDialog({
@@ -25,6 +26,7 @@ class ChangeCredentialDialog extends StatefulWidget {
     this.isPassword = false,
     required this.onConfirm,
     this.validator,
+    this.afterPop,
   });
 
   @override
@@ -81,13 +83,11 @@ class _ChangeCredentialDialogState extends State<ChangeCredentialDialog> {
                           });
                           return;
                         }
-
+                        final outerContext = context;
                         showDialog(
                           context: context,
-                          builder: (context) => ConfirmationDialog(
+                          builder: (_) => ConfirmationDialog(
                             onConfirm: () async {
-                              Navigator.pop(context);
-
                               setState(() => isLoading = true);
 
                               try {
@@ -95,7 +95,8 @@ class _ChangeCredentialDialogState extends State<ChangeCredentialDialog> {
                               } finally {
                                 if (mounted) {
                                   setState(() => isLoading = false);
-                                  Navigator.pop(context);
+                                  Navigator.pop(outerContext);
+                                  widget.afterPop?.call();
                                 }
                               }
                             },

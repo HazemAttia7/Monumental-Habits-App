@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
@@ -18,6 +17,7 @@ class PasswordConfirmationDialog extends StatefulWidget {
   final bool isPassword;
   final Future<void> Function(String value) onConfirm;
   final String? Function(String?)? validator;
+  final VoidCallback? afterPop;
   const PasswordConfirmationDialog({
     super.key,
     required this.title,
@@ -27,6 +27,7 @@ class PasswordConfirmationDialog extends StatefulWidget {
     required this.isPassword,
     required this.onConfirm,
     this.validator,
+    this.afterPop,
   });
 
   @override
@@ -46,7 +47,9 @@ class _PasswordConfirmationDialogState
       _errorMessage = null;
     });
 
-    final isCorrect = await context.read<AuthCubit>().verifyPassword(
+    final cubit = context.read<AuthCubit>();
+
+    final isCorrect = await cubit.verifyPassword(
       password: _passwordController.text,
     );
 
@@ -54,7 +57,7 @@ class _PasswordConfirmationDialogState
     setState(() => _isLoading = false);
 
     if (isCorrect) {
-      GoRouter.of(context).pop();
+      Navigator.of(context).pop();
       showDialog(
         context: context,
         builder: (context) => ChangeCredentialDialog(
@@ -64,6 +67,7 @@ class _PasswordConfirmationDialogState
           confirmMessage: widget.confirmMessage,
           isPassword: false,
           onConfirm: widget.onConfirm,
+          afterPop: widget.afterPop,
           validator: widget.validator,
         ),
       );

@@ -1,11 +1,12 @@
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class AppUser {
+class AppUser extends Equatable {
   final String uid;
   final String email;
   final String name;
 
-  AppUser({required this.uid, required this.email, required this.name});
+  const AppUser({required this.uid, required this.email, required this.name});
 
   factory AppUser.fromFirebaseUser(User user) {
     return AppUser(
@@ -30,4 +31,7 @@ class AppUser {
       name: name ?? this.name,
     );
   }
+
+  @override
+  List<Object?> get props => [uid, name, email];
 }

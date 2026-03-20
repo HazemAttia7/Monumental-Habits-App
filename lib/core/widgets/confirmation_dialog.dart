@@ -30,7 +30,10 @@ class ConfirmationDialog extends StatelessWidget {
           child: Text("Cancel", style: AppStyles.textStyle14),
         ),
         TextButton(
-          onPressed: onConfirm,
+          onPressed: () async {
+            Navigator.pop(context);
+            onConfirm();
+          },
           child: Text(
             confirmButtonText ?? "Confirm",
             style: AppStyles.textStyle14.copyWith(

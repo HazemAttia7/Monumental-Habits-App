@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/features/auth/data/models/app_user.dart';
@@ -120,7 +121,7 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  // Withou emiting any state
+  // Without emiting any state
   Future<bool> verifyPassword({required String password}) async {
     final result = await authRepo.verifyPassword(password: password);
     return result.fold((failure) {
@@ -130,14 +131,51 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<bool> changeEmail({required String newEmail}) async {
     final result = await authRepo.changeEmail(newEmail: newEmail);
+
     return result.fold(
       (failure) {
         emit(AuthError(failure.errMessage));
         return false;
       },
       (_) {
-        _currentUser = _currentUser?.copyWith(email: newEmail);
-        if (_currentUser != null) emit(Authenticated(user: _currentUser!));
+        return true;
+      },
+    );
+  }
+
+  Future<void> syncEmailIfChanged() async {
+    final result = await authRepo.syncEmailIfChanged();
+
+    result.fold(
+      (failure) {
+        emit(AuthError(failure.errMessage));
+      },
+      (_) async {
+        await checkAuth();
+      },
+    );
+  }
+
+  Future<bool> verifyAndSyncEmail() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return false;
+
+    await user.reload();
+    if (!user.emailVerified) return false;
+
+    // Sync Firestore
+    await syncEmailIfChanged();
+    return true;
+  }
+
+  Future<bool> changePassword({required String newPassword}) async {
+    final result = await authRepo.changePassword(newPassword: newPassword);
+    return result.fold(
+      (failure) {
+        emit(AuthError(failure.errMessage));
+        return false;
+      },
+      (_) {
         return true;
       },
     );
@@ -153,11 +191,9 @@ class AuthCubit extends Cubit<AuthState> {
       },
       (_) {
         _currentUser = _currentUser?.copyWith(name: newUsername);
-
         if (_currentUser != null) {
           emit(Authenticated(user: _currentUser!));
         }
-
         return true;
       },
     );

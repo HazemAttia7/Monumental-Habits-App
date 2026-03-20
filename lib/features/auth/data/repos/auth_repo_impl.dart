@@ -110,6 +110,7 @@ class AuthRepoImpl implements AuthRepo {
       }
 
       await user.updateDisplayName(username);
+      await user.reload();
 
       await addUserToFirestore(user.uid, username, email, emailMe);
 
@@ -117,7 +118,8 @@ class AuthRepoImpl implements AuthRepo {
         await sendEmailUsingSendGrid(email, context);
       }
 
-      return Right(AppUser.fromFirebaseUser(user));
+      final refreshedUser = FirebaseAuth.instance.currentUser!;
+      return Right(AppUser.fromFirebaseUser(refreshedUser));
     } on FirebaseFailure catch (e) {
       return Left(e);
     } on FirebaseAuthException catch (e) {
@@ -206,13 +208,76 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<Failure, Unit>> changeEmail({required String newEmail}) async {
     try {
       final user = FirebaseAuth.instance.currentUser;
+
+      if (user == null) {
+        return const Left(FirebaseFailure("No user logged in"));
+      }
+
+      final cleanEmail = newEmail.trim();
+
+      if (user.email == cleanEmail) {
+        return const Left(
+          FirebaseFailure("This is already your current email"),
+        );
+      }
+
+      await user.verifyBeforeUpdateEmail(cleanEmail);
+
+      return const Right(unit);
+    } on FirebaseAuthException catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    } catch (e) {
+      return Left(FirebaseFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> syncEmailIfChanged() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        return const Left(FirebaseFailure("No user logged in"));
+      }
+
+      await user.reload();
+      final refreshedUser = FirebaseAuth.instance.currentUser;
+
+      if (refreshedUser == null) {
+        return const Left(FirebaseFailure("User reload failed"));
+      }
+
+      // 📦 Get Firestore email
+      final doc = await FirebaseFirestore.instance
+          .collection("users")
+          .doc(user.uid)
+          .get();
+
+      final firestoreEmail = doc.data()?['email'];
+
+      if (firestoreEmail != refreshedUser.email) {
+        await FirebaseFirestore.instance
+            .collection("users")
+            .doc(user.uid)
+            .update({"email": refreshedUser.email});
+      }
+
+      return const Right(unit);
+    } on FirebaseAuthException catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    } catch (e) {
+      return Left(FirebaseFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> changePassword({
+    required String newPassword,
+  }) async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
       if (user == null) return const Left(FirebaseFailure("No user logged in"));
 
-      await user.verifyBeforeUpdateEmail(newEmail);
-
-      await FirebaseFirestore.instance.collection("users").doc(user.uid).update(
-        {"email": newEmail},
-      );
+      await user.updatePassword(newPassword);
 
       return const Right(unit);
     } on Exception catch (e) {
@@ -240,6 +305,7 @@ class AuthRepoImpl implements AuthRepo {
       }
 
       await user.updateDisplayName(newUsername);
+      await user.reload();
 
       await FirebaseFirestore.instance.collection("users").doc(user.uid).update(
         {"username": newUsername, "username_lower": newUsername.toLowerCase()},
