@@ -30,10 +30,29 @@ class AuthRepoImpl implements AuthRepo {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
       if (userCredential.user != null) {
         return Right(AppUser.fromFirebaseUser(userCredential.user!));
       }
       return const Left(FirebaseFailure("Login failed"));
+    } on FirebaseAuthException catch (e) {
+      // ← catch Google-only account error specifically
+      try {
+        final query = await FirebaseFirestore.instance
+            .collection('users')
+            .where('email', isEqualTo: email.trim())
+            .limit(1)
+            .get();
+
+        if (query.docs.isNotEmpty) {
+          return const Left(
+            FirebaseFailure(
+              "This email is linked to Google. Please sign in with Google.",
+            ),
+          );
+        }
+      } catch (_) {}
+      return Left(FirebaseFailure.fromException(e));
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
     }
