@@ -14,7 +14,7 @@ class NameWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          context.watch<AuthCubit>().currentUser!.name,
+          context.watch<AuthCubit>().currentUser?.name ?? "",
           style: AppStyles.textStyle16,
         ),
         Text(

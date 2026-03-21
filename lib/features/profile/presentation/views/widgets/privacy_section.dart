@@ -1,16 +1,17 @@
+import 'package:email_otp/email_otp.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/validator.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/change_credential_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_section_header.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/email_confirmation_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_dialog.dart';
-import 'package:provider/provider.dart';
 
 class PrivacySection extends StatelessWidget {
   const PrivacySection({super.key});
@@ -28,7 +29,7 @@ class PrivacySection extends StatelessWidget {
               child: CustomButton(
                 text: "Edit Email",
                 onTap: () {
-                  final cubit = context.read<AuthCubit>();
+                  String? verifiedPassword;
                   showDialog(
                     context: context,
                     builder: (dialogContext) => PasswordConfirmationDialog(
@@ -37,16 +38,36 @@ class PrivacySection extends StatelessWidget {
                       hint: "Enter your email",
                       confirmMessage:
                           "Are you sure you want to change your email?",
+                      loadingMessage: "Sending OTP...",
                       isPassword: false,
-                      onConfirm: (email) async {
-                        await cubit.changeEmail(newEmail: email.trim());
+                      onPasswordVerified: (password) {
+                        verifiedPassword = password;
                       },
-                      afterPop: () {
+                      onConfirm: (email) async {
+                        if (!await context
+                            .read<AuthCubit>()
+                            .checkEmailAndNotify(context, email: email)) {
+                          return false;
+                        }
+
+                        final result = await EmailOTP.sendOTP(
+                          email: email.trim(),
+                        );
+                        if (!result) {
+                          buildErrorSnackBar(
+                            context,
+                            message: "Failed to send OTP",
+                          );
+                        }
+                        return result;
+                      },
+                      afterPop: (email) {
+                        if (verifiedPassword == null) return;
                         showDialog(
                           context: context,
-                          builder: (context) => BlocProvider.value(
-                            value: cubit,
-                            child: const EmailConfirmationDialog(),
+                          builder: (_) => EmailConfirmationDialog(
+                            email: email,
+                            password: verifiedPassword!,
                           ),
                         );
                       },
@@ -71,7 +92,11 @@ class PrivacySection extends StatelessWidget {
                           "Are you sure you want to change your password?",
                       isPassword: true,
                       onConfirm: (newPass) async {
-                        await cubit.changePassword(newPassword: newPass);
+                        // TODO : handle and test change password
+                        final success = await cubit.changePassword(
+                          newPassword: newPass,
+                        );
+                        return success;
                       },
                       validator: Validator.validatePassword,
                     ),

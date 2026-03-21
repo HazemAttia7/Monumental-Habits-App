@@ -22,11 +22,12 @@ class ProfilePlaceholder extends StatelessWidget {
       child: Center(
         child: Text(
           context
-              .watch<AuthCubit>()
-              .currentUser!
-              .name
-              .substring(0, 2)
-              .toUpperCase(),
+                  .watch<AuthCubit>()
+                  .currentUser
+                  ?.name
+                  .substring(0, 2)
+                  .toUpperCase() ??
+              "",
           style: AppStyles.textStyle16.copyWith(
             color: AppColors.scaffoldColor,
             fontSize: fontSize,

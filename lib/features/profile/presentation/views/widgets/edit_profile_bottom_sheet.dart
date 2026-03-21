@@ -71,11 +71,13 @@ class EditProfileBottomSheet extends StatelessWidget {
             confirmMessage: "Are you sure you want to change your username?",
             isPassword: false,
             onConfirm: (username) async {
-              await cubit.changeUsername(newUsername: username.trim());
+              final success = await cubit.changeUsername(
+                newUsername: username.trim(),
+              );
               if (context.mounted) {
                 Navigator.pop(context);
-                Navigator.pop(context);
               }
+              return success;
             },
             validator: Validator.validateUsername,
           )
@@ -86,11 +88,13 @@ class EditProfileBottomSheet extends StatelessWidget {
             confirmMessage: "Are you sure you want to change your username?",
             isPassword: false,
             onConfirm: (username) async {
-              await cubit.changeUsername(newUsername: username.trim());
+              final success = await cubit.changeUsername(
+                newUsername: username.trim(),
+              );
               if (context.mounted) {
                 Navigator.pop(context);
-                Navigator.pop(context);
               }
+              return success;
             },
             validator: Validator.validateUsername,
           );

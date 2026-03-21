@@ -23,13 +23,14 @@ abstract class AuthRepo {
 
   Future<Either<Failure, AppUser>> signUpWithGoogle();
 
-  Future<Either<Failure, Unit>> changeEmail({required String newEmail});
+  Future<Either<Failure, Unit>> changeEmail({
+    required String newEmail,
+    required String currentPassword,
+  });
 
   Future<Either<Failure, Unit>> verifyPassword({required String password});
 
   Future<Either<Failure, Unit>> changeUsername({required String newUsername});
 
   Future<Either<Failure, Unit>> changePassword({required String newPassword});
-
-  Future<Either<Failure, Unit>> syncEmailIfChanged();
 }

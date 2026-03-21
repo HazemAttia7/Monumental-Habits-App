@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/auth/data/models/app_user.dart';
 import 'package:pixel_true_app/features/auth/data/repos/auth_repo.dart';
 
@@ -129,8 +131,47 @@ class AuthCubit extends Cubit<AuthState> {
     }, (_) => true);
   }
 
-  Future<bool> changeEmail({required String newEmail}) async {
-    final result = await authRepo.changeEmail(newEmail: newEmail);
+  Future<bool> checkEmailAndNotify(
+    BuildContext context, {
+    required String email,
+  }) async {
+    // 1️⃣ Check if it's the same as the current user
+    if (currentUser != null && currentUser!.email == email.trim()) {
+      buildClosableSnackBar(context, message: "This is your current email.");
+      return false;
+    }
+
+    // 2️⃣ Check if email is already used by another account
+    try {
+      final query = await FirebaseFirestore.instance
+          .collection('users') // <-- your users collection
+          .where('email', isEqualTo: email.trim())
+          .limit(1)
+          .get();
+
+      if (query.docs.isNotEmpty) {
+        buildClosableSnackBar(
+          context,
+          message: "This email is already in use.",
+        );
+        return false;
+      } else {
+        return true; // Email is available
+      }
+    } catch (e) {
+      buildClosableSnackBar(context, message: "Failed to check email: $e");
+      return false;
+    }
+  }
+
+  Future<bool> changeEmail({
+    required String newEmail,
+    required String currentPassword, // ← add this
+  }) async {
+    final result = await authRepo.changeEmail(
+      newEmail: newEmail,
+      currentPassword: currentPassword,
+    );
 
     return result.fold(
       (failure) {
@@ -138,34 +179,13 @@ class AuthCubit extends Cubit<AuthState> {
         return false;
       },
       (_) {
+        _currentUser = _currentUser?.copyWith(email: newEmail);
+        if (_currentUser != null) {
+          emit(Authenticated(user: _currentUser!));
+        }
         return true;
       },
     );
-  }
-
-  Future<void> syncEmailIfChanged() async {
-    final result = await authRepo.syncEmailIfChanged();
-
-    result.fold(
-      (failure) {
-        emit(AuthError(failure.errMessage));
-      },
-      (_) async {
-        await checkAuth();
-      },
-    );
-  }
-
-  Future<bool> verifyAndSyncEmail() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return false;
-
-    await user.reload();
-    if (!user.emailVerified) return false;
-
-    // Sync Firestore
-    await syncEmailIfChanged();
-    return true;
   }
 
   Future<bool> changePassword({required String newPassword}) async {

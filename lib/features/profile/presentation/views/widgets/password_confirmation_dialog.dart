@@ -10,14 +10,14 @@ import 'package:pixel_true_app/features/profile/presentation/views/widgets/chang
 import 'package:provider/provider.dart';
 
 class PasswordConfirmationDialog extends StatefulWidget {
-  final String title;
-  final String subtitle;
-  final String hint;
-  final String confirmMessage;
+  final String title, subtitle, hint, confirmMessage;
+  final String? loadingMessage;
   final bool isPassword;
-  final Future<void> Function(String value) onConfirm;
+  final Future<bool> Function(String) onConfirm;
   final String? Function(String?)? validator;
-  final VoidCallback? afterPop;
+  final void Function(String password)? onPasswordVerified;
+  final Function(String)? afterPop;
+
   const PasswordConfirmationDialog({
     super.key,
     required this.title,
@@ -27,7 +27,9 @@ class PasswordConfirmationDialog extends StatefulWidget {
     required this.isPassword,
     required this.onConfirm,
     this.validator,
+    this.onPasswordVerified,
     this.afterPop,
+    this.loadingMessage,
   });
 
   @override
@@ -57,6 +59,7 @@ class _PasswordConfirmationDialogState
     setState(() => _isLoading = false);
 
     if (isCorrect) {
+      widget.onPasswordVerified?.call(_passwordController.text);
       Navigator.of(context).pop();
       showDialog(
         context: context,
@@ -67,8 +70,9 @@ class _PasswordConfirmationDialogState
           confirmMessage: widget.confirmMessage,
           isPassword: false,
           onConfirm: widget.onConfirm,
-          afterPop: widget.afterPop,
           validator: widget.validator,
+          afterPop: widget.afterPop,
+          loadingMessage: widget.loadingMessage,
         ),
       );
     } else {

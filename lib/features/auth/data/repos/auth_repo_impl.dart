@@ -179,6 +179,14 @@ class AuthRepoImpl implements AuthRepo {
       if (user == null) {
         return const Left(FirebaseFailure("Failed to sign in with Google."));
       }
+
+      // Only create Firestore doc if this is a new user
+      final isNewUser = userCredential.additionalUserInfo?.isNewUser ?? false;
+      if (isNewUser) {
+        final username = user.displayName ?? gUser.email.split('@')[0];
+        await addUserToFirestore(user.uid, username, user.email ?? '', false);
+      }
+
       return Right(AppUser.fromFirebaseUser(user));
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
@@ -205,61 +213,87 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> changeEmail({required String newEmail}) async {
+  Future<Either<Failure, Unit>> changeEmail({
+    required String newEmail,
+    required String currentPassword,
+  }) async {
     try {
       final user = FirebaseAuth.instance.currentUser;
-
-      if (user == null) {
-        return const Left(FirebaseFailure("No user logged in"));
-      }
+      if (user == null) return const Left(FirebaseFailure("No user logged in"));
 
       final cleanEmail = newEmail.trim();
+      final oldUid = user.uid;
+      final displayName = user.displayName ?? '';
 
-      if (user.email == cleanEmail) {
-        return const Left(
-          FirebaseFailure("This is already your current email"),
+      // Re-authenticate first
+      final credential = EmailAuthProvider.credential(
+        email: user.email!,
+        password: currentPassword,
+      );
+      await user.reauthenticateWithCredential(credential);
+
+      // Fetch EVERYTHING before deleting auth account
+      final userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(oldUid)
+          .get();
+      final userData = userDoc.data() ?? {};
+
+      final habitsSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(oldUid)
+          .collection('habits')
+          .get();
+
+      // Delete old Firebase Auth account
+      await user.delete();
+
+      // Create new Firebase Auth account with new email
+      final newCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+            email: cleanEmail,
+            password: currentPassword,
+          );
+
+      final newUser = newCredential.user;
+      if (newUser == null) {
+        return const Left(FirebaseFailure("Failed to recreate account"));
+      }
+
+      await newUser.updateDisplayName(displayName);
+      await newUser.reload();
+
+      final batch = FirebaseFirestore.instance.batch();
+
+      // Set new user doc with new uid (instead of updating old one)
+      batch.set(
+        FirebaseFirestore.instance.collection('users').doc(newUser.uid),
+        {...userData, 'email': cleanEmail, 'uid': newUser.uid},
+      );
+
+      // Delete old user doc
+      batch.delete(FirebaseFirestore.instance.collection('users').doc(oldUid));
+
+      // Move habits to new uid
+      for (final doc in habitsSnapshot.docs) {
+        batch.set(
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(newUser.uid)
+              .collection('habits')
+              .doc(doc.id),
+          doc.data(),
+        );
+        batch.delete(
+          FirebaseFirestore.instance
+              .collection('users')
+              .doc(oldUid)
+              .collection('habits')
+              .doc(doc.id),
         );
       }
 
-      await user.verifyBeforeUpdateEmail(cleanEmail);
-
-      return const Right(unit);
-    } on FirebaseAuthException catch (e) {
-      return Left(FirebaseFailure.fromException(e));
-    } catch (e) {
-      return Left(FirebaseFailure(e.toString()));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> syncEmailIfChanged() async {
-    try {
-      final user = FirebaseAuth.instance.currentUser;
-      if (user == null) {
-        return const Left(FirebaseFailure("No user logged in"));
-      }
-
-      await user.reload();
-      final refreshedUser = FirebaseAuth.instance.currentUser;
-
-      if (refreshedUser == null) {
-        return const Left(FirebaseFailure("User reload failed"));
-      }
-
-      // 📦 Get Firestore email
-      final doc = await FirebaseFirestore.instance
-          .collection("users")
-          .doc(user.uid)
-          .get();
-
-      final firestoreEmail = doc.data()?['email'];
-
-      if (firestoreEmail != refreshedUser.email) {
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(user.uid)
-            .update({"email": refreshedUser.email});
-      }
+      await batch.commit();
 
       return const Right(unit);
     } on FirebaseAuthException catch (e) {

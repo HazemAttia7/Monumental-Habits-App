@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 
+// TODO : fix snack bar is behind keyboard when keyboard is open
 OverlayEntry? _snackBarEntry;
 Timer? _dismissTimer;
 
@@ -104,7 +105,7 @@ void buildClosableSnackBar(
 
   _snackBarEntry = OverlayEntry(
     builder: (_) => Positioned(
-      bottom: 20.h,
+      bottom: 20.h + MediaQuery.of(context).viewInsets.bottom,
       left: 16.w,
       right: 16.w,
       child: Material(
@@ -139,7 +140,7 @@ void buildSuccessSnackBar(
 
   _snackBarEntry = OverlayEntry(
     builder: (_) => Positioned(
-      bottom: 20.h,
+      bottom: 20.h + MediaQuery.of(context).viewInsets.bottom,
       left: 16.w,
       right: 16.w,
       child: Material(
@@ -174,7 +175,7 @@ void buildErrorSnackBar(
 
   _snackBarEntry = OverlayEntry(
     builder: (_) => Positioned(
-      bottom: 20.h,
+      bottom: 20.h + MediaQuery.of(context).viewInsets.bottom,
       left: 16.w,
       right: 16.w,
       child: Material(
