@@ -36,11 +36,14 @@ class AuthRepoImpl implements AuthRepo {
       }
       return const Left(FirebaseFailure("Login failed"));
     } on FirebaseAuthException catch (e) {
-      // ← catch Google-only account error specifically
       try {
         final query = await FirebaseFirestore.instance
             .collection('users')
             .where('email', isEqualTo: email.trim())
+            .where(
+              'isGoogleUser',
+              isEqualTo: true,
+            ) // ← check isGoogleUser field
             .limit(1)
             .get();
 
@@ -78,14 +81,16 @@ class AuthRepoImpl implements AuthRepo {
     String useruid,
     String username,
     String email,
-    bool emailMe,
-  ) async {
+    bool emailMe, {
+    bool isGoogleUser = false, // ← add this
+  }) async {
     await FirebaseFirestore.instance.collection("users").doc(useruid).set({
       "uid": useruid,
       "username": username,
       'username_lower': username.toLowerCase(),
       "email": email,
       "emailMe": emailMe,
+      "isGoogleUser": isGoogleUser, // ← add this
       "createdAt": FieldValue.serverTimestamp(),
     });
   }
@@ -199,11 +204,22 @@ class AuthRepoImpl implements AuthRepo {
         return const Left(FirebaseFailure("Failed to sign in with Google."));
       }
 
-      // Only create Firestore doc if this is a new user
       final isNewUser = userCredential.additionalUserInfo?.isNewUser ?? false;
       if (isNewUser) {
         final username = user.displayName ?? gUser.email.split('@')[0];
-        await addUserToFirestore(user.uid, username, user.email ?? '', false);
+        await addUserToFirestore(
+          user.uid,
+          username,
+          user.email ?? '',
+          false,
+          isGoogleUser: true, // ← pass true
+        );
+      } else {
+        // ← update existing Google users to have isGoogleUser field
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .update({'isGoogleUser': true});
       }
 
       return Right(AppUser.fromFirebaseUser(user));
