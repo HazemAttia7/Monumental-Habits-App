@@ -12,7 +12,7 @@ class HabitsCompletedDate extends StatelessWidget {
       children: List.generate(
         7,
         (index) => Text(
-          _getDate(index),
+          _getDate(6 - index),
           style: AppStyles.textStyle12.copyWith(
             color: AppColors.primaryColor.withValues(alpha: .7),
           ),
@@ -22,7 +22,7 @@ class HabitsCompletedDate extends StatelessWidget {
   }
 
   String _getDate(int index) {
-    final now = DateTime.now().add(Duration(days: index));
+    final now = DateTime.now().subtract(Duration(days: index));
     return "${now.day}/${now.month}";
   }
 }

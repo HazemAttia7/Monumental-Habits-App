@@ -24,7 +24,7 @@ class ProfileSummary extends StatelessWidget {
           ),
           Gap(12.h),
           const ProfileAnalyticsRow(),
-          Gap(18.h),
+          Gap(8.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: const HabitsCompletedSection(),

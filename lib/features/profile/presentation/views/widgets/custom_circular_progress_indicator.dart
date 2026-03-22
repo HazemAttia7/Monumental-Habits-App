@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomCircularProgressIndicator extends StatelessWidget {
-  final int value;
+  final int value, habitsLength;
   final Color color;
   const CustomCircularProgressIndicator({
     super.key,
     required this.value,
     required this.color,
+    required this.habitsLength,
   });
 
   @override
@@ -18,7 +19,7 @@ class CustomCircularProgressIndicator extends StatelessWidget {
         border: Border.all(color: color.withValues(alpha: .1), width: 3.w),
       ),
       child: CircularProgressIndicator(
-        value: (value.toDouble() / 7),
+        value: (value.toDouble() / habitsLength),
         color: color,
         strokeWidth: 3.w,
         strokeAlign: 1,
