@@ -8,7 +8,6 @@ import 'package:pixel_true_app/core/utils/validator.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/change_credential_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_section_header.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/email_confirmation_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_dialog.dart';
@@ -84,7 +83,7 @@ class PrivacySection extends StatelessWidget {
                   final cubit = context.read<AuthCubit>();
                   showDialog(
                     context: context,
-                    builder: (dialogContext) => ChangeCredentialDialog(
+                    builder: (dialogContext) => PasswordConfirmationDialog(
                       title: "Change Password",
                       subtitle: "Enter your new password",
                       hint: "Enter your password",
@@ -92,10 +91,23 @@ class PrivacySection extends StatelessWidget {
                           "Are you sure you want to change your password?",
                       isPassword: true,
                       onConfirm: (newPass) async {
-                        // TODO : handle and test change password
                         final success = await cubit.changePassword(
                           newPassword: newPass,
                         );
+                        switch (success) {
+                          case true:
+                            buildSuccessSnackBar(
+                              context,
+                              message: "Password changed successfully",
+                            );
+                            break;
+                          case false:
+                            buildErrorSnackBar(
+                              context,
+                              message: "Failed to change password",
+                            );
+                            break;
+                        }
                         return success;
                       },
                       validator: Validator.validatePassword,

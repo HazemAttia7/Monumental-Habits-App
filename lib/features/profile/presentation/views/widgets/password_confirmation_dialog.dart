@@ -17,7 +17,6 @@ class PasswordConfirmationDialog extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String password)? onPasswordVerified;
   final Function(String)? afterPop;
-
   const PasswordConfirmationDialog({
     super.key,
     required this.title,
@@ -68,7 +67,7 @@ class _PasswordConfirmationDialogState
           subtitle: widget.subtitle,
           hint: widget.hint,
           confirmMessage: widget.confirmMessage,
-          isPassword: false,
+          isPassword: widget.isPassword,
           onConfirm: widget.onConfirm,
           validator: widget.validator,
           afterPop: widget.afterPop,

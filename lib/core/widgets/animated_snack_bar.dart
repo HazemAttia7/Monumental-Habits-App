@@ -102,10 +102,11 @@ void buildClosableSnackBar(
   _snackBarEntry?.remove();
 
   final overlay = Overlay.of(context, rootOverlay: true);
+  final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
   _snackBarEntry = OverlayEntry(
     builder: (_) => Positioned(
-      bottom: 20.h + MediaQuery.of(context).viewInsets.bottom,
+      bottom: 20.h + bottomInset,
       left: 16.w,
       right: 16.w,
       child: Material(
@@ -137,10 +138,11 @@ void buildSuccessSnackBar(
   _snackBarEntry?.remove();
 
   final overlay = Overlay.of(context, rootOverlay: true);
+  final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
   _snackBarEntry = OverlayEntry(
     builder: (_) => Positioned(
-      bottom: 20.h + MediaQuery.of(context).viewInsets.bottom,
+      bottom: 20.h + bottomInset,
       left: 16.w,
       right: 16.w,
       child: Material(
@@ -172,10 +174,11 @@ void buildErrorSnackBar(
   _snackBarEntry?.remove();
 
   final overlay = Overlay.of(context, rootOverlay: true);
+  final bottomInset = MediaQuery.of(context).viewInsets.bottom;
 
   _snackBarEntry = OverlayEntry(
     builder: (_) => Positioned(
-      bottom: 20.h + MediaQuery.of(context).viewInsets.bottom,
+      bottom: 20.h + bottomInset,
       left: 16.w,
       right: 16.w,
       child: Material(
