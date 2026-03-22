@@ -8,16 +8,16 @@ import 'package:pixel_true_app/core/services/notification_service.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
 
-part 'home_state.dart';
+part 'habits_state.dart';
 
-class HomeCubit extends Cubit<HomeState> {
+class HabitsCubit extends Cubit<HabitsState> {
   final HabitsRepo _repo;
   final String _uid;
   Timer? _debounceTimer;
   final NotificationService _notificationService;
 
-  HomeCubit(this._repo, this._uid, this._notificationService)
-    : super(HomeInitial());
+  HabitsCubit(this._repo, this._uid, this._notificationService)
+    : super(HabitsInitial());
 
   Future<void> fetchHabits() async {
     emit(HabitsLoading());

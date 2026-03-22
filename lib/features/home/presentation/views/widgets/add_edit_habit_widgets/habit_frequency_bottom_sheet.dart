@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/custom_switcher.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_frequency_grid_view.dart';
 

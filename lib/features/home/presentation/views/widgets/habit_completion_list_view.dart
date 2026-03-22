@@ -5,7 +5,7 @@ import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_completion_list_view_item.dart';
 
 class HabitCompletionListView extends StatelessWidget {
@@ -56,7 +56,7 @@ class HabitCompletionListView extends StatelessWidget {
                         );
                         return;
                       }
-                      BlocProvider.of<HomeCubit>(context).cycleHabitStatus(
+                      BlocProvider.of<HabitsCubit>(context).cycleHabitStatus(
                         habit.id,
                         weekStart.add(Duration(days: index)),
                       );

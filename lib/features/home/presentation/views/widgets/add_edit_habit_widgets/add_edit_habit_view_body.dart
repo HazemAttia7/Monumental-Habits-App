@@ -7,8 +7,8 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/add_edit_habit_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_frequency_widget.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_name_input.dart';
@@ -65,7 +65,7 @@ class AddEditHabitViewBody extends StatelessWidget {
                         final updatedHabit = context
                             .read<AddEditHabitController>()
                             .buildUpdatedHabit();
-                        context.read<HomeCubit>().updateHabit(updatedHabit);
+                        context.read<HabitsCubit>().updateHabit(updatedHabit);
                         buildSuccessSnackBar(
                           context,
                           message: 'Habit updated successfully',

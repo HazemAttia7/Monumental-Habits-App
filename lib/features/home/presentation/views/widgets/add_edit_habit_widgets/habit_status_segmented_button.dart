@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
 import 'package:provider/provider.dart';
 
 class HabitStatusSegmentedButton extends StatelessWidget {

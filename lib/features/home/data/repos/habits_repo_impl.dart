@@ -151,6 +151,7 @@ class HabitsRepoImpl implements HabitsRepo {
     }
   }
 
+
   // ── Sync helpers ────────────────────────────────────────────
 
   /// Push all local unsynced changes to Firestore

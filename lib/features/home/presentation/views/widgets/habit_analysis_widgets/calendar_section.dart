@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/habit_analysis_controller.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
+import 'package:pixel_true_app/core/managers/habit_analysis_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/calender_grid_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/month_actions.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/week_days_row.dart';
@@ -33,15 +33,15 @@ class CalendarSection extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: MonthActions(
-              onNextTap: controller.onNextTap ,
-              onBackTap:controller.onBackTap,
+              onNextTap: controller.onNextTap,
+              onBackTap: controller.onBackTap,
               month: monthName(controller.currentDate.month),
             ),
           ),
           Gap(16.h),
           const WeekDaysRow(),
           Gap(8.h),
-          BlocBuilder<HomeCubit, HomeState>(
+          BlocBuilder<HabitsCubit, HabitsState>(
             builder: (context, state) {
               if (state is! HabitsLoaded) return const SizedBox.shrink();
               final loadedHabit = state.habits.firstWhere(

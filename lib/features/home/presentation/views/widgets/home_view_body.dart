@@ -5,8 +5,8 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/home_controller.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
+import 'package:pixel_true_app/core/managers/home_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_section_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_tracking_sliver_list.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/home_header.dart';
@@ -56,7 +56,7 @@ class HomeViewBody extends StatelessWidget {
               top: 13.h,
               bottom: 140.sp,
             ),
-            sliver: BlocBuilder<HomeCubit, HomeState>(
+            sliver: BlocBuilder<HabitsCubit, HabitsState>(
               builder: (context, state) {
                 if (state is HabitsError) {
                   return SliverFillRemaining(
@@ -69,7 +69,11 @@ class HomeViewBody extends StatelessWidget {
                     ? List.generate(
                         4,
                         (i) => Habit(
-                          name: 'Loading habit', id: '', frequency: [], reminders: [], logs: {} 
+                          name: 'Loading habit',
+                          id: '',
+                          frequency: [],
+                          reminders: [],
+                          logs: {},
                         ),
                       )
                     : [];

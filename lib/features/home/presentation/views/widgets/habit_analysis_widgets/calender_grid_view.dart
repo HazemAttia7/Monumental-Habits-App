@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/habit_analysis_controller.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
+import 'package:pixel_true_app/core/managers/habit_analysis_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/calender_grid_view_item.dart';
 
 class CalendarGridView extends StatelessWidget {
@@ -18,8 +18,9 @@ class CalendarGridView extends StatelessWidget {
     required this.themeColor,
   });
 
-  Color get _mutedColor =>
-      HSLColor.fromColor(themeColor).withSaturation(0).withLightness(0.75).toColor();
+  Color get _mutedColor => HSLColor.fromColor(
+    themeColor,
+  ).withSaturation(0).withLightness(0.75).toColor();
 
   @override
   Widget build(BuildContext context) {
@@ -38,21 +39,37 @@ class CalendarGridView extends StatelessWidget {
       itemBuilder: (_, index) {
         // ── Next-month padding ──
         if (index > controller.totalCells - 1) {
-          return _buildDisabledItem(index - controller.totalCells + 1, enHabitDailyStatus.none);
+          return _buildDisabledItem(
+            index - controller.totalCells + 1,
+            enHabitDailyStatus.none,
+          );
         }
 
         // ── Prev-month padding ──
         if (index < controller.startOffset) {
-          final day = controller.prevMonthDays - controller.startOffset + index + 1;
-          final dateKey = HabitAnalysisController.formatDateKey(controller.prevYear, controller.prevMonth, day);
+          final day =
+              controller.prevMonthDays - controller.startOffset + index + 1;
+          final dateKey = HabitAnalysisController.formatDateKey(
+            controller.prevYear,
+            controller.prevMonth,
+            day,
+          );
           final state = habit.logs[dateKey] ?? enHabitDailyStatus.none;
           return _buildDisabledItem(day, state);
         }
 
         // ── Current-month day ──
         final day = index - controller.startOffset + 1;
-        final date = DateTime(controller.currentDate.year, controller.currentDate.month, day);
-        final dateKey = HabitAnalysisController.formatDateKey(controller.currentDate.year, controller.currentDate.month, day);
+        final date = DateTime(
+          controller.currentDate.year,
+          controller.currentDate.month,
+          day,
+        );
+        final dateKey = HabitAnalysisController.formatDateKey(
+          controller.currentDate.year,
+          controller.currentDate.month,
+          day,
+        );
         final state = habit.logs[dateKey] ?? enHabitDailyStatus.none;
 
         return CalenderGridViewItem(
@@ -66,16 +83,23 @@ class CalendarGridView extends StatelessWidget {
     );
   }
 
-  void _onDayTap(BuildContext context, HabitAnalysisController controller, DateTime date) {
+  void _onDayTap(
+    BuildContext context,
+    HabitAnalysisController controller,
+    DateTime date,
+  ) {
     final error = controller.validateDayTap(habit: habit, date: date);
     if (error != null) {
       buildClosableSnackBar(context, message: error);
       return;
     }
-    context.read<HomeCubit>().cycleHabitStatus(habit.id, date);
+    context.read<HabitsCubit>().cycleHabitStatus(habit.id, date);
   }
 
-  CalenderGridViewItem _buildDisabledItem(int number, enHabitDailyStatus state) {
+  CalenderGridViewItem _buildDisabledItem(
+    int number,
+    enHabitDailyStatus state,
+  ) {
     return CalenderGridViewItem(
       themeColor: _mutedColor,
       number: number,

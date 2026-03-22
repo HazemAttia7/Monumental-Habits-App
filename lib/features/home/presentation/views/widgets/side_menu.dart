@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/more_actions.dart';
@@ -42,7 +43,10 @@ class SideMenu extends StatelessWidget {
                   context,
                   listen: false,
                 ).closeSideMenu();
-                GoRouter.of(context).push(AppRouter.kProfileView);
+                GoRouter.of(context).push(
+                  AppRouter.kProfileView,
+                  extra: context.read<HabitsCubit>(),
+                );
               },
             ),
             Gap(24.h),

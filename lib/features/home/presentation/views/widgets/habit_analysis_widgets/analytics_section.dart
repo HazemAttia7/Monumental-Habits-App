@@ -9,7 +9,7 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/analytics_details.dart';
 
 class AnalyticsSection extends StatelessWidget {
@@ -28,7 +28,7 @@ class AnalyticsSection extends StatelessWidget {
       : AppColors.primaryColor;
 
   void _updateStatus(BuildContext context, enHabitStatus status) {
-    context.read<HomeCubit>().updateHabitStatus(habit.id, status);
+    context.read<HabitsCubit>().updateHabitStatus(habit.id, status);
     buildSuccessSnackBar(
       context,
       message:
@@ -65,7 +65,7 @@ class AnalyticsSection extends StatelessWidget {
             ),
           ),
           Gap(22.h),
-          BlocSelector<HomeCubit, HomeState, Habit?>(
+          BlocSelector<HabitsCubit, HabitsState, Habit?>(
             selector: (state) => state is HabitsLoaded
                 ? state.habits.firstWhere((h) => h.id == habit.id)
                 : null,

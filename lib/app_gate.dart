@@ -8,8 +8,8 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/auth/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/add_edit_habit_controller.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
 import 'package:pixel_true_app/features/main/presentation/views/main_view.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +25,7 @@ class AppGate extends StatelessWidget {
       builder: (context, state) {
         if (state is Authenticated) {
           return BlocProvider(
-            create: (_) => HomeCubit(
+            create: (_) => HabitsCubit(
               sl<HabitsRepo>(),
               state.user.uid,
               sl<NotificationService>(),

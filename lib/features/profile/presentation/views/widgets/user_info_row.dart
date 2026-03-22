@@ -17,6 +17,7 @@ class UserInfoRow extends StatelessWidget {
         Gap(10.w),
         const NameWidget(),
         const Spacer(),
+        // TODO : implement filtering logic
         FilterDropdown(onSelected: (enProfileFilterBy? p1) {}),
       ],
     );

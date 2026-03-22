@@ -7,7 +7,7 @@ import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
-import 'package:pixel_true_app/features/home/presentation/managers/cubits/home_cubit/home_cubit.dart';
+import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_completion_list_view.dart';
 import 'package:redacted/redacted.dart';
@@ -36,10 +36,10 @@ class HabitTrackingWidget extends StatelessWidget {
           showDialog(
             context: context,
             builder: (dialogContext) => BlocProvider.value(
-              value: context.read<HomeCubit>(),
+              value: context.read<HabitsCubit>(),
               child: DeleteDialog(
                 onDelete: () {
-                  context.read<HomeCubit>().deleteHabit(habit.id);
+                  context.read<HabitsCubit>().deleteHabit(habit.id);
                   buildSuccessSnackBar(
                     context,
                     message: '"${habit.name}" deleted successfully.',
@@ -60,7 +60,7 @@ class HabitTrackingWidget extends StatelessWidget {
             extra: {
               "habit": habit,
               "themeColor": color,
-              "cubit": context.read<HomeCubit>(),
+              "cubit": context.read<HabitsCubit>(),
             },
           );
         },
