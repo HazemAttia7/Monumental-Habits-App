@@ -7,7 +7,8 @@ import 'package:pixel_true_app/features/profile/presentation/views/widgets/filte
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/name_widget.dart';
 
 class UserInfoRow extends StatelessWidget {
-  const UserInfoRow({super.key});
+  final void Function(enProfileFilterBy) onDropdownChanged;
+  const UserInfoRow({super.key, required this.onDropdownChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,7 @@ class UserInfoRow extends StatelessWidget {
         Gap(10.w),
         const NameWidget(),
         const Spacer(),
-        // TODO : implement filtering logic
-        FilterDropdown(onSelected: (enProfileFilterBy? p1) {}),
+        FilterDropdown(onSelected: onDropdownChanged),
       ],
     );
   }

@@ -7,8 +7,8 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class FilterDropdown extends StatefulWidget {
-  final void Function(enProfileFilterBy?)? onSelected;
-  const FilterDropdown({super.key, required this.onSelected});
+  final Function(enProfileFilterBy) onSelected;
+  const FilterDropdown({super.key, required this.onSelected, });
 
   @override
   State<FilterDropdown> createState() => _FilterDropdownState();
@@ -22,7 +22,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
     return PopupMenuButton<enProfileFilterBy>(
       onSelected: (value) {
         setState(() => _selected = value);
-        widget.onSelected?.call(value);
+        widget.onSelected(value);
       },
       offset: Offset(0, 44.h),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
