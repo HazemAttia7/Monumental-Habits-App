@@ -27,7 +27,7 @@ class IconTextWidget extends StatelessWidget {
           child: Text(
             text,
             style: AppStyles.textStyle12.copyWith(
-              color: AppColors.primaryColor.withValues(alpha: .5),
+              color: AppColors.secondaryColor.withValues(alpha: .5),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

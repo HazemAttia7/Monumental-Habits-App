@@ -27,7 +27,7 @@ class DeleteDialog extends StatelessWidget {
           borderRadius: BorderRadius.circular(20.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryColor.withValues(alpha: .15),
+              color: AppColors.secondaryColor.withValues(alpha: .15),
               blurRadius: 30,
               spreadRadius: 5,
               offset: const Offset(0, 10),

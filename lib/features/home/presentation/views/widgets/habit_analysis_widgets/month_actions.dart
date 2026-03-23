@@ -21,13 +21,13 @@ class MonthActions extends StatelessWidget {
       children: [
         IconButtonWithShadow(
           icon: FontAwesomeIcons.angleLeft,
-          color: AppColors.primaryColor,
+          color: AppColors.secondaryColor,
           onTap: onBackTap,
         ),
         Text(month, style: AppStyles.textStyle16),
         IconButtonWithShadow(
           icon: FontAwesomeIcons.angleRight,
-          color: AppColors.primaryColor,
+          color: AppColors.secondaryColor,
           onTap: onNextTap,
         ),
       ],

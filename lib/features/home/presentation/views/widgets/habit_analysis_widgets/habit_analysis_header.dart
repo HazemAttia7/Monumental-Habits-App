@@ -35,7 +35,7 @@ class HabitAnalysisHeader extends StatelessWidget {
         CustomIconButton(
           onTap: () {
             GoRouter.of(context).push(
-              AppRouter.kAddNewHabit,
+              AppRouter.kAddEditNewHabit,
               extra: {
                 "mode": enHabitFormMode.edit,
                 "backToHome": () => GoRouter.of(context).pop(),

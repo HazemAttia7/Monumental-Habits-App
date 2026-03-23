@@ -25,7 +25,7 @@ class HabitSuggestionUnit extends StatelessWidget {
               text,
               style: TextStyle(
                 fontSize: 15.sp,
-                color: AppColors.primaryColor,
+                color: AppColors.secondaryColor,
                 fontWeight: FontWeight.bold,
               ),
             ),

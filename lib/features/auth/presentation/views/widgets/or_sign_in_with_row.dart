@@ -12,16 +12,16 @@ class OrSignInWithRow extends StatelessWidget {
       spacing: 10.w,
       children: [
         Expanded(
-          child: Divider(color: AppColors.primaryColor.withValues(alpha: .2)),
+          child: Divider(color: AppColors.secondaryColor.withValues(alpha: .2)),
         ),
         Text(
           "Or sign in with",
           style: AppStyles.textStyle14.copyWith(
-            color: AppColors.primaryColor.withValues(alpha: .5),
+            color: AppColors.secondaryColor.withValues(alpha: .5),
           ),
         ),
         Expanded(
-          child: Divider(color: AppColors.primaryColor.withValues(alpha: .2)),
+          child: Divider(color: AppColors.secondaryColor.withValues(alpha: .2)),
         ),
       ],
     );

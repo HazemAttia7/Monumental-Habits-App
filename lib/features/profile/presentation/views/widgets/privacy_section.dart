@@ -120,7 +120,7 @@ class PrivacySection extends StatelessWidget {
         ),
         Gap(24.h),
         Divider(
-          color: AppColors.primaryColor.withValues(alpha: .2),
+          color: AppColors.secondaryColor.withValues(alpha: .2),
           thickness: 1.w,
         ),
         Gap(24.h),

@@ -23,7 +23,7 @@ class SideMenuClickableText extends StatelessWidget {
         child: Text(
           text.toUpperCase(),
           style: AppStyles.textStyle14.copyWith(
-            color: AppColors.primaryColor.withValues(alpha: .4),
+            color: AppColors.secondaryColor.withValues(alpha: .4),
             fontWeight: FontWeight.bold,
           ),
         ),

@@ -57,8 +57,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       focusNode: _focusNode,
       style: AppStyles.textStyle16.copyWith(
         color: _focusNode.hasFocus
-            ? AppColors.secondaryColor
-            : AppColors.primaryColor.withValues(alpha: .5),
+            ? AppColors.primaryColor
+            : AppColors.secondaryColor.withValues(alpha: .5),
       ),
       validator: widget.validator,
       onSaved: widget.onSaved,
@@ -84,16 +84,16 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         hintStyle: AppStyles.textStyle16.copyWith(
           fontWeight: FontWeight.w500,
           color: _focusNode.hasFocus
-              ? AppColors.secondaryColor
-              : AppColors.primaryColor.withValues(alpha: .5),
+              ? AppColors.primaryColor
+              : AppColors.secondaryColor.withValues(alpha: .5),
         ),
         prefixIcon: widget.prefixIcon != null
             ? Icon(
                 widget.prefixIcon,
                 size: widget.iconSize ?? 20.sp,
                 color: _focusNode.hasFocus
-                    ? AppColors.secondaryColor
-                    : AppColors.primaryColor.withValues(alpha: .5),
+                    ? AppColors.primaryColor
+                    : AppColors.secondaryColor.withValues(alpha: .5),
               )
             : null,
         suffix: widget.isPassword

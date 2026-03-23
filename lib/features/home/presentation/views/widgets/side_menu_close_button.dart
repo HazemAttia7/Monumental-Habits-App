@@ -45,7 +45,7 @@ class SideMenuCloseButton extends StatelessWidget {
               padding: EdgeInsets.all(11.sp),
               child: Icon(
                 FontAwesomeIcons.xmark,
-                color: AppColors.primaryColor,
+                color: AppColors.secondaryColor,
                 size: 22.sp,
               ),
             ),

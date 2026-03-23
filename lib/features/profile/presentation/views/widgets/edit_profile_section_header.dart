@@ -11,7 +11,7 @@ class EditProfileSectionHeader extends StatelessWidget {
     return Text(
       text,
       style: AppStyles.textStyle22.copyWith(
-        color: AppColors.primaryColor.withValues(alpha: .75),
+        color: AppColors.secondaryColor.withValues(alpha: .75),
       ),
     );
   }

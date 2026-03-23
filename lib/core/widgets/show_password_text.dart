@@ -19,7 +19,7 @@ class ShowHidePasswrodText extends StatelessWidget {
         isObsecured ? "Show" : "Hide",
         style: AppStyles.textStyle14.copyWith(
           decoration: TextDecoration.underline,
-          color: AppColors.primaryColor,
+          color: AppColors.secondaryColor,
         ),
       ),
     );

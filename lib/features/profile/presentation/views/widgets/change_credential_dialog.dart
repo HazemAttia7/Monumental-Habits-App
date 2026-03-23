@@ -108,7 +108,7 @@ class _ChangeCredentialDialogState extends State<ChangeCredentialDialog> {
                 text: _isLoading
                     ? widget.loadingMessage ?? "Loading..."
                     : "Change",
-                backColor: AppColors.primaryColor,
+                backColor: AppColors.secondaryColor,
                 textColor: Colors.white,
               ),
             ],

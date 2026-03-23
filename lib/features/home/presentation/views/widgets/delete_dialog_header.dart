@@ -19,7 +19,7 @@ class DeleteDialogHeader extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 20.h),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [AppColors.primaryColor, AppColors.secondaryColor],
+          colors: [AppColors.secondaryColor, AppColors.primaryColor],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),

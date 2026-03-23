@@ -27,12 +27,12 @@ class AddEditReminderHeader extends StatelessWidget {
                 onTap: () {
                   GoRouter.of(context).pop();
                 },
-                textColor: themeColor ?? AppColors.secondaryColor,
+                textColor: themeColor ?? AppColors.primaryColor,
               ),
               Text("Add Reminders", style: AppStyles.textStyle18),
               CustomClickableText(
                 text: "Save",
-                textColor: themeColor ?? AppColors.secondaryColor,
+                textColor: themeColor ?? AppColors.primaryColor,
                 onTap: () {
                   Provider.of<AddEditHabitController>(
                     context,

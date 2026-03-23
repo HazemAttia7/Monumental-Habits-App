@@ -14,7 +14,7 @@ class RememberPasswordText extends StatelessWidget {
         text: TextSpan(
           style: AppStyles.textStyle14.copyWith(
             fontWeight: FontWeight.normal,
-            color: AppColors.primaryColor,
+            color: AppColors.secondaryColor,
           ),
           children: [
             const TextSpan(text: "Remember password? "),

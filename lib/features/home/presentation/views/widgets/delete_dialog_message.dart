@@ -24,7 +24,7 @@ class DeleteDialogMessage extends StatelessWidget {
           TextSpan(
             text: '"$itemLabel"',
             style: AppStyles.textStyle16.copyWith(
-              color: AppColors.primaryColor,
+              color: AppColors.secondaryColor,
               fontWeight: FontWeight.bold,
             ),
           ),

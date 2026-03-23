@@ -21,11 +21,11 @@ class HabitFrequencyBottomSheet extends StatefulWidget {
 class _HabitFrequencyBottomSheetState extends State<HabitFrequencyBottomSheet> {
   Color get _buttonTextColor =>
       ThemeData.estimateBrightnessForColor(
-            widget.themeColor ?? AppColors.secondaryColor,
+            widget.themeColor ?? AppColors.primaryColor,
           ) ==
           Brightness.dark
       ? Colors.white
-      : AppColors.primaryColor;
+      : AppColors.secondaryColor;
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class _HabitFrequencyBottomSheetState extends State<HabitFrequencyBottomSheet> {
               onTap: () {
                 GoRouter.of(context).pop();
               },
-              backColor: widget.themeColor ?? AppColors.secondaryColor,
+              backColor: widget.themeColor ?? AppColors.primaryColor,
               textColor: _buttonTextColor,
             ),
           ],

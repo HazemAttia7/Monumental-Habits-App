@@ -34,7 +34,7 @@ class ProfileAnalyticsWidget extends StatelessWidget {
               Text(
                 title,
                 style: AppStyles.textStyle12.copyWith(
-                  color: AppColors.primaryColor.withValues(alpha: .5),
+                  color: AppColors.secondaryColor.withValues(alpha: .5),
                   height: 1,
                 ),
               ),

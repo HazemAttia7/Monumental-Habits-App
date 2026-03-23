@@ -46,7 +46,7 @@ class SideMenuListTile extends StatelessWidget {
             padding: EdgeInsets.all(16.sp),
             child: Row(
               children: [
-                Icon(icon, size: 20.sp, color: AppColors.secondaryColor),
+                Icon(icon, size: 20.sp, color: AppColors.primaryColor),
                 Gap(16.w),
                 Text(title, style: AppStyles.textStyle17),
               ],

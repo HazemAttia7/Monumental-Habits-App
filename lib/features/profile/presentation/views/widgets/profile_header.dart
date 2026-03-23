@@ -16,7 +16,7 @@ class ProfileHeader extends StatelessWidget {
       children: [
         CustomIconButton(
           onTap: () => GoRouter.of(context).pop(),
-          iconColor: AppColors.primaryColor,
+          iconColor: AppColors.secondaryColor,
           icon: FontAwesomeIcons.arrowLeft,
         ),
         Text("Profile", style: AppStyles.textStyle18),
@@ -27,11 +27,10 @@ class ProfileHeader extends StatelessWidget {
               builder: (BuildContext context) => const EditProfileBottomSheet(),
             );
           },
-          iconColor: AppColors.primaryColor,
+          iconColor: AppColors.secondaryColor,
           icon: FontAwesomeIcons.pencil,
         ),
       ],
     );
   }
 }
-

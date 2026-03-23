@@ -26,17 +26,17 @@ class CustomButton extends StatelessWidget {
     return AbsorbPointer(
       absorbing: isLoading,
       child: Material(
-        color: backColor ?? AppColors.secondaryColor,
+        color: backColor ?? AppColors.primaryColor,
         borderRadius: BorderRadius.circular(8.r),
         child: InkWell(
           splashColor:
               splashColor?.withValues(alpha: .1) ??
               textColor?.withValues(alpha: .1) ??
-              AppColors.primaryColor.withValues(alpha: .1),
+              AppColors.secondaryColor.withValues(alpha: .1),
           highlightColor:
               highlightColor?.withValues(alpha: .1) ??
               textColor?.withValues(alpha: .1) ??
-              AppColors.primaryColor.withValues(alpha: .1),
+              AppColors.secondaryColor.withValues(alpha: .1),
           borderRadius: BorderRadius.circular(8.r),
           onTap: onTap,
           child: SizedBox(

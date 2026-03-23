@@ -29,14 +29,14 @@ class BorderedButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(
-              color: AppColors.primaryColor.withValues(alpha: .2),
+              color: AppColors.secondaryColor.withValues(alpha: .2),
             ),
           ),
           child: Center(
             child: Text(
               text,
               style: AppStyles.textStyle16.copyWith(
-                color: AppColors.primaryColor,
+                color: AppColors.secondaryColor,
                 fontWeight: FontWeight.w600,
               ),
             ),

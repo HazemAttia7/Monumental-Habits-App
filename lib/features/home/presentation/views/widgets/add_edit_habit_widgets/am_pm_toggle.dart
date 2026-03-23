@@ -16,7 +16,7 @@ class AmPmToggle extends StatelessWidget {
       children: [
         Expanded(
           child: AmPmContainer(
-            themeColor: themeColor ?? AppColors.secondaryColor,
+            themeColor: themeColor ?? AppColors.primaryColor,
             period: 'am',
             isSelected: controller.selectedPeriod == enAmPm.am,
             toggle: () => controller.toggleAmPm(clickedPeriod: enAmPm.am),
@@ -24,7 +24,7 @@ class AmPmToggle extends StatelessWidget {
         ),
         Expanded(
           child: AmPmContainer(
-            themeColor: themeColor ?? AppColors.secondaryColor,
+            themeColor: themeColor ?? AppColors.primaryColor,
             period: "pm",
             isSelected: controller.selectedPeriod == enAmPm.pm,
             toggle: () => controller.toggleAmPm(clickedPeriod: enAmPm.pm),

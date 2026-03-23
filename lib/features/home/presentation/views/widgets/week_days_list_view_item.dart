@@ -34,7 +34,7 @@ class WeekDaysListViewItem extends StatelessWidget {
                     Text(
                       getDay(),
                       style: AppStyles.textStyle10.copyWith(
-                        color: AppColors.primaryColor.withValues(alpha: .5),
+                        color: AppColors.secondaryColor.withValues(alpha: .5),
                       ),
                     ),
                     Text(getDateDay(), style: AppStyles.textStyle16),

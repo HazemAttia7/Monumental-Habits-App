@@ -8,7 +8,7 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class FilterDropdown extends StatefulWidget {
   final Function(enProfileFilterBy) onSelected;
-  const FilterDropdown({super.key, required this.onSelected, });
+  const FilterDropdown({super.key, required this.onSelected});
 
   @override
   State<FilterDropdown> createState() => _FilterDropdownState();
@@ -46,7 +46,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.r),
           border: Border.all(
-            color: AppColors.primaryColor.withValues(alpha: .1),
+            color: AppColors.secondaryColor.withValues(alpha: .1),
           ),
         ),
         child: Row(
@@ -59,7 +59,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
               size: 18.sp,
               shadows: [
                 Shadow(
-                  color: AppColors.primaryColor.withValues(alpha: .5),
+                  color: AppColors.secondaryColor.withValues(alpha: .5),
                   offset: const Offset(0, 2),
                   blurRadius: 6,
                 ),

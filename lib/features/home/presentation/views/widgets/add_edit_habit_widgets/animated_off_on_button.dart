@@ -30,7 +30,7 @@ class AnimatedOffOnButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: isOn
                 ? themeColor.withValues(alpha: .1)
-                : AppColors.primaryColor.withValues(alpha: .1),
+                : AppColors.secondaryColor.withValues(alpha: .1),
             borderRadius: BorderRadius.circular(9999.r),
           ),
           child: Stack(
@@ -49,7 +49,7 @@ class AnimatedOffOnButton extends StatelessWidget {
                       key: ValueKey(isOn),
                       style: AppStyles.textStyle12.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: isOn ? themeColor : AppColors.primaryColor,
+                        color: isOn ? themeColor : AppColors.secondaryColor,
                       ),
                     ),
                   ),
@@ -64,12 +64,12 @@ class AnimatedOffOnButton extends StatelessWidget {
                   width: 22.sp,
                   height: 22.sp,
                   decoration: BoxDecoration(
-                    color: isOn ? themeColor : AppColors.primaryColor,
+                    color: isOn ? themeColor : AppColors.secondaryColor,
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
                         offset: const Offset(-2, 2),
-                        color: (isOn ? themeColor : AppColors.primaryColor)
+                        color: (isOn ? themeColor : AppColors.secondaryColor)
                             .withValues(alpha: .5),
                         blurRadius: 6,
                       ),

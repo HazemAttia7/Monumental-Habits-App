@@ -12,7 +12,7 @@ class CustomHandler extends StatelessWidget {
       height: 4.h,
       margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
-        color: AppColors.primaryColor.withValues(alpha: .2),
+        color: AppColors.secondaryColor.withValues(alpha: .2),
         borderRadius: BorderRadius.circular(2.r),
       ),
     );

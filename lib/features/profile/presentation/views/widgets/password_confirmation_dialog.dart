@@ -125,7 +125,7 @@ class _PasswordConfirmationDialogState
             CustomButton(
               onTap: _isLoading ? () {} : _verifyPassword,
               text: _isLoading ? "Verifying..." : "Confirm",
-              backColor: AppColors.primaryColor,
+              backColor: AppColors.secondaryColor,
               textColor: Colors.white,
             ),
             Gap(8.h),

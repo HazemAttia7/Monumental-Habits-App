@@ -28,10 +28,10 @@ class AddReminderBottomSheet extends StatelessWidget {
             AddEditReminderHeader(themeColor: themeColor),
             Expanded(
               child: TimeScrollView(
-                themeColor: themeColor ?? AppColors.secondaryColor,
+                themeColor: themeColor ?? AppColors.primaryColor,
               ),
             ),
-            AmPmToggle(themeColor: themeColor ?? AppColors.secondaryColor),
+            AmPmToggle(themeColor: themeColor ?? AppColors.primaryColor),
           ],
         ),
       ),

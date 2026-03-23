@@ -24,7 +24,7 @@ class OnOffGridViewItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: isOn
             ? themeColor.withValues(alpha: .1)
-            : AppColors.primaryColor.withValues(alpha: .2),
+            : AppColors.secondaryColor.withValues(alpha: .2),
         borderRadius: BorderRadius.circular(12.r),
       ),
       child: Column(
@@ -34,7 +34,7 @@ class OnOffGridViewItem extends StatelessWidget {
           Text(
             day,
             style: AppStyles.textStyle18.copyWith(
-              color: isOn ? themeColor : AppColors.primaryColor,
+              color: isOn ? themeColor : AppColors.secondaryColor,
             ),
           ),
           AnimatedOffOnButton(isOn: isOn, onTap: onTap, themeColor: themeColor),

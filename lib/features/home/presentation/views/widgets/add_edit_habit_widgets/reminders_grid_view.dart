@@ -34,7 +34,7 @@ class RemindersGridView extends StatelessWidget {
               childAspectRatio: 120 / 92,
             ),
             itemBuilder: (context, index) => RemovableOnOffGridViewItem(
-              themeColor: themeColor ?? AppColors.secondaryColor,
+              themeColor: themeColor ?? AppColors.primaryColor,
               unit: controller.remindersTime[index],
               isOn: controller.remindersList[index],
               onTap: (value) => controller.onReminderChanged(index, value),

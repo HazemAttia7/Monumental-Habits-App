@@ -19,7 +19,7 @@ class FadingText extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 40.sp,
-              color: AppColors.primaryColor,
+              color: AppColors.secondaryColor,
               fontFamily: "Klasik",
               height: 1,
             ),

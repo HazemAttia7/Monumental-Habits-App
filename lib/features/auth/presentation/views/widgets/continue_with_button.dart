@@ -32,7 +32,7 @@ class ContinueWithButton extends StatelessWidget {
             child: isLoading
                 ? const Center(
                     child: CircularProgressIndicator(
-                      color: AppColors.primaryColor,
+                      color: AppColors.secondaryColor,
                     ),
                   )
                 : CustomListTile(leadingImage: image, title: text),

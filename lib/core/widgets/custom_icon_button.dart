@@ -23,16 +23,16 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: backColor ?? AppColors.primaryColor.withValues(alpha: .1),
+      color: backColor ?? AppColors.secondaryColor.withValues(alpha: .1),
       shape: shape == BoxShape.circle ? null : const CircleBorder(),
       child: InkWell(
         customBorder: shape == BoxShape.circle ? null : const CircleBorder(),
         highlightColor:
             iconColor?.withValues(alpha: .1) ??
-            AppColors.primaryColor.withValues(alpha: .1),
+            AppColors.secondaryColor.withValues(alpha: .1),
         splashColor:
             iconColor?.withValues(alpha: .1) ??
-            AppColors.primaryColor.withValues(alpha: .1),
+            AppColors.secondaryColor.withValues(alpha: .1),
         onTap: onTap,
         child: Container(
           padding: padding ?? EdgeInsets.all(11.sp),
@@ -44,7 +44,7 @@ class CustomIconButton extends StatelessWidget {
           ),
           child: Icon(
             icon,
-            color: iconColor ?? AppColors.primaryColor,
+            color: iconColor ?? AppColors.secondaryColor,
             size: iconSize ?? 22.sp,
           ),
         ),

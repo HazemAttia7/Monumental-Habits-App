@@ -38,7 +38,7 @@ class AnimatedPageIndicator extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: index == selectedPageIndex
-                    ? AppColors.primaryColor.withValues(alpha: .2)
+                    ? AppColors.secondaryColor.withValues(alpha: .2)
                     : const Color(0xffF9B566),
               ),
               child: index == selectedPageIndex
@@ -50,7 +50,7 @@ class AnimatedPageIndicator extends StatelessWidget {
                         height: 11.sp,
                         decoration: const BoxDecoration(
                           shape: BoxShape.circle,
-                          color: AppColors.primaryColor,
+                          color: AppColors.secondaryColor,
                         ),
                       ),
                     )

@@ -94,8 +94,8 @@ class _CreateAccountFormState extends State<CreateAccountForm> {
                   });
                 },
                 text: 'Email me about special pricing and more',
-                checkColor: AppColors.primaryColor,
-                baseColor: AppColors.secondaryColor,
+                checkColor: AppColors.secondaryColor,
+                baseColor: AppColors.primaryColor,
                 textStyle: AppStyles.textStyle16.copyWith(
                   fontWeight: FontWeight.w500,
                 ),

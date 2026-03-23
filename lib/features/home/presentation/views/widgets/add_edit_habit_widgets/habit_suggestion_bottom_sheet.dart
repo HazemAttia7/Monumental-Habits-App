@@ -40,7 +40,7 @@ class HabitSuggestionsBottomSheet extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomDivider(
-              color: AppColors.primaryColor.withValues(alpha: 0.5),
+              color: AppColors.secondaryColor.withValues(alpha: 0.5),
               width: 40.w,
               height: 3.sp,
               margin: 0,
@@ -50,7 +50,7 @@ class HabitSuggestionsBottomSheet extends StatelessWidget {
             Text(
               "Habit Suggestions",
               style: AppStyles.textStyle22.copyWith(
-                color: AppColors.primaryColor,
+                color: AppColors.secondaryColor,
               ),
             ),
             Gap(24.h),

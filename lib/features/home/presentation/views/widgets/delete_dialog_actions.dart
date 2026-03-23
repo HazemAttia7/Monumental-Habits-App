@@ -22,7 +22,7 @@ class DeleteDialogActions extends StatelessWidget {
           child: BorderedButton(
             onTap: onCancel,
             text: 'Cancel',
-            color: AppColors.primaryColor,
+            color: AppColors.secondaryColor,
           ),
         ),
         SizedBox(width: 12.w),

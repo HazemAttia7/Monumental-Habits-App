@@ -30,16 +30,16 @@ class HabitStatusSegmentedButton extends StatelessWidget {
         foregroundColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
             return ThemeData.estimateBrightnessForColor(
-                      themeColor ?? AppColors.secondaryColor,
+                      themeColor ?? AppColors.primaryColor,
                     ) ==
                     Brightness.dark
                 ? Colors.white
-                : AppColors.primaryColor;
+                : AppColors.secondaryColor;
           }
           return themeColor;
         }),
         side: WidgetStateProperty.all(
-          BorderSide(color: themeColor ?? AppColors.secondaryColor),
+          BorderSide(color: themeColor ?? AppColors.primaryColor),
         ),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),

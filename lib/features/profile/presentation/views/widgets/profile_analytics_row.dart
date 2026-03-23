@@ -42,7 +42,7 @@ class ProfileAnalyticsRow extends StatelessWidget {
                       title: "Longest Streak (Days)",
                       subtitle: longestStreak.toString(),
                       icon: FontAwesomeIcons.fireFlameCurved,
-                      iconColor: AppColors.secondaryColor,
+                      iconColor: AppColors.primaryColor,
                     ),
                   ),
                   Gap(32.w),

@@ -25,7 +25,7 @@ class AnalyticsSection extends StatelessWidget {
   Color get _buttonTextColor =>
       ThemeData.estimateBrightnessForColor(themeColor) == Brightness.dark
       ? Colors.white
-      : AppColors.primaryColor;
+      : AppColors.secondaryColor;
 
   void _updateStatus(BuildContext context, enHabitStatus status) {
     context.read<HabitsCubit>().updateHabitStatus(habit.id, status);
@@ -61,7 +61,7 @@ class AnalyticsSection extends StatelessWidget {
             "Analytics",
             style: AppStyles.textStyle16.copyWith(
               fontWeight: FontWeight.w500,
-              color: AppColors.primaryColor.withValues(alpha: .6),
+              color: AppColors.secondaryColor.withValues(alpha: .6),
             ),
           ),
           Gap(22.h),

@@ -26,7 +26,7 @@ class HabitFrequencyGridView extends StatelessWidget {
         day: index == 7 ? 'Sat' : weekDaysShort[index],
         isOn: controller.habitFrequencyList[index],
         onTap: (value) => controller.onDayChanged(index, value),
-        themeColor: themeColor ?? AppColors.secondaryColor,
+        themeColor: themeColor ?? AppColors.primaryColor,
       ),
       itemCount: 7,
       shrinkWrap: true,

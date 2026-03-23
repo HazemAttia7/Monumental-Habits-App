@@ -23,12 +23,12 @@ class CustomTextButton extends StatelessWidget {
         padding: EdgeInsets.all(11.sp),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: backColor ?? AppColors.primaryColor.withValues(alpha: .1),
+          color: backColor ?? AppColors.secondaryColor.withValues(alpha: .1),
         ),
         child: Text(
           text,
           style: AppStyles.textStyle16.copyWith(
-            color: textColor ?? AppColors.primaryColor,
+            color: textColor ?? AppColors.secondaryColor,
           ),
         ),
       ),

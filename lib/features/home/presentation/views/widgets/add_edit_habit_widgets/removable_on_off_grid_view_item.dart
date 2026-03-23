@@ -26,8 +26,8 @@ class RemovableOnOffGridViewItem extends StatelessWidget {
       color: Colors.transparent,
       borderRadius: BorderRadius.circular(12.r),
       child: InkWell(
-        highlightColor: AppColors.primaryColor.withValues(alpha: .1),
-        splashColor: AppColors.primaryColor.withValues(alpha: .1),
+        highlightColor: AppColors.secondaryColor.withValues(alpha: .1),
+        splashColor: AppColors.secondaryColor.withValues(alpha: .1),
         borderRadius: BorderRadius.circular(12.r),
         onLongPress: () {
           showDialog(
@@ -50,7 +50,7 @@ class RemovableOnOffGridViewItem extends StatelessWidget {
           day: unit,
           isOn: isOn,
           onTap: onTap,
-          themeColor: themeColor ?? AppColors.secondaryColor,
+          themeColor: themeColor ?? AppColors.primaryColor,
         ),
       ),
     );

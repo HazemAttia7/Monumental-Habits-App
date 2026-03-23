@@ -11,6 +11,7 @@ import 'package:pixel_true_app/core/managers/habit_analysis_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/profile_habits_analytics_view.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +22,10 @@ abstract class AppRouter {
   static const String kCreateAccountView = "/create-account";
   static const String kForgotPasswordView = "/forgot-password";
   static const String kAppGate = "/app-gate";
-  static const String kAddNewHabit = "/add-new-habit";
+  static const String kAddEditNewHabit = "/add-edit-new-habit";
   static const String kHabitAnalysis = "/habit-analysis";
   static const String kProfileView = "/profile";
+  static const String kProfileHabitsAnalytics = "/profile-habits-analytics";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -53,7 +55,7 @@ abstract class AppRouter {
         builder: (context, state) => const ForgotPasswordView(),
       ),
       GoRoute(
-        path: kAddNewHabit,
+        path: kAddEditNewHabit,
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>;
           final homeCubit = args["homeCubit"] as HabitsCubit;
@@ -92,7 +94,17 @@ abstract class AppRouter {
         path: kProfileView,
         builder: (context, state) {
           final cubit = state.extra as HabitsCubit;
-          return BlocProvider.value( value: cubit, child: const ProfileView());
+          return BlocProvider.value(value: cubit, child: const ProfileView());
+        },
+      ),
+      GoRoute(
+        path: kProfileHabitsAnalytics,
+        builder: (context, state) {
+          final cubit = state.extra as HabitsCubit;
+          return BlocProvider.value(
+            value: cubit,
+            child: const ProfileHabitsAnalyticsView(),
+          );
         },
       ),
     ],

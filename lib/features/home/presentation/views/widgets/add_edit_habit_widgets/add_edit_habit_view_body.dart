@@ -77,11 +77,11 @@ class AddEditHabitViewBody extends StatelessWidget {
                       backColor: themeColor,
                       textColor:
                           ThemeData.estimateBrightnessForColor(
-                                themeColor ?? AppColors.secondaryColor,
+                                themeColor ?? AppColors.primaryColor,
                               ) ==
                               Brightness.dark
                           ? Colors.white
-                          : AppColors.primaryColor,
+                          : AppColors.secondaryColor,
                     ),
                   ],
                 ),

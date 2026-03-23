@@ -10,6 +10,8 @@ import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
 
 part 'habits_state.dart';
 
+// TODO : check if methods like (add , update , etc) should be implemented like cycleHabitStatus using debounce
+// TODO : test syncing data when offline : probably syncing isn't properly working and offline data are lost
 class HabitsCubit extends Cubit<HabitsState> {
   final HabitsRepo _repo;
   final String _uid;

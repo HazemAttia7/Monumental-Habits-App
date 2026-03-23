@@ -27,7 +27,7 @@ class NotificationsWidget extends StatelessWidget {
             style: AppStyles.textStyle16.copyWith(fontWeight: FontWeight.w500),
           ),
           AnimatedOffOnButton(
-            themeColor: themeColor ?? AppColors.secondaryColor,
+            themeColor: themeColor ?? AppColors.primaryColor,
             onTap: controller.onNotificationToggle,
             isOn: controller.isNotificationOn,
           ),

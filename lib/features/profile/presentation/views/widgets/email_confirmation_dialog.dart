@@ -66,7 +66,7 @@ class _EmailConfirmationDialogState extends State<EmailConfirmationDialog> {
     final focusedPinTheme = defaultPinTheme.copyWith(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
-        border: Border.all(color: AppColors.primaryColor, width: 2),
+        border: Border.all(color: AppColors.secondaryColor, width: 2),
       ),
     );
 
@@ -115,7 +115,7 @@ class _EmailConfirmationDialogState extends State<EmailConfirmationDialog> {
         CustomButton(
           text: "Cancel",
           onTap: () => Navigator.pop(context),
-          backColor: AppColors.primaryColor,
+          backColor: AppColors.secondaryColor,
           textColor: Colors.white,
         ),
       ],

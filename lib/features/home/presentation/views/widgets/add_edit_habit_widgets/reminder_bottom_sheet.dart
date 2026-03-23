@@ -16,11 +16,11 @@ class ReminderBottomSheet extends StatelessWidget {
   const ReminderBottomSheet({super.key, this.themeColor});
   Color get _buttonTextColor =>
       ThemeData.estimateBrightnessForColor(
-            themeColor ?? AppColors.secondaryColor,
+            themeColor ?? AppColors.primaryColor,
           ) ==
           Brightness.dark
       ? Colors.white
-      : AppColors.primaryColor;
+      : AppColors.secondaryColor;
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class ReminderBottomSheet extends StatelessWidget {
                 flex: 4,
                 child: CustomButton(
                   text: "Add Reminder",
-                  backColor: themeColor ?? AppColors.secondaryColor,
+                  backColor: themeColor ?? AppColors.primaryColor,
                   textColor: _buttonTextColor,
                   onTap: () {
                     showModalBottomSheet(
@@ -86,13 +86,13 @@ class ReminderBottomSheet extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8.r),
                         border: Border.all(
                           width: 3.sp,
-                          color: AppColors.primaryColor.withValues(alpha: .3),
+                          color: AppColors.secondaryColor.withValues(alpha: .3),
                         ),
                       ),
                       child: Center(
                         child: Icon(
                           MonumentalHabitsIcons.mute_notifications,
-                          color: AppColors.primaryColor.withValues(alpha: .3),
+                          color: AppColors.secondaryColor.withValues(alpha: .3),
                           size: 26.sp,
                         ),
                       ),

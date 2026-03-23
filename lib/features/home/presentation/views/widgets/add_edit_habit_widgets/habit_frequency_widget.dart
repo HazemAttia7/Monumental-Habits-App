@@ -39,7 +39,7 @@ class HabitFrequencyWidget extends StatelessWidget {
                 ClickableTextIconWidget(
                   text: 'Custom',
                   icon: FontAwesomeIcons.chevronRight,
-                  color: themeColor ?? AppColors.secondaryColor,
+                  color: themeColor ?? AppColors.primaryColor,
                   onTap: () {
                     showModalBottomSheet(
                       isScrollControlled: true,
@@ -48,8 +48,10 @@ class HabitFrequencyWidget extends StatelessWidget {
                       builder: (bottomSheetContext) {
                         return ChangeNotifierProvider.value(
                           value: context.read<AddEditHabitController>(),
-                          child:  Wrap(
-                            children: [HabitFrequencyBottomSheet(themeColor: themeColor)],
+                          child: Wrap(
+                            children: [
+                              HabitFrequencyBottomSheet(themeColor: themeColor),
+                            ],
                           ),
                         );
                       },

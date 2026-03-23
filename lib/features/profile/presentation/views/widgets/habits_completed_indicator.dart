@@ -43,7 +43,7 @@ class HabitsCompletedIndicator extends StatelessWidget {
         Text(
           date,
           style: AppStyles.textStyle12.copyWith(
-            color: AppColors.primaryColor.withValues(alpha: .7),
+            color: AppColors.secondaryColor.withValues(alpha: .7),
           ),
         ),
       ],
@@ -54,9 +54,9 @@ class HabitsCompletedIndicator extends StatelessWidget {
     if (value == 0) {
       return Colors.redAccent;
     } else if (value >= habitsLength) {
-      return AppColors.secondaryColor;
-    } else {
       return AppColors.primaryColor;
+    } else {
+      return AppColors.secondaryColor;
     }
   }
 }

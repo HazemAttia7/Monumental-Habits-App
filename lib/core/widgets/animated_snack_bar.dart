@@ -112,7 +112,7 @@ void buildClosableSnackBar(
         color: Colors.transparent,
         child: AnimatedSnackBar(
           message: message,
-          backColor: AppColors.primaryColor,
+          backColor: AppColors.secondaryColor,
           icon: Icons.close,
         ),
       ),

@@ -12,7 +12,8 @@ class HabitFrequencyDayItem extends StatelessWidget {
     super.key,
     this.showBorder = true,
     required this.day,
-    required this.isSelected, this.themeColor = AppColors.morning,
+    required this.isSelected,
+    this.themeColor = AppColors.morning,
   });
 
   @override
@@ -33,16 +34,14 @@ class HabitFrequencyDayItem extends StatelessWidget {
           Text(
             day.toUpperCase(),
             style: AppStyles.textStyle10.copyWith(
-              color: AppColors.primaryColor.withValues(alpha: 0.5),
+              color: AppColors.secondaryColor.withValues(alpha: 0.5),
             ),
           ),
           Container(
             width: 34.sp,
             height: 34.sp,
             decoration: BoxDecoration(
-              color: isSelected
-                  ? themeColor
-                  : themeColor.withValues(alpha: .1),
+              color: isSelected ? themeColor : themeColor.withValues(alpha: .1),
               borderRadius: BorderRadius.circular(12.r),
             ),
           ),

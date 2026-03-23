@@ -44,7 +44,7 @@ class AppGate extends StatelessWidget {
 
         return const Scaffold(
           body: Center(
-            child: CircularProgressIndicator(color: AppColors.primaryColor),
+            child: CircularProgressIndicator(color: AppColors.secondaryColor),
           ),
         );
       },

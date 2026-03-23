@@ -23,7 +23,7 @@ class CustomSwitcher extends StatelessWidget {
         Transform.scale(
           scale: 0.7,
           child: Switch(
-            activeThumbColor: themeColor ?? AppColors.secondaryColor,
+            activeThumbColor: themeColor ?? AppColors.primaryColor,
             value: _isSwitched,
             onChanged: onChanged,
           ),
@@ -32,8 +32,8 @@ class CustomSwitcher extends StatelessWidget {
           text,
           style: AppStyles.textStyle16.copyWith(
             color: _isSwitched
-                ? themeColor ?? AppColors.secondaryColor
-                : AppColors.primaryColor,
+                ? themeColor ?? AppColors.primaryColor
+                : AppColors.secondaryColor,
           ),
         ),
       ],

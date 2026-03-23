@@ -32,8 +32,8 @@ class MonumentalHabits extends StatelessWidget {
             theme: ThemeData.light().copyWith(
               scaffoldBackgroundColor: AppColors.scaffoldColor,
               textTheme: GoogleFonts.manropeTextTheme().apply(
-                bodyColor: AppColors.primaryColor,
-                displayColor: AppColors.primaryColor,
+                bodyColor: AppColors.secondaryColor,
+                displayColor: AppColors.secondaryColor,
               ),
             ),
             debugShowCheckedModeBanner: false,

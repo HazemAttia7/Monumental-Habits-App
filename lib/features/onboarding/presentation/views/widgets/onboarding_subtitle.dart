@@ -13,19 +13,19 @@ class OnboardingSubtitle extends StatelessWidget {
         textAlign: TextAlign.center,
         text: TextSpan(
           style: AppStyles.textStyle17.copyWith(
-            color: AppColors.primaryColor,
+            color: AppColors.secondaryColor,
             height: 1.3,
           ),
           children: const [
             TextSpan(text: ("WE CAN")),
             TextSpan(
               text: " HELP YOU ",
-              style: TextStyle(color: AppColors.secondaryColor),
+              style: TextStyle(color: AppColors.primaryColor),
             ),
             TextSpan(text: "TO BE BETTER VERSION OF"),
             TextSpan(
               text: " YOURSELF.",
-              style: TextStyle(color: AppColors.secondaryColor),
+              style: TextStyle(color: AppColors.primaryColor),
             ),
           ],
         ),

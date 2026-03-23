@@ -24,7 +24,7 @@ class MixedWeightText extends StatelessWidget {
           text: TextSpan(
             style: AppStyles.textStyle14.copyWith(
               fontWeight: FontWeight.normal,
-              color: AppColors.primaryColor,
+              color: AppColors.secondaryColor,
             ),
             children: [
               TextSpan(text: "$normalText "),

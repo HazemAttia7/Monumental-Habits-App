@@ -38,7 +38,7 @@ class HabitSuggestionsButton extends StatelessWidget {
             ),
             child: Icon(
               FontAwesomeIcons.bookOpenReader,
-              color: AppColors.primaryColor,
+              color: AppColors.secondaryColor,
               size: 35.w,
             ),
           ),

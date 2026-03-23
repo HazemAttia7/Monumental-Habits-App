@@ -17,7 +17,7 @@ class ProfilePlaceholder extends StatelessWidget {
       padding: EdgeInsets.all(11.sp),
       decoration: const BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.primaryColor,
+        color: AppColors.secondaryColor,
       ),
       child: Center(
         child: Text(

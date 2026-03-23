@@ -19,7 +19,7 @@ class AmPmContainer extends StatelessWidget {
   Color get _buttonTextColor =>
       ThemeData.estimateBrightnessForColor(themeColor) == Brightness.dark
       ? Colors.white
-      : AppColors.primaryColor;
+      : AppColors.secondaryColor;
 
   @override
   Widget build(BuildContext context) {

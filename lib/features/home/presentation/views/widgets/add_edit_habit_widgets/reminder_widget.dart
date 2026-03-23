@@ -43,7 +43,7 @@ class ReminderWidget extends StatelessWidget {
                   context,
                 ).getRemindersText(),
                 icon: FontAwesomeIcons.chevronRight,
-                color: themeColor ?? AppColors.secondaryColor,
+                color: themeColor ?? AppColors.primaryColor,
                 onTap: () {
                   showModalBottomSheet(
                     isScrollControlled: true,
@@ -52,7 +52,11 @@ class ReminderWidget extends StatelessWidget {
                     builder: (bottomSheetContext) {
                       return ChangeNotifierProvider.value(
                         value: context.read<AddEditHabitController>(),
-                        child:  Wrap(children: [ReminderBottomSheet(themeColor : themeColor)]),
+                        child: Wrap(
+                          children: [
+                            ReminderBottomSheet(themeColor: themeColor),
+                          ],
+                        ),
                       );
                     },
                   );

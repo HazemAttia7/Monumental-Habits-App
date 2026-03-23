@@ -25,7 +25,7 @@ class CustomClickableText extends StatelessWidget {
         child: Text(
           text,
           style: AppStyles.textStyle17.copyWith(
-            color: textColor ?? AppColors.secondaryColor,
+            color: textColor ?? AppColors.primaryColor,
           ),
         ),
       ),

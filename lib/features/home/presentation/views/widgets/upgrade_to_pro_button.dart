@@ -31,7 +31,7 @@ class _UpgradeToProButtonState extends State<UpgradeToProButton> {
       ),
       transform: Matrix4.translationValues(0, _isPressed ? 8 : 0, 0),
       child: Material(
-        color: AppColors.secondaryColor,
+        color: AppColors.primaryColor,
         borderRadius: BorderRadius.circular(16.r),
         child: InkWell(
           splashColor: Colors.white.withValues(alpha: .3),

@@ -19,11 +19,7 @@ class AddEditHabitView extends StatelessWidget {
     return Scaffold(
       backgroundColor: habitFormMode == enHabitFormMode.create
           ? Colors.transparent
-          : Color.lerp(
-              themeColor ?? AppColors.secondaryColor,
-              Colors.white,
-              0.9,
-            ),
+          : Color.lerp(themeColor ?? AppColors.primaryColor, Colors.white, 0.9),
       body: AddEditHabitViewBody(
         backToHome: backToHome,
         mode: habitFormMode,
