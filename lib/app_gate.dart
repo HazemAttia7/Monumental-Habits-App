@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
@@ -29,6 +30,7 @@ class AppGate extends StatelessWidget {
               sl<HabitsRepo>(),
               state.user.uid,
               sl<NotificationService>(),
+              sl<Connectivity>(),
             )..fetchHabits(),
             child: ChangeNotifierProvider(
               create: (_) => MainViewController(),

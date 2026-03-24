@@ -12,6 +12,9 @@ abstract class HabitsRepo {
     String habitId,
     String dateKey,
     enHabitDailyStatus status,
+    // Caller passes the already-updated habit so we never re-fetch
+    // a potentially stale local record.
+    Habit updatedHabit,
   );
   Future<Either<Failure, Unit>> updateHabitStatus(
     String uid,
@@ -19,4 +22,5 @@ abstract class HabitsRepo {
     enHabitStatus status,
   );
   Future<Either<Failure, Unit>> updateHabit(String uid, Habit habit);
+  Future<Either<Failure, List<Habit>?>> syncPendingChanges(String uid);
 }

@@ -17,23 +17,28 @@ class HabitsRepoImpl implements HabitsRepo {
     required HabitsLocalDataSource local,
     required HabitsRemoteDataSource remote,
     Connectivity? connectivity,
-  }) : _local = local,
-       _remote = remote,
-       _connectivity = connectivity ?? Connectivity();
+  })  : _local = local,
+        _remote = remote,
+        _connectivity = connectivity ?? Connectivity();
+
+  // ── Public API ──────────────────────────────────────────────
 
   @override
   Future<Either<Failure, List<Habit>>> getHabits(String uid) async {
     try {
-      // 1. Always return local data immediately — instant load
       final localHabits = await _local.getHabits(uid);
 
-      // 2. If online: push unsynced changes up, pull fresh data down
       if (await _isOnline()) {
-        await _pushUnsyncedChanges(uid);
-        await _pullFromFirestore(uid);
-        // Return refreshed local data after pull
-        final refreshed = await _local.getHabits(uid);
-        return Right(refreshed);
+        try {
+          // Push first — if any push fails it throws and we skip the pull,
+          // so we never wipe local data that hasn't reached Firestore yet.
+          await _pushUnsyncedChanges(uid);
+          await _pullFromFirestore(uid);
+          return Right(await _local.getHabits(uid));
+        } catch (_) {
+          // Sync failed — degrade gracefully with local data, nothing wiped.
+          return Right(localHabits);
+        }
       }
 
       return Right(localHabits);
@@ -45,10 +50,9 @@ class HabitsRepoImpl implements HabitsRepo {
   @override
   Future<Either<Failure, Unit>> addHabit(String uid, Habit habit) async {
     try {
-      // 1. Save locally immediately — isSynced: false
+      // Save locally first, mark unsynced
       await _local.saveHabit(habit, uid: uid, isSynced: false);
 
-      // 2. Try Firestore if online
       if (await _isOnline()) {
         await _remote.saveHabit(uid, habit);
         await _local.markSynced(habit.id);
@@ -63,16 +67,14 @@ class HabitsRepoImpl implements HabitsRepo {
   @override
   Future<Either<Failure, Unit>> deleteHabit(String uid, String habitId) async {
     try {
-      // 1. Soft delete locally first
+      // Soft delete locally — stays here until synced
       await _local.softDelete(habitId);
 
-      // 2. If online, delete from Firestore then hard delete locally
       if (await _isOnline()) {
         await _remote.deleteHabit(uid, habitId);
-        await _local.hardDelete(habitId); // ← just this one document
+        await _local.hardDelete(habitId);
       }
-      // If offline: stays soft deleted → _pushUnsyncedChanges will
-      // delete it from Firestore next app open, then hard delete locally
+      // If offline: _pushUnsyncedChanges will handle delete on next sync
 
       return const Right(unit);
     } on Exception catch (e) {
@@ -86,20 +88,16 @@ class HabitsRepoImpl implements HabitsRepo {
     String habitId,
     String dateKey,
     enHabitDailyStatus status,
+    // Caller passes the already-updated habit so we never re-fetch
+    // a potentially stale local record.
+    Habit updatedHabit,
   ) async {
     try {
-      // 1. Get current habit from local
-      final habits = await _local.getHabits(uid);
-      final habit = habits.firstWhere((h) => h.id == habitId);
-      final updatedHabit = habit.copyWith(
-        logs: Map.from(habit.logs)..[dateKey] = status,
-      );
-
-      // 2. Save updated habit locally — isSynced: false
+      // Save the full updated habit locally, mark unsynced
       await _local.saveHabit(updatedHabit, uid: uid, isSynced: false);
 
-      // 3. Try Firestore if online — use dot notation for single field update
       if (await _isOnline()) {
+        // Firestore dot-notation update for a single log field
         await _remote.updateLog(uid, habitId, dateKey, status.name);
         await _local.markSynced(habitId);
       }
@@ -127,6 +125,7 @@ class HabitsRepoImpl implements HabitsRepo {
         await _remote.updateHabitStatus(uid, habitId, status);
         await _local.markSynced(habitId);
       }
+
       return const Right(unit);
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
@@ -136,10 +135,8 @@ class HabitsRepoImpl implements HabitsRepo {
   @override
   Future<Either<Failure, Unit>> updateHabit(String uid, Habit habit) async {
     try {
-      // Save locally first
       await _local.saveHabit(habit, uid: uid, isSynced: false);
 
-      // Sync if online
       if (await _isOnline()) {
         await _remote.saveHabit(uid, habit);
         await _local.markSynced(habit.id);
@@ -151,29 +148,43 @@ class HabitsRepoImpl implements HabitsRepo {
     }
   }
 
+  /// Pushes unsynced local changes and pulls fresh data from Firestore.
+/// Returns null if nothing changed, or the refreshed habit list on success.
+@override
+Future<Either<Failure, List<Habit>?>> syncPendingChanges(String uid) async {
+  try {
+    final unsynced = await _local.getUnsyncedHabits(uid);
+    if (unsynced.isEmpty) return const Right(null); // nothing to do
+
+    await _pushUnsyncedChanges(uid); // throws on failure
+    await _pullFromFirestore(uid);
+    return Right(await _local.getHabits(uid));
+  } on Exception catch (e) {
+    return Left(FirebaseFailure.fromException(e));
+  }
+}
 
   // ── Sync helpers ────────────────────────────────────────────
 
-  /// Push all local unsynced changes to Firestore
+  /// Push all unsynced local changes to Firestore.
+  /// Throws on any failure so the caller can skip the pull and
+  /// avoid wiping local data that hasn't reached Firestore.
   Future<void> _pushUnsyncedChanges(String uid) async {
     final unsynced = await _local.getUnsyncedHabits(uid);
     for (final entity in unsynced) {
-      try {
-        if (entity.isDeleted) {
-          await _remote.deleteHabit(uid, entity.habitId);
-          await _local.hardDelete(entity.habitId); // ← clean up after sync
-        } else {
-          await _remote.saveHabit(uid, entity.toDomain());
-          await _local.markSynced(entity.habitId);
-        }
-      } catch (_) {
-        continue;
+      if (entity.isDeleted) {
+        await _remote.deleteHabit(uid, entity.habitId); // throws on failure
+        await _local.hardDelete(entity.habitId);
+      } else {
+        await _remote.saveHabit(uid, entity.toDomain()); // throws on failure
+        await _local.markSynced(entity.habitId);
       }
     }
   }
 
-  /// Pull all habits from Firestore and overwrite local cache
-  /// Last write wins — Firestore is source of truth when online
+  /// Pull all habits from Firestore and replace local cache.
+  /// Only called after _pushUnsyncedChanges succeeds — Firestore
+  /// is source of truth when all local changes are confirmed synced.
   Future<void> _pullFromFirestore(String uid) async {
     final remoteHabits = await _remote.getHabits(uid);
     await _local.clearAll(uid);
