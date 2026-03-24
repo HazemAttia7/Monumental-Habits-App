@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/custom_search_field.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_analytics_list_view_item.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/profile_habits_analytics_header.dart';
 
 class ProfileHabitsAnalyticsViewBody extends StatelessWidget {
@@ -18,9 +19,13 @@ class ProfileHabitsAnalyticsViewBody extends StatelessWidget {
             Gap(12.h),
             const ProfileHabitsAnalyticsHeader(),
             Gap(24.h),
-             CustomSearchField(onChanged: (value) {
-              // TODO : Filter habits after being passed to the view
-             }  ,),
+            CustomSearchField(
+              onChanged: (value) {
+                // TODO : Filter habits after being passed to the view
+              },
+            ),
+            Gap(24.h),
+            const HabitAnalyticsListViewItem(),
           ],
         ),
       ),

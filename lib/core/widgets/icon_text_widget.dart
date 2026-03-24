@@ -2,32 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class IconTextWidget extends StatelessWidget {
   final IconData icon;
   final String text;
   final Color themeColor;
-  final double? iconSize;
+  final Color? textColor;
+  final double? iconSize, fontSize;
+  final FontWeight? fontWeight;
   const IconTextWidget({
     super.key,
     required this.icon,
     required this.text,
     required this.themeColor,
     this.iconSize,
+    this.fontSize,
+    this.textColor,
+    this.fontWeight,
   });
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Icon(icon, color: themeColor, size: iconSize ?? 16.sp),
         Gap(8.w),
-        Expanded(
+        Flexible(
           child: Text(
             text,
-            style: AppStyles.textStyle12.copyWith(
-              color: AppColors.secondaryColor.withValues(alpha: .5),
+            style: TextStyle(
+              fontSize: fontSize ?? 12.sp,
+              fontWeight: fontWeight ?? FontWeight.w500,
+              color:
+                  textColor ?? AppColors.secondaryColor.withValues(alpha: .5),
             ),
             maxLines: 1,
             overflow: TextOverflow.ellipsis,

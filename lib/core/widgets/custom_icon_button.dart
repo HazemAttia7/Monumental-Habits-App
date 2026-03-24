@@ -23,7 +23,10 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: backColor ?? AppColors.secondaryColor.withValues(alpha: .1),
+      color:
+          backColor ??
+          iconColor?.withValues(alpha: .1) ??
+          AppColors.secondaryColor.withValues(alpha: .1),
       shape: shape == BoxShape.circle ? null : const CircleBorder(),
       child: InkWell(
         customBorder: shape == BoxShape.circle ? null : const CircleBorder(),
