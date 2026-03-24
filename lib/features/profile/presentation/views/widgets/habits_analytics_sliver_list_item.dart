@@ -6,8 +6,8 @@ import 'package:pixel_true_app/features/profile/presentation/views/widgets/analy
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/item_footer.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/item_header.dart';
 
-class HabitAnalyticsListViewItem extends StatelessWidget {
-  const HabitAnalyticsListViewItem({super.key});
+class HabitsAnalyticsSliverListItem extends StatelessWidget {
+  const HabitsAnalyticsSliverListItem({super.key});
 
   @override
   Widget build(BuildContext context) {
