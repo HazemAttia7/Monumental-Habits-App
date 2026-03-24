@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/helper/build_not_implemented_yet_dialog.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
@@ -31,6 +32,10 @@ class ProfileViewBody extends StatelessWidget {
               title: "Biiling Methods",
               onTap: () {
                 // TODO : Show dialog with 'billing methods not implemented yet' message
+                buildNotImplementedYetDialog(
+                  context,
+                  featureName: "Biiling Methods",
+                );
               },
             ),
             Gap(8.h),
