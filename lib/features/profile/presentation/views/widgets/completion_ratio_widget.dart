@@ -25,7 +25,7 @@ class CompletionRatioWidget extends StatelessWidget {
             ),
           ),
           TextSpan(
-            text: "${ratio.toString()} %",
+            text: "${ratio.toStringAsFixed(1)} %",
             style: const TextStyle(
               color: AppColors.secondaryColor,
               fontWeight: FontWeight.bold,

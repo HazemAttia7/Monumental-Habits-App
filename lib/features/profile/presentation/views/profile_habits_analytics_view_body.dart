@@ -6,9 +6,17 @@ import 'package:pixel_true_app/features/profile/presentation/views/widgets/custo
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_analytics_sliver_list.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/profile_habits_analytics_header.dart';
 
-class ProfileHabitsAnalyticsViewBody extends StatelessWidget {
+class ProfileHabitsAnalyticsViewBody extends StatefulWidget {
   const ProfileHabitsAnalyticsViewBody({super.key});
 
+  @override
+  State<ProfileHabitsAnalyticsViewBody> createState() =>
+      _ProfileHabitsAnalyticsViewBodyState();
+}
+
+class _ProfileHabitsAnalyticsViewBodyState
+    extends State<ProfileHabitsAnalyticsViewBody> {
+  String _query = '';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -24,15 +32,13 @@ class ProfileHabitsAnalyticsViewBody extends StatelessWidget {
                   const ProfileHabitsAnalyticsHeader(),
                   Gap(24.h),
                   CustomSearchField(
-                    onChanged: (value) {
-                      // TODO : Filter habits after being passed to the view
-                    },
+                    onChanged: (value) => setState(() => _query = value),
                   ),
                   Gap(24.h),
                 ],
               ),
             ),
-            const HabitsAnalyticsSliverList(),
+            HabitsAnalyticsSliverList(query: _query),
             SliverToBoxAdapter(child: Gap(24.h)),
           ],
         ),

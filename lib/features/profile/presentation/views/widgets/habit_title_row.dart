@@ -8,7 +8,13 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/icon_container.dart';
 
 class HabitTitleRow extends StatelessWidget {
-  const HabitTitleRow({super.key});
+  final String title;
+  final DateTime createdAt;
+  const HabitTitleRow({
+    super.key,
+    required this.title,
+    required this.createdAt,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,7 @@ class HabitTitleRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Read A Book",
+                title,
                 style: AppStyles.textStyle18.copyWith(
                   fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
                   height: 1,
@@ -37,7 +43,7 @@ class HabitTitleRow extends StatelessWidget {
               ),
               Gap(4.h),
               Text(
-                "Created At 6/2023".toUpperCase(),
+                "created at ${_getDate(createdAt)}".toUpperCase(),
                 style: AppStyles.textStyle10.copyWith(
                   color: AppColors.primaryColor,
                   fontWeight: FontWeight.bold,
@@ -53,4 +59,6 @@ class HabitTitleRow extends StatelessWidget {
       ],
     );
   }
+
+  String _getDate(DateTime date) => "${date.day}/${date.month}/${date.year}";
 }

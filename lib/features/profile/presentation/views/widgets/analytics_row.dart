@@ -1,51 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/core/enums/habit_enums.dart';
+import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/stat_card.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/stat_card_label.dart';
 
 class AnalyticsRow extends StatelessWidget {
-  const AnalyticsRow({super.key});
+  final Habit habit;
+  const AnalyticsRow({super.key, required this.habit});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      spacing: 8.w,
-      children: List.generate(
-        3,
-        (index) => Expanded(
-          child: Container(
-            padding: EdgeInsets.all(12.sp),
-            decoration: BoxDecoration(
-              color: AppColors.primaryColor.withValues(alpha: .15),
-              borderRadius: BorderRadius.circular(8.r),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Current".toUpperCase(),
-                  style: AppStyles.textStyle12.copyWith(
-                    color: AppColors.primaryColor,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
-                    height: 1,
-                    letterSpacing: .96,
-                  ),
-                ),
-                Gap(4.h),
-                Text(
-                  "4",
-                  style: AppStyles.textStyle18.copyWith(
-                    fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
-                  ),
-                ),
-              ],
-            ),
-          ),
+    return Column(
+      spacing: 4.h,
+      children: [
+        Row(
+          spacing: 8.w,
+          children: const [
+            Expanded(flex: 2, child: StatCardLabel(label: 'streaks')),
+            Expanded(child: StatCardLabel(label: 'ease')),
+          ],
         ),
-      ),
+        Row(
+          spacing: 8.w,
+          children: [
+            Expanded(
+              child: StatCard(
+                isDisabled: habit.status != enHabitStatus.inProgress,
+                title: 'current',
+                subtitle: 'days',
+                value: habit.currentStreak,
+              ),
+            ),
+            Expanded(
+              child: StatCard(
+                title: 'longest',
+                subtitle: 'days',
+                value: habit.longestStreak,
+              ),
+            ),
+            Expanded(
+              child: StatCard(
+                title: 'easiness',
+                subtitle: 'score',
+                value: habit.easinessScore,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

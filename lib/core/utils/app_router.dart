@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
@@ -66,7 +67,7 @@ abstract class AppRouter {
               child: AddEditHabitView(
                 habitFormMode: args["mode"],
                 backToHome: args["backToHome"],
-                themeColor: args["themeColor"],
+                themeColor: args["themeColor"] as Color? ?? AppColors.morning,
               ),
             ),
           );
@@ -78,7 +79,8 @@ abstract class AppRouter {
           final args = state.extra as Map<String, dynamic>;
 
           final habit = args["habit"] as Habit;
-          final themeColor = args["themeColor"] as Color;
+          final Color themeColor =
+              (args["themeColor"] as Color?) ?? AppColors.morning;
           final cubit = args["cubit"] as HabitsCubit;
 
           return BlocProvider.value(

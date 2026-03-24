@@ -46,7 +46,7 @@ class HabitStatusSegmentedButton extends StatelessWidget {
         ),
       ),
       segments: const [
-        ButtonSegment(value: enHabitStatus.completed, label: Text("Complete")),
+        ButtonSegment(value: enHabitStatus.completed, label: Text("Completed")),
         ButtonSegment(value: enHabitStatus.missed, label: Text("Missed")),
         ButtonSegment(
           value: enHabitStatus.inProgress,

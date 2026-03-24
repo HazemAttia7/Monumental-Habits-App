@@ -80,21 +80,26 @@ class AnalyticsSection extends StatelessWidget {
             },
           ),
           Gap(24.h),
-          CustomButton(
-            onTap: () => _updateStatus(context, enHabitStatus.completed),
-            text: "Mark Habit as Complete",
-            backColor: themeColor,
-            textColor: _buttonTextColor,
-          ),
-          Gap(10.h),
-          CustomButton(
-            onTap: () => _updateStatus(context, enHabitStatus.missed),
-            text: "Mark Habit as Missed",
-            backColor: Colors.white,
-            splashColor: themeColor,
-            highlightColor: themeColor,
-          ),
-          Gap(26.h),
+          if (habit.status == enHabitStatus.inProgress)
+            Column(
+              children: [
+                CustomButton(
+                  onTap: () => _updateStatus(context, enHabitStatus.completed),
+                  text: "Mark Habit as Complete",
+                  backColor: themeColor,
+                  textColor: _buttonTextColor,
+                ),
+                Gap(10.h),
+                CustomButton(
+                  onTap: () => _updateStatus(context, enHabitStatus.missed),
+                  text: "Mark Habit as Missed",
+                  backColor: Colors.white,
+                  splashColor: themeColor,
+                  highlightColor: themeColor,
+                ),
+                Gap(26.h),
+              ],
+            ),
         ],
       ),
     );
