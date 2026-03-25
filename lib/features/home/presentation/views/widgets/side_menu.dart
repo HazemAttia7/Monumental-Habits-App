@@ -54,7 +54,7 @@ class SideMenu extends StatelessWidget {
               icon: FontAwesomeIcons.solidRectangleList,
               title: "Activity Log",
               onTap: () {
-                // TODO : Open Activity Log (Comments , liked comments , posts , like pots , saved courses)
+                // TODO(Last) : Open Activity Log (Comments , liked comments , posts , like pots , saved courses)
               },
             ),
             Gap(24.h),
@@ -62,7 +62,7 @@ class SideMenu extends StatelessWidget {
               icon: FontAwesomeIcons.clockRotateLeft,
               title: "Habits History",
               onTap: () {
-                // TODO : Open Habits History
+                // TODO(First) : Open Habits History -++
               },
             ),
             Gap(24.h),
@@ -70,7 +70,7 @@ class SideMenu extends StatelessWidget {
               icon: FontAwesomeIcons.users,
               title: "Friends",
               onTap: () {
-                // TODO : Open Friends list
+                // TODO(Last) : Open Friends list
               },
             ),
             Gap(24.h),
@@ -78,7 +78,7 @@ class SideMenu extends StatelessWidget {
               icon: FontAwesomeIcons.circleQuestion,
               title: "Support",
               onTap: () {
-                // TODO : Open Support
+                // TODO(Second) : Open Support
               },
             ),
             const Spacer(flex: 4),

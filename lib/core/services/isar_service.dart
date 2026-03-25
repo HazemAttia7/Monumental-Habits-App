@@ -19,7 +19,7 @@ class IsarService {
     _instance = await Isar.open(
       [HabitIsarSchema],
       directory: dir.path,
-      inspector: true, // remove in production
+      inspector: false,
     );
     return _instance!;
   }
