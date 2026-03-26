@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
-import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 
 class HabitsHistorySliverList extends StatelessWidget {
   final String status;
@@ -17,7 +16,7 @@ class HabitsHistorySliverList extends StatelessWidget {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
 
-        final filtered = _getFilteredHabits(state);
+        final filtered = state.habitsForStatus(status);
 
         return filtered.isEmpty
             ? SliverToBoxAdapter(
@@ -38,21 +37,5 @@ class HabitsHistorySliverList extends StatelessWidget {
               ); // HabitsHistoryListItem(habit: filtered[index]), <-- TODO
       },
     );
-  }
-
-  List<Habit> _getFilteredHabits(HabitsLoaded state) {
-    switch (status.toLowerCase()) {
-      case "all":
-        return state.habits;
-      case 'completed':
-        return state.completedHabits;
-      case 'missed':
-        return state.missedHabits;
-      case 'in progress':
-      case 'inprogress':
-        return state.inProgressHabits;
-      default:
-        return state.habits;
-    }
   }
 }

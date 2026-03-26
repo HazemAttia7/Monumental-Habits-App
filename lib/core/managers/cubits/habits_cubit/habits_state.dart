@@ -12,6 +12,12 @@ final class HabitsLoaded extends HabitsState {
   late final List<Habit> inProgressHabits;
   late final List<Habit> completedHabits;
   late final List<Habit> missedHabits;
+  List<Habit> habitsForStatus(String status) => switch (status.toLowerCase()) {
+    'completed' => completedHabits,
+    'missed' => missedHabits,
+    'in progress' || 'inprogress' => inProgressHabits,
+    _ => habits,
+  };
 
   HabitsLoaded(this.habits) {
     inProgressHabits = habits
