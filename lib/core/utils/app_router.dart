@@ -5,6 +5,7 @@ import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
+import 'package:pixel_true_app/features/habits_hsitory/presentation/views/habits_history_view.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
@@ -27,6 +28,7 @@ abstract class AppRouter {
   static const String kHabitAnalysis = "/habit-analysis";
   static const String kProfileView = "/profile";
   static const String kProfileHabitsAnalytics = "/profile-habits-analytics";
+  static const String kHabitsHistory = "/habits-history";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -106,6 +108,16 @@ abstract class AppRouter {
           return BlocProvider.value(
             value: cubit,
             child: const ProfileHabitsAnalyticsView(),
+          );
+        },
+      ),
+      GoRoute(
+        path: kHabitsHistory,
+        builder: (context, state) {
+          final cubit = state.extra as HabitsCubit;
+          return BlocProvider.value(
+            value: cubit,
+            child: const HabitsHistoryView(),
           );
         },
       ),

@@ -62,7 +62,10 @@ class SideMenu extends StatelessWidget {
               icon: FontAwesomeIcons.clockRotateLeft,
               title: "Habits History",
               onTap: () {
-                // TODO(First) : Open Habits History
+                GoRouter.of(context).push(
+                  AppRouter.kHabitsHistory,
+                  extra: context.read<HabitsCubit>(),
+                );
               },
             ),
             Gap(24.h),

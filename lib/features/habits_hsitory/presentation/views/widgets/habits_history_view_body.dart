@@ -2,21 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/custom_search_field.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_analytics_sliver_list.dart';
+import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/habits_history_sliver_list.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 
-class ProfileHabitsAnalyticsViewBody extends StatefulWidget {
-  const ProfileHabitsAnalyticsViewBody({super.key});
+class HabitsHistoryViewBody extends StatefulWidget {
+  const HabitsHistoryViewBody({super.key});
 
   @override
-  State<ProfileHabitsAnalyticsViewBody> createState() =>
-      _ProfileHabitsAnalyticsViewBodyState();
+  State<HabitsHistoryViewBody> createState() => _HabitsHistoryViewBodyState();
 }
 
-class _ProfileHabitsAnalyticsViewBodyState
-    extends State<ProfileHabitsAnalyticsViewBody> {
-  String _query = '';
+class _HabitsHistoryViewBodyState extends State<HabitsHistoryViewBody> {
+  String _status  = 'all';
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,16 +26,14 @@ class _ProfileHabitsAnalyticsViewBodyState
               child: Column(
                 children: [
                   Gap(12.h),
-                  const DefaultViewHeader(title: "Habits Analytics"),
+                  const DefaultViewHeader(title: 'Habits History'),
                   Gap(24.h),
-                  CustomSearchField(
-                    onChanged: (value) => setState(() => _query = value),
-                  ),
+                  // TODO : filter by completion using status string
                   Gap(24.h),
                 ],
               ),
             ),
-            HabitsAnalyticsSliverList(query: _query),
+            HabitsHistorySliverList(status: _status),
             SliverToBoxAdapter(child: Gap(24.h)),
           ],
         ),

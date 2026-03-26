@@ -27,7 +27,7 @@ class HabitsAnalyticsSliverList extends StatelessWidget {
             ? SliverToBoxAdapter(
                 child: Center(
                   child: Text(
-                    "Not habits found !",
+                    "No habits found !",
                     style: AppStyles.textStyle17,
                   ),
                 ),

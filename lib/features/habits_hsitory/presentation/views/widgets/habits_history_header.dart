@@ -6,8 +6,8 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 
-class ProfileHabitsAnalyticsHeader extends StatelessWidget {
-  const ProfileHabitsAnalyticsHeader({super.key});
+class HabitsHistoryHeader extends StatelessWidget {
+  const HabitsHistoryHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class ProfileHabitsAnalyticsHeader extends StatelessWidget {
           icon: FontAwesomeIcons.arrowLeft,
         ),
         Gap(16.w),
-        Text("Habits Analytics", style: AppStyles.textStyle20),
+        Text("Habits History", style: AppStyles.textStyle20),
       ],
     );
   }
