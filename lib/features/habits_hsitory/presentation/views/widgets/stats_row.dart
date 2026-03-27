@@ -19,22 +19,10 @@ class StatsRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        _buildStreakText(label: "current", streak: currentStreak),
-        Icon(
-          Icons.circle,
-          color: AppColors.secondaryColor.withValues(alpha: .3),
-          size: 6.sp,
-        ),
-        _buildStreakText(
-          label: "best",
-          streak: longestStreak,
-          textColor: Colors.black,
-        ),
-        Icon(
-          Icons.circle,
-          color: AppColors.secondaryColor.withValues(alpha: .3),
-          size: 6.sp,
-        ),
+        _StreakText(label: "current", streak: currentStreak),
+        const _DividerCircle(),
+        _StreakText(label: "best", streak: longestStreak),
+        const _DividerCircle(),
         Text(
           "${completionRate.toStringAsFixed(0)}% done".toUpperCase(),
           style: AppStyles.textStyle10.copyWith(
@@ -47,12 +35,33 @@ class StatsRow extends StatelessWidget {
       ],
     );
   }
+}
 
-  Text _buildStreakText({
-    required String label,
-    required int streak,
-    Color? textColor,
-  }) {
+class _DividerCircle extends StatelessWidget {
+  const _DividerCircle();
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      Icons.circle,
+      color: AppColors.secondaryColor.withValues(alpha: .3),
+      size: 6.sp,
+    );
+  }
+}
+
+class _StreakText extends StatelessWidget {
+  final String label;
+  final int streak;
+  final Color? textColor;
+  const _StreakText({
+    required this.label,
+    required this.streak,
+    this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Text(
       "$label: ${_getStreakText(streak)}".toUpperCase(),
       style: AppStyles.textStyle10.copyWith(

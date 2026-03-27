@@ -24,7 +24,7 @@ class HabitsAnalyticsSliverList extends StatelessWidget {
             .toList();
 
         return filtered.isEmpty
-            ? SliverToBoxAdapter(
+            ? SliverFillRemaining(
                 child: Center(
                   child: Text(
                     "No habits found !",
