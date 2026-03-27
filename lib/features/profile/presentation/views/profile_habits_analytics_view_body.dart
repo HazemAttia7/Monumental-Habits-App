@@ -7,6 +7,7 @@ import 'package:pixel_true_app/features/profile/presentation/views/widgets/custo
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_analytics_sliver_list.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 
+// TODO : refactor code by creating controller
 class ProfileHabitsAnalyticsViewBody extends StatefulWidget {
   const ProfileHabitsAnalyticsViewBody({super.key});
 

@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/enums/habits_history_enums.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/habits_history_sliver_list_item.dart';
 
 class HabitsHistorySliverList extends StatelessWidget {
-  final String status;
+  final enFilterHabitsByStatus status;
   const HabitsHistorySliverList({super.key, required this.status});
 
   @override
@@ -22,7 +23,7 @@ class HabitsHistorySliverList extends StatelessWidget {
         final filtered = state.habitsForStatus(status);
 
         return filtered.isEmpty
-            ? SliverToBoxAdapter(
+            ? SliverFillRemaining(
                 child: Center(
                   child: Text(
                     "No habits found !",

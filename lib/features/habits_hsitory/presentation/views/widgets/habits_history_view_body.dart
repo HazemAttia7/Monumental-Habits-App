@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/enums/habits_history_enums.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/habits_history_filter_chips.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/habits_history_sliver_list.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 
+// TODO : refactor code using controller
 class HabitsHistoryViewBody extends StatefulWidget {
   const HabitsHistoryViewBody({super.key});
 
@@ -13,7 +16,7 @@ class HabitsHistoryViewBody extends StatefulWidget {
 }
 
 class _HabitsHistoryViewBodyState extends State<HabitsHistoryViewBody> {
-  String _status = 'all';
+  enFilterHabitsByStatus _status = enFilterHabitsByStatus.all;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -27,9 +30,14 @@ class _HabitsHistoryViewBodyState extends State<HabitsHistoryViewBody> {
                 children: [
                   Gap(12.h),
                   const DefaultViewHeader(title: 'Habits History'),
-                  Gap(24.h),
-                  // TODO : filter by completion using status string
-                  Gap(24.h),
+                  Gap(12.h),
+                  HabitsHistoryFilterChips(
+                    status: _status,
+                    onStatusChanged: (newStatus) {
+                      setState(() => _status = newStatus);
+                    },
+                  ),
+                  Gap(18.h),
                 ],
               ),
             ),

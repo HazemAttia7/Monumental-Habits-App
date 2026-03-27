@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:meta/meta.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
+import 'package:pixel_true_app/core/enums/habits_history_enums.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 import 'package:pixel_true_app/core/services/notification_service.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
