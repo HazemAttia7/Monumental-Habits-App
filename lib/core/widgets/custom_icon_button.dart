@@ -5,7 +5,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 class CustomIconButton extends StatelessWidget {
   final VoidCallback onTap;
   final IconData icon;
-  final double? iconSize;
+  final double? iconSize, elevation;
   final EdgeInsetsGeometry? padding;
   final Color? iconColor, backColor;
   final BoxShape? shape;
@@ -18,6 +18,7 @@ class CustomIconButton extends StatelessWidget {
     this.iconColor,
     this.backColor,
     this.shape,
+    this.elevation,
   });
 
   @override
@@ -28,6 +29,8 @@ class CustomIconButton extends StatelessWidget {
           iconColor?.withValues(alpha: .1) ??
           AppColors.secondaryColor.withValues(alpha: .1),
       shape: shape == BoxShape.circle ? null : const CircleBorder(),
+      elevation: elevation ?? 0,
+      shadowColor: AppColors.secondaryColor,
       child: InkWell(
         customBorder: shape == BoxShape.circle ? null : const CircleBorder(),
         highlightColor:

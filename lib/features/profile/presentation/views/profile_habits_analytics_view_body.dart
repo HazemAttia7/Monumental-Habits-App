@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/custom_search_field.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_analytics_sliver_list.dart';
@@ -29,7 +30,10 @@ class _ProfileHabitsAnalyticsViewBodyState
               child: Column(
                 children: [
                   Gap(12.h),
-                  const DefaultViewHeader(title: "Habits Analytics"),
+                  const DefaultViewHeader(
+                    title: "Habits Analytics",
+                    themeColor: AppColors.primaryColor,
+                  ),
                   Gap(24.h),
                   CustomSearchField(
                     onChanged: (value) => setState(() => _query = value),

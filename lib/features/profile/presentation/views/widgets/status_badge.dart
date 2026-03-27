@@ -28,7 +28,9 @@ class StatusBadge extends StatelessWidget {
               fontSize: 11.sp,
               fontWeight: FontWeight.bold,
               color: AppColors.secondaryColor,
-              fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
+              fontFamily: GoogleFonts.plusJakartaSans(
+                fontWeight: FontWeight.bold,
+              ).fontFamily,
               letterSpacing: .55,
               height: 1,
             ),

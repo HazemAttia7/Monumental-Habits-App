@@ -8,12 +8,16 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/icon_container.dart';
 
 class HabitTitleRow extends StatelessWidget {
-  final String title;
+  final String habitName;
   final DateTime createdAt;
+  final Color? themeColor, titleColor, subtitleColor;
   const HabitTitleRow({
     super.key,
-    required this.title,
+    required this.habitName,
     required this.createdAt,
+    this.themeColor,
+    this.titleColor,
+    this.subtitleColor,
   });
 
   @override
@@ -22,7 +26,7 @@ class HabitTitleRow extends StatelessWidget {
       children: [
         IconContainer(
           icon: FontAwesomeIcons.cube,
-          iconColor: AppColors.primaryColor,
+          iconColor: themeColor ?? AppColors.primaryColor,
           padding: EdgeInsets.all(14.sp),
           iconSize: 24.sp,
         ),
@@ -33,11 +37,13 @@ class HabitTitleRow extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                title,
+                habitName,
                 style: AppStyles.textStyle18.copyWith(
-                  fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
+                  fontFamily: GoogleFonts.plusJakartaSans(
+                    fontWeight: FontWeight.bold,
+                  ).fontFamily,
                   height: 1,
-                  color: AppColors.secondaryColor,
+                  color: titleColor ?? AppColors.secondaryColor,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -45,9 +51,11 @@ class HabitTitleRow extends StatelessWidget {
               Text(
                 "created at ${_getDate(createdAt)}".toUpperCase(),
                 style: AppStyles.textStyle10.copyWith(
-                  color: AppColors.primaryColor,
+                  color: subtitleColor ?? themeColor ?? AppColors.primaryColor,
                   fontWeight: FontWeight.bold,
-                  fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
+                  fontFamily: GoogleFonts.plusJakartaSans(
+                    fontWeight: FontWeight.bold,
+                  ).fontFamily,
                   letterSpacing: 1.1,
                   height: 1,
                   overflow: TextOverflow.ellipsis,
@@ -56,6 +64,7 @@ class HabitTitleRow extends StatelessWidget {
             ],
           ),
         ),
+        Gap(12.w),
       ],
     );
   }

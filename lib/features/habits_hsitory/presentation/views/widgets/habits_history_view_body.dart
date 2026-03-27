@@ -13,7 +13,7 @@ class HabitsHistoryViewBody extends StatefulWidget {
 }
 
 class _HabitsHistoryViewBodyState extends State<HabitsHistoryViewBody> {
-  String _status  = 'all';
+  String _status = 'all';
   @override
   Widget build(BuildContext context) {
     return SafeArea(

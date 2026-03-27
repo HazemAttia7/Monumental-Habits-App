@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/habits_history_sliver_list_item.dart';
 
 class HabitsHistorySliverList extends StatelessWidget {
   final String status;
@@ -27,14 +30,12 @@ class HabitsHistorySliverList extends StatelessWidget {
                   ),
                 ),
               )
-            : SliverToBoxAdapter(
-                child: Center(
-                  child: Text(
-                    "WORK IN PROGRESS !",
-                    style: AppStyles.textStyle17,
-                  ),
-                ),
-              ); // HabitsHistoryListItem(habit: filtered[index]), <-- TODO
+            : SliverList.separated(
+                itemCount: filtered.length,
+                itemBuilder: (context, index) =>
+                    HabitsHistorySliverListItem(habit: filtered[index]),
+                separatorBuilder: (context, index) => Gap(16.h),
+              );
       },
     );
   }

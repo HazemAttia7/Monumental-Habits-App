@@ -36,8 +36,9 @@ class StatCard extends StatelessWidget {
               color: isDisabled
                   ? AppColors.secondaryColor.withValues(alpha: .3)
                   : AppColors.primaryColor,
-              fontWeight: FontWeight.bold,
-              fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
+              fontFamily: GoogleFonts.plusJakartaSans(
+                fontWeight: FontWeight.bold,
+              ).fontFamily,
               height: 1,
               letterSpacing: .96,
             ),

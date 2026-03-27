@@ -28,14 +28,14 @@ class AnalyticsRow extends StatelessWidget {
               child: StatCard(
                 isDisabled: habit.status != enHabitStatus.inProgress,
                 title: 'current',
-                subtitle: 'days',
+                subtitle: _getStreakText(habit.currentStreak),
                 value: habit.currentStreak,
               ),
             ),
             Expanded(
               child: StatCard(
                 title: 'longest',
-                subtitle: 'days',
+                subtitle: _getStreakText(habit.longestStreak),
                 value: habit.longestStreak,
               ),
             ),
@@ -50,5 +50,13 @@ class AnalyticsRow extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _getStreakText(int streak) {
+    if (streak == 1) {
+      return "day";
+    } else {
+      return "days";
+    }
   }
 }

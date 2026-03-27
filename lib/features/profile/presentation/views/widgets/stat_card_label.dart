@@ -12,8 +12,9 @@ class StatCardLabel extends StatelessWidget {
       textAlign: TextAlign.center,
       label.toUpperCase(),
       style: AppStyles.textStyle14.copyWith(
-        fontWeight: FontWeight.bold,
-        fontFamily: GoogleFonts.plusJakartaSans().fontFamily,
+        fontFamily: GoogleFonts.plusJakartaSans(
+          fontWeight: FontWeight.bold,
+        ).fontFamily,
         letterSpacing: 1.2,
       ),
     );

@@ -8,7 +8,8 @@ import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 
 class DefaultViewHeader extends StatelessWidget {
   final String title;
-  const DefaultViewHeader({super.key, required this.title});
+  final Color? themeColor;
+  const DefaultViewHeader({super.key, required this.title, this.themeColor});
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +17,10 @@ class DefaultViewHeader extends StatelessWidget {
       children: [
         CustomIconButton(
           onTap: () => Navigator.pop(context),
-          iconColor: AppColors.secondaryColor,
-          backColor: AppColors.secondaryColor.withValues(alpha: .1),
+          iconColor: themeColor ?? AppColors.secondaryColor,
+          backColor:
+              themeColor?.withValues(alpha: .1) ??
+              AppColors.secondaryColor.withValues(alpha: .1),
           icon: FontAwesomeIcons.arrowLeft,
         ),
         Gap(16.w),

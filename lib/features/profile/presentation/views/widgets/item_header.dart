@@ -7,7 +7,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/icon_button_with_shadow.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/habit_title_row.dart';
+import 'package:pixel_true_app/core/widgets/habit_title_row.dart';
 import 'package:provider/provider.dart';
 
 class ItemHeader extends StatelessWidget {
@@ -20,7 +20,10 @@ class ItemHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
-          child: HabitTitleRow(title: habit.name, createdAt: habit.createdAt),
+          child: HabitTitleRow(
+            habitName: habit.name,
+            createdAt: habit.createdAt,
+          ),
         ),
         IconButtonWithShadow(
           icon: FontAwesomeIcons.ellipsis,
