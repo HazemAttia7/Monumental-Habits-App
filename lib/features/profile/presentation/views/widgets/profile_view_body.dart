@@ -31,7 +31,6 @@ class ProfileViewBody extends StatelessWidget {
               icon: FontAwesomeIcons.solidCreditCard,
               title: "Biiling Methods",
               onTap: () {
-                // TODO : Show dialog with 'billing methods not implemented yet' message
                 buildNotImplementedYetDialog(
                   context,
                   featureName: "Biiling Methods",
