@@ -20,35 +20,37 @@ class ProfileViewBody extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
-        child: Column(
-          children: [
-            Gap(10.h),
-            const ProfileHeader(),
-            Gap(32.h),
-            const ProfileSummary(),
-            Gap(8.h),
-            IconTileCard(
-              icon: FontAwesomeIcons.solidCreditCard,
-              title: "Biiling Methods",
-              onTap: () {
-                buildNotImplementedYetDialog(
-                  context,
-                  featureName: "Biiling Methods",
-                );
-              },
-            ),
-            Gap(8.h),
-            IconTileCard(
-              icon: FontAwesomeIcons.medal,
-              title: "Habits Analytics",
-              onTap: () {
-                context.push(
-                  AppRouter.kProfileHabitsAnalytics,
-                  extra: context.read<HabitsCubit>(),
-                );
-              },
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Gap(10.h),
+              const ProfileHeader(),
+              Gap(32.h),
+              const ProfileSummary(),
+              Gap(8.h),
+              IconTileCard(
+                icon: FontAwesomeIcons.solidCreditCard,
+                title: "Biiling Methods",
+                onTap: () {
+                  buildNotImplementedYetDialog(
+                    context,
+                    featureName: "Biiling Methods",
+                  );
+                },
+              ),
+              Gap(8.h),
+              IconTileCard(
+                icon: FontAwesomeIcons.medal,
+                title: "Habits Analytics",
+                onTap: () {
+                  context.push(
+                    AppRouter.kProfileHabitsAnalytics,
+                    extra: context.read<HabitsCubit>(),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
