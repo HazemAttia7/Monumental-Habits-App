@@ -24,6 +24,7 @@ class MainViewBody extends StatelessWidget {
       builder: (context, _) {
         return SafeArea(
           top: false,
+          bottom: false,
           child: Stack(
             children: [
               Positioned(

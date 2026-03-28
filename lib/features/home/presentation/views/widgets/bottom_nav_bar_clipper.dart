@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BottomNavBarClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = Path();
-    final double _xScaling = size.width / 414.sp;
-    final double _yScaling = size.height / 80.sp;
+    final double _xScaling = size.width / 414;
+    final double _yScaling = size.height / 80;
     path.lineTo(0 * _xScaling, 0 * _yScaling);
     path.cubicTo(
       0 * _xScaling,
