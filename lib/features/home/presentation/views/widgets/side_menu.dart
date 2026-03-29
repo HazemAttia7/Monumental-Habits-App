@@ -10,7 +10,6 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/more_act
 import 'package:pixel_true_app/features/home/presentation/views/widgets/side_menu_close_button.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/side_menu_list_tile.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/upgrade_to_pro_button.dart';
-import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
 import 'package:provider/provider.dart';
 
 class SideMenu extends StatelessWidget {
@@ -39,10 +38,6 @@ class SideMenu extends StatelessWidget {
               icon: FontAwesomeIcons.solidUser,
               title: "Profile",
               onTap: () {
-                Provider.of<MainViewController>(
-                  context,
-                  listen: false,
-                ).closeSideMenu();
                 GoRouter.of(context).push(
                   AppRouter.kProfileView,
                   extra: context.read<HabitsCubit>(),
