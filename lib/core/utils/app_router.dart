@@ -5,6 +5,7 @@ import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
+import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_controller.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/habits_history_view.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
@@ -117,7 +118,10 @@ abstract class AppRouter {
           final cubit = state.extra as HabitsCubit;
           return BlocProvider.value(
             value: cubit,
-            child: const HabitsHistoryView(),
+            child: ChangeNotifierProvider<HabitsHistoryController>(
+              create: (_) => HabitsHistoryController(),
+              child: const HabitsHistoryView(),
+            ),
           );
         },
       ),
