@@ -21,7 +21,11 @@ class StatsRow extends StatelessWidget {
       children: [
         _StreakText(label: "current", streak: currentStreak),
         const _DividerCircle(),
-        _StreakText(label: "best", streak: longestStreak),
+        _StreakText(
+          label: "best",
+          streak: longestStreak,
+          textColor: AppColors.secondaryColor,
+        ),
         const _DividerCircle(),
         Text(
           "${completionRate.toStringAsFixed(0)}% done".toUpperCase(),
