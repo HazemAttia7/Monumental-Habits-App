@@ -125,23 +125,21 @@ class AddEditHabitController extends ChangeNotifier {
     return true;
   }
 
-  Habit buildUpdatedHabit() {
-    final reminders = <String>[];
+  Habit buildUpdatedHabit({Habit? baseHabit}) {
+    final base = baseHabit ?? habit!; // ← use passed habit or fallback
 
+    final reminders = <String>[];
     for (int i = 0; i < _remindersBoolList.length; i++) {
-      if (_remindersBoolList[i]) {
-        reminders.add(_remindersTime[i]);
-      }
+      if (_remindersBoolList[i]) reminders.add(_remindersTime[i]);
     }
 
     final frequency = <int>[];
     for (int i = 0; i < _habitFrequencyList.length; i++) {
-      if (_habitFrequencyList[i]) {
-        frequency.add(i);
-      }
+      if (_habitFrequencyList[i]) frequency.add(i);
     }
 
-    return habit!.copyWith(
+    return base.copyWith(
+      // ← copy from base which has latest logs
       name: habitNameController.text.trim(),
       frequency: frequency,
       reminders: reminders,

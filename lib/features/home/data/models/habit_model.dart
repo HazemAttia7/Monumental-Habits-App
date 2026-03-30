@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 
@@ -192,4 +193,19 @@ class Habit {
     final weekday = date.weekday == 7 ? 0 : date.weekday; // Sun=7 → 0
     return frequency.contains(weekday);
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Habit &&
+        other.id == id &&
+        other.name == name &&
+        other.status == status &&
+        listEquals(other.frequency, frequency) &&
+        listEquals(other.reminders, reminders);
+    // logs excluded — those are handled separately via cycleHabitStatus
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, status, frequency, reminders);
 }

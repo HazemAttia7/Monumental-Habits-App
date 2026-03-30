@@ -62,10 +62,27 @@ class AddEditHabitViewBody extends StatelessWidget {
                     Gap(12.h),
                     CustomButton(
                       onTap: () {
-                        final updatedHabit = context
-                            .read<AddEditHabitController>()
-                            .buildUpdatedHabit();
-                        context.read<HabitsCubit>().updateHabit(updatedHabit);
+                        final controller = context
+                            .read<AddEditHabitController>();
+                        final cubit = context.read<HabitsCubit>();
+
+                        // Get the CURRENT habit from cubit state (has latest logs)
+                        final currentHabit = (cubit.state as HabitsLoaded)
+                            .habits
+                            .firstWhere((h) => h.id == controller.habit!.id);
+
+                        // Build updated habit using current habit as base (preserves logs)
+                        final updatedHabit = controller.buildUpdatedHabit(
+                          baseHabit: currentHabit,
+                        );
+
+                        // Dirty check — only update if something actually changed
+                        if (updatedHabit == currentHabit) {
+                          GoRouter.of(context).pop();
+                          return;
+                        }
+
+                        cubit.updateHabit(updatedHabit);
                         buildSuccessSnackBar(
                           context,
                           message: 'Habit updated successfully',
