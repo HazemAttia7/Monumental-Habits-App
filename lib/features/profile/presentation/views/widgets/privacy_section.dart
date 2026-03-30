@@ -8,6 +8,7 @@ import 'package:pixel_true_app/core/utils/validator.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_section_header.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/email_confirmation_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_dialog.dart';
@@ -29,6 +30,8 @@ class PrivacySection extends StatelessWidget {
                 text: "Edit Email",
                 onTap: () {
                   String? verifiedPassword;
+                  final controller = context.read<ProfileController>();
+                  // TODO : make manual closing of dialog and set barrierDismissible: false,
                   showDialog(
                     context: context,
                     builder: (dialogContext) => PasswordConfirmationDialog(
@@ -42,6 +45,7 @@ class PrivacySection extends StatelessWidget {
                       onPasswordVerified: (password) {
                         verifiedPassword = password;
                       },
+                      profileController: controller,
                       onConfirm: (email) async {
                         if (!await context
                             .read<AuthCubit>()
@@ -62,6 +66,7 @@ class PrivacySection extends StatelessWidget {
                       },
                       afterPop: (email) {
                         if (verifiedPassword == null) return;
+                        // TODO : make manual closing of dialog and set barrierDismissible: false,
                         showDialog(
                           context: context,
                           builder: (_) => EmailConfirmationDialog(
@@ -81,6 +86,8 @@ class PrivacySection extends StatelessWidget {
                 text: "Edit Password",
                 onTap: () {
                   final cubit = context.read<AuthCubit>();
+                  final controller = context.read<ProfileController>();
+                  // TODO : make manual closing of dialog and set barrierDismissible: false,
                   showDialog(
                     context: context,
                     builder: (dialogContext) => PasswordConfirmationDialog(
@@ -90,6 +97,7 @@ class PrivacySection extends StatelessWidget {
                       confirmMessage:
                           "Are you sure you want to change your password?",
                       isPassword: true,
+                      profileController: controller,
                       onConfirm: (newPass) async {
                         final success = await cubit.changePassword(
                           newPassword: newPass,

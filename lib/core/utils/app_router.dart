@@ -14,6 +14,7 @@ import 'package:pixel_true_app/core/managers/habit_analysis_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_habits_analytics_view.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
@@ -99,7 +100,13 @@ abstract class AppRouter {
         path: kProfileView,
         builder: (context, state) {
           final cubit = state.extra as HabitsCubit;
-          return BlocProvider.value(value: cubit, child: const ProfileView());
+          return BlocProvider.value(
+            value: cubit,
+            child: ChangeNotifierProvider<ProfileController>(
+              create: (context) => ProfileController(),
+              child: const ProfileView(),
+            ),
+          );
         },
       ),
       GoRoute(
@@ -108,7 +115,10 @@ abstract class AppRouter {
           final cubit = state.extra as HabitsCubit;
           return BlocProvider.value(
             value: cubit,
-            child: const ProfileHabitsAnalyticsView(),
+            child: ChangeNotifierProvider<ProfileController>(
+              create: (context) => ProfileController(),
+              child: const ProfileHabitsAnalyticsView(),
+            ),
           );
         },
       ),

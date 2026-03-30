@@ -6,6 +6,7 @@ import 'package:pixel_true_app/core/utils/validator.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_handler.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/change_credential_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_section_header.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_dialog.dart';
@@ -39,6 +40,8 @@ class EditProfileBottomSheet extends StatelessWidget {
             text: "Change Username",
             onTap: () {
               final cubit = context.read<AuthCubit>();
+              final controller = context.read<ProfileController>();
+              // TODO : make manual closing of dialog and set barrierDismissible: false,
               showDialog(
                 context: context,
                 builder: (context) => BlocProvider.value(
@@ -47,6 +50,7 @@ class EditProfileBottomSheet extends StatelessWidget {
                     context,
                     isGoogleUser,
                     cubit,
+                    controller,
                   ),
                 ),
               );
@@ -62,6 +66,7 @@ class EditProfileBottomSheet extends StatelessWidget {
     BuildContext context,
     bool isGoogleUser,
     AuthCubit cubit,
+    ProfileController controller,
   ) {
     return isGoogleUser
         ? ChangeCredentialDialog(
@@ -70,16 +75,10 @@ class EditProfileBottomSheet extends StatelessWidget {
             hint: "Enter your username",
             confirmMessage: "Are you sure you want to change your username?",
             isPassword: false,
-            onConfirm: (username) async {
-              final success = await cubit.changeUsername(
-                newUsername: username.trim(),
-              );
-              if (context.mounted) {
-                Navigator.pop(context);
-              }
-              return success;
-            },
+            onConfirm: (username) =>
+                controller.changeUsername(username, context, cubit),
             validator: Validator.validateUsername,
+            profileController: controller,
           )
         : PasswordConfirmationDialog(
             title: "Change Username",
@@ -87,16 +86,10 @@ class EditProfileBottomSheet extends StatelessWidget {
             hint: "Enter your username",
             confirmMessage: "Are you sure you want to change your username?",
             isPassword: false,
-            onConfirm: (username) async {
-              final success = await cubit.changeUsername(
-                newUsername: username.trim(),
-              );
-              if (context.mounted) {
-                Navigator.pop(context);
-              }
-              return success;
-            },
+            onConfirm: (username) =>
+                controller.changeUsername(username, context, cubit),
             validator: Validator.validateUsername,
+            profileController: controller,
           );
   }
 }

@@ -3,24 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/custom_search_field.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_analytics_sliver_list.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
+import 'package:provider/provider.dart';
 
-// TODO : refactor code by creating controller
-class ProfileHabitsAnalyticsViewBody extends StatefulWidget {
+class ProfileHabitsAnalyticsViewBody extends StatelessWidget {
   const ProfileHabitsAnalyticsViewBody({super.key});
 
   @override
-  State<ProfileHabitsAnalyticsViewBody> createState() =>
-      _ProfileHabitsAnalyticsViewBodyState();
-}
-
-class _ProfileHabitsAnalyticsViewBodyState
-    extends State<ProfileHabitsAnalyticsViewBody> {
-  String _query = '';
-  @override
   Widget build(BuildContext context) {
+    final controller = context.watch<ProfileController>();
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
@@ -36,14 +30,12 @@ class _ProfileHabitsAnalyticsViewBodyState
                     themeColor: AppColors.primaryColor,
                   ),
                   Gap(24.h),
-                  CustomSearchField(
-                    onChanged: (value) => setState(() => _query = value),
-                  ),
+                  CustomSearchField(onChanged: controller.setQuery),
                   Gap(24.h),
                 ],
               ),
             ),
-            HabitsAnalyticsSliverList(query: _query),
+            HabitsAnalyticsSliverList(query: controller.query),
             SliverToBoxAdapter(child: Gap(24.h)),
           ],
         ),

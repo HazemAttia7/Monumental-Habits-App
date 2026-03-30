@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/enums/profile_enums.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_completed_section.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/profile_analytics_row.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/user_info_row.dart';
+import 'package:provider/provider.dart';
 
-class ProfileSummary extends StatefulWidget {
+class ProfileSummary extends StatelessWidget {
   const ProfileSummary({super.key});
 
   @override
-  State<ProfileSummary> createState() => _ProfileSummaryState();
-}
-
-class _ProfileSummaryState extends State<ProfileSummary> {
-  enProfileFilterBy _filterBy = enProfileFilterBy.week;
-  @override
   Widget build(BuildContext context) {
+    final controller = context.watch<ProfileController>();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12.h),
       decoration: BoxDecoration(
@@ -27,21 +23,14 @@ class _ProfileSummaryState extends State<ProfileSummary> {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: UserInfoRow(
-              onDropdownChanged: (enProfileFilterBy filterBy) {
-                if (filterBy == _filterBy) return;
-                setState(() {
-                  _filterBy = filterBy;
-                });
-              },
-            ),
+            child: UserInfoRow(onDropdownChanged: controller.setFilterBy),
           ),
           Gap(12.h),
           const ProfileAnalyticsRow(),
           Gap(8.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: HabitsCompletedSection(value: _filterBy),
+            child: HabitsCompletedSection(value: controller.filterBy),
           ),
         ],
       ),
