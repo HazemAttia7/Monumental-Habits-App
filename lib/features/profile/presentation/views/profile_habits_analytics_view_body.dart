@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/custom_search_field.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_analytics_sliver_list.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
@@ -14,7 +14,7 @@ class ProfileHabitsAnalyticsViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<ProfileController>();
+    final controller = context.watch<ProfileViewController>();
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),

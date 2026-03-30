@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_controller.dart';
+import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/habits_history_filter_chips.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/habits_history_sliver_list.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';

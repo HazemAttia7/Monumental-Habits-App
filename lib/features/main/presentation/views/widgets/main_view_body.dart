@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
-import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/custom_floating_button.dart';
@@ -72,7 +72,7 @@ class MainViewBody extends StatelessWidget {
                               mainController.activateFloatingButton();
                             } else {
                               final addEditController = context
-                                  .read<AddEditHabitController>();
+                                  .read<AddEditHabitViewController>();
                               if (!addEditController.validate(context)) return;
                               final habit = addEditController.buildNewHabit();
                               context.read<HabitsCubit>().addHabit(habit);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 
-class HabitAnalysisController extends ChangeNotifier {
+class HabitAnalysisViewController extends ChangeNotifier {
   DateTime _currentDate = DateTime(
     DateTime.now().year,
     DateTime.now().month,

@@ -7,7 +7,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/add_edit_habit_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_frequency_widget.dart';
@@ -63,7 +63,7 @@ class AddEditHabitViewBody extends StatelessWidget {
                     CustomButton(
                       onTap: () {
                         final controller = context
-                            .read<AddEditHabitController>();
+                            .read<AddEditHabitViewController>();
                         final cubit = context.read<HabitsCubit>();
 
                         // Get the CURRENT habit from cubit state (has latest logs)

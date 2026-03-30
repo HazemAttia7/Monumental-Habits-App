@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/helper/date_helper.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
-import 'package:pixel_true_app/core/managers/habit_analysis_controller.dart';
+import 'package:pixel_true_app/core/managers/habit_analysis_view_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/calender_grid_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/month_actions.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/week_days_row.dart';
@@ -21,7 +21,7 @@ class CalendarSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<HabitAnalysisController>();
+    final controller = context.watch<HabitAnalysisViewController>();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 12.h),
       decoration: BoxDecoration(

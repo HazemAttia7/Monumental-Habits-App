@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_completed_section.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/profile_analytics_row.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/user_info_row.dart';
@@ -12,7 +12,7 @@ class ProfileSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<ProfileController>();
+    final controller = context.watch<ProfileViewController>();
     return Container(
       padding: EdgeInsets.symmetric(vertical: 12.h),
       decoration: BoxDecoration(

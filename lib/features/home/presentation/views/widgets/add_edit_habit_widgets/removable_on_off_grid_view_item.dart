@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/on_off_grid_view_item.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +35,7 @@ class RemovableOnOffGridViewItem extends StatelessWidget {
             builder: (dialogContext) => DeleteDialog(
               itemLabel: unit,
               onDelete: () {
-                final controller = context.read<AddEditHabitController>();
+                final controller = context.read<AddEditHabitViewController>();
                 final index = controller.remindersTime.indexOf(unit);
                 controller.removeReminder(controller.remindersTime[index]);
                 GoRouter.of(context).pop();

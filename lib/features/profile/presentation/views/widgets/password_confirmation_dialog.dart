@@ -8,7 +8,7 @@ import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
-import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/change_credential_dialog.dart';
 
 class PasswordConfirmationDialog extends StatefulWidget {
@@ -19,7 +19,7 @@ class PasswordConfirmationDialog extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String password)? onPasswordVerified;
   final Function(String)? afterPop;
-  final ProfileController profileController;
+  final ProfileViewController profileController;
 
   const PasswordConfirmationDialog({
     super.key,

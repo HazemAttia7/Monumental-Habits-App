@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
-import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
@@ -24,7 +24,7 @@ class ProfileHeader extends StatelessWidget {
         Text("Profile", style: AppStyles.textStyle18),
         CustomIconButton(
           onTap: () {
-            final controller = context.read<ProfileController>();
+            final controller = context.read<ProfileViewController>();
             showModalBottomSheet(
               context: context,
               builder: (BuildContext context) => ChangeNotifierProvider.value(

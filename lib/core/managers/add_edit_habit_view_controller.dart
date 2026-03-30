@@ -7,7 +7,7 @@ import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 
-class AddEditHabitController extends ChangeNotifier {
+class AddEditHabitViewController extends ChangeNotifier {
   final TextEditingController habitNameController = TextEditingController();
   bool _isEverydaySwitched = false;
   bool _isWeekendsSwitched = false;
@@ -32,7 +32,7 @@ class AddEditHabitController extends ChangeNotifier {
 
   Habit? habit;
 
-  AddEditHabitController({this.habit}) {
+  AddEditHabitViewController({this.habit}) {
     _init();
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_controller.dart';
+import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/header_row.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/widgets/stats_row.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';

@@ -6,7 +6,7 @@ import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
-import 'package:pixel_true_app/core/managers/home_controller.dart';
+import 'package:pixel_true_app/core/managers/home_view_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_section_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_tracking_sliver_list.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/home_header.dart';
@@ -16,7 +16,7 @@ class HomeViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<HomeController>();
+    final controller = context.read<HomeViewController>();
     return SafeArea(
       child: CustomScrollView(
         physics: const BouncingScrollPhysics(),

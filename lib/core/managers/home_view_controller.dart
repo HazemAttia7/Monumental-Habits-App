@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class HomeController extends ChangeNotifier {
+class HomeViewController extends ChangeNotifier {
   final List<ScrollController> habitControllers = [];
   final ScrollController weekDaysController = ScrollController();
 

@@ -5,7 +5,7 @@ import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
-import 'package:pixel_true_app/core/managers/habit_analysis_controller.dart';
+import 'package:pixel_true_app/core/managers/habit_analysis_view_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_analysis_widgets/calender_grid_view_item.dart';
 
 class CalendarGridView extends StatelessWidget {
@@ -24,7 +24,7 @@ class CalendarGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<HabitAnalysisController>();
+    final controller = context.read<HabitAnalysisViewController>();
 
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -49,7 +49,7 @@ class CalendarGridView extends StatelessWidget {
         if (index < controller.startOffset) {
           final day =
               controller.prevMonthDays - controller.startOffset + index + 1;
-          final dateKey = HabitAnalysisController.formatDateKey(
+          final dateKey = HabitAnalysisViewController.formatDateKey(
             controller.prevYear,
             controller.prevMonth,
             day,
@@ -65,7 +65,7 @@ class CalendarGridView extends StatelessWidget {
           controller.currentDate.month,
           day,
         );
-        final dateKey = HabitAnalysisController.formatDateKey(
+        final dateKey = HabitAnalysisViewController.formatDateKey(
           controller.currentDate.year,
           controller.currentDate.month,
           day,
@@ -85,7 +85,7 @@ class CalendarGridView extends StatelessWidget {
 
   void _onDayTap(
     BuildContext context,
-    HabitAnalysisController controller,
+    HabitAnalysisViewController controller,
     DateTime date,
   ) {
     final error = controller.validateDayTap(habit: habit, date: date);

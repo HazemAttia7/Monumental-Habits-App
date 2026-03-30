@@ -5,16 +5,16 @@ import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
-import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_controller.dart';
+import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/habits_history_view.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
-import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
-import 'package:pixel_true_app/core/managers/habit_analysis_controller.dart';
+import 'package:pixel_true_app/core/managers/habit_analysis_view_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
-import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_habits_analytics_view.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
@@ -69,7 +69,7 @@ abstract class AppRouter {
           return BlocProvider.value(
             value: homeCubit,
             child: ChangeNotifierProvider(
-              create: (_) => AddEditHabitController(habit: args["habit"]),
+              create: (_) => AddEditHabitViewController(habit: args["habit"]),
               child: AddEditHabitView(
                 habitFormMode: args["mode"],
                 backToHome: args["backToHome"],
@@ -92,7 +92,7 @@ abstract class AppRouter {
           return BlocProvider.value(
             value: cubit,
             child: ChangeNotifierProvider(
-              create: (_) => HabitAnalysisController(),
+              create: (_) => HabitAnalysisViewController(),
               child: HabitAnalysisView(habit: habit, themeColor: themeColor),
             ),
           );
@@ -104,8 +104,8 @@ abstract class AppRouter {
           final cubit = state.extra as HabitsCubit;
           return BlocProvider.value(
             value: cubit,
-            child: ChangeNotifierProvider<ProfileController>(
-              create: (context) => ProfileController(),
+            child: ChangeNotifierProvider<ProfileViewController>(
+              create: (context) => ProfileViewController(),
               child: const ProfileView(),
             ),
           );
@@ -117,8 +117,8 @@ abstract class AppRouter {
           final cubit = state.extra as HabitsCubit;
           return BlocProvider.value(
             value: cubit,
-            child: ChangeNotifierProvider<ProfileController>(
-              create: (context) => ProfileController(),
+            child: ChangeNotifierProvider<ProfileViewController>(
+              create: (context) => ProfileViewController(),
               child: const ProfileHabitsAnalyticsView(),
             ),
           );

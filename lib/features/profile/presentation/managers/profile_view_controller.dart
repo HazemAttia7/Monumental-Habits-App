@@ -8,7 +8,7 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:provider/provider.dart';
 
-class ProfileController extends ChangeNotifier {
+class ProfileViewController extends ChangeNotifier {
   String _query = '';
   String get query => _query;
 

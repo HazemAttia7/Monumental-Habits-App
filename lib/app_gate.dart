@@ -9,7 +9,7 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/auth/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
-import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
 import 'package:pixel_true_app/features/main/presentation/views/main_view.dart';
@@ -35,7 +35,7 @@ class AppGate extends StatelessWidget {
             child: ChangeNotifierProvider(
               create: (_) => MainViewController(),
               child: ChangeNotifierProvider(
-                create: (_) => AddEditHabitController()..loadReminders(),
+                create: (_) => AddEditHabitViewController()..loadReminders(),
                 child: const MainView(),
               ),
             ),

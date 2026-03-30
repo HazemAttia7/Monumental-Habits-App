@@ -7,7 +7,7 @@ import 'package:pixel_true_app/core/widgets/confirmation_dialog.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
-import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 
 class ChangeCredentialDialog extends StatefulWidget {
   final String title, subtitle, hint, confirmMessage;
@@ -16,7 +16,7 @@ class ChangeCredentialDialog extends StatefulWidget {
   final Future<bool> Function(String) onConfirm;
   final String? Function(String?)? validator;
   final Function(String)? afterPop;
-  final ProfileController profileController;
+  final ProfileViewController profileController;
 
   const ChangeCredentialDialog({
     super.key,

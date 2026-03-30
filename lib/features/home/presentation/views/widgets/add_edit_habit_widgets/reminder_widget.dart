@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
-import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/reminder_bottom_sheet.dart';
 import 'package:pixel_true_app/core/widgets/clickable_text_icon_widget.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +14,7 @@ class ReminderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<AddEditHabitController>();
+    final controller = context.watch<AddEditHabitViewController>();
 
     return AnimatedOpacity(
       duration: const Duration(milliseconds: 250),
@@ -39,7 +39,7 @@ class ReminderWidget extends StatelessWidget {
                 ),
               ),
               ClickableTextIconWidget(
-                text: Provider.of<AddEditHabitController>(
+                text: Provider.of<AddEditHabitViewController>(
                   context,
                 ).getRemindersText(),
                 icon: FontAwesomeIcons.chevronRight,
@@ -51,7 +51,7 @@ class ReminderWidget extends StatelessWidget {
                     context: context,
                     builder: (bottomSheetContext) {
                       return ChangeNotifierProvider.value(
-                        value: context.read<AddEditHabitController>(),
+                        value: context.read<AddEditHabitViewController>(),
                         child: Wrap(
                           children: [
                             ReminderBottomSheet(themeColor: themeColor),

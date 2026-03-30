@@ -8,7 +8,7 @@ import 'package:pixel_true_app/core/utils/validator.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
-import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_section_header.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/email_confirmation_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_dialog.dart';
@@ -30,7 +30,7 @@ class PrivacySection extends StatelessWidget {
                 text: "Edit Email",
                 onTap: () {
                   String? verifiedPassword;
-                  final controller = context.read<ProfileController>();
+                  final controller = context.read<ProfileViewController>();
                   showDialog(
                     context: context,
                     barrierDismissible: false,
@@ -85,7 +85,7 @@ class PrivacySection extends StatelessWidget {
                 text: "Edit Password",
                 onTap: () {
                   final cubit = context.read<AuthCubit>();
-                  final controller = context.read<ProfileController>();
+                  final controller = context.read<ProfileViewController>();
                   showDialog(
                     context: context,
                     barrierDismissible: false,

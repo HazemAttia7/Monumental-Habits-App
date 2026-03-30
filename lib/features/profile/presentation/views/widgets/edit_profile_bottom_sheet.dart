@@ -6,7 +6,7 @@ import 'package:pixel_true_app/core/utils/validator.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_handler.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
-import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
+import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/change_credential_dialog.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/edit_profile_section_header.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/password_confirmation_dialog.dart';
@@ -40,7 +40,7 @@ class EditProfileBottomSheet extends StatelessWidget {
             text: "Change Username",
             onTap: () {
               final cubit = context.read<AuthCubit>();
-              final controller = context.read<ProfileController>();
+              final controller = context.read<ProfileViewController>();
               showDialog(
                 context: context,
                 barrierDismissible: false,
@@ -66,7 +66,7 @@ class EditProfileBottomSheet extends StatelessWidget {
     BuildContext context,
     bool isGoogleUser,
     AuthCubit cubit,
-    ProfileController controller,
+    ProfileViewController controller,
   ) {
     return isGoogleUser
         ? ChangeCredentialDialog(

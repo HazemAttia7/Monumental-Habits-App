@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
-import 'package:pixel_true_app/core/managers/add_edit_habit_controller.dart';
+import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/custom_switcher.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_frequency_grid_view.dart';
 
@@ -29,7 +29,7 @@ class _HabitFrequencyBottomSheetState extends State<HabitFrequencyBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<AddEditHabitController>();
+    final controller = context.watch<AddEditHabitViewController>();
 
     return Container(
       padding: EdgeInsets.all(16.sp),
