@@ -37,12 +37,11 @@ class SideMenu extends StatelessWidget {
             SideMenuListTile(
               icon: FontAwesomeIcons.solidUser,
               title: "Profile",
-              onTap: () {
+              onTap: () => 
                 GoRouter.of(context).push(
                   AppRouter.kProfileView,
                   extra: context.read<HabitsCubit>(),
-                );
-              },
+                )
             ),
             Gap(24.h),
             SideMenuListTile(
@@ -56,12 +55,11 @@ class SideMenu extends StatelessWidget {
             SideMenuListTile(
               icon: FontAwesomeIcons.clockRotateLeft,
               title: "Habits History",
-              onTap: () {
+              onTap: () =>
                 GoRouter.of(context).push(
                   AppRouter.kHabitsHistory,
                   extra: context.read<HabitsCubit>(),
-                );
-              },
+                )
             ),
             Gap(24.h),
             SideMenuListTile(
@@ -75,9 +73,9 @@ class SideMenu extends StatelessWidget {
             SideMenuListTile(
               icon: FontAwesomeIcons.circleQuestion,
               title: "Support",
-              onTap: () {
-                // TODO(Second) : Open Support
-              },
+              onTap: () =>   GoRouter.of(context).push(
+                  AppRouter.kSupport,
+                ),
             ),
             const Spacer(flex: 4),
             UpgradeToProButton(onTap: () {}),
