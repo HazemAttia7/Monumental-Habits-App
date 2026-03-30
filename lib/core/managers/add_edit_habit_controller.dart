@@ -303,9 +303,18 @@ class AddEditHabitController extends ChangeNotifier {
   }
 
   void _insertTimeOrdered({required String timeToInsert}) {
+    // Ensure both lists are in sync before inserting
+    while (_remindersBoolList.length < _remindersTime.length) {
+      _remindersBoolList.add(false);
+    }
+    while (_remindersBoolList.length > _remindersTime.length) {
+      _remindersBoolList.removeLast();
+    }
+
     final insertIndex = _remindersTime.indexWhere(
       (t) => _compareTime(t) > _compareTime(timeToInsert),
     );
+
     if (insertIndex == -1) {
       _remindersTime.add(timeToInsert);
       _remindersBoolList.add(false);

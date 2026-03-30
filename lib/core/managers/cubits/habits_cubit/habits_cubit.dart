@@ -201,6 +201,17 @@ class HabitsCubit extends Cubit<HabitsState> {
       ),
     );
 
+    // Handle notifications based on status
+    if (status == enHabitStatus.inProgress) {
+      // Back to in progress → reschedule if has reminders
+      if (original.reminders.isNotEmpty) {
+        _notificationService.scheduleHabitReminders(original);
+      }
+    } else {
+      // Completed or missed → cancel reminders, no point notifying
+      await _notificationService.cancelHabitReminders(habitId);
+    }
+
     final result = await _repo.updateHabitStatus(_uid, habitId, status);
     result.fold((failure) {
       // Roll back on failure
@@ -212,6 +223,12 @@ class HabitsCubit extends Cubit<HabitsState> {
                 .toList(),
           ),
         );
+      }
+      // Roll back notification too
+      if (original.reminders.isNotEmpty) {
+        _notificationService.scheduleHabitReminders(original);
+      } else {
+        _notificationService.cancelHabitReminders(habitId);
       }
     }, (_) {});
   }
