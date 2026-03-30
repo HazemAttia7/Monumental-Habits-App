@@ -31,9 +31,9 @@ class PrivacySection extends StatelessWidget {
                 onTap: () {
                   String? verifiedPassword;
                   final controller = context.read<ProfileController>();
-                  // TODO : make manual closing of dialog and set barrierDismissible: false,
                   showDialog(
                     context: context,
+                    barrierDismissible: false,
                     builder: (dialogContext) => PasswordConfirmationDialog(
                       title: "Change Email",
                       subtitle: "Enter your new email address",
@@ -66,7 +66,6 @@ class PrivacySection extends StatelessWidget {
                       },
                       afterPop: (email) {
                         if (verifiedPassword == null) return;
-                        // TODO : make manual closing of dialog and set barrierDismissible: false,
                         showDialog(
                           context: context,
                           builder: (_) => EmailConfirmationDialog(
@@ -87,9 +86,9 @@ class PrivacySection extends StatelessWidget {
                 onTap: () {
                   final cubit = context.read<AuthCubit>();
                   final controller = context.read<ProfileController>();
-                  // TODO : make manual closing of dialog and set barrierDismissible: false,
                   showDialog(
                     context: context,
+                    barrierDismissible: false,
                     builder: (dialogContext) => PasswordConfirmationDialog(
                       title: "Change Password",
                       subtitle: "Enter your new password",

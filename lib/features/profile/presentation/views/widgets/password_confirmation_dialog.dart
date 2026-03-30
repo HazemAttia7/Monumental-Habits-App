@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
+import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
@@ -65,6 +66,7 @@ class _PasswordConfirmationDialogState
         Navigator.of(context).pop();
         showDialog(
           context: context,
+          barrierDismissible: false,
           builder: (_) => ChangeCredentialDialog(
             profileController: widget.profileController,
             title: widget.title,
@@ -92,48 +94,64 @@ class _PasswordConfirmationDialogState
 
         return Dialog(
           backgroundColor: Colors.transparent,
-          child: Container(
-            padding: EdgeInsets.all(16.sp),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text("Confirm Password", style: AppStyles.textStyle24),
-                Gap(24.h),
-                Text(
-                  "Enter your current password to continue",
-                  style: AppStyles.textStyle14,
+          child: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16.sp),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                Gap(8.h),
-                SizedBox(
-                  height: 55.h,
-                  child: CustomTextFormField(
-                    controller: _passwordController,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                    hintText: "Enter your password",
-                    isPassword: true,
-                  ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text("Confirm Password", style: AppStyles.textStyle24),
+                    Gap(24.h),
+                    Text(
+                      "Enter your current password to continue",
+                      style: AppStyles.textStyle14,
+                    ),
+                    Gap(8.h),
+                    SizedBox(
+                      height: 55.h,
+                      child: CustomTextFormField(
+                        controller: _passwordController,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                        hintText: "Enter your password",
+                        isPassword: true,
+                      ),
+                    ),
+                    if (errorMessage != null) ...[
+                      Gap(6.h),
+                      Text(
+                        errorMessage,
+                        style: AppStyles.textStyle14.copyWith(
+                          color: Colors.red,
+                        ),
+                      ),
+                    ],
+                    Gap(12.h),
+                    CustomButton(
+                      onTap: isLoading ? () {} : _verifyPassword,
+                      text: isLoading ? "Verifying..." : "Confirm",
+                      backColor: AppColors.secondaryColor,
+                      textColor: Colors.white,
+                    ),
+                    Gap(8.h),
+                  ],
                 ),
-                if (errorMessage != null) ...[
-                  Gap(6.h),
-                  Text(
-                    errorMessage,
-                    style: AppStyles.textStyle14.copyWith(color: Colors.red),
-                  ),
-                ],
-                Gap(12.h),
-                CustomButton(
-                  onTap: isLoading ? () {} : _verifyPassword,
-                  text: isLoading ? "Verifying..." : "Confirm",
-                  backColor: AppColors.secondaryColor,
-                  textColor: Colors.white,
+              ),
+              Positioned(
+                top: 6.h,
+                right: 6.w,
+                child: CustomIconButton(
+                  onTap: () => Navigator.pop(context),
+                  icon: Icons.close,
+                  padding: EdgeInsets.all(4.sp),
+                  iconSize: 18.sp,
                 ),
-                Gap(8.h),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

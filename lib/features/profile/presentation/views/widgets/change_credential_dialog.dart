@@ -5,6 +5,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/confirmation_dialog.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
+import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
 import 'package:pixel_true_app/features/profile/presentation/managers/profile_controller.dart';
 
@@ -76,41 +77,55 @@ class _ChangeCredentialDialogState extends State<ChangeCredentialDialog> {
 
         return Dialog(
           backgroundColor: Colors.transparent,
-          child: Container(
-            padding: EdgeInsets.all(16.sp),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: Form(
-              key: _formKey,
-              autovalidateMode: _autovalidateMode,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(widget.title, style: AppStyles.textStyle24),
-                  Gap(24.h),
-                  Text(widget.subtitle, style: AppStyles.textStyle14),
-                  Gap(8.h),
-                  CustomTextFormField(
-                    controller: _controller,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
-                    hintText: widget.hint,
-                    isPassword: widget.isPassword,
-                    validator: widget.validator,
+          child: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.all(16.sp),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: _autovalidateMode,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(widget.title, style: AppStyles.textStyle24),
+                      Gap(24.h),
+                      Text(widget.subtitle, style: AppStyles.textStyle14),
+                      Gap(8.h),
+                      CustomTextFormField(
+                        controller: _controller,
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20.w),
+                        hintText: widget.hint,
+                        isPassword: widget.isPassword,
+                        validator: widget.validator,
+                      ),
+                      Gap(12.h),
+                      CustomButton(
+                        onTap: isLoading ? () {} : _onChangeTapped,
+                        text: isLoading
+                            ? widget.loadingMessage ?? "Loading..."
+                            : "Change",
+                        backColor: AppColors.secondaryColor,
+                        textColor: Colors.white,
+                      ),
+                    ],
                   ),
-                  Gap(12.h),
-                  CustomButton(
-                    onTap: isLoading ? () {} : _onChangeTapped,
-                    text: isLoading
-                        ? widget.loadingMessage ?? "Loading..."
-                        : "Change",
-                    backColor: AppColors.secondaryColor,
-                    textColor: Colors.white,
-                  ),
-                ],
+                ),
               ),
-            ),
+              Positioned(
+                top: 6.h,
+                right: 6.w,
+                child: CustomIconButton(
+                  onTap: () => Navigator.pop(context),
+                  icon: Icons.close,
+                  padding: EdgeInsets.all(4.sp),
+                  iconSize: 18.sp,
+                ),
+              ),
+            ],
           ),
         );
       },

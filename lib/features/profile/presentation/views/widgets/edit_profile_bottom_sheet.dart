@@ -41,9 +41,9 @@ class EditProfileBottomSheet extends StatelessWidget {
             onTap: () {
               final cubit = context.read<AuthCubit>();
               final controller = context.read<ProfileController>();
-              // TODO : make manual closing of dialog and set barrierDismissible: false,
               showDialog(
                 context: context,
+                barrierDismissible: false,
                 builder: (context) => BlocProvider.value(
                   value: cubit,
                   child: _buildChangeUsernameDialog(
