@@ -6,7 +6,6 @@ import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 import 'package:pixel_true_app/features/support/presentation/views/widgets/contact_us_widget.dart';
 import 'package:pixel_true_app/features/support/presentation/views/widgets/faq_section.dart';
 
-// TODO : refactor code by using controller
 class SupportViewBody extends StatelessWidget {
   const SupportViewBody({super.key});
 

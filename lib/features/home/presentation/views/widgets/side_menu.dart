@@ -78,7 +78,9 @@ class SideMenu extends StatelessWidget {
                 ),
             ),
             const Spacer(flex: 4),
-            UpgradeToProButton(onTap: () {}),
+            UpgradeToProButton(onTap: () {
+              // TODO(Before-Last) : Open Upgrade to pro screen
+            }),
             Gap(36.h),
             const MoreActions(),
             const Spacer(),

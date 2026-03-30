@@ -18,6 +18,7 @@ import 'package:pixel_true_app/features/profile/presentation/managers/profile_vi
 import 'package:pixel_true_app/features/profile/presentation/views/profile_habits_analytics_view.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
+import 'package:pixel_true_app/features/support/presentation/managers/support_view_controller.dart';
 import 'package:pixel_true_app/features/support/presentation/views/support_view.dart';
 import 'package:provider/provider.dart';
 
@@ -137,7 +138,14 @@ abstract class AppRouter {
           );
         },
       ),
-      GoRoute(path: kSupport, builder: (context, state) => const SupportView()),
+      GoRoute(
+        path: kSupport,
+        builder: (context, state) =>
+            ChangeNotifierProvider<SupportViewController>(
+              create: (_) => SupportViewController(),
+              child: const SupportView(),
+            ),
+      ),
     ],
   );
 }

@@ -11,7 +11,9 @@ class MoreActions extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        SideMenuClickableText(text: "About Us", onTap: () {}),
+        SideMenuClickableText(text: "About Us", onTap: () {
+          // TODO : Navigate to about us page
+        }),
         SideMenuClickableText(
           text: "Log Out",
           onTap: () {
