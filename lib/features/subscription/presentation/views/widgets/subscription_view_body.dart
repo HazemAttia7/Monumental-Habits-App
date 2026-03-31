@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 import 'package:pixel_true_app/features/subscription/presentation/views/widgets/offer_widget.dart';
+import 'package:pixel_true_app/features/subscription/presentation/views/widgets/plans_section.dart';
 import 'package:pixel_true_app/features/subscription/presentation/views/widgets/premium_features.dart';
 
 class SubscriptionViewBody extends StatelessWidget {
@@ -22,6 +23,8 @@ class SubscriptionViewBody extends StatelessWidget {
             const OfferWidget(),
             Gap(12.h),
             const PremiumFeatures(),
+            Gap(24.h),
+            const PlansSection(),
           ],
         ),
       ),
