@@ -18,6 +18,7 @@ import 'package:pixel_true_app/features/profile/presentation/managers/profile_vi
 import 'package:pixel_true_app/features/profile/presentation/views/profile_habits_analytics_view.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
+import 'package:pixel_true_app/features/subscription/presentation/views/subscription_view.dart';
 import 'package:pixel_true_app/features/support/presentation/managers/support_view_controller.dart';
 import 'package:pixel_true_app/features/support/presentation/views/support_view.dart';
 import 'package:provider/provider.dart';
@@ -34,6 +35,7 @@ abstract class AppRouter {
   static const String kProfileHabitsAnalytics = "/profile-habits-analytics";
   static const String kHabitsHistory = "/habits-history";
   static const String kSupport = "/support";
+  static const String kSubcrption = "/subscription";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -145,6 +147,10 @@ abstract class AppRouter {
               create: (_) => SupportViewController(),
               child: const SupportView(),
             ),
+      ),
+      GoRoute(
+        path: kSubcrption,
+        builder: (context, state) => const SubscriptionView(),
       ),
     ],
   );

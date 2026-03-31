@@ -37,11 +37,10 @@ class SideMenu extends StatelessWidget {
             SideMenuListTile(
               icon: FontAwesomeIcons.solidUser,
               title: "Profile",
-              onTap: () => 
-                GoRouter.of(context).push(
-                  AppRouter.kProfileView,
-                  extra: context.read<HabitsCubit>(),
-                )
+              onTap: () => GoRouter.of(context).push(
+                AppRouter.kProfileView,
+                extra: context.read<HabitsCubit>(),
+              ),
             ),
             Gap(24.h),
             SideMenuListTile(
@@ -55,11 +54,10 @@ class SideMenu extends StatelessWidget {
             SideMenuListTile(
               icon: FontAwesomeIcons.clockRotateLeft,
               title: "Habits History",
-              onTap: () =>
-                GoRouter.of(context).push(
-                  AppRouter.kHabitsHistory,
-                  extra: context.read<HabitsCubit>(),
-                )
+              onTap: () => GoRouter.of(context).push(
+                AppRouter.kHabitsHistory,
+                extra: context.read<HabitsCubit>(),
+              ),
             ),
             Gap(24.h),
             SideMenuListTile(
@@ -73,14 +71,12 @@ class SideMenu extends StatelessWidget {
             SideMenuListTile(
               icon: FontAwesomeIcons.circleQuestion,
               title: "Support",
-              onTap: () =>   GoRouter.of(context).push(
-                  AppRouter.kSupport,
-                ),
+              onTap: () => GoRouter.of(context).push(AppRouter.kSupport),
             ),
             const Spacer(flex: 4),
-            UpgradeToProButton(onTap: () {
-              // TODO(Before-Last) : Open Upgrade to pro screen
-            }),
+            UpgradeToProButton(
+              onTap: () => GoRouter.of(context).push(AppRouter.kSubcrption),
+            ),
             Gap(36.h),
             const MoreActions(),
             const Spacer(),
