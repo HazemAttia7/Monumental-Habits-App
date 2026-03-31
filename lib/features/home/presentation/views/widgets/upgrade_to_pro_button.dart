@@ -36,11 +36,15 @@ class _UpgradeToProButtonState extends State<UpgradeToProButton> {
         child: InkWell(
           splashColor: Colors.white.withValues(alpha: .3),
           borderRadius: BorderRadius.circular(16.r),
-          onTap: () async {
+          onTapDown: (_) {
             setState(() => _isPressed = true);
-            await Future.delayed(const Duration(milliseconds: 150));
+          },
+          onTapUp: (_) async {
             setState(() => _isPressed = false);
             widget.onTap();
+          },
+          onTapCancel: () {
+            setState(() => _isPressed = false);
           },
           child: Container(
             width: double.infinity,
