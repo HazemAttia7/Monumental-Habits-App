@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/features/about_us/presentation/views/about_us_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
@@ -36,6 +37,7 @@ abstract class AppRouter {
   static const String kHabitsHistory = "/habits-history";
   static const String kSupport = "/support";
   static const String kSubcrption = "/subscription";
+  static const String kAboutUs = "/about-us";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -152,6 +154,7 @@ abstract class AppRouter {
         path: kSubcrption,
         builder: (context, state) => const SubscriptionView(),
       ),
+      GoRoute(path: kAboutUs, builder: (context, state) => const AboutUsView()),
     ],
   );
 }
