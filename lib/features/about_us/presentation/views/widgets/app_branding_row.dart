@@ -25,7 +25,6 @@ class AppBrandingRow extends StatelessWidget {
                 height: 1,
                 color: AppColors.secondaryColor.withValues(alpha: .5),
                 fontWeight: FontWeight.bold,
-                fontFamily: "klasik",
               ),
             ),
           ],
