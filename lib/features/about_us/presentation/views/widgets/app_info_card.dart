@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/widgets/app_branding_row.dart';
-import 'package:pixel_true_app/features/about_us/presentation/views/widgets/version_badge.dart';
+import 'package:pixel_true_app/features/about_us/presentation/views/widgets/custom_badge.dart';
 
 class AppInfoCard extends StatelessWidget {
   const AppInfoCard({super.key});
@@ -17,7 +17,14 @@ class AppInfoCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [const AppBrandingRow(), Gap(14.h), const VersionBadge()],
+        children: [
+          const AppBrandingRow(),
+          Gap(14.h),
+          const CustomBadge(
+            title: "Version 1.0.0",
+            subtitle: "Designed by Pixel True",
+          ),
+        ],
       ),
     );
   }

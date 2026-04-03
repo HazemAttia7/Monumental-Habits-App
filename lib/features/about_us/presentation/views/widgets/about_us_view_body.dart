@@ -5,6 +5,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
+import 'package:pixel_true_app/features/about_us/presentation/views/widgets/app_developer_card.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/widgets/app_info_card.dart';
 
 class AboutUsViewBody extends StatelessWidget {
@@ -27,6 +28,7 @@ class AboutUsViewBody extends StatelessWidget {
               Gap(24.h),
               const AppInfoCard(),
               Gap(16.h),
+              const AppDeveloperCard(),
             ],
           ),
         ),
