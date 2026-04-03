@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
+import 'package:pixel_true_app/features/about_us/presentation/views/widgets/app_info_card.dart';
 
 class AboutUsViewBody extends StatelessWidget {
   const AboutUsViewBody({super.key});
@@ -16,6 +17,8 @@ class AboutUsViewBody extends StatelessWidget {
           children: [
             Gap(12.h),
             const DefaultViewHeader(title: "About Us"),
+            Gap(24.h),
+            const AppInfoCard(),
           ],
         ),
       ),
