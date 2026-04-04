@@ -8,6 +8,7 @@ import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/widgets/app_developer_card.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/widgets/app_features_card.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/widgets/app_info_card.dart';
+import 'package:pixel_true_app/features/about_us/presentation/views/widgets/get_in_touch_card.dart';
 
 class AboutUsViewBody extends StatelessWidget {
   const AboutUsViewBody({super.key});
@@ -33,6 +34,8 @@ class AboutUsViewBody extends StatelessWidget {
                 const AppDeveloperCard(),
                 Gap(16.h),
                 const AppFeaturesCard(),
+                Gap(16.h),
+                const GetInTouchCard(),
                 Gap(16.h),
               ],
             ),
