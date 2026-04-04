@@ -21,7 +21,7 @@ class HomeHeader extends StatelessWidget {
               listen: false,
             ).openSideMenu();
           },
-          icon: FontAwesomeIcons.bars,
+          icon: FontAwesomeIcons.equals,
         ),
         Text("Home Page", style: AppStyles.textStyle18),
         const ProfilePlaceholder(),
