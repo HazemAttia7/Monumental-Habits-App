@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/widgets/about_developer.dart';
+import 'package:pixel_true_app/features/about_us/presentation/views/widgets/card_header.dart';
 
 class AppDeveloperCard extends StatelessWidget {
   const AppDeveloperCard({super.key});
@@ -20,13 +21,7 @@ class AppDeveloperCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "THE DEVELOPER",
-            style: AppStyles.textStyle14.copyWith(
-              fontWeight: FontWeight.bold,
-              color: AppColors.secondaryColor.withValues(alpha: .5),
-            ),
-          ),
+          const CardHeader(text: "THE DEVELOPER"),
           Gap(14.h),
           const AboutDeveloper(),
           Gap(16.h),
