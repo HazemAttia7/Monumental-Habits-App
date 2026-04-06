@@ -3,6 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
 import 'package:pixel_true_app/core/managers/home_view_controller.dart';
+import 'package:pixel_true_app/features/courses/presentation/views/courses_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
 import 'package:provider/provider.dart';
@@ -57,7 +58,7 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
       create: (_) => HomeViewController(),
       child: const HomeView(),
     ),
-    const Center(child: Text("Courses View")),
+    const CoursesView(),
     const Center(child: Text("Community View")),
     const Center(child: Text("Settings View")),
     AddEditHabitView(
