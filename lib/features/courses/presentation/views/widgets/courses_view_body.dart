@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_card.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_header_section.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_sort_filter_row.dart';
 
@@ -19,6 +20,8 @@ class CoursesViewBody extends StatelessWidget {
             const CoursesHeaderSection(),
             Gap(16.h),
             const CoursesSortFilterRow(),
+            Gap(16.h),
+            const CourseCard(),
           ],
         ),
       ),
