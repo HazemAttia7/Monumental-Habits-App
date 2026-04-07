@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/enums/courses_enums.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/filter_button.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/filter_dropdown.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/enum_dropdown.dart';
 
 class CoursesSortFilterRow extends StatelessWidget {
   const CoursesSortFilterRow({super.key});
@@ -18,7 +18,7 @@ class CoursesSortFilterRow extends StatelessWidget {
           style: AppStyles.textStyle16.copyWith(fontWeight: FontWeight.w500),
         ),
         Gap(4.w),
-        FilterDropdown(
+        EnumDropdown(
           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 8.h),
           options: enSortBy.values,
           initialValue: enSortBy.popular,

@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
-class FilterDropdown<T extends Enum> extends StatefulWidget {
+class EnumDropdown<T extends Enum> extends StatefulWidget {
   final List<T> options;
   final T initialValue;
   final String Function(T) labelBuilder;
@@ -14,7 +14,7 @@ class FilterDropdown<T extends Enum> extends StatefulWidget {
   final BorderRadius? borderRadius;
   final EdgeInsetsGeometry? padding;
 
-  const FilterDropdown({
+  const EnumDropdown({
     super.key,
     required this.options,
     required this.initialValue,
@@ -26,10 +26,10 @@ class FilterDropdown<T extends Enum> extends StatefulWidget {
   });
 
   @override
-  State<FilterDropdown<T>> createState() => _FilterDropdownState<T>();
+  State<EnumDropdown<T>> createState() => _EnumDropdownState<T>();
 }
 
-class _FilterDropdownState<T extends Enum> extends State<FilterDropdown<T>> {
+class _EnumDropdownState<T extends Enum> extends State<EnumDropdown<T>> {
   late T _selected;
 
   @override
