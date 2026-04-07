@@ -32,7 +32,7 @@ class CourseCard extends StatelessWidget {
           onTap: onTap,
           child: Column(
             children: [
-              CourseImageSection(image: course.image),
+              CourseImageSection(imageUrl: course.imageUrl),
               CourseDetailsSection(
                 title: course.title,
                 duration: course.duration,

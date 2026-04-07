@@ -6,6 +6,6 @@ class CoursesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: CoursesViewBody());
+    return const Scaffold(body: CoursesViewBody());
   }
 }

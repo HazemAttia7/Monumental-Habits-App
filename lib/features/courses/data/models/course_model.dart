@@ -1,10 +1,10 @@
 class Course {
-  String image, title;
+  String imageUrl, title;
   final Duration duration;
   final int lessons;
   final bool isFavourite;
   Course({
-    required this.image,
+    required this.imageUrl,
     required this.title,
     required this.duration,
     required this.lessons,
@@ -12,7 +12,7 @@ class Course {
   });
 
   factory Course.fromJson(Map<String, dynamic> json) => Course(
-    image: json['image'] as String,
+    imageUrl: json['image'] as String,
     title: json['title'] as String,
     duration: json['duration'] as Duration,
     lessons: json['lessons'] as int,
@@ -20,7 +20,7 @@ class Course {
   );
 
   Map<String, dynamic> toJson() => {
-    'image': image,
+    'image': imageUrl,
     'title': title,
     'isFavourite': isFavourite,
     'duration': duration,
