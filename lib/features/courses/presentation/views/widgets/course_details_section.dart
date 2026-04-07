@@ -25,13 +25,6 @@ class CourseDetailsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(8.sp),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(12.r),
-          bottomRight: Radius.circular(12.r),
-        ),
-      ),
       child: Column(
         children: [
           Text(title, style: AppStyles.textStyle18),

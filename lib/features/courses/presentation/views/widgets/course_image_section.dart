@@ -8,15 +8,10 @@ class CourseImageSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Ink.image(
+      image: AssetImage(image),
       height: 166.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(12.r),
-          topRight: Radius.circular(12.r),
-        ),
-        image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover),
-      ),
+      fit: BoxFit.cover,
     );
   }
 }
