@@ -14,6 +14,7 @@ class CustomTextFormField extends StatefulWidget {
   final void Function(String? data)? onSaved;
   final EdgeInsets? contentPadding;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
   const CustomTextFormField({
     super.key,
     this.prefixIcon,
@@ -25,6 +26,7 @@ class CustomTextFormField extends StatefulWidget {
     this.onSaved,
     this.contentPadding,
     this.controller,
+    this.focusNode,
   });
 
   @override
@@ -33,10 +35,12 @@ class CustomTextFormField extends StatefulWidget {
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   late bool _obscureText;
-  final FocusNode _focusNode = FocusNode();
+  FocusNode _focusNode = FocusNode();
   @override
   void initState() {
     super.initState();
+    _focusNode = widget.focusNode ?? FocusNode();
+
     _focusNode.addListener(() {
       setState(() {});
     });
@@ -45,7 +49,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
   @override
   void dispose() {
-    _focusNode.dispose();
+    if (widget.focusNode == null) {
+      _focusNode.dispose();
+    }
     super.dispose();
   }
 
