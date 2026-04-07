@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_card.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_header_section.dart';
@@ -21,7 +22,19 @@ class CoursesViewBody extends StatelessWidget {
             Gap(16.h),
             const CoursesSortFilterRow(),
             Gap(16.h),
-            const CourseCard(),
+            CourseCard(
+              image: AssetsData.coursePlaceholder,
+              title:
+                  "30 Day Journal Challenge - Establish a Habit of Daily Journaling",
+              onSave: () {
+                // TODO : add to favourites
+              },
+              onUnsave: () {
+                // TODO : remove from favourites
+              },
+              duration: const Duration(hours: 2, minutes: 41),
+              lessons: 37,
+            ),
           ],
         ),
       ),
