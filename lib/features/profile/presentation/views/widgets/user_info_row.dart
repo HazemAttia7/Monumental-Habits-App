@@ -18,7 +18,12 @@ class UserInfoRow extends StatelessWidget {
         Gap(10.w),
         const NameWidget(),
         const Spacer(),
-        FilterDropdown(onSelected: onDropdownChanged),
+        FilterDropdown<enProfileFilterBy>(
+          options: enProfileFilterBy.values,
+          initialValue: enProfileFilterBy.week,
+          labelBuilder: (v) => 'This ${v.name}',
+          onSelected: onDropdownChanged,
+        ),
       ],
     );
   }

@@ -2,24 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/enums/profile_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
-class FilterDropdown extends StatefulWidget {
-  final Function(enProfileFilterBy) onSelected;
-  const FilterDropdown({super.key, required this.onSelected});
+class FilterDropdown<T extends Enum> extends StatefulWidget {
+  final List<T> options;
+  final T initialValue;
+  final String Function(T) labelBuilder;
+  final Function(T) onSelected;
+
+  const FilterDropdown({
+    super.key,
+    required this.options,
+    required this.initialValue,
+    required this.labelBuilder,
+    required this.onSelected,
+  });
 
   @override
-  State<FilterDropdown> createState() => _FilterDropdownState();
+  State<FilterDropdown<T>> createState() => _FilterDropdownState<T>();
 }
 
-class _FilterDropdownState extends State<FilterDropdown> {
-  enProfileFilterBy _selected = enProfileFilterBy.week;
+class _FilterDropdownState<T extends Enum> extends State<FilterDropdown<T>> {
+  late T _selected;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = widget.initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return PopupMenuButton<enProfileFilterBy>(
+    return PopupMenuButton<T>(
       onSelected: (value) {
         setState(() => _selected = value);
         widget.onSelected(value);
@@ -27,20 +42,17 @@ class _FilterDropdownState extends State<FilterDropdown> {
       offset: Offset(0, 44.h),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
       color: Colors.white,
-      itemBuilder: (_) => [
-        PopupMenuItem(
-          value: enProfileFilterBy.week,
-          child: Text('This week', style: AppStyles.textStyle14),
-        ),
-        PopupMenuItem(
-          value: enProfileFilterBy.month,
-          child: Text('This month', style: AppStyles.textStyle14),
-        ),
-        PopupMenuItem(
-          value: enProfileFilterBy.year,
-          child: Text('This year', style: AppStyles.textStyle14),
-        ),
-      ],
+      itemBuilder: (_) => widget.options
+          .map(
+            (option) => PopupMenuItem(
+              value: option,
+              child: Text(
+                widget.labelBuilder(option),
+                style: AppStyles.textStyle14,
+              ),
+            ),
+          )
+          .toList(),
       child: Container(
         padding: EdgeInsets.all(10.sp),
         decoration: BoxDecoration(
@@ -52,7 +64,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("This ${_selected.name}", style: AppStyles.textStyle14),
+            Text(widget.labelBuilder(_selected), style: AppStyles.textStyle14),
             Gap(12.w),
             Icon(
               FontAwesomeIcons.angleDown,
