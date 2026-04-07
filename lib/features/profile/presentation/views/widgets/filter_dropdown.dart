@@ -10,6 +10,9 @@ class FilterDropdown<T extends Enum> extends StatefulWidget {
   final T initialValue;
   final String Function(T) labelBuilder;
   final Function(T) onSelected;
+  final Color? filterBackColor;
+  final BorderRadius? borderRadius;
+  final EdgeInsetsGeometry? padding;
 
   const FilterDropdown({
     super.key,
@@ -17,6 +20,9 @@ class FilterDropdown<T extends Enum> extends StatefulWidget {
     required this.initialValue,
     required this.labelBuilder,
     required this.onSelected,
+    this.filterBackColor,
+    this.borderRadius,
+    this.padding,
   });
 
   @override
@@ -54,9 +60,10 @@ class _FilterDropdownState<T extends Enum> extends State<FilterDropdown<T>> {
           )
           .toList(),
       child: Container(
-        padding: EdgeInsets.all(10.sp),
+        padding: widget.padding ?? EdgeInsets.all(10.sp),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: widget.borderRadius ?? BorderRadius.circular(12.r),
+          color: widget.filterBackColor ?? Colors.white,
           border: Border.all(
             color: AppColors.secondaryColor.withValues(alpha: .1),
           ),
