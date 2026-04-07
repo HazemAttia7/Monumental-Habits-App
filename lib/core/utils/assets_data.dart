@@ -18,4 +18,5 @@ abstract class AssetsData {
   static const messagePopup = "assets/images/message popup.png";
   static const teepeeSwirly = "assets/images/Teepee-Swirly.png";
   static const appIcon = "assets/images/app icon.png";
+  static const coursesCard = "assets/images/courses card.png";
 }
