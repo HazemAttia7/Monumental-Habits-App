@@ -11,6 +11,7 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_s
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_tracking_sliver_list.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/home_header.dart';
 
+// TODO : make shimmer effect includes all the screen while also precaching the images
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
 
