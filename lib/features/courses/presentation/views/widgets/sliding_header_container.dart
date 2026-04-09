@@ -8,7 +8,12 @@ import 'package:pixel_true_app/features/courses/presentation/views/widgets/heade
 
 class SlidingHeaderContainer extends StatefulWidget {
   final void Function(String) onSearchChanged;
-  const SlidingHeaderContainer({super.key, required this.onSearchChanged});
+  final void Function(bool isSearchOpen) onTap;
+  const SlidingHeaderContainer({
+    super.key,
+    required this.onSearchChanged,
+    required this.onTap,
+  });
 
   @override
   State<SlidingHeaderContainer> createState() => _SlidingHeaderContainerState();
@@ -51,11 +56,13 @@ class _SlidingHeaderContainerState extends State<SlidingHeaderContainer>
   }
 
   void _open() {
+    widget.onTap(true);
     _ctrl.forward();
     Future.delayed(const Duration(milliseconds: 200), _focus.requestFocus);
   }
 
   void _close() {
+    widget.onTap(false);
     searchController.clear();
     widget.onSearchChanged('');
     _ctrl.reverse();

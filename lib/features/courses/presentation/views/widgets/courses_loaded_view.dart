@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/enums/courses_enums.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
@@ -28,27 +29,38 @@ class CoursesLoadedView extends StatefulWidget {
 }
 
 class _CoursesLoadedViewState extends State<CoursesLoadedView> {
-  String qurey = '';
+  String _qurey = '';
+  bool _isSearchOpen = false;
+  final GlobalKey _headerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
         child: CustomScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           physics: const BouncingScrollPhysics(),
           slivers: [
+            SliverPersistentHeader(
+              pinned: _isSearchOpen,
+              delegate: _StickyHeaderDelegate(
+                child: SizedBox(
+                  height: 64.h,
+                  child: SlidingHeaderContainer(
+                    key: _headerKey,
+                    onSearchChanged: (value) {
+                      setState(() {
+                        _qurey = value;
+                      });
+                    },
+                    onTap: (bool isSearchOpen) =>
+                        setState(() => _isSearchOpen = isSearchOpen),
+                  ),
+                ),
+              ),
+            ),
             SliverToBoxAdapter(
               child: Column(
                 children: [
-                  Gap(10.h),
-                  SlidingHeaderContainer(
-                    onSearchChanged: (String p1) {
-                      setState(() {
-                        qurey = p1;
-                      });
-                    },
-                  ),
                   Gap(24.h),
                   ClipRRect(
                     borderRadius: BorderRadius.circular(21.r),
@@ -87,7 +99,7 @@ class _CoursesLoadedViewState extends State<CoursesLoadedView> {
               courses: widget.courses
                   .where(
                     (element) => element.title.toLowerCase().contains(
-                      qurey.toLowerCase(),
+                      _qurey.toLowerCase(),
                     ),
                   )
                   .toList(),
@@ -97,5 +109,35 @@ class _CoursesLoadedViewState extends State<CoursesLoadedView> {
         ),
       ),
     );
+  }
+}
+
+class _StickyHeaderDelegate extends SliverPersistentHeaderDelegate {
+  final Widget child;
+
+  _StickyHeaderDelegate({required this.child});
+
+  @override
+  double get minExtent => 64.h;
+
+  @override
+  double get maxExtent => 64.h;
+
+  @override
+  Widget build(
+    BuildContext context,
+    double shrinkOffset,
+    bool overlapsContent,
+  ) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 10.h),
+      color: AppColors.scaffoldColor,
+      child: child,
+    );
+  }
+
+  @override
+  bool shouldRebuild(covariant _StickyHeaderDelegate oldDelegate) {
+    return true;
   }
 }
