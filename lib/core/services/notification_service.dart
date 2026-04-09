@@ -125,7 +125,7 @@ class NotificationService {
         await scheduleNotification(
           id: notifId,
           date: nextDate,
-          title: '⏰ ${habit.name}',
+          title: '${habit.name} ⏰',
           body: 'Time to work on your habit!',
         );
       }
