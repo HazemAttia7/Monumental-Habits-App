@@ -4,8 +4,8 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_clickable_text.dart';
 
 class SheetHeader extends StatelessWidget {
-  final VoidCallback onClearTap;
-  const SheetHeader({super.key, required this.onClearTap});
+  final VoidCallback onResetTap;
+  const SheetHeader({super.key, required this.onResetTap});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class SheetHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("Filters", style: AppStyles.textStyle18),
-        CustomClickableText(fontSize: 14.sp, text: "Clear", onTap: onClearTap),
+        CustomClickableText(fontSize: 14.sp, text: "Reset", onTap: onResetTap),
       ],
     );
   }

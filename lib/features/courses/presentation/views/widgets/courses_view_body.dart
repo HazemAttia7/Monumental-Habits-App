@@ -7,6 +7,7 @@ import 'package:pixel_true_app/features/courses/presentation/views/widgets/cours
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_loaded_view.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_loading_view.dart';
 
+// TODO : refactor this by creating a controller
 class CoursesViewBody extends StatefulWidget {
   const CoursesViewBody({super.key});
 

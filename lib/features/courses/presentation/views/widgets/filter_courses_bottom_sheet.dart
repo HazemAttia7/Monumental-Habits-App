@@ -48,7 +48,7 @@ class _FilterCoursesBottomSheetState extends State<FilterCoursesBottomSheet> {
             child: CustomHandler(),
           ),
           SheetHeader(
-            onClearTap: () {
+            onResetTap: () {
               setState(() {
                 selectedDuration = null;
                 selectedLessons = null;
@@ -57,6 +57,16 @@ class _FilterCoursesBottomSheetState extends State<FilterCoursesBottomSheet> {
           ),
           Gap(32.h),
           FilterOptionsSection(
+            onClearDurationTap: () {
+              setState(() {
+                selectedDuration = null;
+              });
+            },
+            onClearLessonsTap: () {
+              setState(() {
+                selectedLessons = null;
+              });
+            },
             selectedDuration: selectedDuration,
             selectedLessons: selectedLessons,
             onDurationSelected: (index) {
