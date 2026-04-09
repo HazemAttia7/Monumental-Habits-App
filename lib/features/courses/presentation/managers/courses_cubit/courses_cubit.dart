@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pixel_true_app/core/enums/courses_enums.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
 

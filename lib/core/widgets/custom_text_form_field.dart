@@ -15,6 +15,7 @@ class CustomTextFormField extends StatefulWidget {
   final EdgeInsets? contentPadding;
   final TextEditingController? controller;
   final FocusNode? focusNode;
+  final void Function(String data)? onChanged;
   const CustomTextFormField({
     super.key,
     this.prefixIcon,
@@ -27,6 +28,7 @@ class CustomTextFormField extends StatefulWidget {
     this.contentPadding,
     this.controller,
     this.focusNode,
+    this.onChanged,
   });
 
   @override
@@ -58,6 +60,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: widget.onChanged,
       controller: widget.controller,
       obscureText: _obscureText,
       focusNode: _focusNode,

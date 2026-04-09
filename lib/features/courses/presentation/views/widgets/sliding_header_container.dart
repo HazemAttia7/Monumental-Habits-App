@@ -7,7 +7,8 @@ import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/header_container.dart';
 
 class SlidingHeaderContainer extends StatefulWidget {
-  const SlidingHeaderContainer({super.key});
+  final void Function(String) onSearchChanged;
+  const SlidingHeaderContainer({super.key, required this.onSearchChanged});
 
   @override
   State<SlidingHeaderContainer> createState() => _SlidingHeaderContainerState();
@@ -56,6 +57,7 @@ class _SlidingHeaderContainerState extends State<SlidingHeaderContainer>
 
   void _close() {
     searchController.clear();
+    widget.onSearchChanged('');
     _ctrl.reverse();
     _focus.unfocus();
   }
@@ -73,6 +75,7 @@ class _SlidingHeaderContainerState extends State<SlidingHeaderContainer>
                 Gap(8.w),
                 Expanded(
                   child: CustomTextFormField(
+                    onChanged: widget.onSearchChanged,
                     controller: searchController,
                     contentPadding: EdgeInsets.symmetric(horizontal: 8.w),
                     focusNode: _focus,

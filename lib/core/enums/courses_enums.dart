@@ -17,3 +17,10 @@ class CourseFilterState {
 
   CourseFilterState reset() => const CourseFilterState();
 }
+
+class CoursesFilter {
+  final enDurationFilter? duration;
+  final enLessonsFilter? lessons;
+
+  const CoursesFilter({this.duration, this.lessons});
+}

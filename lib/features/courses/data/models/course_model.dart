@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pixel_true_app/features/courses/data/models/lesson_model.dart';
 
 class Course {
@@ -6,6 +7,7 @@ class Course {
   final String? imageUrl;
   final Duration duration;
   final List<Lesson> lessons;
+  final DateTime publishedAt;
 
   Course({
     this.id,
@@ -13,6 +15,7 @@ class Course {
     this.imageUrl,
     required this.duration,
     required this.lessons,
+    required this.publishedAt,
   });
 
   factory Course.fromJson(Map<String, dynamic> json, String docId) {
@@ -24,6 +27,7 @@ class Course {
       lessons: (json['lessons'] as List)
           .map((e) => Lesson.fromJson(e))
           .toList(),
+      publishedAt: (json['publishedAt'] as Timestamp).toDate(),
     );
   }
 
@@ -32,5 +36,6 @@ class Course {
     'imageUrl': imageUrl,
     'duration': duration.inMilliseconds,
     'lessons': lessons.map((e) => e.toJson()).toList(),
+    'publishedAt': Timestamp.fromDate(publishedAt),
   };
 }

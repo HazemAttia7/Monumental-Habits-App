@@ -7,7 +7,9 @@ import 'package:pixel_true_app/features/courses/presentation/views/widgets/filte
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/enum_dropdown.dart';
 
 class CoursesSortFilterRow extends StatelessWidget {
-  const CoursesSortFilterRow({super.key});
+  final dynamic Function(enSortBy) onSortBySelected;
+  final VoidCallback onFilterTap;
+  const CoursesSortFilterRow({super.key, required this.onSortBySelected, required this.onFilterTap});
 
   @override
   Widget build(BuildContext context) {
@@ -23,16 +25,12 @@ class CoursesSortFilterRow extends StatelessWidget {
           options: enSortBy.values,
           initialValue: enSortBy.popular,
           labelBuilder: (enSortBy value) => _getSortByTitle(value),
-          onSelected: (value) {
-            // TODO : apply sort
-          },
+          onSelected:onSortBySelected,
           borderRadius: BorderRadius.circular(16.r),
         ),
         const Spacer(),
         FilterButton(
-          onTap: () {
-            // TODO : apply filter
-          },
+          onTap: onFilterTap ,
         ),
       ],
     );
