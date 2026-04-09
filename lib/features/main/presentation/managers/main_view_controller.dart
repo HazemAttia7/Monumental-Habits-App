@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
+import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/managers/home_view_controller.dart';
+import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/courses_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
@@ -58,7 +62,10 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
       create: (_) => HomeViewController(),
       child: const HomeView(),
     ),
-    const CoursesView(),
+    BlocProvider(
+      create: (context) => CoursesCubit(sl<CoursesRepo>())..getCourses(),
+      child: const CoursesView(),
+    ),
     const Center(child: Text("Community View")),
     const Center(child: Text("Settings View")),
     AddEditHabitView(
