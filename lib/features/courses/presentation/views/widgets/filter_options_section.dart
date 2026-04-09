@@ -24,14 +24,14 @@ class FilterOptionsSection extends StatelessWidget {
         FilterCategorySection(
           title: 'duration',
           options: const ["Under 1 hour", "1 - 3h", "3 - 6h", "+ 6h"],
-          selectedOptionIndex: selectedDuration?.index ?? 0,
+          selectedOptionIndex: selectedDuration?.index,
           onSelected: onDurationSelected,
         ),
         Gap(24.h),
         FilterCategorySection(
           title: 'lessons number',
           options: const ["Under 10", "10 - 20", "20 - 40", "+ 40"],
-          selectedOptionIndex: selectedLessons?.index ?? 0,
+          selectedOptionIndex: selectedLessons?.index,
           onSelected: onLessonsSelected,
         ),
       ],
