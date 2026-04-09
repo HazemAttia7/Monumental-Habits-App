@@ -7,7 +7,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final bool isLoading;
-  final double? height;
+  final double? height, width;
   final Color? backColor, textColor, splashColor, highlightColor;
   const CustomButton({
     super.key,
@@ -19,6 +19,7 @@ class CustomButton extends StatelessWidget {
     this.textColor,
     this.splashColor,
     this.highlightColor,
+    this.width,
   });
 
   @override
@@ -40,6 +41,7 @@ class CustomButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.r),
           onTap: onTap,
           child: SizedBox(
+            width: width,
             height: height ?? 60.h,
             child: Center(
               child: isLoading

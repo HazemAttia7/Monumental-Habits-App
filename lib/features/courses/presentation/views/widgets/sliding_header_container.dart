@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
-import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
-import 'package:provider/provider.dart';
+import 'package:pixel_true_app/features/courses/presentation/views/widgets/header_container.dart';
 
 class SlidingHeaderContainer extends StatefulWidget {
   const SlidingHeaderContainer({super.key});
@@ -15,7 +13,7 @@ class SlidingHeaderContainer extends StatefulWidget {
   State<SlidingHeaderContainer> createState() => _SlidingHeaderContainerState();
 }
 
-class _SlidingHeaderContainerState extends State< SlidingHeaderContainer>
+class _SlidingHeaderContainerState extends State<SlidingHeaderContainer>
     with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<Offset> _slideOut;
@@ -87,23 +85,7 @@ class _SlidingHeaderContainerState extends State< SlidingHeaderContainer>
           ),
           SlideTransition(
             position: _slideOut,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomIconButton(
-                  onTap: () => Provider.of<MainViewController>(
-                    context,
-                    listen: false,
-                  ).openSideMenu(),
-                  icon: FontAwesomeIcons.equals,
-                ),
-                Text('Courses', style: AppStyles.textStyle18),
-                CustomIconButton(
-                  onTap: _open,
-                  icon: FontAwesomeIcons.magnifyingGlass,
-                ),
-              ],
-            ),
+            child: HeaderContainer(onSearchTap: _open),
           ),
         ],
       ),
