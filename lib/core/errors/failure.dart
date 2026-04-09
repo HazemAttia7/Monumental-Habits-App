@@ -48,4 +48,39 @@ class FirebaseFailure extends Failure {
       return const FirebaseFailure('An unknown Firebase error occurred.');
     }
   }
+
+  factory FirebaseFailure.fromFirestore(FirebaseException e) {
+    switch (e.code) {
+      case 'permission-denied':
+        return const FirebaseFailure(
+          'You do not have permission to access this data.',
+        );
+      case 'unavailable':
+        return const FirebaseFailure(
+          'Service is currently unavailable. Try again later.',
+        );
+      case 'not-found':
+        return const FirebaseFailure('Requested data was not found.');
+      case 'deadline-exceeded':
+        return const FirebaseFailure('Request timed out. Please try again.');
+      case 'resource-exhausted':
+        return const FirebaseFailure('Quota exceeded. Please try later.');
+      case 'failed-precondition':
+        return const FirebaseFailure('Operation failed due to a precondition.');
+      case 'aborted':
+        return const FirebaseFailure('Operation was aborted. Try again.');
+      case 'invalid-argument':
+        return const FirebaseFailure('Invalid data provided.');
+      case 'unauthenticated':
+        return const FirebaseFailure(
+          'You must be signed in to access this data.',
+        );
+      case 'network-error':
+        return const FirebaseFailure('No internet connection.');
+      default:
+        return FirebaseFailure(
+          'Unexpected Firestore error: ${e.message ?? 'Unknown error'}',
+        );
+    }
+  }
 }

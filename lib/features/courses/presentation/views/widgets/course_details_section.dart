@@ -10,14 +10,14 @@ class CourseDetailsSection extends StatelessWidget {
     super.key,
     required this.title,
     required this.duration,
-    required this.lessons,
+    required this.lessonsCount,
     required this.onSave,
     required this.onUnsave,
   });
 
   final String title;
   final Duration duration;
-  final int lessons;
+  final int lessonsCount;
   final VoidCallback onSave;
   final VoidCallback onUnsave;
 
@@ -42,7 +42,7 @@ class CourseDetailsSection extends StatelessWidget {
                       style: AppStyles.textStyle12,
                     ),
                     Text(
-                      _getLessonsText(lessons),
+                      _getLessonsText(lessonsCount),
                       style: AppStyles.textStyle12.copyWith(
                         color: AppColors.secondaryColor.withValues(alpha: .5),
                       ),

@@ -9,10 +9,17 @@ import 'package:pixel_true_app/features/auth/data/models/app_user.dart';
 import 'package:pixel_true_app/features/auth/data/repos/auth_repo.dart';
 
 class AuthRepoImpl implements AuthRepo {
+  final FirebaseFirestore _firestore;
+  final FirebaseAuth _auth;
+
+  AuthRepoImpl({FirebaseFirestore? firestore, FirebaseAuth? auth})
+    : _firestore = firestore ?? FirebaseFirestore.instance,
+      _auth = auth ?? FirebaseAuth.instance;
+
   @override
   Future<Either<Failure, AppUser?>> getCurrentUser() async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = _auth.currentUser;
       if (user != null) {
         return Right(AppUser.fromFirebaseUser(user));
       }
@@ -28,8 +35,10 @@ class AuthRepoImpl implements AuthRepo {
     required String password,
   }) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
       if (userCredential.user != null) {
         return Right(AppUser.fromFirebaseUser(userCredential.user!));
@@ -37,7 +46,7 @@ class AuthRepoImpl implements AuthRepo {
       return const Left(FirebaseFailure("Login failed"));
     } on FirebaseAuthException catch (e) {
       try {
-        final query = await FirebaseFirestore.instance
+        final query = await _firestore
             .collection('users')
             .where('email', isEqualTo: email.trim())
             .where(
@@ -84,7 +93,7 @@ class AuthRepoImpl implements AuthRepo {
     bool emailMe, {
     bool isGoogleUser = false, // ← add this
   }) async {
-    await FirebaseFirestore.instance.collection("users").doc(useruid).set({
+    await _firestore.collection("users").doc(useruid).set({
       "uid": useruid,
       "username": username,
       'username_lower': username.toLowerCase(),
@@ -97,7 +106,7 @@ class AuthRepoImpl implements AuthRepo {
 
   Future<bool> isUsernameExist(String username) async {
     try {
-      final snapshot = await FirebaseFirestore.instance
+      final snapshot = await _firestore
           .collection('users')
           .where('username_lower', isEqualTo: username.toLowerCase())
           .limit(1)
@@ -126,7 +135,7 @@ class AuthRepoImpl implements AuthRepo {
         return const Left(FirebaseFailure("Username already exists"));
       }
 
-      UserCredential userCredential = await FirebaseAuth.instance
+      UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
       final user = userCredential.user;
       if (user == null) {
@@ -142,7 +151,7 @@ class AuthRepoImpl implements AuthRepo {
         await sendEmailUsingSendGrid(email, context);
       }
 
-      final refreshedUser = FirebaseAuth.instance.currentUser!;
+      final refreshedUser = _auth.currentUser!;
       return Right(AppUser.fromFirebaseUser(refreshedUser));
     } on FirebaseFailure catch (e) {
       return Left(e);
@@ -156,7 +165,7 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<Failure, Unit>> logout() async {
     try {
-      await FirebaseAuth.instance.signOut();
+      await _auth.signOut();
       return const Right(unit);
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
@@ -168,7 +177,7 @@ class AuthRepoImpl implements AuthRepo {
     required String email,
   }) async {
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      await _auth.sendPasswordResetEmail(email: email);
       return const Right(unit);
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
@@ -195,9 +204,7 @@ class AuthRepoImpl implements AuthRepo {
         idToken: gAuth.idToken,
       );
 
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(
-        credential,
-      );
+      final userCredential = await _auth.signInWithCredential(credential);
       final user = userCredential.user;
 
       if (user == null) {
@@ -216,10 +223,9 @@ class AuthRepoImpl implements AuthRepo {
         );
       } else {
         // ← update existing Google users to have isGoogleUser field
-        await FirebaseFirestore.instance
-            .collection('users')
-            .doc(user.uid)
-            .update({'isGoogleUser': true});
+        await _firestore.collection('users').doc(user.uid).update({
+          'isGoogleUser': true,
+        });
       }
 
       return Right(AppUser.fromFirebaseUser(user));
@@ -233,7 +239,7 @@ class AuthRepoImpl implements AuthRepo {
     required String password,
   }) async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = _auth.currentUser;
       if (user == null) return const Left(FirebaseFailure("No user logged in"));
 
       final credential = EmailAuthProvider.credential(
@@ -253,7 +259,7 @@ class AuthRepoImpl implements AuthRepo {
     required String currentPassword,
   }) async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = _auth.currentUser;
       if (user == null) return const Left(FirebaseFailure("No user logged in"));
 
       final cleanEmail = newEmail.trim();
@@ -268,13 +274,10 @@ class AuthRepoImpl implements AuthRepo {
       await user.reauthenticateWithCredential(credential);
 
       // Fetch EVERYTHING before deleting auth account
-      final userDoc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(oldUid)
-          .get();
+      final userDoc = await _firestore.collection('users').doc(oldUid).get();
       final userData = userDoc.data() ?? {};
 
-      final habitsSnapshot = await FirebaseFirestore.instance
+      final habitsSnapshot = await _firestore
           .collection('users')
           .doc(oldUid)
           .collection('habits')
@@ -284,11 +287,10 @@ class AuthRepoImpl implements AuthRepo {
       await user.delete();
 
       // Create new Firebase Auth account with new email
-      final newCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(
-            email: cleanEmail,
-            password: currentPassword,
-          );
+      final newCredential = await _auth.createUserWithEmailAndPassword(
+        email: cleanEmail,
+        password: currentPassword,
+      );
 
       final newUser = newCredential.user;
       if (newUser == null) {
@@ -298,21 +300,22 @@ class AuthRepoImpl implements AuthRepo {
       await newUser.updateDisplayName(displayName);
       await newUser.reload();
 
-      final batch = FirebaseFirestore.instance.batch();
+      final batch = _firestore.batch();
 
       // Set new user doc with new uid (instead of updating old one)
-      batch.set(
-        FirebaseFirestore.instance.collection('users').doc(newUser.uid),
-        {...userData, 'email': cleanEmail, 'uid': newUser.uid},
-      );
+      batch.set(_firestore.collection('users').doc(newUser.uid), {
+        ...userData,
+        'email': cleanEmail,
+        'uid': newUser.uid,
+      });
 
       // Delete old user doc
-      batch.delete(FirebaseFirestore.instance.collection('users').doc(oldUid));
+      batch.delete(_firestore.collection('users').doc(oldUid));
 
       // Move habits to new uid
       for (final doc in habitsSnapshot.docs) {
         batch.set(
-          FirebaseFirestore.instance
+          _firestore
               .collection('users')
               .doc(newUser.uid)
               .collection('habits')
@@ -320,7 +323,7 @@ class AuthRepoImpl implements AuthRepo {
           doc.data(),
         );
         batch.delete(
-          FirebaseFirestore.instance
+          _firestore
               .collection('users')
               .doc(oldUid)
               .collection('habits')
@@ -343,7 +346,7 @@ class AuthRepoImpl implements AuthRepo {
     required String newPassword,
   }) async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = _auth.currentUser;
       if (user == null) return const Left(FirebaseFailure("No user logged in"));
 
       await user.updatePassword(newPassword);
@@ -359,7 +362,7 @@ class AuthRepoImpl implements AuthRepo {
     required String newUsername,
   }) async {
     try {
-      final user = FirebaseAuth.instance.currentUser;
+      final user = _auth.currentUser;
 
       if (user == null) {
         return const Left(FirebaseFailure("No user logged in"));
@@ -376,13 +379,36 @@ class AuthRepoImpl implements AuthRepo {
       await user.updateDisplayName(newUsername);
       await user.reload();
 
-      await FirebaseFirestore.instance.collection("users").doc(user.uid).update(
-        {"username": newUsername, "username_lower": newUsername.toLowerCase()},
-      );
+      await _firestore.collection("users").doc(user.uid).update({
+        "username": newUsername,
+        "username_lower": newUsername.toLowerCase(),
+      });
 
       return const Right(unit);
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
     }
+  }
+
+  @override
+  Future<Either<Failure, bool>> isEmailAvailable(String email) async {
+    try {
+      final query = await _firestore
+          .collection('users')
+          .where('email', isEqualTo: email.trim())
+          .limit(1)
+          .get();
+
+      return Right(query.docs.isEmpty);
+    } catch (e) {
+      return Left(FirebaseFailure.fromException(e as Exception));
+    }
+  }
+
+  @override
+  bool isGoogleUser() {
+    final user = _auth.currentUser;
+
+    return user?.providerData.any((p) => p.providerId == 'google.com') ?? false;
   }
 }

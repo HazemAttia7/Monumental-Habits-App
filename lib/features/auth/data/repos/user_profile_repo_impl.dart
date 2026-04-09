@@ -5,15 +5,17 @@ import 'package:pixel_true_app/features/auth/data/repos/user_profile_repo.dart';
 import 'package:pixel_true_app/models/user_profile_model.dart';
 
 class UserProfileRepoImpl implements UserProfileRepo {
+  final FirebaseFirestore _firestore;
+
+  UserProfileRepoImpl({FirebaseFirestore? firestore})
+    : _firestore = firestore ?? FirebaseFirestore.instance;
+
   @override
   Future<Either<Failure, UserProfile>> getUserProfile({
     required String uid,
   }) async {
     try {
-      final doc = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get();
+      final doc = await _firestore.collection('users').doc(uid).get();
 
       if (!doc.exists) {
         return const Left(FirebaseFailure("User profile not found"));

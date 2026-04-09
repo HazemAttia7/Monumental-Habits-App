@@ -33,4 +33,8 @@ abstract class AuthRepo {
   Future<Either<Failure, Unit>> changeUsername({required String newUsername});
 
   Future<Either<Failure, Unit>> changePassword({required String newPassword});
+  
+  Future<Either<Failure, bool>> isEmailAvailable(String email);
+
+  bool isGoogleUser();
 }

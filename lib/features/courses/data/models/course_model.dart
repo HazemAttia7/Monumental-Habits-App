@@ -1,29 +1,36 @@
+import 'package:pixel_true_app/features/courses/data/models/lesson_model.dart';
+
 class Course {
-  String imageUrl, title;
+  final String? id;
+  final String title;
+  final String? imageUrl;
   final Duration duration;
-  final int lessons;
-  final bool isFavourite;
+  final List<Lesson> lessons;
+
   Course({
-    required this.imageUrl,
+    this.id,
     required this.title,
+    this.imageUrl,
     required this.duration,
     required this.lessons,
-    this.isFavourite = false,
   });
 
-  factory Course.fromJson(Map<String, dynamic> json) => Course(
-    imageUrl: json['image'] as String,
-    title: json['title'] as String,
-    duration: json['duration'] as Duration,
-    lessons: json['lessons'] as int,
-    isFavourite: json['isFavourite'] as bool,
-  );
+  factory Course.fromJson(Map<String, dynamic> json, String docId) {
+    return Course(
+      id: docId,
+      title: json['title'],
+      imageUrl: json['imageUrl'],
+      duration: Duration(milliseconds: json['duration']),
+      lessons: (json['lessons'] as List)
+          .map((e) => Lesson.fromJson(e))
+          .toList(),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-    'image': imageUrl,
     'title': title,
-    'isFavourite': isFavourite,
-    'duration': duration,
-    'lessons': lessons,
+    'imageUrl': imageUrl,
+    'duration': duration.inMilliseconds,
+    'lessons': lessons.map((e) => e.toJson()).toList(),
   };
 }

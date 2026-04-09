@@ -36,7 +36,7 @@ class CourseCard extends StatelessWidget {
               CourseDetailsSection(
                 title: course.title,
                 duration: course.duration,
-                lessons: course.lessons,
+                lessonsCount: course.lessons.length,
                 onSave: onSave,
                 onUnsave: onUnsave,
               ),

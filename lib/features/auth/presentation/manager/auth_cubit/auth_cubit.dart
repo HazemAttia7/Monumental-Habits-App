@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -135,33 +134,31 @@ class AuthCubit extends Cubit<AuthState> {
     BuildContext context, {
     required String email,
   }) async {
-    // 1️⃣ Check if it's the same as the current user
+    // 1️⃣ Check same email
     if (currentUser != null && currentUser!.email == email.trim()) {
       buildClosableSnackBar(context, message: "This is your current email.");
       return false;
     }
 
-    // 2️⃣ Check if email is already used by another account
-    try {
-      final query = await FirebaseFirestore.instance
-          .collection('users') // <-- your users collection
-          .where('email', isEqualTo: email.trim())
-          .limit(1)
-          .get();
+    // 2️⃣ Check via repo
+    final result = await authRepo.isEmailAvailable(email);
 
-      if (query.docs.isNotEmpty) {
-        buildClosableSnackBar(
-          context,
-          message: "This email is already in use.",
-        );
+    return result.fold(
+      (failure) {
+        buildClosableSnackBar(context, message: failure.errMessage);
         return false;
-      } else {
-        return true; // Email is available
-      }
-    } catch (e) {
-      buildClosableSnackBar(context, message: "Failed to check email: $e");
-      return false;
-    }
+      },
+      (isAvailable) {
+        if (!isAvailable) {
+          buildClosableSnackBar(
+            context,
+            message: "This email is already in use.",
+          );
+          return false;
+        }
+        return true;
+      },
+    );
   }
 
   Future<bool> changeEmail({
