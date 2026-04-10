@@ -32,4 +32,82 @@ class CoursesRepoImpl implements CoursesRepo {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> saveCourse(String courseId, String uid) async {
+    try {
+      final docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('courses')
+          .doc(courseId);
+
+      await docRef.set({
+        'saved': true,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      } else {
+        return Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> unsaveCourse(
+    String courseId,
+    String uid,
+  ) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('courses')
+          .doc(courseId)
+          .set({
+            'saved': false,
+            'updatedAt': FieldValue.serverTimestamp(),
+          }, SetOptions(merge: true));
+
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      } else {
+        return Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> updateProgress(
+    String courseId,
+    String uid,
+    int lessonNumber,
+  ) async {
+    try {
+      final docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('courses')
+          .doc(courseId);
+
+      await docRef.set({
+        'lastWatchedLesson': lessonNumber,
+        'updatedAt': FieldValue.serverTimestamp(),
+      }, SetOptions(merge: true));
+
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      } else {
+        return Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
 }

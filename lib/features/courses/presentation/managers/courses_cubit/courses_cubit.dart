@@ -18,4 +18,31 @@ class CoursesCubit extends Cubit<CoursesState> {
       (courses) => emit(CoursesLoaded(courses)),
     );
   }
+
+  Future<void> saveCourse(String courseId, String uid) async {
+    emit(CoursesLoading());
+    final result = await coursesRepo.saveCourse(courseId, uid);
+    result.fold(
+      (failure) => emit(CoursesError(failure.errMessage)),
+      (_) => getCourses(),
+    );
+  }
+
+  Future<void> unsaveCourse(String courseId, String uid) async {
+    emit(CoursesLoading());
+    final result = await coursesRepo.unsaveCourse(courseId, uid);
+    result.fold(
+      (failure) => emit(CoursesError(failure.errMessage)),
+      (_) => getCourses(),
+    );
+  }
+
+  Future<void> updateProgress(String courseId, String uid, int lessonNumber) async {
+    emit(CoursesLoading());
+    final result = await coursesRepo.updateProgress(courseId, uid, lessonNumber);
+    result.fold(
+      (failure) => emit(CoursesError(failure.errMessage)),
+      (_) => getCourses(),
+    );
+  }
 }
