@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_true_app/core/enums/courses_enums.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 
 class CoursesViewController extends ChangeNotifier {
   CoursesViewController() {
@@ -77,5 +81,16 @@ class CoursesViewController extends ChangeNotifier {
   void onLessonsSelected(int index) {
     _selectedLessons = enLessonsFilter.values[index];
     notifyListeners();
+  }
+
+  void onSaveCourseTapped( BuildContext context, Course course)  {
+    if (course.id != null) {
+      BlocProvider.of<CoursesCubit>(context).toggleSaveCourse(
+        courseId: course.id!,
+        uid: context.read<AuthCubit>().currentUser!.uid,
+      );
+    } else {
+      buildErrorSnackBar(context, message: "Course could not be saved");
+    }
   }
 }

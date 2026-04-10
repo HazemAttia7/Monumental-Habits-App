@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
-import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
-import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details_section.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_image_section.dart';
 
@@ -35,19 +33,9 @@ class CourseCard extends StatelessWidget {
                 title: course.title,
                 duration: course.duration,
                 lessonsCount: course.lessons.length,
-                onSaveTap: () {
-                  if (course.id != null) {
-                    BlocProvider.of<CoursesCubit>(context).toggleSaveCourse(
-                      courseId: course.id!,
-                      uid: context.read<AuthCubit>().currentUser!.uid,
-                    );
-                  } else {
-                    buildErrorSnackBar(
-                      context,
-                      message: "Course could not be saved",
-                    );
-                  }
-                },
+                onSaveTap: () => context
+                    .read<CoursesViewController>()
+                    .onSaveCourseTapped(context, course),
                 isSaved: course.isSaved,
               ),
             ],

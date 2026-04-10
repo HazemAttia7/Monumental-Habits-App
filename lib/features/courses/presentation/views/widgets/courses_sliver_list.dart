@@ -20,10 +20,8 @@ class CoursesSliverList extends StatelessWidget {
           )
         : SliverList.separated(
             itemCount: courses.length,
-            itemBuilder: (BuildContext context, int index) => CourseCard(
-             
-              course: courses[index],
-            ),
+            itemBuilder: (BuildContext context, int index) =>
+                CourseCard(course: courses[index]),
             separatorBuilder: (BuildContext context, int index) => Gap(12.h),
           );
   }
