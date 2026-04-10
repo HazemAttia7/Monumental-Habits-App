@@ -5,6 +5,7 @@ import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details_section.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_image_section.dart';
 
+// TODO : make course image load while shimmer effect
 class CourseCard extends StatelessWidget {
   final VoidCallback onTap;
   final Course course;
