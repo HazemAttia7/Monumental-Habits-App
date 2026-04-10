@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details_section.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_image_section.dart';
 
 // TODO : make course image load while shimmer effect
 class CourseCard extends StatelessWidget {
-  final VoidCallback onTap;
   final Course course;
-  final VoidCallback onSave, onUnsave;
-
-  const CourseCard({
-    super.key,
-    required this.onSave,
-    required this.onUnsave,
-    required this.course,
-    required this.onTap,
-  });
+  const CourseCard({super.key, required this.course});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +25,9 @@ class CourseCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           splashColor: AppColors.primaryColor.withValues(alpha: .1),
           highlightColor: AppColors.primaryColor.withValues(alpha: .1),
-          onTap: onTap,
+          onTap: () {
+            // TODO : navigate to course details
+          },
           child: Column(
             children: [
               CourseImageSection(imageUrl: course.imageUrl),
@@ -38,8 +35,20 @@ class CourseCard extends StatelessWidget {
                 title: course.title,
                 duration: course.duration,
                 lessonsCount: course.lessons.length,
-                onSave: onSave,
-                onUnsave: onUnsave,
+                onSaveTap: () {
+                  if (course.id != null) {
+                    BlocProvider.of<CoursesCubit>(context).toggleSaveCourse(
+                      courseId: course.id!,
+                      uid: context.read<AuthCubit>().currentUser!.uid,
+                    );
+                  } else {
+                    buildErrorSnackBar(
+                      context,
+                      message: "Course could not be saved",
+                    );
+                  }
+                },
+                isSaved: course.isSaved,
               ),
             ],
           ),

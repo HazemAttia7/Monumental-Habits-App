@@ -11,15 +11,15 @@ class CourseDetailsSection extends StatelessWidget {
     required this.title,
     required this.duration,
     required this.lessonsCount,
-    required this.onSave,
-    required this.onUnsave,
+    required this.onSaveTap,
+    required this.isSaved,
   });
 
   final String title;
   final Duration duration;
   final int lessonsCount;
-  final VoidCallback onSave;
-  final VoidCallback onUnsave;
+  final VoidCallback onSaveTap;
+  final bool isSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class CourseDetailsSection extends StatelessWidget {
                     ),
                   ],
                 ),
-                SaveCourseButton(onSave: onSave, onUnsave: onUnsave),
+                SaveCourseButton(onTap: onSaveTap, isSaved: isSaved),
               ],
             ),
           ),

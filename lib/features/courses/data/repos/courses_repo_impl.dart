@@ -34,33 +34,10 @@ class CoursesRepoImpl implements CoursesRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> saveCourse(String courseId, String uid) async {
-    try {
-      final docRef = FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .collection('courses')
-          .doc(courseId);
-
-      await docRef.set({
-        'saved': true,
-        'updatedAt': FieldValue.serverTimestamp(),
-      }, SetOptions(merge: true));
-
-      return const Right(unit);
-    } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      } else {
-        return Left(FirebaseFailure(e.toString()));
-      }
-    }
-  }
-
-  @override
-  Future<Either<Failure, Unit>> unsaveCourse(
+  Future<Either<Failure, Unit>> toggleSaveCourse(
     String courseId,
     String uid,
+    bool isSaved,
   ) async {
     try {
       await FirebaseFirestore.instance
@@ -69,7 +46,7 @@ class CoursesRepoImpl implements CoursesRepo {
           .collection('courses')
           .doc(courseId)
           .set({
-            'saved': false,
+            'saved': !isSaved,
             'updatedAt': FieldValue.serverTimestamp(),
           }, SetOptions(merge: true));
 
@@ -102,6 +79,28 @@ class CoursesRepoImpl implements CoursesRepo {
       }, SetOptions(merge: true));
 
       return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      } else {
+        return Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  Future<Either<Failure, Set<String>>> getSavedCourseIds(String uid) async {
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('courses')
+          .where('saved', isEqualTo: true)
+          .get();
+
+      final savedCourseIds = snapshot.docs.map((doc) => doc.id).toSet();
+
+      return Right(savedCourseIds);
     } catch (e) {
       if (e is FirebaseException) {
         return Left(FirebaseFailure.fromFirestore(e));

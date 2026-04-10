@@ -4,16 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 
 class SaveCourseButton extends StatefulWidget {
-  final VoidCallback? onSave;
-  final VoidCallback? onUnsave;
-  final bool initialSaved;
+  final VoidCallback? onTap;
+  final bool isSaved;
 
-  const SaveCourseButton({
-    super.key,
-    this.onSave,
-    this.onUnsave,
-    this.initialSaved = false,
-  });
+  const SaveCourseButton({super.key, this.isSaved = false, this.onTap});
 
   @override
   State<SaveCourseButton> createState() => _SaveCourseButtonState();
@@ -25,12 +19,12 @@ class _SaveCourseButtonState extends State<SaveCourseButton> {
   @override
   void initState() {
     super.initState();
-    _isSaved = widget.initialSaved;
+    _isSaved = widget.isSaved;
   }
 
   void _toggle() {
     setState(() => _isSaved = !_isSaved);
-    _isSaved ? widget.onSave?.call() : widget.onUnsave?.call();
+    widget.onTap?.call();
   }
 
   @override

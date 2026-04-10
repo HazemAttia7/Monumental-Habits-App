@@ -8,6 +8,8 @@ class Course {
   final Duration duration;
   final List<Lesson> lessons;
   final DateTime publishedAt;
+  final bool isSaved;
+  final int lastWatchedLesson;
 
   Course({
     this.id,
@@ -16,7 +18,22 @@ class Course {
     required this.duration,
     required this.lessons,
     required this.publishedAt,
+    this.isSaved = false,
+    this.lastWatchedLesson = 0,
   });
+
+  Course copyWith({bool? isSaved, int? lastWatchedLesson}) {
+    return Course(
+      id: id,
+      title: title,
+      imageUrl: imageUrl,
+      duration: duration,
+      lessons: lessons,
+      publishedAt: publishedAt,
+      isSaved: isSaved ?? this.isSaved,
+      lastWatchedLesson: lastWatchedLesson ?? this.lastWatchedLesson,
+    );
+  }
 
   factory Course.fromJson(Map<String, dynamic> json, String docId) {
     return Course(

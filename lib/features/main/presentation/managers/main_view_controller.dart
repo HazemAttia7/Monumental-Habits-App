@@ -5,6 +5,7 @@ import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/managers/home_view_controller.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_view_controller.dart';
@@ -64,7 +65,9 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
       child: const HomeView(),
     ),
     BlocProvider(
-      create: (context) => CoursesCubit(sl<CoursesRepo>())..getCourses(),
+      create: (context) =>
+          CoursesCubit(sl<CoursesRepo>())
+            ..getCourses(context.read<AuthCubit>().currentUser!.uid),
       child: ChangeNotifierProvider(
         create: (_) => CoursesViewController(),
         child: const CoursesView(),

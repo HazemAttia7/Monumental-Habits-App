@@ -21,15 +21,7 @@ class CoursesSliverList extends StatelessWidget {
         : SliverList.separated(
             itemCount: courses.length,
             itemBuilder: (BuildContext context, int index) => CourseCard(
-              onTap: () {
-                // TODO : navigate to course details
-              },
-              onSave: () {
-                // TODO : add courses[index] to favourites
-              },
-              onUnsave: () {
-                // TODO : remove courses[index] from favourites
-              },
+             
               course: courses[index],
             ),
             separatorBuilder: (BuildContext context, int index) => Gap(12.h),

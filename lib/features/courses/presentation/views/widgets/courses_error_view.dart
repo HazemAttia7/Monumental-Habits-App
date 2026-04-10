@@ -6,6 +6,7 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/header_container.dart';
 
@@ -46,7 +47,9 @@ class CoursesErrorView extends StatelessWidget {
                       width: 100.w,
                       height: 40.h,
                       text: "Retry",
-                      onTap: () => context.read<CoursesCubit>().getCourses(),
+                      onTap: () => context.read<CoursesCubit>().getCourses(
+                        context.read<AuthCubit>().currentUser!.uid,
+                      ),
                     ),
                   ],
                 ),

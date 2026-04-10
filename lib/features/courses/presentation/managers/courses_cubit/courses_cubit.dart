@@ -10,39 +10,91 @@ class CoursesCubit extends Cubit<CoursesState> {
   final CoursesRepo coursesRepo;
   CoursesCubit(this.coursesRepo) : super(CoursesInitial());
 
-  Future<void> getCourses() async {
+  Future<void> getCourses(String uid) async {
     emit(CoursesLoading());
-    final result = await coursesRepo.getCourses();
+    final coursesResult = await coursesRepo.getCourses();
+    final savedResult = await coursesRepo.getSavedCourseIds(uid);
+    coursesResult.fold((failure) => emit(CoursesError(failure.errMessage)), (
+      courses,
+    ) {
+      final savedIds = savedResult.fold((l) => <String>{}, (r) => r);
+
+      final updatedCourses = courses.map((course) {
+        return course.copyWith(isSaved: savedIds.contains(course.id));
+      }).toList();
+
+      emit(CoursesLoaded(updatedCourses));
+    });
+  }
+
+  Future<void> toggleSaveCourse({
+    required String courseId,
+    required String uid,
+  }) async {
+    final currentState = state;
+    if (currentState is! CoursesLoaded) return;
+
+    // 1. Find the course and its current saved state
+    final currentCourses = currentState.courses;
+    final index = currentCourses.indexWhere((c) => c.id == courseId);
+    if (index == -1) return;
+
+    final course = currentCourses[index];
+    final newIsSaved = !course.isSaved;
+
+    // 2. Optimistic emit — update UI immediately
+    final optimisticCourses = List<Course>.from(currentCourses);
+    optimisticCourses[index] = course.copyWith(isSaved: newIsSaved);
+    emit(CoursesLoaded(optimisticCourses));
+
+    // 3. Persist to Firestore
+    final result = await coursesRepo.toggleSaveCourse(
+      courseId,
+      uid,
+      course.isSaved,
+    );
+
+    // 4. Revert on failure
     result.fold(
-      (failure) => emit(CoursesError(failure.errMessage)),
-      (courses) => emit(CoursesLoaded(courses)),
+      (failure) => emit(
+        CoursesError(failure.errMessage, previousCourses: currentCourses),
+      ),
+      (_) => null, // already emitted optimistically
     );
   }
 
-  Future<void> saveCourse(String courseId, String uid) async {
-    emit(CoursesLoading());
-    final result = await coursesRepo.saveCourse(courseId, uid);
-    result.fold(
-      (failure) => emit(CoursesError(failure.errMessage)),
-      (_) => getCourses(),
-    );
-  }
+  Future<void> updateProgress({
+    required String courseId,
+    required String uid,
+    required int lessonNumber,
+  }) async {
+    final currentState = state;
+    if (currentState is! CoursesLoaded) return;
 
-  Future<void> unsaveCourse(String courseId, String uid) async {
-    emit(CoursesLoading());
-    final result = await coursesRepo.unsaveCourse(courseId, uid);
-    result.fold(
-      (failure) => emit(CoursesError(failure.errMessage)),
-      (_) => getCourses(),
-    );
-  }
+    final currentCourses = currentState.courses;
+    final index = currentCourses.indexWhere((c) => c.id == courseId);
+    if (index == -1) return;
 
-  Future<void> updateProgress(String courseId, String uid, int lessonNumber) async {
-    emit(CoursesLoading());
-    final result = await coursesRepo.updateProgress(courseId, uid, lessonNumber);
+    // 1. Optimistic emit
+    final optimisticCourses = List<Course>.from(currentCourses);
+    optimisticCourses[index] = currentCourses[index].copyWith(
+      lastWatchedLesson: lessonNumber,
+    );
+    emit(CoursesLoaded(optimisticCourses));
+
+    // 2. Persist to Firestore
+    final result = await coursesRepo.updateProgress(
+      courseId,
+      uid,
+      lessonNumber,
+    );
+
+    // 3. Revert on failure
     result.fold(
-      (failure) => emit(CoursesError(failure.errMessage)),
-      (_) => getCourses(),
+      (failure) => emit(
+        CoursesError(failure.errMessage, previousCourses: currentCourses),
+      ),
+      (_) => null,
     );
   }
 }

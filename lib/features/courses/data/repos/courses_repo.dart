@@ -4,11 +4,15 @@ import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 
 abstract class CoursesRepo {
   Future<Either<Failure, List<Course>>> getCourses();
-  Future<Either<Failure, Unit>> saveCourse(String courseId, String uid);
-  Future<Either<Failure, Unit>> unsaveCourse(String courseId, String uid);
+  Future<Either<Failure, Unit>> toggleSaveCourse(
+    String courseId,
+    String uid,
+    bool isSaved,
+  );
   Future<Either<Failure, Unit>> updateProgress(
     String courseId,
     String uid,
     int lessonNumber,
   );
+  Future<Either<Failure, Set<String>>> getSavedCourseIds(String uid);
 }

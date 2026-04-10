@@ -18,7 +18,7 @@ final class CoursesLoaded extends CoursesState {
   late final List<Course> shortestCourses;
   late final List<Course> longestCourses;
 
-  List<Course> applyFilters(CoursesFilter filter , List<Course> courses) {
+  List<Course> applyFilters(CoursesFilter filter, List<Course> courses) {
     return courses.where((course) {
       final matchesDuration = switch (filter.duration) {
         enDurationFilter.under1h => course.duration.inHours < 1,
@@ -62,10 +62,14 @@ final class CoursesLoaded extends CoursesState {
     longestCourses = List.from(courses)
       ..sort((a, b) => b.duration.compareTo(a.duration));
   }
+  @override
+  List<Object> get props => [courses];
 }
 
-final class CoursesError extends CoursesState {
+class CoursesError extends CoursesState {
   final String errMessage;
-
-  const CoursesError(this.errMessage);
+  final List<Course>? previousCourses;
+  const CoursesError(this.errMessage, {this.previousCourses});
+  @override
+  List<Object> get props => [errMessage];
 }
