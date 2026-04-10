@@ -7,6 +7,7 @@ import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/managers/home_view_controller.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/courses_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
@@ -64,7 +65,10 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
     ),
     BlocProvider(
       create: (context) => CoursesCubit(sl<CoursesRepo>())..getCourses(),
-      child: const CoursesView(),
+      child: ChangeNotifierProvider(
+        create: (_) => CoursesViewController(),
+        child: const CoursesView(),
+      ),
     ),
     const Center(child: Text("Community View")),
     const Center(child: Text("Settings View")),

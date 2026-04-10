@@ -5,32 +5,17 @@ import 'package:pixel_true_app/core/enums/courses_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_handler.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/filter_options_section.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/sheet_header.dart';
+import 'package:provider/provider.dart';
 
-class FilterCoursesBottomSheet extends StatefulWidget {
-  final CoursesFilter initialFilter;
-  const FilterCoursesBottomSheet({super.key, required this.initialFilter});
-
-  @override
-  State<FilterCoursesBottomSheet> createState() =>
-      _FilterCoursesBottomSheetState();
-}
-
-class _FilterCoursesBottomSheetState extends State<FilterCoursesBottomSheet> {
-  enDurationFilter? selectedDuration;
-  enLessonsFilter? selectedLessons;
-
-  @override
-  void initState() {
-    super.initState();
-
-    selectedDuration = widget.initialFilter.duration;
-    selectedLessons = widget.initialFilter.lessons;
-  }
+class FilterCoursesBottomSheet extends StatelessWidget {
+  const FilterCoursesBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<CoursesViewController>();
     return Container(
       padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
@@ -47,43 +32,24 @@ class _FilterCoursesBottomSheetState extends State<FilterCoursesBottomSheet> {
             alignment: AlignmentGeometry.center,
             child: CustomHandler(),
           ),
-          SheetHeader(
-            onResetTap: () {
-              setState(() {
-                selectedDuration = null;
-                selectedLessons = null;
-              });
-            },
-          ),
+          SheetHeader(onResetTap: controller.resetFilters),
           Gap(32.h),
           FilterOptionsSection(
-            onClearDurationTap: () {
-              setState(() {
-                selectedDuration = null;
-              });
-            },
-            onClearLessonsTap: () {
-              setState(() {
-                selectedLessons = null;
-              });
-            },
-            selectedDuration: selectedDuration,
-            selectedLessons: selectedLessons,
-            onDurationSelected: (index) {
-              setState(() {
-                selectedDuration = enDurationFilter.values[index];
-              });
-            },
-            onLessonsSelected: (int index) {
-              setState(() {
-                selectedLessons = enLessonsFilter.values[index];
-              });
-            },
+            onClearDurationTap: controller.onClearDurationTap,
+            onClearLessonsTap: controller.onClearLessonsTap,
+            selectedDuration: controller.selectedDuration,
+            selectedLessons: controller.selectedLessons,
+            onDurationSelected: controller.onDurationSelected,
+            onLessonsSelected: controller.onLessonsSelected,
           ),
           Gap(24.h),
           CustomButton(
             text: "Apply Filters",
-            onTap: _apply,
+            onTap: () => _apply(
+              context,
+              selectedDuration: controller.selectedDuration,
+              selectedLessons: controller.selectedLessons,
+            ),
             backColor: AppColors.secondaryColor,
             textColor: Colors.white,
           ),
@@ -92,7 +58,11 @@ class _FilterCoursesBottomSheetState extends State<FilterCoursesBottomSheet> {
     );
   }
 
-  void _apply() {
+  void _apply(
+    BuildContext context, {
+    required enDurationFilter? selectedDuration,
+    required enLessonsFilter? selectedLessons,
+  }) {
     Navigator.pop(
       context,
       CoursesFilter(duration: selectedDuration, lessons: selectedLessons),

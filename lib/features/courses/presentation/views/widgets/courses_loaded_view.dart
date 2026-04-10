@@ -6,34 +6,20 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_sliver_list.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_sort_filter_row.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/filter_courses_bottom_sheet.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/sliding_header_container.dart';
+import 'package:provider/provider.dart';
 
-class CoursesLoadedView extends StatefulWidget {
-  final CoursesFilter initialFilter;
+class CoursesLoadedView extends StatelessWidget {
   final List<Course> courses;
-  final void Function(enSortBy sortBy) onSortBySelected;
-  final void Function(CoursesFilter filter) onFilterSelected;
-  const CoursesLoadedView({
-    super.key,
-    required this.courses,
-    required this.onSortBySelected,
-    required this.onFilterSelected,
-    required this.initialFilter,
-  });
+  const CoursesLoadedView({super.key, required this.courses});
 
-  @override
-  State<CoursesLoadedView> createState() => _CoursesLoadedViewState();
-}
-
-class _CoursesLoadedViewState extends State<CoursesLoadedView> {
-  String _qurey = '';
-  bool _isSearchOpen = false;
-  final GlobalKey _headerKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<CoursesViewController>();
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
@@ -41,19 +27,14 @@ class _CoursesLoadedViewState extends State<CoursesLoadedView> {
           physics: const BouncingScrollPhysics(),
           slivers: [
             SliverPersistentHeader(
-              pinned: _isSearchOpen,
+              pinned: controller.isSearchOpen,
               delegate: _StickyHeaderDelegate(
                 child: SizedBox(
                   height: 64.h,
                   child: SlidingHeaderContainer(
-                    key: _headerKey,
-                    onSearchChanged: (value) {
-                      setState(() {
-                        _qurey = value;
-                      });
-                    },
-                    onTap: (bool isSearchOpen) =>
-                        setState(() => _isSearchOpen = isSearchOpen),
+                    key: controller.headerKey,
+                    onSearchChanged: controller.onSearchChanged,
+                    onTap: controller.onSearchTapped,
                   ),
                 ),
               ),
@@ -72,22 +53,23 @@ class _CoursesLoadedViewState extends State<CoursesLoadedView> {
                   ),
                   Gap(16.h),
                   CoursesSortFilterRow(
-                    onSortBySelected: widget.onSortBySelected,
+                    onSortBySelected: controller.onSortBySelected,
                     onFilterTap: () async {
                       final result = await showModalBottomSheet<CoursesFilter>(
                         context: context,
                         isScrollControlled: true,
                         builder: (_) => Wrap(
                           children: [
-                            FilterCoursesBottomSheet(
-                              initialFilter: widget.initialFilter,
+                            ChangeNotifierProvider<CoursesViewController>.value(
+                              value: controller,
+                              child: const FilterCoursesBottomSheet(),
                             ),
                           ],
                         ),
                       );
 
                       if (result != null) {
-                        widget.onFilterSelected(result);
+                        controller.onFilterSelected(result);
                       }
                     },
                   ),
@@ -95,15 +77,7 @@ class _CoursesLoadedViewState extends State<CoursesLoadedView> {
                 ],
               ),
             ),
-            CoursesSliverList(
-              courses: widget.courses
-                  .where(
-                    (element) => element.title.toLowerCase().contains(
-                      _qurey.toLowerCase(),
-                    ),
-                  )
-                  .toList(),
-            ),
+            CoursesSliverList(courses: controller.filteredCourses(courses)),
             SliverToBoxAdapter(child: Gap(100.h)),
           ],
         ),
