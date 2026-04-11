@@ -2,9 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pixel_true_app/core/helper/build_not_implemented_yet_dialog.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/assets_data.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CourseVideo extends StatelessWidget {
@@ -13,6 +14,7 @@ class CourseVideo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.read<CourseDetailsViewController>();
     return Hero(
       tag: imageUrl ?? '',
       child: ClipRRect(
@@ -21,13 +23,7 @@ class CourseVideo extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r),
           color: Colors.transparent,
           child: InkWell(
-            onTap: () {
-              // play leeson using cdn
-              buildNotImplementedYetDialog(
-                context,
-                featureName: 'Video Player',
-              );
-            },
+            onTap: () => controller.onVideoTap(context),
             borderRadius: BorderRadius.circular(16.r),
             splashColor: AppColors.primaryColor.withValues(alpha: .1),
             highlightColor: AppColors.primaryColor.withValues(alpha: .1),

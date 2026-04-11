@@ -5,16 +5,16 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/icon_container.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
+import 'package:provider/provider.dart';
 
 class UnlockConfirmationDialog extends StatelessWidget {
   final int lessonNumber, lastWatchedLesson;
-  final VoidCallback onConfirm;
   final String? confirmButtonText;
 
   const UnlockConfirmationDialog({
     super.key,
     required this.lessonNumber,
-    required this.onConfirm,
     this.confirmButtonText,
     required this.lastWatchedLesson,
   });
@@ -30,6 +30,7 @@ class UnlockConfirmationDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.read<CourseDetailsViewController>();
     final buttonTextStyle = AppStyles.textStyle14.copyWith(
       fontWeight: FontWeight.bold,
     );
@@ -88,10 +89,8 @@ class UnlockConfirmationDialog extends StatelessWidget {
                 Gap(10.w),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () {
-                      onConfirm();
-                      Navigator.pop(context);
-                    },
+                    onPressed: () =>
+                        controller.onUnlockTap(context, lessonNumber ),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,
                       foregroundColor: Colors.white,

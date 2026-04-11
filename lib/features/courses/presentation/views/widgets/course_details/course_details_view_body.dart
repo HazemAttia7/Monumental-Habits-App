@@ -9,7 +9,6 @@ import 'package:pixel_true_app/features/courses/presentation/managers/courses_cu
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details/course_video.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details/lessons_section.dart';
 
-// TODO : refactor this by creating a controller
 class CourseDetailsViewBody extends StatelessWidget {
   final Course course;
   const CourseDetailsViewBody({super.key, required this.course});

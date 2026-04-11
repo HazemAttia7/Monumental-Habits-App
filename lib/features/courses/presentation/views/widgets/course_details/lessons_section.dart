@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/courses/helper/get_duration_text.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
-import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details/lesson_details_summary.dart';
 
 class LessonsSection extends StatelessWidget {
@@ -54,16 +51,10 @@ class LessonsSection extends StatelessWidget {
                   height: 1,
                 ),
                 LessonDetailsSummary(
-                  index: index,
+                  lessonNumber: index + 1,
                   lesson: course.lessons[index],
                   isReached: course.lastWatchedLesson >= index + 1,
                   lastWatchedLesson: course.lastWatchedLesson,
-                  onUnlockLesson: () =>
-                      BlocProvider.of<CoursesCubit>(context).updateProgress(
-                        courseId: course.id ?? "",
-                        uid: context.read<AuthCubit>().currentUser!.uid,
-                        lessonNumber: index + 1,
-                      ),
                 ),
               ],
             ),

@@ -4,9 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/about_us_view.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/course_details_view.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
@@ -163,12 +165,17 @@ abstract class AppRouter {
         path: kCourseDetailsView,
         builder: (context, state) {
           final args = state.extra as Map<String, dynamic>;
-          final course =  args["course"] as Course;
-          final cubit =  args["cubit"] as CoursesCubit;
+          final course = args["course"] as Course;
+          final cubit = args["cubit"] as CoursesCubit;
+          final uid = context.read<AuthCubit>().currentUser!.uid;
 
           return BlocProvider.value(
-            value: cubit ,
-            child: CourseDetailsView(course: course),
+            value: cubit,
+            child: ChangeNotifierProvider(
+              create: (_) =>
+                  CourseDetailsViewController(course: course)..init(cubit, uid),
+              child: CourseDetailsView(course: course),
+            ),
           );
         },
       ),

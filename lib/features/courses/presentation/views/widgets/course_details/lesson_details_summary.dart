@@ -2,47 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/helper/build_not_implemented_yet_dialog.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/icon_container.dart';
 import 'package:pixel_true_app/features/courses/data/models/lesson_model.dart';
-import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details/unlock_confirmation_dialog.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
+import 'package:provider/provider.dart';
 
 class LessonDetailsSummary extends StatelessWidget {
   final Lesson lesson;
-  final int index;
+  final int lessonNumber;
   final bool isReached;
   final int lastWatchedLesson;
-  final VoidCallback onUnlockLesson;
   const LessonDetailsSummary({
     super.key,
     required this.lesson,
-    required this.index,
+    required this.lessonNumber,
     this.isReached = false,
     required this.lastWatchedLesson,
-    required this.onUnlockLesson,
   });
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.read<CourseDetailsViewController>();
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
-          if (!isReached) {
-            showDialog(
-              context: context,
-              builder: (context) => UnlockConfirmationDialog(
-                lessonNumber: index + 1,
-                onConfirm: onUnlockLesson,
-                lastWatchedLesson: lastWatchedLesson,
-              ),
-            );
-          } else {
-            buildNotImplementedYetDialog(context, featureName: 'Video Player');
-          }
-        },
+        onTap: () => controller.onLessonTap(context, lessonNumber, isReached),
         splashColor: AppColors.primaryColor.withValues(alpha: .1),
         highlightColor: AppColors.primaryColor.withValues(alpha: .1),
         child: Padding(
@@ -59,7 +45,7 @@ class LessonDetailsSummary extends StatelessWidget {
               Gap(10.w),
               Expanded(
                 child: Text(
-                  "${index + 1}. ${lesson.title}",
+                  "$lessonNumber. ${lesson.title}",
                   style: AppStyles.textStyle16.copyWith(
                     fontWeight: FontWeight.w500,
                   ),
