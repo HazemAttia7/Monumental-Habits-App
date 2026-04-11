@@ -41,7 +41,7 @@ class UnlockConfirmationDialog extends StatelessWidget {
 
     return Dialog(
       child: Container(
-        padding: EdgeInsets.fromLTRB(24.w, 28.h, 24.w, 20.h),
+        padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 16.h),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.r),
@@ -90,7 +90,7 @@ class UnlockConfirmationDialog extends StatelessWidget {
                 Expanded(
                   child: ElevatedButton(
                     onPressed: () =>
-                        controller.onUnlockTap(context, lessonNumber ),
+                        controller.onUnlockTap(context, lessonNumber),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primaryColor,
                       foregroundColor: Colors.white,
