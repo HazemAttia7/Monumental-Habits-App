@@ -6,11 +6,11 @@ import 'package:pixel_true_app/features/courses/presentation/views/widgets/cours
 import 'package:provider/provider.dart';
 
 class CourseDetailsViewController extends ChangeNotifier {
-  final Course course;
+  final String courseId;
   late CoursesCubit _coursesCubit;
   late String _uid;
 
-  CourseDetailsViewController({required this.course});
+  CourseDetailsViewController({required this.courseId});
 
   void init(CoursesCubit cubit, String uid) {
     _coursesCubit = cubit;
@@ -22,15 +22,24 @@ class CourseDetailsViewController extends ChangeNotifier {
     buildNotImplementedYetDialog(context, featureName: 'Video Player');
   }
 
+  Course _currentCourse() {
+    final state = _coursesCubit.state;
+    if (state is CoursesLoaded) {
+      return state.courses.firstWhere((c) => c.id == courseId);
+    }
+    throw Exception('Courses not loaded');
+  }
+
   void onLessonTap(BuildContext context, int lessonNumber, bool isReached) {
     {
       if (!isReached) {
+        final course = _currentCourse();
         showDialog(
           context: context,
           builder: (context) => ChangeNotifierProvider.value(
             value: this,
             child: UnlockConfirmationDialog(
-              lessonNumber:  lessonNumber,
+              lessonNumber: lessonNumber,
               lastWatchedLesson: course.lastWatchedLesson,
             ),
           ),
@@ -43,7 +52,7 @@ class CourseDetailsViewController extends ChangeNotifier {
 
   void onUnlockTap(BuildContext context, int lessonNumber) {
     _coursesCubit.updateProgress(
-      courseId: course.id ?? "",
+      courseId: courseId,
       uid: _uid,
       lessonNumber: lessonNumber,
     );

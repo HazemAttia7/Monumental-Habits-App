@@ -173,7 +173,8 @@ abstract class AppRouter {
             value: cubit,
             child: ChangeNotifierProvider(
               create: (_) =>
-                  CourseDetailsViewController(course: course)..init(cubit, uid),
+                  CourseDetailsViewController(courseId: course.id ?? "")
+                    ..init(cubit, uid),
               child: CourseDetailsView(course: course),
             ),
           );
