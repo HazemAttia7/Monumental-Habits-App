@@ -18,25 +18,31 @@ class CourseImageSection extends StatelessWidget {
         fit: BoxFit.cover,
       );
     }
-    return CachedNetworkImage(
-      imageUrl: imageUrl!,
-      height: 166.h,
-      fit: BoxFit.cover,
-      imageBuilder: (context, imageProvider) =>
-          Ink.image(image: imageProvider, height: 166.h, fit: BoxFit.cover),
-      placeholder: (context, url) => Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        child: Container(
+    return Hero(
+      tag: imageUrl ?? '',
+      child: Material(
+        color: Colors.transparent,
+        child: CachedNetworkImage(
+          imageUrl: imageUrl!,
           height: 166.h,
-          width: double.infinity,
-          color: Colors.grey.shade300,
+          fit: BoxFit.cover,
+          imageBuilder: (context, imageProvider) =>
+              Ink.image(image: imageProvider, height: 166.h, fit: BoxFit.cover),
+          placeholder: (context, url) => Shimmer.fromColors(
+            baseColor: Colors.grey.shade300,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              height: 166.h,
+              width: double.infinity,
+              color: Colors.grey.shade300,
+            ),
+          ),
+          errorWidget: (context, url, error) => Ink.image(
+            image: const AssetImage(AssetsData.imagePlaceholder),
+            height: 166.h,
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      errorWidget: (context, url, error) => Ink.image(
-        image: const AssetImage(AssetsData.imagePlaceholder),
-        height: 166.h,
-        fit: BoxFit.cover,
       ),
     );
   }

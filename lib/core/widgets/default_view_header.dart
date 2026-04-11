@@ -24,7 +24,15 @@ class DefaultViewHeader extends StatelessWidget {
           icon: FontAwesomeIcons.arrowLeft,
         ),
         Gap(16.w),
-        Text(title, style: AppStyles.textStyle20),
+        Expanded(
+          child: Text(
+            title,
+            style: AppStyles.textStyle20,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ),
+        Gap(28.w),
       ],
     );
   }

@@ -6,6 +6,8 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/about_us_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
+import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
+import 'package:pixel_true_app/features/courses/presentation/views/course_details_view.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/habits_history_view.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
@@ -38,6 +40,7 @@ abstract class AppRouter {
   static const String kSupport = "/support";
   static const String kSubcrption = "/subscription";
   static const String kAboutUs = "/about-us";
+  static const String kCourseDetailsView = "/course-details";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -155,6 +158,13 @@ abstract class AppRouter {
         builder: (context, state) => const SubscriptionView(),
       ),
       GoRoute(path: kAboutUs, builder: (context, state) => const AboutUsView()),
+      GoRoute(
+        path: kCourseDetailsView,
+        builder: (context, state) {
+          final course = state.extra as Course;
+          return CourseDetailsView(course: course);
+        },
+      ),
     ],
   );
 }
