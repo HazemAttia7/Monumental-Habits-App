@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/helper/build_not_implemented_yet_dialog.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
@@ -32,13 +33,22 @@ class SubscriptionViewBody extends StatelessWidget {
               Gap(24.h),
               const PlansSection(),
               Gap(48.h),
-              CustomButton(onTap: () {}, text: "Subscribe Now"),
+              CustomButton(
+                onTap: () => buildNotImplementedYetDialog(
+                  context,
+                  featureName: "Subscription",
+                ),
+                text: "Subscribe Now",
+              ),
               Gap(16.h),
               const SecuredWithGoogleWidget(),
               Gap(36.h),
               CustomClickableText(
                 text: "Restore Purchase",
-                onTap: () {},
+                onTap: () => buildNotImplementedYetDialog(
+                  context,
+                  featureName: "Restore Purchase",
+                ),
                 fontSize: 12.sp,
                 textDecoration: TextDecoration.underline,
               ),
@@ -46,7 +56,13 @@ class SubscriptionViewBody extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   children: [
-                    _buildClickableText(text: "Terms of Service", onTap: () {}),
+                    _buildClickableText(
+                      text: "Terms of Service",
+                      onTap: () => buildNotImplementedYetDialog(
+                        context,
+                        featureName: "Terms of Service",
+                      ),
+                    ),
                     TextSpan(
                       text: " and ",
                       style: AppStyles.textStyle12.copyWith(
@@ -54,7 +70,13 @@ class SubscriptionViewBody extends StatelessWidget {
                         color: AppColors.secondaryColor.withValues(alpha: .5),
                       ),
                     ),
-                    _buildClickableText(text: "Privacy Policy", onTap: () {}),
+                    _buildClickableText(
+                      text: "Privacy Policy",
+                      onTap: () => buildNotImplementedYetDialog(
+                        context,
+                        featureName: "Privacy Policy",
+                      ),
+                    ),
                   ],
                 ),
               ),
