@@ -50,10 +50,7 @@ class _CountdownFromDateState extends State<CountdownFromDate> {
         color: Colors.grey.shade200,
         borderRadius: BorderRadius.circular(12.r),
       ),
-      child: Text(
-        text,
-        style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-      ),
+      child: Text(text, style: AppStyles.textStyle20),
     );
   }
 
