@@ -7,7 +7,6 @@ import 'package:pixel_true_app/features/courses/presentation/managers/courses_vi
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details_section.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_image_section.dart';
 
-// TODO : make course image load while shimmer effect
 class CourseCard extends StatelessWidget {
   final Course course;
   const CourseCard({super.key, required this.course});
