@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/features/courses/helper/get_duration_text.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/save_course_button.dart';
@@ -38,7 +39,7 @@ class CourseDetailsSection extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      _getDurationText(duration),
+                      getDurationText(duration),
                       style: AppStyles.textStyle12,
                     ),
                     Text(
@@ -57,10 +58,6 @@ class CourseDetailsSection extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _getDurationText(Duration duration) {
-    return "${duration.inHours}h ${duration.inMinutes.remainder(60)}m";
   }
 
   String _getLessonsText(int lessons) {

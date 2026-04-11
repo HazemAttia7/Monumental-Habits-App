@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_details_section.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/course_image_section.dart';
@@ -24,9 +25,10 @@ class CourseCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           splashColor: AppColors.primaryColor.withValues(alpha: .1),
           highlightColor: AppColors.primaryColor.withValues(alpha: .1),
-          onTap: () => GoRouter.of(
-            context,
-          ).push(AppRouter.kCourseDetailsView, extra: course),
+          onTap: () => GoRouter.of(context).push(
+            AppRouter.kCourseDetailsView,
+            extra: {"course": course, "cubit": context.read<CoursesCubit>()},
+          ),
           child: Column(
             children: [
               CourseImageSection(imageUrl: course.imageUrl),

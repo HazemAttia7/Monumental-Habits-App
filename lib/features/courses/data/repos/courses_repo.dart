@@ -15,4 +15,8 @@ abstract class CoursesRepo {
     int lessonNumber,
   );
   Future<Either<Failure, Set<String>>> getSavedCourseIds(String uid);
+  Future<Either<Failure, int?>> getLastWatchedLesson(
+    String courseId,
+    String uid,
+  );
 }

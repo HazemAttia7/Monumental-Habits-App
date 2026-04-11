@@ -12,15 +12,40 @@ class CoursesCubit extends Cubit<CoursesState> {
 
   Future<void> getCourses(String uid) async {
     emit(CoursesLoading());
+
     final coursesResult = await coursesRepo.getCourses();
     final savedResult = await coursesRepo.getSavedCourseIds(uid);
+
     coursesResult.fold((failure) => emit(CoursesError(failure.errMessage)), (
       courses,
-    ) {
-      final savedIds = savedResult.fold((l) => <String>{}, (r) => r);
+    ) async {
+      final savedIds = savedResult.fold(
+        (failure) => <String>{},
+        (savedResult) => savedResult,
+      );
 
-      final updatedCourses = courses.map((course) {
-        return course.copyWith(isSaved: savedIds.contains(course.id));
+      final validCourses = courses
+          .where((course) => course.id != null)
+          .toList();
+      final lastWatchedResults = await Future.wait(
+        validCourses.map(
+          (course) => coursesRepo.getLastWatchedLesson(course.id!, uid),
+        ),
+      );
+
+      final updatedCourses = validCourses.asMap().entries.map((entry) {
+        final i = entry.key;
+        final course = entry.value;
+
+        final lastWatched = lastWatchedResults[i].fold(
+          (failure) => null,
+          (value) => value,
+        );
+
+        return course.copyWith(
+          isSaved: savedIds.contains(course.id),
+          lastWatchedLesson: lastWatched ?? 0,
+        );
       }).toList();
 
       emit(CoursesLoaded(updatedCourses));
@@ -75,18 +100,27 @@ class CoursesCubit extends Cubit<CoursesState> {
     final index = currentCourses.indexWhere((c) => c.id == courseId);
     if (index == -1) return;
 
-    // 1. Optimistic emit
+    final currentCourse = currentCourses[index];
+    final currentLesson = currentCourse.lastWatchedLesson;
+
+    // ✅ Prevent downgrade (only move forward)
+    final updatedLesson = lessonNumber > currentLesson
+        ? lessonNumber
+        : currentLesson;
+
+    // 1. Optimistic update
     final optimisticCourses = List<Course>.from(currentCourses);
-    optimisticCourses[index] = currentCourses[index].copyWith(
-      lastWatchedLesson: lessonNumber,
+    optimisticCourses[index] = currentCourse.copyWith(
+      lastWatchedLesson: updatedLesson,
     );
+
     emit(CoursesLoaded(optimisticCourses));
 
     // 2. Persist to Firestore
     final result = await coursesRepo.updateProgress(
       courseId,
       uid,
-      lessonNumber,
+      updatedLesson,
     );
 
     // 3. Revert on failure

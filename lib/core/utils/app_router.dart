@@ -7,6 +7,7 @@ import 'package:pixel_true_app/features/about_us/presentation/views/about_us_vie
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/course_details_view.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/habits_history_view.dart';
@@ -161,8 +162,14 @@ abstract class AppRouter {
       GoRoute(
         path: kCourseDetailsView,
         builder: (context, state) {
-          final course = state.extra as Course;
-          return CourseDetailsView(course: course);
+          final args = state.extra as Map<String, dynamic>;
+          final course =  args["course"] as Course;
+          final cubit =  args["cubit"] as CoursesCubit;
+
+          return BlocProvider.value(
+            value: cubit ,
+            child: CourseDetailsView(course: course),
+          );
         },
       ),
     ],

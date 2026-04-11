@@ -109,4 +109,29 @@ class CoursesRepoImpl implements CoursesRepo {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, int?>> getLastWatchedLesson(
+    String courseId,
+    String uid,
+  ) async {
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('courses')
+          .doc(courseId)
+          .get();
+
+      final lastWatchedLesson = snapshot.data()?['lastWatchedLesson'];
+
+      return Right(lastWatchedLesson);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      } else {
+        return Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
 }
