@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
-import 'package:pixel_true_app/core/utils/assets_data.dart';
+import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
 
 class UserMetaRow extends StatelessWidget {
   final String userName;
@@ -18,9 +18,12 @@ class UserMetaRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        CircleAvatar(
-          radius: 18.w,
-          backgroundImage: const AssetImage(AssetsData.googleIcon),
+        ProfilePlaceholder(
+          width: 34.w,
+          height: 34.h,
+          fontSize: 14.sp,
+          padding: EdgeInsets.all(2.sp),
+          userName: 'Jerome',
         ),
         Gap(10.w),
         Column(

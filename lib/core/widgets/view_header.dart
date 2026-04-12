@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
 import 'package:provider/provider.dart';
 
@@ -25,7 +26,9 @@ class ViewHeader extends StatelessWidget {
           icon: FontAwesomeIcons.equals,
         ),
         Text(header, style: AppStyles.textStyle18),
-        const ProfilePlaceholder(),
+        ProfilePlaceholder(
+          userName: context.watch<AuthCubit>().currentUser?.name ?? "",
+        ),
       ],
     );
   }
