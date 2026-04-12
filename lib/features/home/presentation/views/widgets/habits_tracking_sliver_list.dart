@@ -8,12 +8,10 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/habit_tr
 class HabitsTrackingSliverList extends StatelessWidget {
   final List<ScrollController> scrollControllers;
   final List<Habit> habitsList;
-  final bool isLoading;
   const HabitsTrackingSliverList({
     super.key,
     required this.scrollControllers,
     required this.habitsList,
-    required this.isLoading,
   });
 
   @override
@@ -40,10 +38,9 @@ class HabitsTrackingSliverList extends StatelessWidget {
 
               return Padding(
                 padding: EdgeInsets.only(
-                  bottom: index == habitsList.length - 1 ? 0 : 8.sp,
+                  bottom: index == habitsList.length - 1 ? 0 : 8.h,
                 ),
                 child: HabitTrackingWidget(
-                  isLoading: isLoading,
                   scrollController: scrollControllers[index],
                   habit: habitsList[index],
                   color:

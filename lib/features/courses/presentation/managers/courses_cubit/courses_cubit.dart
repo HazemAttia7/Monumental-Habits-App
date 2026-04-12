@@ -11,45 +11,50 @@ class CoursesCubit extends Cubit<CoursesState> {
   CoursesCubit(this.coursesRepo) : super(CoursesInitial());
 
   Future<void> getCourses(String uid) async {
+    if (isClosed) return;
     emit(CoursesLoading());
 
     final coursesResult = await coursesRepo.getCourses();
     final savedResult = await coursesRepo.getSavedCourseIds(uid);
 
-    coursesResult.fold((failure) => emit(CoursesError(failure.errMessage)), (
-      courses,
-    ) async {
-      final savedIds = savedResult.fold(
-        (failure) => <String>{},
-        (savedResult) => savedResult,
-      );
-
-      final validCourses = courses
-          .where((course) => course.id != null)
-          .toList();
-      final lastWatchedResults = await Future.wait(
-        validCourses.map(
-          (course) => coursesRepo.getLastWatchedLesson(course.id!, uid),
-        ),
-      );
-
-      final updatedCourses = validCourses.asMap().entries.map((entry) {
-        final i = entry.key;
-        final course = entry.value;
-
-        final lastWatched = lastWatchedResults[i].fold(
-          (failure) => null,
-          (value) => value,
+    if (isClosed) return;
+    coursesResult.fold(
+      (failure) {
+        if (!isClosed) emit(CoursesError(failure.errMessage));
+      },
+      (courses) async {
+        final savedIds = savedResult.fold(
+          (failure) => <String>{},
+          (savedResult) => savedResult,
         );
 
-        return course.copyWith(
-          isSaved: savedIds.contains(course.id),
-          lastWatchedLesson: lastWatched ?? 0,
+        final validCourses = courses
+            .where((course) => course.id != null)
+            .toList();
+        final lastWatchedResults = await Future.wait(
+          validCourses.map(
+            (course) => coursesRepo.getLastWatchedLesson(course.id!, uid),
+          ),
         );
-      }).toList();
+        if (isClosed) return;
 
-      emit(CoursesLoaded(updatedCourses));
-    });
+        final updatedCourses = validCourses.asMap().entries.map((entry) {
+          final i = entry.key;
+          final course = entry.value;
+
+          final lastWatched = lastWatchedResults[i].fold(
+            (failure) => null,
+            (value) => value,
+          );
+          return course.copyWith(
+            isSaved: savedIds.contains(course.id),
+            lastWatchedLesson: lastWatched ?? 0,
+          );
+        }).toList();
+
+        if (!isClosed) emit(CoursesLoaded(updatedCourses));
+      },
+    );
   }
 
   Future<void> toggleSaveCourse({

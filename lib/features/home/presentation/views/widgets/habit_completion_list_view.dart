@@ -32,7 +32,7 @@ class HabitCompletionListView extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         itemCount: 7,
         itemBuilder: (_, index) => Padding(
-          padding: EdgeInsets.only(right: 6.sp),
+          padding: EdgeInsets.only(right: 6.w),
           child: habit.frequency.contains(index)
               ? AspectRatio(
                   aspectRatio: 1,

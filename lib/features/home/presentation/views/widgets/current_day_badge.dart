@@ -8,7 +8,7 @@ class CurrentDayBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 3,
+      height: 3.h,
       width: 16.sp,
       decoration: BoxDecoration(
         color: AppColors.secondaryColor,

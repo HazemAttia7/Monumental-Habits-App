@@ -19,7 +19,7 @@ class WeekDaysListView extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       itemCount: 7,
       itemBuilder: (context, index) => Padding(
-        padding: EdgeInsets.only(right: 6.sp),
+        padding: EdgeInsets.only(right: 6.w),
         child: WeekDaysListViewItem(index: index, onTap: () => onDayTap(index)),
       ),
     );

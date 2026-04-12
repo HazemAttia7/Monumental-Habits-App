@@ -1,0 +1,48 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/core/widgets/shimmer/image_shimmer.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/home_header.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/shimmer/habitS_tracking_list_shimmer.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/shimmer/habits_section_header_shimmer.dart';
+
+class HabitsLoadingView extends StatelessWidget {
+  const HabitsLoadingView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Gap(10.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
+              child: const HomeHeader(),
+            ),
+            Gap(24.h),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
+              child: ImageShimmer(height: 140.h, borderRadius: 12.r),
+            ),
+            Gap(19.h),
+            Padding(
+              padding: EdgeInsets.only(left: (kPagePadding + 18).sp),
+              child: const HabitsSectionHeaderShimmer(),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: kPagePadding.sp,
+                top: 13.h,
+                bottom: 140.sp,
+              ),
+              child: const HabitsTrackingListShimmer(),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+

@@ -6,7 +6,11 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/week_day
 class HabitsSectionHeader extends StatelessWidget {
   final void Function(int index) onDayTap;
   final ScrollController weekDaysController;
-  const HabitsSectionHeader({super.key, required this.onDayTap, required this.weekDaysController});
+  const HabitsSectionHeader({
+    super.key,
+    required this.onDayTap,
+    required this.weekDaysController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,15 +18,18 @@ class HabitsSectionHeader extends StatelessWidget {
       children: [
         Expanded(
           child: Text(
-            "Habits".toUpperCase(),
+            "HABITS",
             style: AppStyles.textStyle14.copyWith(fontWeight: FontWeight.bold),
           ),
         ),
         Expanded(
           flex: 2,
           child: SizedBox(
-            height: 50.sp,
-            child: WeekDaysListView(onDayTap: onDayTap , scrollController: weekDaysController),
+            height: 50.h,
+            child: WeekDaysListView(
+              onDayTap: onDayTap,
+              scrollController: weekDaysController,
+            ),
           ),
         ),
       ],
