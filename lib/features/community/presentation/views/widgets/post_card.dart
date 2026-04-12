@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_card_header.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_content.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_interactions.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({super.key});
@@ -19,7 +21,11 @@ class PostCard extends StatelessWidget {
             userName: 'Jerome',
             postedSince: Duration(minutes: 42),
           ),
-         
+          PostContent(
+            content:
+                "Man, you're my new guru! Viewing the lessons for a second time. Thoroughly pleased. And impressed that you draw from scientific literature in telling memorable Man, you're my new guru! Viewing the lessons for a second time. Thoroughly pleased. And impressed that you draw from scientific literature in telling memorable",
+          ),
+          PostInteractions()
         ],
       ),
     );
