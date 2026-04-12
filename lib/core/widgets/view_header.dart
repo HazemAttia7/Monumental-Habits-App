@@ -6,8 +6,9 @@ import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
 import 'package:pixel_true_app/features/main/presentation/managers/main_view_controller.dart';
 import 'package:provider/provider.dart';
 
-class HomeHeader extends StatelessWidget {
-  const HomeHeader({super.key});
+class ViewHeader extends StatelessWidget {
+  final String header;
+  const ViewHeader({super.key, required this.header});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +24,7 @@ class HomeHeader extends StatelessWidget {
           },
           icon: FontAwesomeIcons.equals,
         ),
-        Text("Home Page", style: AppStyles.textStyle18),
+        Text(header, style: AppStyles.textStyle18),
         const ProfilePlaceholder(),
       ],
     );

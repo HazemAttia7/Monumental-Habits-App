@@ -7,7 +7,7 @@ import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_section_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_tracking_sliver_list.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/home_header.dart';
+import 'package:pixel_true_app/core/widgets/view_header.dart';
 import 'package:provider/provider.dart';
 
 class HabitsLoadedView extends StatelessWidget {
@@ -28,7 +28,7 @@ class HabitsLoadedView extends StatelessWidget {
                 Gap(10.h),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
-                  child: const HomeHeader(),
+                  child: const ViewHeader(header: "Home Page"),
                 ),
                 Gap(24.h),
                 Padding(
