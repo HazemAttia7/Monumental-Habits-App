@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
 import 'package:pixel_true_app/core/widgets/shimmer/image_shimmer.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/home_header.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/shimmer/habitS_tracking_list_shimmer.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/shimmer/habits_section_header_shimmer.dart';
 
@@ -19,7 +22,7 @@ class HabitsLoadingView extends StatelessWidget {
             Gap(10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: kPagePadding.sp),
-              child: const HomeHeader(),
+              child: const _HomeHeader(),
             ),
             Gap(24.h),
             Padding(
@@ -46,3 +49,29 @@ class HabitsLoadingView extends StatelessWidget {
   }
 }
 
+class _HomeHeader extends StatelessWidget {
+  const _HomeHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+          padding: EdgeInsets.all(11.sp),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: AppColors.secondaryColor.withValues(alpha: .1),
+          ),
+          child: Icon(
+            FontAwesomeIcons.equals,
+            color: AppColors.secondaryColor,
+            size: 22.sp,
+          ),
+        ),
+        Text("Home Page", style: AppStyles.textStyle18),
+        const ProfilePlaceholder(),
+      ],
+    );
+  }
+}
