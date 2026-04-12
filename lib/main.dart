@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:pixel_true_app/app.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/services/isar_service.dart';
 import 'package:pixel_true_app/core/services/notification_service.dart';
+import 'package:pixel_true_app/core/utils/assets_data.dart';
 // import 'package:pixel_true_app/core/utils/prefs.dart';
 import 'package:pixel_true_app/firebase_options.dart';
 
@@ -37,5 +39,23 @@ void main() async {
     username: dotenv.env['BREVO_SMTP_LOGIN']!,
     password: dotenv.env['BREVO_SMTP_KEY']!,
   );
+
+    await _warmUpSplashBackground();
+
   runApp(const MonumentalHabits());
+}
+
+Future<void> _warmUpSplashBackground() async {
+  const imageProvider = AssetImage(AssetsData.splashBackground);
+  const config = ImageConfiguration.empty;
+
+  final completer = Completer<void>();
+
+  final stream = imageProvider.resolve(config);
+  stream.addListener(ImageStreamListener(
+    (_, __) => completer.complete(),
+    onError: (e, st) => completer.complete(), // fail silently, don't crash app
+  ));
+
+  await completer.future;
 }
