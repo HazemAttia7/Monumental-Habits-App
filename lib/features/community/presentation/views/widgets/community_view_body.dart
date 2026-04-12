@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/view_header.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_card.dart';
 
 class CommunityViewBody extends StatelessWidget {
   const CommunityViewBody({super.key});
@@ -17,6 +18,7 @@ class CommunityViewBody extends StatelessWidget {
             Gap(10.h),
             const ViewHeader(header: "Community"),
             Gap(36.h),
+            const PostCard(),
           ],
         ),
       ),
