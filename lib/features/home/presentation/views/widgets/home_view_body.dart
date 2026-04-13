@@ -5,6 +5,7 @@ import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.da
 import 'package:pixel_true_app/features/home/presentation/views/widgets/habits_loaded_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/shimmer/habits_loading_view.dart';
 
+// TODO : make habits shimmer list more than 3 items
 class HomeViewBody extends StatelessWidget {
   const HomeViewBody({super.key});
 
