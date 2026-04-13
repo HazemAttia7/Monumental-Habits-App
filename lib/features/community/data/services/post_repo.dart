@@ -4,8 +4,8 @@ import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 
 abstract class PostRepo {
   Future<Either<Failure, List<Post>>> getPosts();
-  Future<Either<Failure, void>> createPost(Post post);
-  Future<Either<Failure, void>> deletePost(Post post);
-  Future<Either<Failure, void>> likePost(Post post);
-  Future<Either<Failure, void>> unlikePost(Post post);
+  Future<Either<Failure, Unit>> createPost(Post post);
+  Future<Either<Failure, Unit>> deletePost(Post post);
+  Future<Either<Failure, Unit>> likePost(String postId, String uid);
+  Future<Either<Failure, Unit>> unlikePost(String postId, String uid);
 }

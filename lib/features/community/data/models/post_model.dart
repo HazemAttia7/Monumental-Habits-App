@@ -22,8 +22,8 @@ class Post {
   bool isLikedBy(String uid) => likedByUids.contains(uid);
   int get likesCount => likedByUids.length;
 
-  factory Post.fromJson(Map<String, dynamic> json) => Post(
-    id: json['id'] ?? '',
+  factory Post.fromJson(Map<String, dynamic> json, String id) => Post(
+    id: id,
     authorUid: json['authorUid'] ?? '',
     authorUsername: json['authorUsername'] ?? '',
     content: json['content'] ?? '',
@@ -43,11 +43,12 @@ class Post {
   };
 
   Post copyWith({
+    String? id,
     List<String>? likedByUids,
     int? commentsCount,
     String? content,
   }) => Post(
-    id: id,
+    id: id ?? this.id,
     authorUid: authorUid,
     authorUsername: authorUsername,
     content: content ?? this.content,

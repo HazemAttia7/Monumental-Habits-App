@@ -11,10 +11,10 @@ final class CommunityInitial extends CommunityState {}
 
 final class CommunityLoading extends CommunityState {}
 
-final class CommunityLoaded extends CommunityState {
+final class CommunitySuccess extends CommunityState {
   final List<Post> posts;
 
-  const CommunityLoaded(this.posts);
+  const CommunitySuccess(this.posts);
 
   @override
   List<Object> get props => [posts];

@@ -24,37 +24,18 @@ class PostsSliverList extends StatelessWidget {
           );
         }
 
-        if (state is CommunityLoaded) {
+        if (state is CommunitySuccess) {
           final posts = state.posts;
           return SliverList.separated(
             itemCount: posts.length,
             separatorBuilder: (context, index) => Gap(12.h),
-            itemBuilder: (BuildContext context, int index) => PostCard(
-              userName: posts[index].authorUsername,
-              content: posts[index].content,
-              postedSince: _getDuration(posts[index].createdAt),
-              commentsCount: posts[index].commentsCount,
-              postLikesCount: posts[index].likedByUids.length,
-            ),
+            itemBuilder: (BuildContext context, int index) =>
+                PostCard(post: posts[index]),
           );
         }
 
         return const SliverToBoxAdapter(child: SizedBox());
       },
     );
-  }
-
-  Duration _getDuration(DateTime createdAt) {
-    final now = DateTime.now();
-    final difference = now.difference(createdAt);
-    if (difference.inDays > 0) {
-      return Duration(days: difference.inDays);
-    } else if (difference.inHours > 0) {
-      return Duration(hours: difference.inHours);
-    } else if (difference.inMinutes > 0) {
-      return Duration(minutes: difference.inMinutes);
-    } else {
-      return Duration(seconds: difference.inSeconds);
-    }
   }
 }

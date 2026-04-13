@@ -7,12 +7,12 @@ import 'package:pixel_true_app/features/community/helper/format_count.dart';
 
 class TogglePostLike extends StatefulWidget {
   final int postLikesCount;
-  final VoidCallback onTap;
+  final VoidCallback toggleLike;
   final bool isLiked;
   const TogglePostLike({
     super.key,
     required this.postLikesCount,
-    required this.onTap,
+    required this.toggleLike,
     required this.isLiked,
   });
 
@@ -22,11 +22,24 @@ class TogglePostLike extends StatefulWidget {
 
 class _TogglePostLikeState extends State<TogglePostLike> {
   late bool isLiked;
+  late int likesCount;
 
   @override
   void initState() {
     super.initState();
     isLiked = widget.isLiked;
+    likesCount = widget.postLikesCount;
+  }
+
+  @override
+  void didUpdateWidget(covariant TogglePostLike oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (oldWidget.postLikesCount != widget.postLikesCount ||
+        oldWidget.isLiked != widget.isLiked) {
+      isLiked = widget.isLiked;
+      likesCount = widget.postLikesCount;
+    }
   }
 
   @override
@@ -41,9 +54,14 @@ class _TogglePostLikeState extends State<TogglePostLike> {
             key: ValueKey(isLiked),
             onTap: () {
               setState(() {
+                if (isLiked) {
+                  likesCount--;
+                } else {
+                  likesCount++;
+                }
                 isLiked = !isLiked;
               });
-              widget.onTap();
+              widget.toggleLike();
             },
             child: Icon(
               isLiked ? FontAwesomeIcons.solidHeart : FontAwesomeIcons.heart,
@@ -55,7 +73,7 @@ class _TogglePostLikeState extends State<TogglePostLike> {
               ScaleTransition(scale: animation, child: child),
         ),
         Text(
-          formatCount(widget.postLikesCount),
+          formatCount(likesCount),
           style: AppStyles.textStyle12.copyWith(fontWeight: FontWeight.bold),
         ),
       ],
