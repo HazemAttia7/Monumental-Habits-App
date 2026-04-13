@@ -9,7 +9,7 @@ class HabitsTrackingListShimmer extends StatelessWidget {
     return ListView.builder(
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
-      itemCount: 3,
+      itemCount: 10,
       itemBuilder: (context, index) => const HabitTrackingWidgetShimmer(),
     );
   }
