@@ -58,7 +58,7 @@ class CourseCardShimmer extends StatelessWidget {
                             ],
                           ),
                           Container(
-                            height: 32.w,
+                            height: 32.h,
                             width: 32.w,
                             decoration: BoxDecoration(
                               color: Colors.grey.shade300,
