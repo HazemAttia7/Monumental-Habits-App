@@ -7,7 +7,6 @@ import 'package:pixel_true_app/features/courses/presentation/views/widgets/cours
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_loaded_view.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/widgets/courses_loading_view.dart';
 
-// TODO : make courses shimmer list non-scrollable
 class CoursesViewBody extends StatelessWidget {
   const CoursesViewBody({super.key});
 
@@ -32,9 +31,7 @@ class CoursesViewBody extends StatelessWidget {
             controller.selectedFilter,
             sortedCourses,
           );
-          return CoursesLoadedView(
-            courses: finalCourses,
-          );
+          return CoursesLoadedView(courses: finalCourses);
         }
 
         if (state is CoursesError) {

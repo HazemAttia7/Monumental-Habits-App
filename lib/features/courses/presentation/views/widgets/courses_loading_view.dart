@@ -15,25 +15,21 @@ class CoursesLoadingView extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
-        child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                children: [
-                  Gap(10.h),
-                  const HeaderContainer(),
-                  Gap(24.h),
-                  ImageShimmer(height: 147.h, borderRadius: 21.r),
-                  Gap(16.h),
-                  const CoursesSortFilterRowShimmer(),
-                  Gap(16.h),
-                ],
-              ),
-            ),
-            const CoursesListShimmer(),
-            SliverToBoxAdapter(child: Gap(100.h)),
-          ],
+        child: SingleChildScrollView(
+          physics: const NeverScrollableScrollPhysics(),
+          child: Column(
+            children: [
+              Gap(10.h),
+              const HeaderContainer(),
+              Gap(24.h),
+              ImageShimmer(height: 147.h, borderRadius: 21.r),
+              Gap(16.h),
+              const CoursesSortFilterRowShimmer(),
+              Gap(16.h),
+              const CoursesListShimmer(),
+              Gap(100.h),
+            ],
+          ),
         ),
       ),
     );

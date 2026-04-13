@@ -8,15 +8,13 @@ class CoursesListShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: ListView.separated(
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: 5,
-        separatorBuilder: (BuildContext context, int index) => Gap(12.h),
-        itemBuilder: (BuildContext context, int index) =>
-            const CourseCardShimmer(),
-      ),
+    return ListView.separated(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: 5,
+      separatorBuilder: (BuildContext context, int index) => Gap(12.h),
+      itemBuilder: (BuildContext context, int index) =>
+          const CourseCardShimmer(),
     );
   }
 }
