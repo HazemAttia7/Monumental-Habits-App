@@ -26,11 +26,11 @@ class CommunityCubit extends Cubit<CommunityState> {
     emit(CommunitySuccess([...currentPosts, post]));
 
     final result = await postRepo.createPost(post);
-    result.fold(
-      (failure) =>
-          emit(CommunityError(failure.errMessage, previousPosts: currentPosts)),
-      (_) => null,
-    );
+
+    result.fold((failure) {
+      emit(CommunitySuccess(currentPosts));
+      emit(CommunityError(failure.errMessage));
+    }, (_) => null);
   }
 
   Future<void> deletePost(Post post) async {
@@ -41,11 +41,11 @@ class CommunityCubit extends Cubit<CommunityState> {
     emit(CommunitySuccess(currentPosts.where((p) => p.id != post.id).toList()));
 
     final result = await postRepo.deletePost(post);
-    result.fold(
-      (failure) =>
-          emit(CommunityError(failure.errMessage, previousPosts: currentPosts)),
-      (_) => null,
-    );
+    
+    result.fold((failure) {
+      emit(CommunitySuccess(currentPosts));
+      emit(CommunityError(failure.errMessage));
+    }, (_) => null);
   }
 
   Future<void> toggleLike(String postId, String uid) async {
@@ -73,10 +73,9 @@ class CommunityCubit extends Cubit<CommunityState> {
         ? await postRepo.unlikePost(postId, uid)
         : await postRepo.likePost(postId, uid);
 
-    result.fold(
-      (failure) =>
-          emit(CommunityError(failure.errMessage, previousPosts: currentPosts)),
-      (_) => null,
-    );
+    result.fold((failure) {
+      emit(CommunitySuccess(currentPosts));
+      emit(CommunityError(failure.errMessage));
+    }, (_) => null);
   }
 }

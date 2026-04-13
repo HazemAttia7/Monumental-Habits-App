@@ -22,8 +22,7 @@ final class CommunitySuccess extends CommunityState {
 
 final class CommunityError extends CommunityState {
   final String errMessage;
-  final List<Post>? previousPosts;
-  const CommunityError(this.errMessage, {this.previousPosts});
+  const CommunityError(this.errMessage,);
 
   @override
   List<Object> get props => [errMessage];
