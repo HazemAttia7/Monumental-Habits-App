@@ -5,6 +5,8 @@ import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:pixel_true_app/core/services/isar_service.dart';
 import 'package:pixel_true_app/core/services/notification_service.dart';
+import 'package:pixel_true_app/features/community/data/services/post_repo.dart';
+import 'package:pixel_true_app/features/community/data/services/post_repo_impl.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo_impl.dart';
 import 'package:pixel_true_app/features/home/data/local/habits_local_data_source.dart';
@@ -37,7 +39,9 @@ Future<void> setupServiceLocator({
   );
 
   // ── Repos ───────────────────────────────────────────────────
-  sl.registerSingleton<AuthRepo>(AuthRepoImpl( auth: sl<FirebaseAuth>() ,firestore:  sl<FirebaseFirestore>()));
+  sl.registerSingleton<AuthRepo>(
+    AuthRepoImpl(auth: sl<FirebaseAuth>(), firestore: sl<FirebaseFirestore>()),
+  );
   sl.registerSingleton<UserProfileRepo>(
     UserProfileRepoImpl(firestore: sl<FirebaseFirestore>()),
   );
@@ -50,5 +54,8 @@ Future<void> setupServiceLocator({
   );
   sl.registerSingleton<CoursesRepo>(
     CoursesRepoImpl(firestore: sl<FirebaseFirestore>()),
+  );
+  sl.registerSingleton<PostRepo>(
+    PostRepoImpl(firestore: sl<FirebaseFirestore>()),
   );
 }
