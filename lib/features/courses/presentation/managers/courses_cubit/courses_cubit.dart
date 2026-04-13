@@ -86,9 +86,10 @@ class CoursesCubit extends Cubit<CoursesState> {
 
     // 4. Revert on failure
     result.fold(
-      (failure) => emit(
-        CoursesError(failure.errMessage, previousCourses: currentCourses),
-      ),
+      (failure) {
+        emit(CoursesLoaded(currentCourses));
+        emit(CoursesError(failure.errMessage));
+      },
       (_) => null, // already emitted optimistically
     );
   }
@@ -130,10 +131,11 @@ class CoursesCubit extends Cubit<CoursesState> {
 
     // 3. Revert on failure
     result.fold(
-      (failure) => emit(
-        CoursesError(failure.errMessage, previousCourses: currentCourses),
-      ),
-      (_) => null,
+      (failure) {
+        emit(CoursesLoaded(currentCourses));
+        emit(CoursesError(failure.errMessage));
+      },
+      (_) => null, // already emitted optimistically
     );
   }
 }

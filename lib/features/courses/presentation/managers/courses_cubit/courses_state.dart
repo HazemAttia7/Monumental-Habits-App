@@ -68,8 +68,7 @@ final class CoursesLoaded extends CoursesState {
 
 class CoursesError extends CoursesState {
   final String errMessage;
-  final List<Course>? previousCourses;
-  const CoursesError(this.errMessage, {this.previousCourses});
+  const CoursesError(this.errMessage,);
   @override
   List<Object> get props => [errMessage];
 }
