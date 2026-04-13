@@ -23,14 +23,15 @@ class UserMetaRow extends StatelessWidget {
           height: 34.h,
           fontSize: 14.sp,
           padding: EdgeInsets.all(2.sp),
-          userName: 'Jerome',
+          userName: userName,
         ),
         Gap(10.w),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Jerome",
+              userName,
               style: AppStyles.textStyle14.copyWith(
                 fontWeight: FontWeight.bold,
                 height: 1.15,

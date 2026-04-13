@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/view_header.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_card.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/posts_sliver_list.dart';
 
 class CommunityViewBody extends StatelessWidget {
   const CommunityViewBody({super.key});
@@ -13,12 +13,19 @@ class CommunityViewBody extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
-        child: Column(
-          children: [
-            Gap(10.h),
-            const ViewHeader(header: "Community"),
-            Gap(36.h),
-            const PostCard(),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                children: [
+                  Gap(10.h),
+                  const ViewHeader(header: "Community"),
+                  Gap(36.h),
+                ],
+              ),
+            ),
+            const PostsSliverList(),
+            SliverToBoxAdapter(child: Gap(100.h)),
           ],
         ),
       ),

@@ -6,15 +6,25 @@ import 'package:pixel_true_app/features/community/presentation/views/widgets/pos
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_interactions.dart';
 
 class PostCard extends StatelessWidget {
-  const PostCard({super.key});
+  final String userName, content;
+  final Duration postedSince;
+  final int commentsCount, postLikesCount;
+  const PostCard({
+    super.key,
+    required this.userName,
+    required this.content,
+    required this.postedSince,
+    required this.commentsCount,
+    required this.postLikesCount,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(12.r),
+      borderRadius: BorderRadius.circular(16.r),
       child: InkWell(
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(16.r),
         onTap: () {
           // TODO : navigate to post details
         },
@@ -22,18 +32,15 @@ class PostCard extends StatelessWidget {
         highlightColor: AppColors.secondaryColor.withValues(alpha: .1),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.r)),
-          child: const Column(
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r)),
+          child: Column(
             children: [
-              PostCardHeader(
-                userName: 'Jerome',
-                postedSince: Duration(minutes: 42),
+              PostCardHeader(userName: userName, postedSince: postedSince),
+              PostContent(content: content),
+              PostInteractions(
+                postLikesCount: postLikesCount,
+                commentsCount: commentsCount,
               ),
-              PostContent(
-                content:
-                    "Man, you're my new guru! Viewing the lessons for a second time. Thoroughly pleased. And impressed that you draw from scientific literature in telling memorable Man, you're my new guru! Viewing the lessons for a second time. Thoroughly pleased. And impressed that you draw from scientific literature in telling memorable",
-              ),
-              PostInteractions(),
             ],
           ),
         ),

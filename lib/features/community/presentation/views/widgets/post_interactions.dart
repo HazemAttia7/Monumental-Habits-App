@@ -5,7 +5,12 @@ import 'package:pixel_true_app/features/community/presentation/views/widgets/com
 import 'package:pixel_true_app/features/community/presentation/views/widgets/toggle_post_like.dart';
 
 class PostInteractions extends StatelessWidget {
-  const PostInteractions({super.key});
+  final int postLikesCount, commentsCount;
+  const PostInteractions({
+    super.key,
+    required this.postLikesCount,
+    required this.commentsCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +19,13 @@ class PostInteractions extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         TogglePostLike(
-          postLikesCount: 3200,
+          postLikesCount: postLikesCount,
           isLiked: false,
           onTap: () {
             // TODO : like post
           },
         ),
-        const CommentsCount(commentsCount: 22),
+        CommentsCount(commentsCount: commentsCount),
       ],
     );
   }
