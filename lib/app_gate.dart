@@ -8,6 +8,10 @@ import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
+import 'package:pixel_true_app/features/community/data/services/post_repo.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_cubit/community_cubit.dart';
+import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
+import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
 import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
@@ -25,13 +29,25 @@ class AppGate extends StatelessWidget {
           current is! AuthLoading && current is! AuthError,
       builder: (context, state) {
         if (state is Authenticated) {
-          return BlocProvider(
-            create: (_) => HabitsCubit(
-              sl<HabitsRepo>(),
-              state.user.uid,
-              sl<NotificationService>(),
-              sl<Connectivity>(),
-            )..fetchHabits(),
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (context) => CommunityCubit(sl<PostRepo>())..getPosts(),
+              ),
+              BlocProvider(
+                create: (context) =>
+                    CoursesCubit(sl<CoursesRepo>())
+                      ..getCourses(context.read<AuthCubit>().currentUser!.uid),
+              ),
+              BlocProvider(
+                create: (_) => HabitsCubit(
+                  sl<HabitsRepo>(),
+                  state.user.uid,
+                  sl<NotificationService>(),
+                  sl<Connectivity>(),
+                )..fetchHabits(),
+              ),
+            ],
             child: ChangeNotifierProvider(
               create: (_) => MainViewController(),
               child: ChangeNotifierProvider(

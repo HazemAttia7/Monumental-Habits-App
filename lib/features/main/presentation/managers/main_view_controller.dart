@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
 import 'package:pixel_true_app/core/enums/main_page_enum.dart';
-import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/managers/home_view_controller.dart';
-import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
-import 'package:pixel_true_app/features/community/data/services/post_repo.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/community_cubit/community_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/community_view.dart';
-import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
-import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/courses_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
@@ -67,19 +60,11 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
       create: (_) => HomeViewController(),
       child: const HomeView(),
     ),
-    BlocProvider(
-      create: (context) =>
-          CoursesCubit(sl<CoursesRepo>())
-            ..getCourses(context.read<AuthCubit>().currentUser!.uid),
-      child: ChangeNotifierProvider(
-        create: (_) => CoursesViewController(),
-        child: const CoursesView(),
-      ),
+    ChangeNotifierProvider(
+      create: (_) => CoursesViewController(),
+      child: const CoursesView(),
     ),
-    BlocProvider(
-      create: (context) => CommunityCubit(sl<PostRepo>())..getPosts(),
-      child: const CommunityView(),
-    ),
+    const CommunityView(),
     const Center(child: Text("Settings View")),
     AddEditHabitView(
       backToHome: backToHome,

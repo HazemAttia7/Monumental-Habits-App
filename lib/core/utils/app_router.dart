@@ -30,7 +30,6 @@ import 'package:pixel_true_app/features/support/presentation/views/support_view.
 import 'package:provider/provider.dart';
 
 
-// TODO : use shell router for shared habits , courses and community cubits
 abstract class AppRouter {
   static const String kOnboardingView = "/onboarding";
   static const String kAuthView = "/auth";
