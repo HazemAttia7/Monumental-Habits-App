@@ -7,6 +7,7 @@ import 'package:pixel_true_app/features/about_us/presentation/views/about_us_vie
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
+import 'package:pixel_true_app/features/community/presentation/views/post_details_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
@@ -29,7 +30,7 @@ import 'package:pixel_true_app/features/support/presentation/managers/support_vi
 import 'package:pixel_true_app/features/support/presentation/views/support_view.dart';
 import 'package:provider/provider.dart';
 
-
+// TODO : DONT PASS EVERY EXTRA OBJECT TO VIEW JUST READ IT IN BODY
 abstract class AppRouter {
   static const String kOnboardingView = "/onboarding";
   static const String kAuthView = "/auth";
@@ -45,6 +46,7 @@ abstract class AppRouter {
   static const String kSubcrption = "/subscription";
   static const String kAboutUs = "/about-us";
   static const String kCourseDetailsView = "/course-details";
+  static const String kPostDetailsView = "/post-details";
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -180,6 +182,10 @@ abstract class AppRouter {
             ),
           );
         },
+      ),
+      GoRoute(
+        path: kPostDetailsView,
+        builder: (context, state) => const PostDetailsView(),
       ),
     ],
   );

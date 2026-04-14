@@ -9,6 +9,7 @@ class IconContainer extends StatelessWidget {
   final EdgeInsets? padding;
   final BorderRadius? borderRadius;
   final List<BoxShadow>? boxShadow;
+  final Border? border;
   const IconContainer({
     super.key,
     required this.icon,
@@ -18,6 +19,7 @@ class IconContainer extends StatelessWidget {
     this.borderRadius,
     this.backColor,
     this.boxShadow,
+    this.border,
   });
 
   @override
@@ -29,6 +31,7 @@ class IconContainer extends StatelessWidget {
         color: backColor ?? iconColor.withValues(alpha: .15),
         borderRadius: borderRadius,
         boxShadow: boxShadow,
+        border: border,
       ),
       child: Icon(icon, color: iconColor, size: iconSize ?? 22.sp),
     );

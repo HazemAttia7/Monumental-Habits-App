@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_card_header.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_content.dart';
@@ -17,9 +19,8 @@ class PostCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16.r),
       child: InkWell(
         borderRadius: BorderRadius.circular(16.r),
-        onTap: () {
-          // TODO : navigate to post details
-        },
+        onTap: () =>
+            GoRouter.of(context).push(AppRouter.kPostDetailsView, extra: post),
         splashColor: AppColors.secondaryColor.withValues(alpha: .1),
         highlightColor: AppColors.secondaryColor.withValues(alpha: .1),
         child: Container(

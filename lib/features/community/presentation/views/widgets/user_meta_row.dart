@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
+import 'package:pixel_true_app/features/community/helper/get_time_ago.dart';
 
 class UserMetaRow extends StatelessWidget {
   final String userName;
@@ -38,7 +39,7 @@ class UserMetaRow extends StatelessWidget {
               ),
             ),
             Text(
-              _getTimeAgo(),
+              getTimeAgo(postedSince),
               style: AppStyles.textStyle12.copyWith(
                 color: AppColors.secondaryColor.withValues(alpha: .5),
                 height: 1.15,
@@ -48,21 +49,5 @@ class UserMetaRow extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String _getTimeAgo() {
-    final days = postedSince.inDays;
-    final hours = postedSince.inHours;
-    final minutes = postedSince.inMinutes;
-    final seconds = postedSince.inSeconds;
-    if (days > 0) {
-      return "${days}d ago";
-    } else if (hours > 0) {
-      return "${hours}h ago";
-    } else if (minutes > 0) {
-      return "${minutes}m ago";
-    } else {
-      return "${seconds}s ago";
-    }
   }
 }
