@@ -22,6 +22,12 @@ class _SaveCourseButtonState extends State<SaveCourseButton> {
     _isSaved = widget.isSaved;
   }
 
+  @override
+  void didUpdateWidget(covariant SaveCourseButton oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _isSaved = widget.isSaved;
+  }
+
   void _toggle() {
     setState(() => _isSaved = !_isSaved);
     widget.onTap?.call();
