@@ -5,7 +5,7 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_card_header.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_content.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_interactions.dart';
 
 class PostCard extends StatelessWidget {
@@ -32,7 +32,7 @@ class PostCard extends StatelessWidget {
                 userName: post.authorUsername,
                 postedSince: _getPostedSinceDuration(),
               ),
-              PostContent(content: post.content),
+              ExpandableContent(content: post.content),
               PostInteractions(post: post),
             ],
           ),

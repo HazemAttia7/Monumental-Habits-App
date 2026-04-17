@@ -8,8 +8,8 @@ import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
-import 'package:pixel_true_app/features/community/data/services/post_repo.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/community_cubit/community_cubit.dart';
+import 'package:pixel_true_app/features/community/data/services/posts_repo.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/posts_cubit/posts_cubit.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
@@ -32,7 +32,7 @@ class AppGate extends StatelessWidget {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => CommunityCubit(sl<PostRepo>())..getPosts(),
+                create: (context) => PostsCubit(sl<PostsRepo>())..getPosts(),
               ),
               BlocProvider(
                 create: (context) =>

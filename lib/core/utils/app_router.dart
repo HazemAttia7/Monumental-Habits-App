@@ -2,11 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
+import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/about_us_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
+import 'package:pixel_true_app/features/community/data/models/post_model.dart';
+import 'package:pixel_true_app/features/community/data/services/comments_repo.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/post_details_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
@@ -185,7 +189,14 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kPostDetailsView,
-        builder: (context, state) => const PostDetailsView(),
+        builder: (context, state) {
+          final post = state.extra as Post;
+          return BlocProvider(
+            create: (context) =>
+                CommentsCubit(sl<CommentsRepo>())..getComments(post.id),
+            child: const PostDetailsView(),
+          );
+        },
       ),
     ],
   );

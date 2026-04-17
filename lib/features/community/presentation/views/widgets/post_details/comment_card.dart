@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_actions_row.dart';
 
 class CommentCard extends StatelessWidget {
-  const CommentCard({super.key});
+  final Comment comment;
+  const CommentCard({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +30,11 @@ class CommentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Hazem",
+            comment.authorUsername,
             style: AppStyles.textStyle14.copyWith(fontWeight: FontWeight.bold),
           ),
-          Text(
-            "I think I know exactly where this is! Is it the one near the old library? The shadows there are always so poetic.",
+          ExpandableContent(
+            content: comment.content,
             style: AppStyles.textStyle14.copyWith(color: Colors.black),
           ),
           Gap(4.h),

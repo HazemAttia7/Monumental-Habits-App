@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Comment {
   final String id;
-  final String postId;     
+  final String postId;
   final String authorUid;
   final String authorUsername;
   final String content;

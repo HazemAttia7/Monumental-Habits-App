@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_content.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/actions_row.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/interactions_info_row.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/user_meta_info_row.dart';
@@ -33,7 +33,7 @@ class PostSection extends StatelessWidget {
           Gap(24.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.w),
-            child: PostContent(content: post.content, maxLines: 20),
+            child: ExpandableContent(content: post.content, maxLines: 20),
           ),
           Gap(18.h),
           Padding(

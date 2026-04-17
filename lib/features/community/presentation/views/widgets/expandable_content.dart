@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class PostContent extends StatefulWidget {
+class ExpandableContent extends StatefulWidget {
   final String content;
+  final TextStyle? style;
   final int maxLines;
 
-  const PostContent({super.key, required this.content, this.maxLines = 3});
+  const ExpandableContent({
+    super.key,
+    required this.content,
+    this.maxLines = 3,
+    this.style,
+  });
 
   @override
-  State<PostContent> createState() => _PostContentState();
+  State<ExpandableContent> createState() => _ExpandableContentState();
 }
 
-class _PostContentState extends State<PostContent> {
+class _ExpandableContentState extends State<ExpandableContent> {
   bool isExpanded = false;
 
   final GlobalKey _postKey = GlobalKey();
@@ -64,7 +70,7 @@ class _PostContentState extends State<PostContent> {
                 widget.content,
                 maxLines: isExpanded ? null : widget.maxLines,
                 overflow: TextOverflow.fade,
-                style: textStyle,
+                style: widget.style ?? textStyle,
               ),
               if (isOverflowing)
                 GestureDetector(
