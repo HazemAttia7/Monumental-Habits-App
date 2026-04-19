@@ -7,15 +7,18 @@ import 'package:pixel_true_app/core/widgets/show_password_text.dart';
 class CustomTextFormField extends StatefulWidget {
   final IconData? prefixIcon;
   final String hintText;
-  final double? iconSize;
-  final Color? fillColor;
-  final bool isPassword;
+  final double? iconSize, fontSize;
+  final FontWeight? fontWeight;
+  final Color? fillColor, textColor;
+  final bool isPassword, autofocus;
   final String? Function(String? data)? validator;
   final void Function(String? data)? onSaved;
   final EdgeInsets? contentPadding;
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final void Function(String data)? onChanged;
+  final bool? isDense;
+  final int? maxLines;
   const CustomTextFormField({
     super.key,
     this.prefixIcon,
@@ -29,6 +32,12 @@ class CustomTextFormField extends StatefulWidget {
     this.controller,
     this.focusNode,
     this.onChanged,
+    this.autofocus = false,
+    this.isDense,
+    this.textColor,
+    this.maxLines = 1,
+    this.fontSize,
+    this.fontWeight,
   });
 
   @override
@@ -60,18 +69,25 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      maxLines: widget.maxLines,
+      autofocus: widget.autofocus,
       onChanged: widget.onChanged,
       controller: widget.controller,
       obscureText: _obscureText,
       focusNode: _focusNode,
-      style: AppStyles.textStyle16.copyWith(
-        color: _focusNode.hasFocus
-            ? AppColors.primaryColor
-            : AppColors.secondaryColor.withValues(alpha: .5),
+      style: TextStyle(
+        fontSize: widget.fontSize ?? 16.sp,
+        fontWeight: widget.fontWeight ?? FontWeight.bold,
+        color:
+            widget.textColor ??
+            (_focusNode.hasFocus
+                ? AppColors.primaryColor
+                : AppColors.secondaryColor.withValues(alpha: .5)),
       ),
       validator: widget.validator,
       onSaved: widget.onSaved,
       decoration: InputDecoration(
+        isDense: widget.isDense,
         contentPadding:
             widget.contentPadding ??
             EdgeInsets.symmetric(vertical: 20.sp, horizontal: 17.sp),

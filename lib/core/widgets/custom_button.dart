@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
   final bool isLoading;
-  final double? height, width;
+  final double? height, width, fontSize;
   final Color? backColor, textColor, splashColor, highlightColor;
   const CustomButton({
     super.key,
@@ -20,6 +19,7 @@ class CustomButton extends StatelessWidget {
     this.splashColor,
     this.highlightColor,
     this.width,
+    this.fontSize,
   });
 
   @override
@@ -50,7 +50,11 @@ class CustomButton extends StatelessWidget {
                     )
                   : Text(
                       text,
-                      style: AppStyles.textStyle16.copyWith(color: textColor),
+                      style: TextStyle(
+                        color: textColor,
+                        fontSize: fontSize ?? 16.sp,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
             ),
           ),

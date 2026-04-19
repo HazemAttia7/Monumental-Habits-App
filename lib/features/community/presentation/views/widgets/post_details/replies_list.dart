@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/new_replies_banner.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_widget.dart';
 
 class RepliesList extends StatelessWidget {
   final void Function(String username) onReplyTap;
+  final void Function() onDone;
+  final Comment comment;
+  final String? replyingToUsername;
 
-  const RepliesList({super.key, required this.onReplyTap});
+  const RepliesList({
+    super.key,
+    required this.onReplyTap,
+    required this.onDone,
+    required this.comment,
+    required this.replyingToUsername,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +44,9 @@ class RepliesList extends StatelessWidget {
                 child: ReplyWidget(
                   reply: reply,
                   onReplyTap: () => onReplyTap(reply.authorUsername),
+                  onDone: onDone,
+                  comment: comment,
+                  replyingToUsername: replyingToUsername,
                 ),
               ),
             ),

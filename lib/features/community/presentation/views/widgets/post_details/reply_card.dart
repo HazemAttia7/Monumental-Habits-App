@@ -11,7 +11,11 @@ class ReplyCard extends StatelessWidget {
   final Reply reply;
   final VoidCallback onReplyTap;
 
-  const ReplyCard({super.key, required this.reply, required this.onReplyTap});
+  const ReplyCard({
+    super.key,
+    required this.reply,
+    required this.onReplyTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +57,7 @@ class ReplyCard extends StatelessWidget {
             onReplyTap: onReplyTap,
             createdAt: reply.createdAt,
           ),
+          
         ],
       ),
     );
