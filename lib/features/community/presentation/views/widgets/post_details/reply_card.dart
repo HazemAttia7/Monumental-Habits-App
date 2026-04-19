@@ -3,32 +3,23 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
+import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_reply_actions_row.dart';
 
-class CommentCard extends StatelessWidget {
-  final Comment comment;
-  final VoidCallback onReplyTap, onViewRepliesTap;
-  final bool showReplies;
-  const CommentCard({
-    super.key,
-    required this.comment,
-    required this.onReplyTap,
-    required this.onViewRepliesTap,
-    required this.showReplies,
-  });
+class ReplyCard extends StatelessWidget {
+  final Reply reply;
+  final VoidCallback onReplyTap;
+
+  const ReplyCard({super.key, required this.reply, required this.onReplyTap});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 1.sw - 2 * kPagePadding.w - 52.w),
-      padding: EdgeInsets.only(
-        top: 6.h,
-        bottom: 12.sp,
-        left: 12.w,
-        right: 12.w,
+      constraints: BoxConstraints(
+        maxWidth: 1.sw - 2 * kPagePadding.w - 52.w - 38.w,
       ),
+      padding: EdgeInsets.all(8.sp),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
@@ -37,20 +28,30 @@ class CommentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            comment.authorUsername,
+            reply.authorUsername,
             style: AppStyles.textStyle14.copyWith(fontWeight: FontWeight.bold),
           ),
           Gap(4.h),
-          ExpandableContent(
-            content: comment.content,
-            style: AppStyles.textStyle14.copyWith(color: Colors.black),
+          Wrap(
+            children: [
+              if (reply.replyToUsername != null)
+                Text(
+                  '@${reply.replyToUsername} ',
+                  style: const TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ExpandableContent(
+                content: reply.text,
+                style: TextStyle(fontSize: 13.sp, color: Colors.black),
+              ),
+            ],
           ),
           Gap(8.h),
           CommentReplyActionsRow(
             onReplyTap: onReplyTap,
-            onViewRepliesTap: onViewRepliesTap,
-            showReplies: showReplies,
-            createdAt: comment.createdAt,
+            createdAt: reply.createdAt,
           ),
         ],
       ),

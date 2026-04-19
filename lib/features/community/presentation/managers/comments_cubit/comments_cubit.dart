@@ -1,20 +1,33 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
-import 'package:pixel_true_app/features/community/data/services/comments_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
 
 part 'comments_state.dart';
 
 class CommentsCubit extends Cubit<CommentsState> {
-  final CommentsRepo commentRepo;
-  CommentsCubit(this.commentRepo) : super(CommentsInitial());
+  final CommentsRepo _repo;
+  StreamSubscription? _commentsSub;
 
-  Future<void> getComments(String postId) async {
+  CommentsCubit(this._repo) : super(CommentsInitial());
+
+  void watchComments(String postId) {
     emit(CommentsLoading());
-    final result = await commentRepo.getComments(postId);
-    result.fold(
-      (failure) => emit(CommentsError(failure.errMessage)),
-      (comments) => emit(CommentsSuccess(comments)),
-    );
+
+    _commentsSub = _repo
+        .watchComments(postId)
+        .listen(
+          (either) => either.fold(
+            (failure) => emit(CommentsError(failure.errMessage)),
+            (comments) => emit(CommentsSuccess(comments)),
+          ),
+        );
+  }
+
+  @override
+  Future<void> close() {
+    _commentsSub?.cancel();
+    return super.close();
   }
 }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:pixel_true_app/core/errors/failure.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
-import 'package:pixel_true_app/features/community/data/services/comments_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
 
 class CommentsRepoImpl extends CommentsRepo {
   final FirebaseFirestore _firestore;
@@ -32,4 +32,28 @@ class CommentsRepoImpl extends CommentsRepo {
       }
     }
   }
+
+  @override
+  Stream<Either<Failure, List<Comment>>> watchComments(String postId) async* {
+    try {
+      yield* _firestore
+          .collection('posts/$postId/comments')
+          .orderBy('createdAt', descending: false)
+          .snapshots()
+          .map<Either<Failure, List<Comment>>>(
+            (snapshot) => Right(
+              snapshot.docs
+                  .map((d) => Comment.fromJson(d.data(), postId))
+                  .toList(),
+            ),
+          );
+    } catch (e) {
+      if (e is FirebaseException) {
+        yield Left(FirebaseFailure.fromFirestore(e));
+      } else {
+        yield Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
+
 }

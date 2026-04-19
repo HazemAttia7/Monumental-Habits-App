@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/core/widgets/circle_divider.dart';
 
 class StatsRow extends StatelessWidget {
   final int currentStreak, longestStreak;
@@ -20,13 +20,13 @@ class StatsRow extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         _StreakText(label: "current", streak: currentStreak),
-        const _DividerCircle(),
+        const CircleDivider(),
         _StreakText(
           label: "best",
           streak: longestStreak,
           textColor: AppColors.secondaryColor,
         ),
-        const _DividerCircle(),
+        const CircleDivider(),
         Text(
           "${completionRate.toStringAsFixed(0)}% done".toUpperCase(),
           style: AppStyles.textStyle10.copyWith(
@@ -37,19 +37,6 @@ class StatsRow extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _DividerCircle extends StatelessWidget {
-  const _DividerCircle();
-
-  @override
-  Widget build(BuildContext context) {
-    return Icon(
-      Icons.circle,
-      color: AppColors.secondaryColor.withValues(alpha: .3),
-      size: 6.sp,
     );
   }
 }

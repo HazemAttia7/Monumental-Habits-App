@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:pixel_true_app/core/errors/failure.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
-import 'package:pixel_true_app/features/community/data/services/posts_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/posts_repo.dart';
 
 class PostsRepoImpl implements PostsRepo {
   final FirebaseFirestore _firestore;

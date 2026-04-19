@@ -9,7 +9,7 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
-import 'package:pixel_true_app/features/community/data/services/comments_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/post_details_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
@@ -193,7 +193,7 @@ abstract class AppRouter {
           final post = state.extra as Post;
           return BlocProvider(
             create: (context) =>
-                CommentsCubit(sl<CommentsRepo>())..getComments(post.id),
+                CommentsCubit(sl<CommentsRepo>())..watchComments(post.id),
             child: const PostDetailsView(),
           );
         },

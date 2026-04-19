@@ -5,10 +5,14 @@ import 'package:get_it/get_it.dart';
 import 'package:isar/isar.dart';
 import 'package:pixel_true_app/core/services/isar_service.dart';
 import 'package:pixel_true_app/core/services/notification_service.dart';
-import 'package:pixel_true_app/features/community/data/services/comments_repo.dart';
-import 'package:pixel_true_app/features/community/data/services/comments_repo_impl.dart';
-import 'package:pixel_true_app/features/community/data/services/posts_repo.dart';
-import 'package:pixel_true_app/features/community/data/services/posts_repo_impl.dart';
+import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/comments_repo_impl.dart';
+import 'package:pixel_true_app/features/community/data/repos/posts_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/posts_repo_impl.dart';
+import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/replies_repo_impl.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo_impl.dart';
 import 'package:pixel_true_app/features/home/data/local/habits_local_data_source.dart';
@@ -63,4 +67,12 @@ Future<void> setupServiceLocator({
   sl.registerSingleton<CommentsRepo>(
     CommentsRepoImpl(firestore: sl<FirebaseFirestore>()),
   );
+
+  sl.registerSingleton<RepliesRepo>(
+    RepliesRepoImpl(firestore: sl<FirebaseFirestore>()),
+  );
+
+  // ──── Cubits ───────────────────────────────────────────────
+  sl.registerFactory(() => CommentsCubit(sl<CommentsRepo>()));
+  sl.registerFactory(() => RepliesCubit(sl<RepliesRepo>()));
 }

@@ -6,27 +6,28 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_widget.dart';
 
+// TODO : test comments stream
 class CommentsSliverList extends StatelessWidget {
   const CommentsSliverList({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CommentsCubit, CommentsState>(
-      builder: (context, state) {
-        if (state is CommentsLoading) {
-          // TODO: show shimmer comments list
-          return const SliverToBoxAdapter(
-            child: Center(child: CircularProgressIndicator()),
-          );
-        }
-
-        if (state is CommentsSuccess) {
-          final comments = state.comments;
-          return comments.isEmpty
+      builder: (context, state) => switch (state) {
+        CommentsInitial() => const SliverToBoxAdapter(child: SizedBox.shrink()),
+        CommentsLoading() => const SliverToBoxAdapter(
+          // TODO : make it shimmer
+          child: Center(child: CircularProgressIndicator()),
+        ),
+        CommentsError(:final errMessage) => SliverFillRemaining(
+          child: Center(child: Text(errMessage, style: AppStyles.textStyle17)),
+        ),
+        CommentsSuccess(:final comments) =>
+          comments.isEmpty
               ? SliverFillRemaining(
                   child: Center(
                     child: Text(
-                      'No comments found !',
+                      'No comments yet!',
                       style: AppStyles.textStyle17,
                     ),
                   ),
@@ -34,24 +35,9 @@ class CommentsSliverList extends StatelessWidget {
               : SliverList.separated(
                   itemCount: comments.length,
                   separatorBuilder: (_, __) => Gap(12.h),
-                  itemBuilder: (_, index) {
-                    return CommentWidget(comment: comments[index]);
-                  },
-                );
-        }
-
-        if (state is CommentsError) {
-          return SliverFillRemaining(
-            child: Center(
-              child: Text(
-                'Error loading comments',
-                style: AppStyles.textStyle17,
-              ),
-            ),
-          );
-        }
-
-        return const SliverToBoxAdapter(child: SizedBox());
+                  itemBuilder: (_, index) =>
+                      CommentWidget(comment: comments[index]),
+                ),
       },
     );
   }

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
-import 'package:pixel_true_app/features/community/data/services/posts_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/posts_repo.dart';
 
 part 'posts_state.dart';
 
