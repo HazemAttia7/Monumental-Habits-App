@@ -11,14 +11,12 @@ class RepliesList extends StatelessWidget {
   final void Function(String username) onReplyTap;
   final void Function() onDone;
   final Comment comment;
-  final String? replyingToUsername;
 
   const RepliesList({
     super.key,
     required this.onReplyTap,
     required this.onDone,
     required this.comment,
-    required this.replyingToUsername,
   });
 
   @override
@@ -46,7 +44,6 @@ class RepliesList extends StatelessWidget {
                   onReplyTap: () => onReplyTap(reply.authorUsername),
                   onDone: onDone,
                   comment: comment,
-                  replyingToUsername: replyingToUsername,
                 ),
               ),
             ),

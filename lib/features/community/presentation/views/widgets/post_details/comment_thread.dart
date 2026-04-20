@@ -16,7 +16,6 @@ class CommentThread extends StatefulWidget {
 class _CommentThreadState extends State<CommentThread> {
   bool _showReplies = false;
   String? _replyingToUsername;
-  String? _replyingToReplyUsername;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +27,6 @@ class _CommentThreadState extends State<CommentThread> {
           showReplies: _showReplies,
           onReplyTap: () => setState(() {
             _replyingToUsername = widget.comment.authorUsername;
-            _replyingToReplyUsername = null;
             _showReplies = true;
           }),
           onViewRepliesTap: () => setState(() {
@@ -44,12 +42,10 @@ class _CommentThreadState extends State<CommentThread> {
         else
           RepliesList(
             comment: widget.comment,
-            replyingToUsername: _replyingToReplyUsername,
             onReplyTap: (username) => setState(() {
-              _replyingToReplyUsername = username;
-              _replyingToUsername = null;
+              _replyingToUsername = username;
             }),
-            onDone: () => setState(() => _replyingToReplyUsername = null),
+            onDone: () => setState(() => _replyingToUsername = null),
           ),
         if (_replyingToUsername != null)
           ReplyInput(

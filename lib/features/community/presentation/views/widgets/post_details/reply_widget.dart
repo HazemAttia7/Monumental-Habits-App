@@ -5,7 +5,6 @@ import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_card.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_input.dart';
 
 // TODO : add remove , edit reply if current user is the author
 class ReplyWidget extends StatelessWidget {
@@ -13,7 +12,6 @@ class ReplyWidget extends StatelessWidget {
   final VoidCallback onReplyTap;
   final VoidCallback onDone;
   final Comment comment;
-  final String? replyingToUsername;
 
   const ReplyWidget({
     super.key,
@@ -21,7 +19,6 @@ class ReplyWidget extends StatelessWidget {
     required this.onReplyTap,
     required this.onDone,
     required this.comment,
-    required this.replyingToUsername,
   });
 
   @override
@@ -37,20 +34,7 @@ class ReplyWidget extends StatelessWidget {
           fontSize: 12.sp,
         ),
         Gap(8.w),
-        Expanded(
-          child: Column(
-            children: [
-              ReplyCard(onReplyTap: onReplyTap, reply: reply),
-              Gap(8.h),
-              if (replyingToUsername != null)
-                ReplyInput(
-                  replyingToUsername: replyingToUsername!,
-                  comment: comment,
-                  onDone: onDone,
-                ),
-            ],
-          ),
-        ),
+        ReplyCard(onReplyTap: onReplyTap, reply: reply),
       ],
     );
   }
