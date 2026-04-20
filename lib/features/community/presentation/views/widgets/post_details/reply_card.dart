@@ -7,15 +7,12 @@ import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_reply_actions_row.dart';
 
+// TODO : add remove , edit reply if current user is the author
 class ReplyCard extends StatelessWidget {
   final Reply reply;
   final VoidCallback onReplyTap;
 
-  const ReplyCard({
-    super.key,
-    required this.reply,
-    required this.onReplyTap,
-  });
+  const ReplyCard({super.key, required this.reply, required this.onReplyTap});
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +54,6 @@ class ReplyCard extends StatelessWidget {
             onReplyTap: onReplyTap,
             createdAt: reply.createdAt,
           ),
-          
         ],
       ),
     );

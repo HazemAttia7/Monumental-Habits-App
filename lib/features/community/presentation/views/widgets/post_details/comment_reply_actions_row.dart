@@ -7,13 +7,13 @@ import 'package:pixel_true_app/features/community/helper/get_time_ago.dart';
 
 class CommentReplyActionsRow extends StatelessWidget {
   final VoidCallback onReplyTap;
-  final VoidCallback? onViewRepliesTap;
+  final VoidCallback? onHideRepliesTap;
   final bool showReplies;
   final DateTime createdAt;
   const CommentReplyActionsRow({
     super.key,
     required this.onReplyTap,
-    this.onViewRepliesTap,
+    this.onHideRepliesTap,
     this.showReplies = false,
     required this.createdAt,
   });
@@ -44,7 +44,7 @@ class CommentReplyActionsRow extends StatelessWidget {
         ),
         if (showReplies)
           CustomClickableText(
-            onTap: onViewRepliesTap!,
+            onTap: onHideRepliesTap!,
             text: "Hide Replies",
             textColor: AppColors.secondaryColor,
             fontSize: 12.sp,

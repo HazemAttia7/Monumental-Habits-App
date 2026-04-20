@@ -51,7 +51,8 @@ class MainViewBody extends StatelessWidget {
                 ),
               ),
               if (controller.currentPage == MainPage.home ||
-                  controller.currentPage == MainPage.addHabit)
+                  controller.currentPage == MainPage.addHabit ||
+                  controller.currentPage == MainPage.community)
                 Positioned(
                   bottom: 60.sp,
                   left: 0,
@@ -65,6 +66,7 @@ class MainViewBody extends StatelessWidget {
                         Gap(10.h),
                         CustomFloatingButton(
                           onTap: () {
+                            // handle add post and move this method on MainViewController
                             final mainController = context
                                 .read<MainViewController>();
 

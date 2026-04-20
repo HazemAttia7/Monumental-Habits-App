@@ -9,13 +9,14 @@ import 'package:pixel_true_app/features/community/presentation/views/widgets/pos
 
 class CommentCard extends StatelessWidget {
   final Comment comment;
-  final VoidCallback onReplyTap, onViewRepliesTap;
+  final VoidCallback onReplyTap;
+  final VoidCallback? onHideRepliesTap;
   final bool showReplies;
   const CommentCard({
     super.key,
     required this.comment,
     required this.onReplyTap,
-    required this.onViewRepliesTap,
+    this.onHideRepliesTap,
     required this.showReplies,
   });
 
@@ -48,7 +49,7 @@ class CommentCard extends StatelessWidget {
           Gap(8.h),
           CommentReplyActionsRow(
             onReplyTap: onReplyTap,
-            onViewRepliesTap: onViewRepliesTap,
+            onHideRepliesTap: onHideRepliesTap,
             showReplies: showReplies,
             createdAt: comment.createdAt,
           ),

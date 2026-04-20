@@ -16,7 +16,7 @@ class CommentsCount extends StatelessWidget {
       borderRadius: BorderRadius.circular(2.r),
       child: InkWell(
         onTap: () {
-          // TODO : navigate to comments view
+          // TODO : navigate to post details and scroll to comments section
         },
         borderRadius: BorderRadius.circular(2.r),
         splashColor: AppColors.primaryColor.withValues(alpha: .1),

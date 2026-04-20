@@ -82,6 +82,7 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
     notifyListeners();
   }
 
+  // TODO : handle community
   void activateFloatingButton() {
     _currentPage = MainPage.home;
     _isActive = true;

@@ -6,7 +6,6 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_widget.dart';
 
-// TODO : test comments stream
 class CommentsSliverList extends StatelessWidget {
   const CommentsSliverList({super.key});
 

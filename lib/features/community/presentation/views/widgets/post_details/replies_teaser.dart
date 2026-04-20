@@ -34,15 +34,13 @@ class RepliesTeaser extends StatelessWidget {
             final bool isCurrentUserReplied = replies.any(
               (reply) => reply.authorUid == currentUser.uid,
             );
-            return isCurrentUserReplied
+            return !isCurrentUserReplied
                 ? Row(
                     children: [
                       ProfilePlaceholder(
                         userName: currentUser.name,
-                        padding: EdgeInsets.all(2.sp),
-                        width: 30.w,
-                        height: 30.h,
-                        fontSize: 12.sp,
+                        padding: EdgeInsets.all(8.sp),
+                        fontSize: 14.sp,
                       ),
                       Gap(8.w),
                       Text(
