@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/add_comment_placeholder.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_when_collapsed.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/replies_tree.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/replies_teaser.dart';
@@ -69,6 +71,9 @@ class _CommentWidgetState extends State<CommentWidget> {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                const AddCommentPlaceholder(),
+                Gap(12.h),
+
                 /// 🔵 COMMENT (when collapsed)
                 if (!_showReplies)
                   CommentWhenCollapsed(
