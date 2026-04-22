@@ -7,7 +7,7 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/add_comment_card.dart';
 
 class AddCommentPlaceholder extends StatelessWidget {
-  const AddCommentPlaceholder({super.key});
+  const AddCommentPlaceholder({super.key, });
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class AddCommentPlaceholder extends StatelessWidget {
           padding: EdgeInsets.all(12.sp),
         ),
         Gap(8.w),
-        const Expanded(child: AddCommentCard()),
+         const Expanded(child: AddCommentCard()),
       ],
     );
   }

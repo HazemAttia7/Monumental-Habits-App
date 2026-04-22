@@ -13,9 +13,10 @@ final class CommentsLoading extends CommentsState {}
 
 final class CommentsSuccess extends CommentsState {
   final List<Comment> comments;
-  const CommentsSuccess(this.comments);
+  final bool hasNewComments;
+  const CommentsSuccess(this.comments, {this.hasNewComments = false});
   @override
-  List<Object> get props => [comments];
+  List<Object> get props => [comments, hasNewComments];
 }
 
 final class CommentsError extends CommentsState {

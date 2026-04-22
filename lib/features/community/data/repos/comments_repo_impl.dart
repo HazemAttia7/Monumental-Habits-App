@@ -56,4 +56,25 @@ class CommentsRepoImpl extends CommentsRepo {
     }
   }
 
+  @override
+  Future<Either<Failure, Unit>> addComment(Comment comment) async {
+    try {
+      await _firestore
+          .collection('posts/${comment.postId}/comments')
+          .doc(comment.id)
+          .set(comment.toJson());
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      } else {
+        return Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  String generateCommentId(String postId) {
+    return _firestore.collection('posts/$postId/comments').doc().id;
+  }
 }

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
+import 'package:pixel_true_app/features/community/data/models/post_model.dart';
+import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 
 class AddCommentCard extends StatefulWidget {
   const AddCommentCard({super.key});
@@ -16,6 +24,7 @@ class AddCommentCard extends StatefulWidget {
 class _AddCommentCardState extends State<AddCommentCard> {
   bool _isLoading = false;
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+  final _controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   Future<void> _submitComment() async {
@@ -25,9 +34,27 @@ class _AddCommentCardState extends State<AddCommentCard> {
       });
       return;
     }
+    final content = _controller.text.trim();
+    if (content.isEmpty) return;
+
     setState(() => _isLoading = true);
-    // Add Comment
-    await Future.delayed(const Duration(seconds: 1));
+    final post = GoRouterState.of(context).extra as Post;
+    final currentUser = BlocProvider.of<AuthCubit>(context).currentUser!;
+    final id = sl<CommentsRepo>().generateCommentId(post.id);
+
+    await context.read<CommentsCubit>().addComment(
+      Comment(
+        id: id,
+        postId: post.id,
+        authorUid: currentUser.uid,
+        authorUsername: currentUser.name,
+        content: content,
+        createdAt: DateTime.now(),
+        likedByUids: [],
+      ),
+    );
+
+    if (!mounted) return;
     setState(() => _isLoading = false);
   }
 
@@ -58,6 +85,7 @@ class _AddCommentCardState extends State<AddCommentCard> {
               ),
             ),
             CustomTextFormField(
+              controller: _controller,
               fillColor: Colors.white,
               hintText: "What's on your mind?",
               textColor: Colors.black,

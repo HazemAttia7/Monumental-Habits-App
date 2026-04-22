@@ -14,15 +14,31 @@ class CommentsCubit extends Cubit<CommentsState> {
 
   void watchComments(String postId) {
     emit(CommentsLoading());
+    bool isFirstLoad = true;
 
     _commentsSub = _repo
         .watchComments(postId)
         .listen(
           (either) => either.fold(
             (failure) => emit(CommentsError(failure.errMessage)),
-            (comments) => emit(CommentsSuccess(comments)),
+            (comments) {
+              if (isFirstLoad) {
+                isFirstLoad = false;
+                emit(CommentsSuccess(comments));
+              } else {
+                emit(CommentsSuccess(comments, hasNewComments: true));
+              }
+            },
           ),
         );
+  }
+
+    Future<void> addComment(Comment comment) async {
+    final result = await _repo.addComment(comment);
+    result.fold(
+      (failure) => emit(CommentsError(failure.errMessage)),
+      (_) {},
+    );
   }
 
   @override
