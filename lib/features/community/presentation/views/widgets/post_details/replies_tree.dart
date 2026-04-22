@@ -53,12 +53,12 @@ class RepliesTree extends StatelessWidget {
       ),
 
       /// 🔵 CHILD AVATAR
-      avatarChild: (context, data) => PreferredSize(
+      avatarChild: (context, reply) => PreferredSize(
         preferredSize: Size(34.w, 34.h),
         child: ProfilePlaceholder(
-          userName: data.authorUsername,
+          userName: reply.authorUsername,
           backColor:
-              comment.authorUid == context.read<AuthCubit>().currentUser!.uid
+              reply.authorUid == context.read<AuthCubit>().currentUser!.uid
               ? AppColors.primaryColor
               : null,
           padding: EdgeInsets.all(8.sp),
