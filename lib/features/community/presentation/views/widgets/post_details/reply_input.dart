@@ -128,13 +128,15 @@ class _ReplyInputState extends State<ReplyInput> {
           spacing: 12.w,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            // TODO : add absorb pointer and change comment to reply
-            CustomButton(
-              height: 30.h,
-              width: 80.w,
-              fontSize: 12.sp,
-              text: _isLoading ? "Comment..." : "Comment", 
-              onTap: _submit,
+            AbsorbPointer(
+              absorbing: _isLoading,
+              child: CustomButton(
+                height: 30.h,
+                width: 80.w,
+                fontSize: 12.sp,
+                text: _isLoading ? "Replying..." : "Reply",
+                onTap: _submit,
+              ),
             ),
             CustomClickableText(
               fontSize: 12.sp,
