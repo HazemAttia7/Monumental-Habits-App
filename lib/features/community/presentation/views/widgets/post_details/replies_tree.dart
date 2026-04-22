@@ -14,15 +14,17 @@ class RepliesTree extends StatelessWidget {
   final Comment comment;
   final List<Reply> displayReplies;
   final String? replyingToUsername;
-  final VoidCallback onReplyTap, onHideRepliesTap, onDone;
+  final VoidCallback onHideRepliesTap, onDone, onReplyTap;
+  final Function(Reply) onReplyToReplyTap;
   const RepliesTree({
     super.key,
     required this.comment,
     required this.displayReplies,
     required this.replyingToUsername,
-    required this.onReplyTap,
+    required this.onReplyToReplyTap,
     required this.onHideRepliesTap,
     required this.onDone,
+    required this.onReplyTap,
   });
 
   @override
@@ -58,8 +60,8 @@ class RepliesTree extends StatelessWidget {
         return CommentCard(
           comment: data,
           showReplies: true,
-          onReplyTap: onReplyTap,
           onHideRepliesTap: onHideRepliesTap,
+          onReplyTap: onReplyTap,
         );
       },
 
@@ -79,7 +81,7 @@ class RepliesTree extends StatelessWidget {
         /// 🔹 NORMAL REPLY
         return Padding(
           padding: EdgeInsets.only(bottom: 10.h),
-          child: ReplyCard(reply: data, onReplyTap: onReplyTap),
+          child: ReplyCard(reply: data, onReplyTap: onReplyToReplyTap),
         );
       },
     );

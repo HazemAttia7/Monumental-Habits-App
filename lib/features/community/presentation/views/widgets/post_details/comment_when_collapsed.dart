@@ -30,7 +30,7 @@ class CommentWhenCollapsed extends StatelessWidget {
           child: CommentCard(
             comment: comment,
             showReplies: showReplies,
-            onReplyTap: onReplyTap,
+            onReplyTap: onReplyTap, onHideRepliesTap: () {  },
           ),
         ),
       ],

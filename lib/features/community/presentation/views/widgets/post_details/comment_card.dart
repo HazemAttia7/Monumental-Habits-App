@@ -5,18 +5,17 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_reply_actions_row.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_actions_row.dart';
 
 class CommentCard extends StatelessWidget {
   final Comment comment;
-  final VoidCallback onReplyTap;
-  final VoidCallback? onHideRepliesTap;
+  final VoidCallback onReplyTap, onHideRepliesTap;
   final bool showReplies;
   const CommentCard({
     super.key,
     required this.comment,
     required this.onReplyTap,
-    this.onHideRepliesTap,
+    required this.onHideRepliesTap,
     required this.showReplies,
   });
 
@@ -47,7 +46,7 @@ class CommentCard extends StatelessWidget {
             style: AppStyles.textStyle14.copyWith(color: Colors.black),
           ),
           Gap(8.h),
-          CommentReplyActionsRow(
+          CommentActionsRow(
             onReplyTap: onReplyTap,
             onHideRepliesTap: onHideRepliesTap,
             showReplies: showReplies,

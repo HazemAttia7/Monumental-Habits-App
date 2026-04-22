@@ -98,9 +98,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                     comment: widget.comment,
                     displayReplies: displayReplies,
                     replyingToUsername: _replyingToUsername,
-                    onReplyTap: () => setState(() {
-                      _replyingToUsername = widget.comment.authorUsername;
-                    }),
+                    onReplyToReplyTap: (Reply reply) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        setState(() {
+                          _replyingToUsername = reply.authorUsername;
+                        });
+                      });
+                    },
                     onHideRepliesTap: () {
                       setState(() {
                         _showReplies = false;
@@ -108,6 +112,10 @@ class _CommentWidgetState extends State<CommentWidget> {
                       });
                     },
                     onDone: () => setState(() => _replyingToUsername = null),
+                    onReplyTap: () => setState(() {
+                      _replyingToUsername = widget.comment.authorUsername;
+                      _showReplies = true;
+                    }),
                   ),
               ],
             );
