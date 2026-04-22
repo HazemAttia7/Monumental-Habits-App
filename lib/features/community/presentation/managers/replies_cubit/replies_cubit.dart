@@ -42,6 +42,14 @@ class RepliesCubit extends Cubit<RepliesState> {
     }
   }
 
+  Future<void> addReply(Reply reply) async {
+    final result = await _repo.addReply(reply);
+    result.fold(
+      (failure) => emit(RepliesError(failure.errMessage)),
+      (_) {},
+    );
+  }
+
   @override
   Future<void> close() {
     _repliesSub?.cancel();

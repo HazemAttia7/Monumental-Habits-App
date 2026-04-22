@@ -7,4 +7,6 @@ abstract class RepliesRepo {
     String postId,
     String commentId,
   );
+  Future<Either<Failure, Unit>> addReply(Reply reply);
+  String generateReplyId(String postId, String commentId);
 }

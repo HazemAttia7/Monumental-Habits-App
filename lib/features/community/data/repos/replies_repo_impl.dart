@@ -39,4 +39,23 @@ class RepliesRepoImpl implements RepliesRepo {
       }
     }
   }
+
+  @override
+  Future<Either<Failure, Unit>> addReply(Reply reply) async {
+    try {
+      await _ref(reply.postId, reply.commentId).doc(reply.id).set(reply.toJson());
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      } else {
+        return Left(FirebaseFailure(e.toString()));
+      }
+    }
+  }
+
+  @override
+  String generateReplyId(String postId, String commentId) {
+  return _ref(postId, commentId).doc().id;
+}
 }

@@ -12,7 +12,6 @@ import 'package:pixel_true_app/features/community/data/repos/posts_repo_impl.dar
 import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
 import 'package:pixel_true_app/features/community/data/repos/replies_repo_impl.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo.dart';
 import 'package:pixel_true_app/features/courses/data/repos/courses_repo_impl.dart';
 import 'package:pixel_true_app/features/home/data/local/habits_local_data_source.dart';
@@ -74,5 +73,4 @@ Future<void> setupServiceLocator({
 
   // ──── Cubits ───────────────────────────────────────────────
   sl.registerFactory(() => CommentsCubit(sl<CommentsRepo>()));
-  sl.registerFactory(() => RepliesCubit(sl<RepliesRepo>()));
 }

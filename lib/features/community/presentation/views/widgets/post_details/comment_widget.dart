@@ -83,7 +83,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                 /// 🔽 VIEW REPLIES
                 if (!_showReplies && replies.isNotEmpty)
                   Padding(
-                    padding: EdgeInsets.only(left: 52.w, top: 6.h),
+                    padding: EdgeInsets.only(left: 52.w, top: 3.h),
                     child: RepliesTeaser(
                       onViewRepliesTap: () {
                         setState(() => _showReplies = true);
@@ -92,7 +92,8 @@ class _CommentWidgetState extends State<CommentWidget> {
                   ),
 
                 /// 🔽 TREE (expanded)
-                if (_showReplies && replies.isNotEmpty)
+                if (_showReplies &&
+                    (replies.isNotEmpty || _replyingToUsername != null))
                   RepliesTree(
                     comment: widget.comment,
                     displayReplies: displayReplies,

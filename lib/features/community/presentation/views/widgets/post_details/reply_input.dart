@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_clickable_text.dart';
 import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
+import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
+import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/mention_text_editing_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 
 class ReplyInput extends StatefulWidget {
   final String replyingToUsername;
@@ -59,20 +65,27 @@ class _ReplyInputState extends State<ReplyInput> {
     if (text.isEmpty) return;
 
     setState(() => _isLoading = true);
+    final currentUser = BlocProvider.of<AuthCubit>(context).currentUser!;
+    final id = sl<RepliesRepo>().generateReplyId(
+      widget.comment.postId,
+      widget.comment.id,
+    );
 
-    // TODO : add reply
-    // // get current user from your auth cubit/provider
-    // final currentUser = context.read<AuthCubit>().currentUser;
+    await context.read<RepliesCubit>().addReply(
+      Reply(
+        id: id,
+        postId: widget.comment.postId,
+        commentId: widget.comment.id,
+        text: text.substring(_mention.length),
+        authorUid: currentUser.uid,
+        authorUsername: currentUser.name,
+        replyToUsername: widget.replyingToUsername,
+        createdAt: DateTime.now(),
+        likedByUids: [],
+      ),
+    );
 
-    // await sl<CommentsRepo>().postReply(
-    //   postId: widget.comment.postId,
-    //   commentId: widget.comment.id,
-    //   authorUid: currentUser.uid,
-    //   authorUsername: currentUser.username,
-    //   replyToUsername: widget.replyingToUsername,
-    //   text: text,
-    // );
-
+    if (!mounted) return;
     setState(() => _isLoading = false);
     widget.onDone();
   }
