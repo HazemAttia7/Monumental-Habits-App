@@ -35,7 +35,7 @@ class PostDetailsViewBody extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: Column(
-                children: [const AddCommentPlaceholder(), Gap(12.h)],
+                children: [const AddCommentPlaceholder(), Gap(18.h)],
               ),
             ),
             const CommentsSliverList(),
