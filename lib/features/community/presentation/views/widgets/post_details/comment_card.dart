@@ -7,6 +7,7 @@ import 'package:pixel_true_app/features/community/data/models/comment_model.dart
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_actions_row.dart';
 
+// TODO : add the three dots menu to edit/delete the comment if current user is the author
 class CommentCard extends StatelessWidget {
   final Comment comment;
   final VoidCallback onReplyTap, onHideRepliesTap;

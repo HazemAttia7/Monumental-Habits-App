@@ -7,7 +7,7 @@ import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_actions_row.dart';
 
-// TODO : add remove , edit reply if current user is the author
+// TODO : add the three dots menu to edit/delete the reply if current user is the author
 class ReplyCard extends StatelessWidget {
   final Reply reply;
   final Function(Reply) onReplyTap;
