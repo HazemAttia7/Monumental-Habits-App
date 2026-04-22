@@ -33,6 +33,8 @@ class ReplyInput extends StatefulWidget {
 class _ReplyInputState extends State<ReplyInput> {
   late final MentionTextEditingController _controller;
   late final String _mention;
+  final _formKey = GlobalKey<FormState>();
+  AutovalidateMode _autoValidateMode = AutovalidateMode.disabled;
   bool _isLoading = false;
 
   @override
@@ -61,6 +63,12 @@ class _ReplyInputState extends State<ReplyInput> {
   }
 
   Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) {
+      setState(() {
+        _autoValidateMode = AutovalidateMode.always;
+      });
+      return;
+    }
     final text = _controller.text.trim();
     if (text.isEmpty) return;
 
@@ -92,61 +100,73 @@ class _ReplyInputState extends State<ReplyInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          padding: EdgeInsets.only(
-            top: 8.h,
-            left: 8.w,
-            right: 8.w,
-            bottom: 10.h,
+    return Form(
+      key: _formKey,
+      autovalidateMode: _autoValidateMode,
+      child: Column(
+        children: [
+          Container(
+            padding: EdgeInsets.only(
+              top: 8.h,
+              left: 8.w,
+              right: 8.w,
+              bottom: 10.h,
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextFormField(
+                  fillColor: Colors.white,
+                  isDense: true,
+                  autofocus: true,
+                  controller: _controller,
+                  hintText: "reply to @${widget.replyingToUsername}",
+                  textColor: Colors.black,
+                  maxLines: null,
+                  contentPadding: EdgeInsets.zero,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.normal,
+                  validator: (_) {
+                    final actualText = _controller.text
+                        .trim()
+                        .substring(_mention.trim().length)
+                        .trim();
+                    if (actualText.isEmpty) return 'Reply cannot be empty';
+                    return null;
+                  },
+                ),
+              ],
+            ),
           ),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Gap(8.h),
+          Row(
+            spacing: 12.w,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              CustomTextFormField(
-                fillColor: Colors.white,
-                isDense: true,
-                autofocus: true,
-                controller: _controller,
-                hintText: "reply to @${widget.replyingToUsername}",
-                textColor: Colors.black,
-                maxLines: null,
-                contentPadding: EdgeInsets.zero,
-                fontSize: 13.sp,
-                fontWeight: FontWeight.normal,
+              AbsorbPointer(
+                absorbing: _isLoading,
+                child: CustomButton(
+                  height: 30.h,
+                  width: 80.w,
+                  fontSize: 12.sp,
+                  text: _isLoading ? "Replying..." : "Reply",
+                  onTap: _submit,
+                ),
+              ),
+              CustomClickableText(
+                fontSize: 12.sp,
+                text: "Cancel",
+                textColor: AppColors.secondaryColor,
+                onTap: widget.onDone,
               ),
             ],
           ),
-        ),
-        Gap(8.h),
-        Row(
-          spacing: 12.w,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            AbsorbPointer(
-              absorbing: _isLoading,
-              child: CustomButton(
-                height: 30.h,
-                width: 80.w,
-                fontSize: 12.sp,
-                text: _isLoading ? "Replying..." : "Reply",
-                onTap: _submit,
-              ),
-            ),
-            CustomClickableText(
-              fontSize: 12.sp,
-              text: "Cancel",
-              textColor: AppColors.secondaryColor,
-              onTap: widget.onDone,
-            ),
-          ],
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
