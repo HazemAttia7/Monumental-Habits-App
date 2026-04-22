@@ -20,7 +20,7 @@ class PostsRepoImpl implements PostsRepo {
           .orderBy('createdAt', descending: true)
           .get();
       final posts = snapshot.docs.map((doc) {
-        return Post.fromJson(doc.data(), doc.id);
+        return Post.fromJson(doc.data());
       }).toList();
 
       return Right(posts);

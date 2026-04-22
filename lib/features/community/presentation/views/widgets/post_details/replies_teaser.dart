@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/circle_divider.dart';
 import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
-import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 
 class RepliesTeaser extends StatelessWidget {
@@ -28,23 +29,21 @@ class RepliesTeaser extends StatelessWidget {
               return const SizedBox.shrink();
             }
             final replies = state.replies;
-            final currentUser = BlocProvider.of<AuthCubit>(
-              context,
-            ).currentUser!;
-            final bool isCurrentUserReplied = replies.any(
-              (reply) => reply.authorUid == currentUser.uid,
+            final post = GoRouterState.of(context).extra as Post;
+            final bool isPostAuthorReplied = replies.any(
+              (reply) => reply.authorUid == post.authorUid,
             );
-            return isCurrentUserReplied
+            return isPostAuthorReplied
                 ? Row(
                     children: [
                       ProfilePlaceholder(
-                        userName: currentUser.name,
+                        userName: post.authorUsername,
                         padding: EdgeInsets.all(6.sp),
                         fontSize: 10.sp,
                       ),
                       Gap(8.w),
                       Text(
-                        "${currentUser.name} Replied",
+                        "${post.authorUsername} Replied",
                         style: TextStyle(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.bold,

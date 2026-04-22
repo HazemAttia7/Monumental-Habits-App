@@ -87,7 +87,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     child: RepliesTeaser(
                       onViewRepliesTap: () {
                         setState(() => _showReplies = true);
-                      },
+                      }, 
                     ),
                   ),
 

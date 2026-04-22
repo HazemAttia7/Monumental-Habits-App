@@ -22,8 +22,8 @@ class Post {
   bool isLikedBy(String uid) => likedByUids.contains(uid);
   int get likesCount => likedByUids.length;
 
-  factory Post.fromJson(Map<String, dynamic> json, String id) => Post(
-    id: id,
+  factory Post.fromJson(Map<String, dynamic> json) => Post(
+    id: json['id'] ?? '',
     authorUid: json['authorUid'] ?? '',
     authorUsername: json['authorUsername'] ?? '',
     content: json['content'] ?? '',
