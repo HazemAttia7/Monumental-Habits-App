@@ -7,6 +7,7 @@ class ProfilePlaceholder extends StatelessWidget {
   final double? width, height, fontSize;
   final String userName;
   final EdgeInsets? padding;
+  final Color? backColor;
   const ProfilePlaceholder({
     super.key,
     this.width,
@@ -14,6 +15,7 @@ class ProfilePlaceholder extends StatelessWidget {
     this.fontSize,
     required this.userName,
     this.padding,
+    this.backColor,
   });
 
   @override
@@ -22,9 +24,9 @@ class ProfilePlaceholder extends StatelessWidget {
       width: width,
       height: height,
       padding: padding ?? EdgeInsets.all(11.sp),
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: AppColors.secondaryColor,
+        color: backColor ?? AppColors.secondaryColor,
       ),
       child: Center(
         child: Text(

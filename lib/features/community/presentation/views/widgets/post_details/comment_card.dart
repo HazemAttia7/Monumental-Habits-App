@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_actions_row.dart';
+import 'package:provider/provider.dart';
 
 // TODO : add the three dots menu to edit/delete the comment if current user is the author
 class CommentCard extends StatelessWidget {
@@ -38,7 +40,7 @@ class CommentCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            comment.authorUsername,
+            _getAuthorName(context),
             style: AppStyles.textStyle14.copyWith(fontWeight: FontWeight.bold),
           ),
           Gap(4.h),
@@ -56,5 +58,11 @@ class CommentCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _getAuthorName(BuildContext context) {
+    final currentUserUid = context.read<AuthCubit>().currentUser!.uid;
+    if (comment.authorUid == currentUserUid) return 'You';
+    return comment.authorUsername;
   }
 }

@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_card.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_card.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_input.dart';
+import 'package:provider/provider.dart';
 
 class RepliesTree extends StatelessWidget {
   final Comment comment;
@@ -42,6 +44,10 @@ class RepliesTree extends StatelessWidget {
         preferredSize: Size(40.w, 40.h),
         child: ProfilePlaceholder(
           userName: data.authorUsername,
+          backColor:
+              comment.authorUid == context.read<AuthCubit>().currentUser!.uid
+              ? AppColors.primaryColor
+              : null,
           padding: EdgeInsets.all(12.sp),
         ),
       ),
@@ -51,6 +57,10 @@ class RepliesTree extends StatelessWidget {
         preferredSize: Size(34.w, 34.h),
         child: ProfilePlaceholder(
           userName: data.authorUsername,
+          backColor:
+              comment.authorUid == context.read<AuthCubit>().currentUser!.uid
+              ? AppColors.primaryColor
+              : null,
           padding: EdgeInsets.all(8.sp),
         ),
       ),
