@@ -7,4 +7,14 @@ abstract class CommentsRepo {
   Stream<Either<Failure, List<Comment>>> watchComments(String postId);
   Future<Either<Failure, Unit>> addComment(Comment comment);
   String generateCommentId(String postId);
+  Future<Either<Failure, Unit>> likeComment(
+    String postId,
+    String commentId,
+    String uid,
+  );
+  Future<Either<Failure, Unit>> unlikeComment(
+    String postId,
+    String commentId,
+    String uid,
+  );
 }

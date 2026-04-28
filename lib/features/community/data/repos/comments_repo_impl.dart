@@ -20,10 +20,10 @@ class CommentsRepoImpl extends CommentsRepo {
 
       final comments = snapshot.docs.map((doc) {
         final data = doc.data();
-        return Comment.fromJson(data, doc.id);
+        return Comment.fromJson(data, postId);
       }).toList();
 
-      return Future.value(Right(comments));
+      return Right(comments);
     } catch (e) {
       if (e is FirebaseException) {
         return Future.value(Left(FirebaseFailure.fromFirestore(e)));
@@ -76,5 +76,49 @@ class CommentsRepoImpl extends CommentsRepo {
   @override
   String generateCommentId(String postId) {
     return _firestore.collection('posts/$postId/comments').doc().id;
+  }
+
+  @override
+  Future<Either<Failure, Unit>> likeComment(
+    String postId,
+    String commentId,
+    String uid,
+  ) async {
+    try {
+      await _firestore
+          .collection('posts/$postId/comments')
+          .doc(commentId)
+          .update({
+            'likedByUids': FieldValue.arrayUnion([uid]),
+          });
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      }
+      return Left(FirebaseFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> unlikeComment(
+    String postId,
+    String commentId,
+    String uid,
+  ) async {
+    try {
+      await _firestore
+          .collection('posts/$postId/comments')
+          .doc(commentId)
+          .update({
+            'likedByUids': FieldValue.arrayRemove([uid]),
+          });
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      }
+      return Left(FirebaseFailure(e.toString()));
+    }
   }
 }

@@ -1,49 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_clickable_text.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/helper/get_time_ago.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 
-class CommentActionsRow extends StatelessWidget {
+class CommentActionsRow extends StatefulWidget {
   final VoidCallback onReplyTap, onHideRepliesTap;
   final bool showReplies;
-  final DateTime createdAt;
+  final Comment comment;
   const CommentActionsRow({
     super.key,
     required this.onReplyTap,
     required this.onHideRepliesTap,
     this.showReplies = false,
-    required this.createdAt,
+    required this.comment,
   });
 
   @override
+  State<CommentActionsRow> createState() => _CommentActionsRowState();
+}
+
+class _CommentActionsRowState extends State<CommentActionsRow> {
+  late bool _isLiked;
+
+  @override
+  void initState() {
+    super.initState();
+    _isLiked = widget.comment.isLikedBy(
+      BlocProvider.of<AuthCubit>(context).currentUser!.uid,
+    );
+  }
+
+  @override
+  void didUpdateWidget(covariant CommentActionsRow oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _isLiked = widget.comment.isLikedBy(
+      BlocProvider.of<AuthCubit>(context).currentUser!.uid,
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final String currentUserUid = BlocProvider.of<AuthCubit>(
+      context,
+    ).currentUser!.uid;
     return Row(
       mainAxisSize: MainAxisSize.min,
       spacing: 12.w,
       children: [
         CustomClickableText(
           text: "REPLY",
-          onTap: onReplyTap,
+          onTap: widget.onReplyTap,
           textColor: Color.lerp(AppColors.primaryColor, Colors.black, .35),
           fontSize: 12.sp,
         ),
         CustomClickableText(
-          text: "LIKE",
+          // make the liked design
+          text: _getLikeText(currentUserUid),
           onTap: () {
-            // TODO : like comment
+            BlocProvider.of<CommentsCubit>(
+              context,
+            ).toggleCommentLike(widget.comment, currentUserUid);
+            setState(() {
+              _isLiked = !_isLiked;
+            });
           },
           textColor: AppColors.secondaryColor,
           fontSize: 12.sp,
         ),
         Text(
-          getTimeAgo(DateTime.now().difference(createdAt)),
+          getTimeAgo(DateTime.now().difference(widget.comment.createdAt)),
           style: AppStyles.textStyle12,
         ),
-        if (showReplies)
+        if (widget.showReplies)
           CustomClickableText(
-            onTap: onHideRepliesTap,
+            onTap: widget.onHideRepliesTap,
             text: "Hide Replies",
             textColor: AppColors.secondaryColor,
             fontSize: 12.sp,
@@ -51,5 +87,11 @@ class CommentActionsRow extends StatelessWidget {
           ),
       ],
     );
+  }
+
+  String _getLikeText(String currentUserUid) {
+    if (widget.comment.isLikedBy(currentUserUid)) return "UNLIKE (${widget.comment.likedByUids.length})";
+    if (widget.comment.likedByUids.isEmpty) return "LIKE";
+    return "LIKE (${widget.comment.likedByUids.length})";
   }
 }

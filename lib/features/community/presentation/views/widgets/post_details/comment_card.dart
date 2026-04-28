@@ -53,7 +53,7 @@ class CommentCard extends StatelessWidget {
             onReplyTap: onReplyTap,
             onHideRepliesTap: onHideRepliesTap,
             showReplies: showReplies,
-            createdAt: comment.createdAt,
+            comment: comment,
           ),
         ],
       ),

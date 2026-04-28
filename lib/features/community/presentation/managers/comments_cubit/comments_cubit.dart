@@ -33,10 +33,40 @@ class CommentsCubit extends Cubit<CommentsState> {
         );
   }
 
-    Future<void> addComment(Comment comment) async {
+  Future<void> addComment(Comment comment) async {
     final result = await _repo.addComment(comment);
+    result.fold((failure) => emit(CommentsError(failure.errMessage)), (_) {});
+  }
+
+  Future<void> toggleCommentLike(Comment comment, String uid) async {
+    if (state is! CommentsSuccess) return;
+    final comments = (state as CommentsSuccess).comments;
+    final isLiked = comment.isLikedBy(uid);
+
+    // Optimistic update
+    final updatedComment = comment.copyWith(
+      likedByUids: isLiked
+          ? (List.from(comment.likedByUids)..remove(uid))
+          : (List.from(comment.likedByUids)..add(uid)),
+    );
+    emit(
+      CommentsSuccess(
+        comments.map((c) => c.id == comment.id ? updatedComment : c).toList(),
+      ),
+    );
+
+    // Firestore write
+    final result = isLiked
+        ? await _repo.unlikeComment(comment.postId, comment.id, uid)
+        : await _repo.likeComment(comment.postId, comment.id, uid);
+
+    // Roll back on failure
     result.fold(
-      (failure) => emit(CommentsError(failure.errMessage)),
+      (_) => emit(
+        CommentsSuccess(
+          comments.map((c) => c.id == comment.id ? comment : c).toList(),
+        ),
+      ),
       (_) {},
     );
   }
