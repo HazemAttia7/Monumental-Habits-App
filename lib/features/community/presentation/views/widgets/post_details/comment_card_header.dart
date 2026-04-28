@@ -13,7 +13,6 @@ class CommentCardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.read<PostDetailsViewController>();
     final currentUserUid = context.read<AuthCubit>().currentUser!.uid;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -26,7 +25,7 @@ class CommentCardHeader extends StatelessWidget {
           ThreeDots(
             onEditTap: () {
               GoRouter.of(context).pop();
-              controller.onEditCommentTap(comment.id);
+               context.read<PostDetailsViewController>().onEditCommentTap(comment.id);
             },
             onDeleteTap: () {
               // TODO : delete comment
