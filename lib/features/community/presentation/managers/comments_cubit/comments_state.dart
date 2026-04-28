@@ -13,8 +13,19 @@ final class CommentsLoading extends CommentsState {}
 
 final class CommentsSuccess extends CommentsState {
   final List<Comment> comments;
+  late final List<Comment> newestComments;
+  late final List<Comment> oldestComments;
+  late final List<Comment> mostLikedComments;
   final bool hasNewComments;
-  const CommentsSuccess(this.comments, {this.hasNewComments = false});
+  CommentsSuccess(this.comments, {this.hasNewComments = false}) {
+    newestComments = List.from(comments)
+      ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    oldestComments = List.from(comments)
+      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    mostLikedComments = List.from(comments)
+      ..sort((a, b) => a.likedByUids.length.compareTo(b.likedByUids.length));
+  }
+
   @override
   List<Object> get props => [comments, hasNewComments];
 }
