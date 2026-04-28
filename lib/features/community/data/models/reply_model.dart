@@ -8,7 +8,7 @@ class Reply implements Likable {
   final String authorUid;
   final String authorUsername;
   final String? replyToUsername; // ← @mention (e.g. replying to another reply)
-  final String text;
+  final String content;
   @override
   final List<String> likedByUids;
   final DateTime createdAt;
@@ -20,7 +20,7 @@ class Reply implements Likable {
     required this.authorUid,
     required this.authorUsername,
     this.replyToUsername,
-    required this.text,
+    required this.content,
     required this.likedByUids,
     required this.createdAt,
   });
@@ -40,7 +40,7 @@ class Reply implements Likable {
     authorUid: json['authorUid'] ?? '',
     authorUsername: json['authorUsername'] ?? '',
     replyToUsername: json['replyToUsername'],
-    text: json['text'] ?? '',
+    content: json['content'] ?? '',
     likedByUids: List<String>.from(json['likedByUids'] ?? []),
     createdAt: (json['createdAt'] as Timestamp).toDate(),
   );
@@ -52,7 +52,7 @@ class Reply implements Likable {
     'authorUid': authorUid,
     'authorUsername': authorUsername,
     if (replyToUsername != null) 'replyToUsername': replyToUsername,
-    'text': text,
+    'content': content,
     'likedByUids': likedByUids,
     'createdAt': Timestamp.fromDate(createdAt),
   };
@@ -64,7 +64,7 @@ class Reply implements Likable {
     authorUid: authorUid,
     authorUsername: authorUsername,
     replyToUsername: replyToUsername,
-    text: text,
+    content: content,
     likedByUids: likedByUids ?? this.likedByUids,
     createdAt: createdAt,
   );

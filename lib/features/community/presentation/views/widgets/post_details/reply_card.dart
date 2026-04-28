@@ -40,7 +40,7 @@ class ReplyCard extends StatelessWidget {
                   ),
                 ),
               ExpandableContent(
-                content: reply.text,
+                content: reply.content,
                 style: TextStyle(fontSize: 13.sp, color: Colors.black),
               ),
             ],

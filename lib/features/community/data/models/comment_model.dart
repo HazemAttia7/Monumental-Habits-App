@@ -54,4 +54,16 @@ class Comment implements Likable {
     likedByUids: likedByUids ?? this.likedByUids,
     createdAt: createdAt,
   );
+
+  Comment copyWithContent(String newContent) {
+    return Comment(
+      id: id,
+      postId: postId,
+      authorUid: authorUid,
+      authorUsername: authorUsername,
+      content: newContent,
+      likedByUids: likedByUids,
+      createdAt: createdAt,
+    );
+  }
 }

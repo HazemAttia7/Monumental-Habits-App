@@ -82,7 +82,7 @@ class _ReplyInputState extends State<ReplyInput> {
         id: id,
         postId: widget.comment.postId,
         commentId: widget.comment.id,
-        text: text.substring(_mention.length),
+        content: text.substring(_mention.length),
         authorUid: currentUser.uid,
         authorUsername: currentUser.name,
         replyToUsername: widget.replyingToUsername,
@@ -114,30 +114,25 @@ class _ReplyInputState extends State<ReplyInput> {
               color: Colors.white,
               borderRadius: BorderRadius.circular(12.r),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextFormField(
-                  fillColor: Colors.white,
-                  isDense: true,
-                  autofocus: true,
-                  controller: _controller,
-                  hintText: "reply to @${widget.replyingToUsername}",
-                  textColor: Colors.black,
-                  maxLines: null,
-                  contentPadding: EdgeInsets.zero,
-                  fontSize: 13.sp,
-                  fontWeight: FontWeight.normal,
-                  validator: (_) {
-                    final actualText = _controller.text
-                        .trim()
-                        .substring(_mention.trim().length)
-                        .trim();
-                    if (actualText.isEmpty) return 'Reply cannot be empty';
-                    return null;
-                  },
-                ),
-              ],
+            child: CustomTextFormField(
+              fillColor: Colors.white,
+              isDense: true,
+              autofocus: true,
+              controller: _controller,
+              hintText: "reply to @${widget.replyingToUsername}",
+              textColor: Colors.black,
+              maxLines: null,
+              contentPadding: EdgeInsets.zero,
+              fontSize: 13.sp,
+              fontWeight: FontWeight.normal,
+              validator: (_) {
+                final actualText = _controller.text
+                    .trim()
+                    .substring(_mention.trim().length)
+                    .trim();
+                if (actualText.isEmpty) return 'Reply cannot be empty';
+                return null;
+              },
             ),
           ),
           Gap(8.h),

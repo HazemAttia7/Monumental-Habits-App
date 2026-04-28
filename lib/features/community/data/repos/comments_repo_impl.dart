@@ -10,34 +10,41 @@ class CommentsRepoImpl extends CommentsRepo {
   CommentsRepoImpl({FirebaseFirestore? firestore})
     : _firestore = firestore ?? FirebaseFirestore.instance;
 
-  CollectionReference<Map<String, dynamic>> _ref() =>
-      _firestore.collection('posts');
+  CollectionReference<Map<String, dynamic>> _commentsRef(String postId) =>
+      _firestore.collection('posts/$postId/comments');
 
   @override
   Future<Either<Failure, List<Comment>>> getComments(String postId) async {
     try {
-      final snapshot = await _ref().doc(postId).collection('comments').get();
-
-      final comments = snapshot.docs.map((doc) {
-        final data = doc.data();
-        return Comment.fromJson(data, postId);
-      }).toList();
-
+      final snapshot = await _commentsRef(postId).get();
+      final comments = snapshot.docs
+          .map((doc) => Comment.fromJson(doc.data(), postId))
+          .toList();
       return Right(comments);
     } catch (e) {
-      if (e is FirebaseException) {
-        return Future.value(Left(FirebaseFailure.fromFirestore(e)));
-      } else {
-        return Future.value(Left(FirebaseFailure(e.toString())));
-      }
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
+  // CommentsRepoImpl
   @override
   Stream<Either<Failure, List<Comment>>> watchComments(String postId) async* {
     try {
-      yield* _firestore
-          .collection('posts/$postId/comments')
+      // Force fresh data on first emit, bypassing cache
+      final fresh = await _commentsRef(postId)
+          .orderBy('createdAt', descending: false)
+          .get(const GetOptions(source: Source.server)); // ← server only
+
+      yield Right(
+        fresh.docs.map((d) => Comment.fromJson(d.data(), postId)).toList(),
+      );
+
+      // Then listen to real-time updates as normal
+      yield* _commentsRef(postId)
           .orderBy('createdAt', descending: false)
           .snapshots()
           .map<Either<Failure, List<Comment>>>(
@@ -48,34 +55,64 @@ class CommentsRepoImpl extends CommentsRepo {
             ),
           );
     } catch (e) {
-      if (e is FirebaseException) {
-        yield Left(FirebaseFailure.fromFirestore(e));
-      } else {
-        yield Left(FirebaseFailure(e.toString()));
-      }
+      yield Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
   @override
   Future<Either<Failure, Unit>> addComment(Comment comment) async {
     try {
-      await _firestore
-          .collection('posts/${comment.postId}/comments')
-          .doc(comment.id)
-          .set(comment.toJson());
+      await _commentsRef(comment.postId).doc(comment.id).set(comment.toJson());
       return const Right(unit);
     } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      } else {
-        return Left(FirebaseFailure(e.toString()));
-      }
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
   @override
-  String generateCommentId(String postId) {
-    return _firestore.collection('posts/$postId/comments').doc().id;
+  Future<Either<Failure, Unit>> editComment(
+    String postId,
+    String commentId,
+    String newContent,
+  ) async {
+    try {
+      await _commentsRef(postId).doc(commentId).update({
+        'content': newContent,
+        'editedAt': FieldValue.serverTimestamp(),
+      });
+      return const Right(unit);
+    } catch (e) {
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteComment(
+    String postId,
+    String commentId,
+  ) async {
+    try {
+      await _commentsRef(postId).doc(commentId).delete();
+      return const Right(unit);
+    } catch (e) {
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
+    }
   }
 
   @override
@@ -85,18 +122,16 @@ class CommentsRepoImpl extends CommentsRepo {
     String uid,
   ) async {
     try {
-      await _firestore
-          .collection('posts/$postId/comments')
-          .doc(commentId)
-          .update({
-            'likedByUids': FieldValue.arrayUnion([uid]),
-          });
+      await _commentsRef(postId).doc(commentId).update({
+        'likedByUids': FieldValue.arrayUnion([uid]),
+      });
       return const Right(unit);
     } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      }
-      return Left(FirebaseFailure(e.toString()));
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
@@ -107,18 +142,19 @@ class CommentsRepoImpl extends CommentsRepo {
     String uid,
   ) async {
     try {
-      await _firestore
-          .collection('posts/$postId/comments')
-          .doc(commentId)
-          .update({
-            'likedByUids': FieldValue.arrayRemove([uid]),
-          });
+      await _commentsRef(postId).doc(commentId).update({
+        'likedByUids': FieldValue.arrayRemove([uid]),
+      });
       return const Right(unit);
     } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      }
-      return Left(FirebaseFailure(e.toString()));
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
+
+  @override
+  String generateCommentId(String postId) => _commentsRef(postId).doc().id;
 }

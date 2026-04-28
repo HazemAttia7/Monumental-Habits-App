@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/three_dots.dart';
 import 'package:provider/provider.dart';
 
@@ -11,6 +13,7 @@ class CommentCardHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.read<PostDetailsViewController>();
     final currentUserUid = context.read<AuthCubit>().currentUser!.uid;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -22,7 +25,8 @@ class CommentCardHeader extends StatelessWidget {
         if (comment.authorUid == currentUserUid)
           ThreeDots(
             onEditTap: () {
-              // TODO : edit comment
+              GoRouter.of(context).pop();
+              controller.onEditCommentTap(comment.id);
             },
             onDeleteTap: () {
               // TODO : delete comment

@@ -6,10 +6,13 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/edit_content_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_when_collapsed.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/replies_tree.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/replies_teaser.dart';
+import 'package:provider/provider.dart';
 
 class CommentWidget extends StatefulWidget {
   final Comment comment;
@@ -23,13 +26,34 @@ class CommentWidget extends StatefulWidget {
 class _CommentWidgetState extends State<CommentWidget> {
   bool _showReplies = false;
   String? _replyingToUsername;
+  late final EditContentController _editController;
+
+  @override
+  void initState() {
+    super.initState();
+    _editController = EditContentController(widget.comment.content);
+  }
+
+  @override
+  void didUpdateWidget(CommentWidget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.comment.content != widget.comment.content) {
+      _editController.textController.text = widget.comment.content;
+    }
+  }
+
+  @override
+  void dispose() {
+    _editController.dispose();
+    super.dispose();
+  }
 
   /// Fake reply used to inject input inside tree
   Reply _buildFakeReply() {
     return Reply(
       id: '__typing__',
       authorUsername: context.read<AuthCubit>().currentUser!.name,
-      text: '',
+      content: '',
       createdAt: DateTime.now(),
       postId: widget.comment.postId,
       commentId: widget.comment.id,
@@ -38,86 +62,108 @@ class _CommentWidgetState extends State<CommentWidget> {
     );
   }
 
+  void _onReplyToCommentTap() {
+    setState(() {
+      _replyingToUsername = widget.comment.authorUsername;
+      _showReplies = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) =>
-          RepliesCubit(sl<RepliesRepo>())
-            ..watchReplies(widget.comment.postId, widget.comment.id),
-      child: BlocBuilder<RepliesCubit, RepliesState>(
-        builder: (context, state) {
-          if (state is RepliesError) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Text(state.errMessage),
-            );
-          }
-          if (state is RepliesSuccess) {
-            final replies = state.replies;
+    return ChangeNotifierProvider.value(
+      value: _editController,
+      child: BlocProvider(
+        create: (_) =>
+            RepliesCubit(sl<RepliesRepo>())
+              ..watchReplies(widget.comment.postId, widget.comment.id),
+        child: BlocBuilder<RepliesCubit, RepliesState>(
+          builder: (context, state) {
+            if (state is RepliesError) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(state.errMessage),
+              );
+            }
+            if (state is RepliesSuccess) {
+              final replies = state.replies;
 
-            /// Inject fake reply if typing
-            final displayReplies = [
-              ...replies,
-              if (_replyingToUsername != null) _buildFakeReply(),
-            ];
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// 🔵 COMMENT (when collapsed)
-                if (!_showReplies)
-                  CommentWhenCollapsed(
-                    comment: widget.comment,
-                    showReplies: _showReplies,
-                    onReplyTap: () => setState(() {
-                      _replyingToUsername = widget.comment.authorUsername;
-                      _showReplies = true;
-                    }),
-                  ),
-
-                /// 🔽 VIEW REPLIES
-                if (!_showReplies && replies.isNotEmpty)
-                  Padding(
-                    padding: EdgeInsets.only(left: 52.w, top: 3.h),
-                    child: RepliesTeaser(
-                      onViewRepliesTap: () {
-                        setState(() => _showReplies = true);
-                      },
+              /// Inject fake reply if typing
+              final displayReplies = [
+                ...replies,
+                if (_replyingToUsername != null) _buildFakeReply(),
+              ];
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /// 🔵 COMMENT (when collapsed)
+                  if (!_showReplies)
+                    CommentWhenCollapsed(
+                      comment: widget.comment,
+                      showReplies: _showReplies,
+                      onReplyTap: isEditMode() ? () {} : _onReplyToCommentTap,
                     ),
-                  ),
 
-                /// 🔽 TREE (expanded)
-                if (_showReplies &&
-                    (replies.isNotEmpty || _replyingToUsername != null))
-                  RepliesTree(
-                    comment: widget.comment,
-                    displayReplies: displayReplies,
-                    replyingToUsername: _replyingToUsername,
-                    onReplyToReplyTap: (Reply reply) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                  /// 🔽 VIEW REPLIES
+                  if (!_showReplies && replies.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsets.only(left: 52.w, top: 3.h),
+                      child: RepliesTeaser(
+                        onViewRepliesTap: () {
+                          setState(() => _showReplies = true);
+                        },
+                      ),
+                    ),
+
+                  /// 🔽 TREE (expanded)
+                  if (_showReplies &&
+                      (replies.isNotEmpty || _replyingToUsername != null))
+                    RepliesTree(
+                      comment: widget.comment,
+                      displayReplies: displayReplies,
+                      replyingToUsername: _replyingToUsername,
+                      onReplyToReplyTap: isEditMode()
+                          ? (reply) {}
+                          : (Reply reply) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                setState(() {
+                                  _replyingToUsername = reply.authorUsername;
+                                });
+                              });
+                            },
+                      onHideRepliesTap: () {
                         setState(() {
-                          _replyingToUsername = reply.authorUsername;
+                          _showReplies = false;
+                          _replyingToUsername = null;
                         });
-                      });
-                    },
-                    onHideRepliesTap: () {
-                      setState(() {
-                        _showReplies = false;
-                        _replyingToUsername = null;
-                      });
-                    },
-                    onDone: () => setState(() => _replyingToUsername = null),
-                    onReplyTap: () => setState(() {
-                      _replyingToUsername = widget.comment.authorUsername;
-                      _showReplies = true;
-                    }),
-                  ),
-              ],
-            );
-          }
+                      },
+                      onDone: () {
+                        final replies =
+                            (context.read<RepliesCubit>().state
+                                    as RepliesSuccess)
+                                .replies;
+                        setState(() {
+                          _replyingToUsername = null;
+                          if (replies.isEmpty) {
+                            _showReplies = false;
+                          }
+                        });
+                      },
+                      onReplyTap: isEditMode() ? () {} : _onReplyToCommentTap,
+                    ),
+                ],
+              );
+            }
 
-          return const SizedBox();
-        },
+            return const SizedBox();
+          },
+        ),
       ),
     );
+  }
+
+  bool isEditMode() {
+    final controller = context.read<PostDetailsViewController>();
+    return controller.isEditCommentMode || controller.isEditReplyMode;
   }
 }

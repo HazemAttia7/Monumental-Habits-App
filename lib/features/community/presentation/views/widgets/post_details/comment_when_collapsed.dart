@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_card.dart';
-import 'package:provider/provider.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_thread.dart';
 
 class CommentWhenCollapsed extends StatelessWidget {
   final Comment comment;
@@ -34,7 +34,7 @@ class CommentWhenCollapsed extends StatelessWidget {
         ),
         Gap(8.w),
         Expanded(
-          child: CommentCard(
+          child: CommentThread(
             comment: comment,
             showReplies: showReplies,
             onReplyTap: onReplyTap,

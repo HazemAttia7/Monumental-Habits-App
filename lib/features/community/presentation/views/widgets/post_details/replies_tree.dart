@@ -7,7 +7,7 @@ import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_card.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_thread.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_card.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_input.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +67,7 @@ class RepliesTree extends StatelessWidget {
 
       /// 🟢 ROOT CONTENT
       contentRoot: (context, data) {
-        return CommentCard(
+        return CommentThread(
           comment: data,
           showReplies: true,
           onHideRepliesTap: onHideRepliesTap,

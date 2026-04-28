@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
-
 part 'comments_state.dart';
 
 class CommentsCubit extends Cubit<CommentsState> {
@@ -15,7 +14,6 @@ class CommentsCubit extends Cubit<CommentsState> {
   void watchComments(String postId) {
     emit(CommentsLoading());
     bool isFirstLoad = true;
-
     _commentsSub = _repo
         .watchComments(postId)
         .listen(
@@ -36,6 +34,48 @@ class CommentsCubit extends Cubit<CommentsState> {
   Future<void> addComment(Comment comment) async {
     final result = await _repo.addComment(comment);
     result.fold((failure) => emit(CommentsError(failure.errMessage)), (_) {});
+  }
+
+  /// Optimistic edit: update locally first, roll back on failure.
+  Future<void> editComment(
+    String postId,
+    String commentId,
+    String newText,
+  ) async {
+    if (state is! CommentsSuccess) return;
+    final comments = (state as CommentsSuccess).comments;
+
+    // Optimistic update
+    final updated = comments.map((c) {
+      return c.id == commentId ? c.copyWithContent(newText) : c;
+    }).toList();
+    emit(CommentsSuccess(updated));
+
+    final result = await _repo.editComment(postId, commentId, newText);
+
+    // Roll back on failure
+    result.fold((failure) {
+      emit(CommentsSuccess(comments));
+      emit(CommentsError(failure.errMessage));
+    }, (_) {});
+  }
+
+  /// Optimistic delete: remove locally first, roll back on failure.
+  Future<void> deleteComment(String postId, String commentId) async {
+    if (state is! CommentsSuccess) return;
+    final comments = (state as CommentsSuccess).comments;
+
+    // Optimistic update
+    final updated = comments.where((c) => c.id != commentId).toList();
+    emit(CommentsSuccess(updated));
+
+    final result = await _repo.deleteComment(postId, commentId);
+
+    // Roll back on failure
+    result.fold((failure) {
+      emit(CommentsSuccess(comments));
+      emit(CommentsError(failure.errMessage));
+    }, (_) {});
   }
 
   Future<void> toggleCommentLike(Comment comment, String uid) async {
@@ -70,6 +110,8 @@ class CommentsCubit extends Cubit<CommentsState> {
       (_) {},
     );
   }
+
+  String generateCommentId(String postId) => _repo.generateCommentId(postId);
 
   @override
   Future<void> close() {
