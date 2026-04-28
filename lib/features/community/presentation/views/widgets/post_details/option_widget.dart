@@ -16,13 +16,22 @@ class OptionWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 40.h,
+    return Material(
       color: backColor ?? Color.lerp(AppColors.primaryColor, Colors.white, 0.1),
-      child: Center(
-        child: Text(
-          text,
-          style: AppStyles.textStyle14.copyWith(fontWeight: FontWeight.bold),
+      child: InkWell(
+        onTap: onTap,
+        splashColor: AppColors.secondaryColor.withValues(alpha: .1),
+        highlightColor: AppColors.secondaryColor.withValues(alpha: .1),
+        child: SizedBox(
+          height: 40.h,
+          child: Center(
+            child: Text(
+              text,
+              style: AppStyles.textStyle14.copyWith(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ),
         ),
       ),
     );
