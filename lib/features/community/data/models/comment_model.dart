@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:pixel_true_app/features/community/helper/get_like_text.dart';
 
-class Comment {
+class Comment implements Likable {
   final String id;
   final String postId;
   final String authorUid;
   final String authorUsername;
   final String content;
+  @override
   final List<String> likedByUids;
   final DateTime createdAt;
 
@@ -19,6 +21,7 @@ class Comment {
     required this.createdAt,
   });
 
+  @override
   bool isLikedBy(String uid) => likedByUids.contains(uid);
   int get likesCount => likedByUids.length;
 

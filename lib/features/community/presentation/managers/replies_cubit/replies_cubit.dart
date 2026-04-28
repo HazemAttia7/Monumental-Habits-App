@@ -44,11 +44,45 @@ class RepliesCubit extends Cubit<RepliesState> {
 
   Future<void> addReply(Reply reply) async {
     final result = await _repo.addReply(reply);
+    result.fold((failure) => emit(RepliesError(failure.errMessage)), (_) {});
+  }
+
+  Future<void> toggleReplyLike(Reply reply, String uid) async {
+    if (state is! RepliesSuccess) return;
+    final replies = (state as RepliesSuccess).replies;
+    final isLiked = reply.isLikedBy(uid);
+
+    // Optimistic update
+    final updatedReply = reply.copyWith(
+      likedByUids: isLiked
+          ? (List.from(reply.likedByUids)..remove(uid))
+          : (List.from(reply.likedByUids)..add(uid)),
+    );
+    emit(
+      RepliesSuccess(
+        replies.map((r) => r.id == reply.id ? updatedReply : r).toList(),
+      ),
+    );
+
+    // Firestore write
+    final result = isLiked
+        ? await _repo.unlikeReply(reply.postId, reply.commentId, reply.id, uid)
+        : await _repo.likeReply(reply.postId, reply.commentId, reply.id, uid);
+
+    // Roll back on failure
     result.fold(
-      (failure) => emit(RepliesError(failure.errMessage)),
+      (_) => emit(
+        RepliesSuccess(
+          replies.map((r) => r.id == reply.id ? reply : r).toList(),
+        ),
+      ),
       (_) {},
     );
   }
+
+String generateReplyId(String postId, String commentId) {
+  return _repo.generateReplyId(postId, commentId);
+}
 
   @override
   Future<void> close() {

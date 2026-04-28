@@ -58,6 +58,46 @@ class RepliesRepoImpl implements RepliesRepo {
   }
 
   @override
+  Future<Either<Failure, Unit>> likeReply(
+    String postId,
+    String commentId,
+    String replyId,
+    String uid,
+  ) async {
+    try {
+      await _ref(postId, commentId).doc(replyId).set({
+        'likedByUids': FieldValue.arrayUnion([uid]),
+      }, SetOptions(merge: true));
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      }
+      return Left(FirebaseFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> unlikeReply(
+    String postId,
+    String commentId,
+    String replyId,
+    String uid,
+  ) async {
+    try {
+      await _ref(postId, commentId).doc(replyId).set({
+        'likedByUids': FieldValue.arrayRemove([uid]),
+      }, SetOptions(merge: true));
+      return const Right(unit);
+    } catch (e) {
+      if (e is FirebaseException) {
+        return Left(FirebaseFailure.fromFirestore(e));
+      }
+      return Left(FirebaseFailure(e.toString()));
+    }
+  }
+
+  @override
   String generateReplyId(String postId, String commentId) {
     return _ref(postId, commentId).doc().id;
   }

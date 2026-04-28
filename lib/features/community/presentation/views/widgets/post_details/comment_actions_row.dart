@@ -6,6 +6,7 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_clickable_text.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
+import 'package:pixel_true_app/features/community/helper/get_like_text.dart';
 import 'package:pixel_true_app/features/community/helper/get_time_ago.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 
@@ -59,11 +60,11 @@ class _CommentActionsRowState extends State<CommentActionsRow> {
           textColor: Color.lerp(AppColors.primaryColor, Colors.black, .35),
           fontSize: 12.sp,
         ),
+        // TODO : change text color when liked
         CustomClickableText(
-          // make the liked design
-          text: _getLikeText(currentUserUid),
-          onTap: () {
-            BlocProvider.of<CommentsCubit>(
+          text: getLikeText<Comment>(currentUserUid , widget.comment),
+          onTap: () async {
+            await BlocProvider.of<CommentsCubit>(
               context,
             ).toggleCommentLike(widget.comment, currentUserUid);
             setState(() {
@@ -89,9 +90,4 @@ class _CommentActionsRowState extends State<CommentActionsRow> {
     );
   }
 
-  String _getLikeText(String currentUserUid) {
-    if (widget.comment.isLikedBy(currentUserUid)) return "UNLIKE (${widget.comment.likedByUids.length})";
-    if (widget.comment.likedByUids.isEmpty) return "LIKE";
-    return "LIKE (${widget.comment.likedByUids.length})";
-  }
 }

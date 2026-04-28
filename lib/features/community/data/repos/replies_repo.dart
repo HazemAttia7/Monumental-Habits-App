@@ -9,4 +9,16 @@ abstract class RepliesRepo {
   );
   Future<Either<Failure, Unit>> addReply(Reply reply);
   String generateReplyId(String postId, String commentId);
+  Future<Either<Failure, Unit>> likeReply(
+    String postId,
+    String commentId,
+    String replyId,
+    String uid,
+  );
+  Future<Either<Failure, Unit>> unlikeReply(
+    String postId,
+    String commentId,
+    String replyId,
+    String uid,
+  );
 }

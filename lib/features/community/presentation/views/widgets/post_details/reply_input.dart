@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_clickable_text.dart';
@@ -10,7 +9,6 @@ import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
-import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/mention_text_editing_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 
@@ -74,7 +72,7 @@ class _ReplyInputState extends State<ReplyInput> {
 
     setState(() => _isLoading = true);
     final currentUser = BlocProvider.of<AuthCubit>(context).currentUser!;
-    final id = sl<RepliesRepo>().generateReplyId(
+    final id = context.read<RepliesCubit>().generateReplyId(
       widget.comment.postId,
       widget.comment.id,
     );
