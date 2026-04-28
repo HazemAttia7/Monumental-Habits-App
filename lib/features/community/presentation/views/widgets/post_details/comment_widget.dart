@@ -46,13 +46,6 @@ class _CommentWidgetState extends State<CommentWidget> {
             ..watchReplies(widget.comment.postId, widget.comment.id),
       child: BlocBuilder<RepliesCubit, RepliesState>(
         builder: (context, state) {
-          if (state is RepliesLoading) {
-            // TODO : make shimmer effect
-            return const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              child: Center(child: CircularProgressIndicator()),
-            );
-          }
           if (state is RepliesError) {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 12),
