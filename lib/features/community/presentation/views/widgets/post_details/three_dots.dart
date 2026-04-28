@@ -6,7 +6,12 @@ import 'package:pixel_true_app/features/community/presentation/views/widgets/pos
 import 'package:popover/popover.dart';
 
 class ThreeDots extends StatelessWidget {
-  const ThreeDots({super.key});
+  final VoidCallback onEditTap, onDeleteTap;
+  const ThreeDots({
+    super.key,
+    required this.onEditTap,
+    required this.onDeleteTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +22,14 @@ class ThreeDots extends StatelessWidget {
         onTap: () => showPopover(
           context: context,
           bodyBuilder: (context) =>
-              EitDeleteOptions(onEditTap: () {}, onDeleteTap: () {}),
-          width: 150.w,
+              EitDeleteOptions(onEditTap: onEditTap, onDeleteTap: onDeleteTap),
+          width: 100.w,
           height: 80.h,
-          backgroundColor: AppColors.scaffoldColor,
+          backgroundColor: Color.lerp(
+            AppColors.primaryColor,
+            Colors.white,
+            0.1,
+          )!,
           direction: PopoverDirection.bottom,
         ),
         borderRadius: BorderRadius.circular(12.r),

@@ -20,7 +20,14 @@ class CommentCardHeader extends StatelessWidget {
           style: AppStyles.textStyle14.copyWith(fontWeight: FontWeight.bold),
         ),
         if (comment.authorUid == currentUserUid)
-          const ThreeDots(),
+          ThreeDots(
+            onEditTap: () {
+              // TODO : edit comment
+            },
+            onDeleteTap: () {
+              // TODO : delete comment
+            },
+          ),
       ],
     );
   }

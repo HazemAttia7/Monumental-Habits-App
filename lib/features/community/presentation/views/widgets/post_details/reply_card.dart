@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_actions_row.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_card_header.dart';
 
 // TODO : add the three dots menu to edit/delete the reply if current user is the author
 class ReplyCard extends StatelessWidget {
@@ -27,10 +27,7 @@ class ReplyCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            reply.authorUsername,
-            style: AppStyles.textStyle14.copyWith(fontWeight: FontWeight.bold),
-          ),
+          ReplyCardHeader(reply: reply),
           Gap(4.h),
           Wrap(
             children: [

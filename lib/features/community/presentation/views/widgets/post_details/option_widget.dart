@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class OptionWidget extends StatelessWidget {
   final String text;
@@ -27,9 +26,7 @@ class OptionWidget extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: AppStyles.textStyle14.copyWith(
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
             ),
           ),
         ),
