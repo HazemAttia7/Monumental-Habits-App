@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/shimmer/line_shimmer.dart';
+import 'package:pixel_true_app/core/widgets/shimmer/line_shimmer.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CommentsShimmer extends StatelessWidget {
