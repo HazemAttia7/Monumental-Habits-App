@@ -47,6 +47,7 @@ class _CommentWidgetState extends State<CommentWidget> {
       child: BlocBuilder<RepliesCubit, RepliesState>(
         builder: (context, state) {
           if (state is RepliesLoading) {
+            // TODO : make shimmer effect
             return const Padding(
               padding: EdgeInsets.symmetric(vertical: 12),
               child: Center(child: CircularProgressIndicator()),
@@ -87,7 +88,7 @@ class _CommentWidgetState extends State<CommentWidget> {
                     child: RepliesTeaser(
                       onViewRepliesTap: () {
                         setState(() => _showReplies = true);
-                      }, 
+                      },
                     ),
                   ),
 
