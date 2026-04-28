@@ -21,4 +21,6 @@ abstract class RepliesRepo {
     String replyId,
     String uid,
   );
+  Future<Either<Failure, Unit>> editReply(String postId, String commentId, String replyId, String newText);
+  Future<Either<Failure, Unit>> deleteReply(String postId, String commentId, String replyId);
 }

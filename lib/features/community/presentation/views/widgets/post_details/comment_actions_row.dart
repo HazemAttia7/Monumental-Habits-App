@@ -62,7 +62,7 @@ class _CommentActionsRowState extends State<CommentActionsRow> {
         ),
         // TODO : change text color when liked
         CustomClickableText(
-          text: getLikeText<Comment>(currentUserUid , widget.comment),
+          text: getLikeText<Comment>(currentUserUid, widget.comment),
           onTap: () async {
             await BlocProvider.of<CommentsCubit>(
               context,
@@ -89,5 +89,4 @@ class _CommentActionsRowState extends State<CommentActionsRow> {
       ],
     );
   }
-
 }

@@ -37,8 +37,12 @@ class EditActionsRow extends StatelessWidget {
           textColor: AppColors.secondaryColor,
           onTap: () {
             final controller = context.read<PostDetailsViewController>();
-            controller.commentIdToEdit = null;
-            controller.onDoneEditComment();
+
+            if (controller.isEditCommentMode) {
+              controller.onDoneEditComment();
+            } else if (controller.isEditReplyMode) {
+              controller.onDoneEditReply();
+            }
           },
         ),
       ],

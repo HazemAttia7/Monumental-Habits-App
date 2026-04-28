@@ -30,20 +30,9 @@ class CommentsRepoImpl extends CommentsRepo {
     }
   }
 
-  // CommentsRepoImpl
   @override
   Stream<Either<Failure, List<Comment>>> watchComments(String postId) async* {
     try {
-      // Force fresh data on first emit, bypassing cache
-      final fresh = await _commentsRef(postId)
-          .orderBy('createdAt', descending: false)
-          .get(const GetOptions(source: Source.server)); // ← server only
-
-      yield Right(
-        fresh.docs.map((d) => Comment.fromJson(d.data(), postId)).toList(),
-      );
-
-      // Then listen to real-time updates as normal
       yield* _commentsRef(postId)
           .orderBy('createdAt', descending: false)
           .snapshots()

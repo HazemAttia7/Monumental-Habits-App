@@ -32,11 +32,11 @@ class RepliesRepoImpl implements RepliesRepo {
             ),
           );
     } catch (e) {
-      if (e is FirebaseException) {
-        yield Left(FirebaseFailure.fromFirestore(e));
-      } else {
-        yield Left(FirebaseFailure(e.toString()));
-      }
+      yield Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
@@ -49,11 +49,51 @@ class RepliesRepoImpl implements RepliesRepo {
       ).doc(reply.id).set(reply.toJson());
       return const Right(unit);
     } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      } else {
-        return Left(FirebaseFailure(e.toString()));
-      }
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> editReply(
+    String postId,
+    String commentId,
+    String replyId,
+    String newText,
+  ) async {
+    try {
+      await _ref(postId, commentId).doc(replyId).update({
+        'content': newText,
+        'editedAt': FieldValue.serverTimestamp(),
+      });
+      return const Right(unit);
+    } catch (e) {
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> deleteReply(
+    String postId,
+    String commentId,
+    String replyId,
+  ) async {
+    try {
+      await _ref(postId, commentId).doc(replyId).delete();
+      return const Right(unit);
+    } catch (e) {
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
@@ -65,15 +105,16 @@ class RepliesRepoImpl implements RepliesRepo {
     String uid,
   ) async {
     try {
-      await _ref(postId, commentId).doc(replyId).set({
+      await _ref(postId, commentId).doc(replyId).update({
         'likedByUids': FieldValue.arrayUnion([uid]),
-      }, SetOptions(merge: true));
+      });
       return const Right(unit);
     } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      }
-      return Left(FirebaseFailure(e.toString()));
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
@@ -85,20 +126,20 @@ class RepliesRepoImpl implements RepliesRepo {
     String uid,
   ) async {
     try {
-      await _ref(postId, commentId).doc(replyId).set({
+      await _ref(postId, commentId).doc(replyId).update({
         'likedByUids': FieldValue.arrayRemove([uid]),
-      }, SetOptions(merge: true));
+      });
       return const Right(unit);
     } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      }
-      return Left(FirebaseFailure(e.toString()));
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
   @override
-  String generateReplyId(String postId, String commentId) {
-    return _ref(postId, commentId).doc().id;
-  }
+  String generateReplyId(String postId, String commentId) =>
+      _ref(postId, commentId).doc().id;
 }

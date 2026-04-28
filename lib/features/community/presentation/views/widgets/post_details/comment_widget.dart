@@ -71,6 +71,14 @@ class _CommentWidgetState extends State<CommentWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final postController = context.watch<PostDetailsViewController>();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (postController.isEditCommentMode &&
+          postController.commentIdToEdit == widget.comment.id) {
+        _editController.setText(widget.comment.content);
+      }
+    });
     return ChangeNotifierProvider.value(
       value: _editController,
       child: BlocProvider(

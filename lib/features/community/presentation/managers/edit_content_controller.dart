@@ -5,6 +5,12 @@ class EditContentController extends ChangeNotifier {
   late final TextEditingController textController;
   bool isLoading = false;
   AutovalidateMode autovalidateMode = AutovalidateMode.disabled;
+  void setText(String content) {
+    textController.text = content;
+    textController.selection = TextSelection.fromPosition(
+      TextPosition(offset: textController.text.length),
+    );
+  }
 
   EditContentController(String initialText) {
     textController = TextEditingController(text: initialText);

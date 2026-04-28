@@ -8,8 +8,8 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_thread.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_card.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_input.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_thread.dart';
 import 'package:provider/provider.dart';
 
 class RepliesTree extends StatelessWidget {
@@ -76,8 +76,8 @@ class RepliesTree extends StatelessWidget {
       },
 
       /// 🟢 CHILD CONTENT (Replies + Input)
-      contentChild: (context, data) {
-        final isTyping = data.id == '__typing__';
+      contentChild: (context, reply) {
+        final isTyping = reply.id == '__typing__';
 
         /// FAKE INPUT NODE
         if (isTyping && replyingToUsername != null) {
@@ -91,7 +91,7 @@ class RepliesTree extends StatelessWidget {
         /// 🔹 NORMAL REPLY
         return Padding(
           padding: EdgeInsets.only(bottom: 10.h),
-          child: ReplyCard(reply: data, onReplyTap: onReplyToReplyTap),
+          child: ReplyThread(onReplyToReplyTap: onReplyToReplyTap, reply: reply,),
         );
       },
     );

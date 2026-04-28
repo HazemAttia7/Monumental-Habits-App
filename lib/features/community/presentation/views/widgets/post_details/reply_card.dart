@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/edit_content_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/editable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_actions_row.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_card_header.dart';
+import 'package:provider/provider.dart';
 
-// TODO : add the three dots menu to edit/delete the reply if current user is the author
 class ReplyCard extends StatelessWidget {
   final Reply reply;
   final Function(Reply) onReplyTap;
@@ -15,6 +19,7 @@ class ReplyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<PostDetailsViewController>();
     return Container(
       constraints: BoxConstraints(
         maxWidth: 1.sw - 2 * kPagePadding.w - 52.w - 38.w,
@@ -39,10 +44,25 @@ class ReplyCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              ExpandableContent(
-                content: reply.content,
-                style: TextStyle(fontSize: 13.sp, color: Colors.black),
-              ),
+              (reply.id == controller.replyIdToEdit &&
+                      controller.isEditReplyMode)
+                  ? Builder(
+                      builder: (context) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          final editController = context
+                              .read<EditContentController>();
+                          editController.setText(reply.content);
+                        });
+
+                        return const EditableContent();
+                      },
+                    )
+                  : ExpandableContent(
+                      content: reply.content,
+                      style: AppStyles.textStyle14.copyWith(
+                        color: Colors.black,
+                      ),
+                    ),
             ],
           ),
           Gap(8.h),

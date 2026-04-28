@@ -1,10 +1,8 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
-
 part 'replies_state.dart';
 
 class RepliesCubit extends Cubit<RepliesState> {
@@ -16,7 +14,6 @@ class RepliesCubit extends Cubit<RepliesState> {
   void watchReplies(String postId, String commentId) {
     emit(RepliesLoading());
     bool isFirstLoad = true;
-
     _repliesSub = _repo
         .watchReplies(postId, commentId)
         .listen(
@@ -45,6 +42,53 @@ class RepliesCubit extends Cubit<RepliesState> {
   Future<void> addReply(Reply reply) async {
     final result = await _repo.addReply(reply);
     result.fold((failure) => emit(RepliesError(failure.errMessage)), (_) {});
+  }
+
+  /// Optimistic edit: update locally first, roll back on failure.
+  Future<void> editReply(
+    String postId,
+    String commentId,
+    String replyId,
+    String newContent,
+  ) async {
+    if (state is! RepliesSuccess) return;
+    final replies = (state as RepliesSuccess).replies;
+
+    // Optimistic update
+    final updated = replies.map((r) {
+      return r.id == replyId ? r.copyWithContent(newContent) : r;
+    }).toList();
+    emit(RepliesSuccess(updated));
+
+    final result = await _repo.editReply(postId, commentId, replyId, newContent);
+
+    // Roll back on failure
+    result.fold((failure) {
+      emit(RepliesSuccess(replies));
+      emit(RepliesError(failure.errMessage));
+    }, (_) {});
+  }
+
+  /// Optimistic delete: remove locally first, roll back on failure.
+  Future<void> deleteReply(
+    String postId,
+    String commentId,
+    String replyId,
+  ) async {
+    if (state is! RepliesSuccess) return;
+    final replies = (state as RepliesSuccess).replies;
+
+    // Optimistic update
+    final updated = replies.where((r) => r.id != replyId).toList();
+    emit(RepliesSuccess(updated));
+
+    final result = await _repo.deleteReply(postId, commentId, replyId);
+
+    // Roll back on failure
+    result.fold((failure) {
+      emit(RepliesSuccess(replies));
+      emit(RepliesError(failure.errMessage));
+    }, (_) {});
   }
 
   Future<void> toggleReplyLike(Reply reply, String uid) async {
@@ -80,9 +124,8 @@ class RepliesCubit extends Cubit<RepliesState> {
     );
   }
 
-String generateReplyId(String postId, String commentId) {
-  return _repo.generateReplyId(postId, commentId);
-}
+  String generateReplyId(String postId, String commentId) =>
+      _repo.generateReplyId(postId, commentId);
 
   @override
   Future<void> close() {

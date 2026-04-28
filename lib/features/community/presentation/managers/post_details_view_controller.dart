@@ -16,6 +16,7 @@ class PostDetailsViewController extends ChangeNotifier {
   }
 
   void onEditCommentTap(String commentId) {
+    onDoneEditReply();
     commentIdToEdit = commentId;
     _isEditCommentMode = true;
     notifyListeners();
@@ -28,12 +29,13 @@ class PostDetailsViewController extends ChangeNotifier {
   }
 
   void onEditReplyTap(String replyId) {
+    onDoneEditComment();
     replyIdToEdit = replyId;
     _isEditReplyMode = true;
     notifyListeners();
   }
 
-  void onDoneEditReplyTap() {
+  void onDoneEditReply() {
     replyIdToEdit = null;
     _isEditReplyMode = false;
     notifyListeners();

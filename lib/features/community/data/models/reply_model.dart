@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pixel_true_app/features/community/helper/get_like_text.dart';
 
+// TODO : add editedAt to show "Edited" flag in card
 class Reply implements Likable {
   final String id;
   final String postId;
@@ -68,4 +69,18 @@ class Reply implements Likable {
     likedByUids: likedByUids ?? this.likedByUids,
     createdAt: createdAt,
   );
+
+  Reply copyWithContent(String newContent) {
+    return Reply(
+      id: id,
+      postId: postId,
+      commentId: commentId,
+      authorUid: authorUid,
+      authorUsername: authorUsername,
+      replyToUsername: replyToUsername,
+      content: newContent,
+      likedByUids: likedByUids,
+      createdAt: createdAt,
+    );
+  }
 }
