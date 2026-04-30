@@ -60,7 +60,6 @@ class _CommentActionsRowState extends State<CommentActionsRow> {
           textColor: Color.lerp(AppColors.primaryColor, Colors.black, .35),
           fontSize: 12.sp,
         ),
-        // TODO : change text color when liked
         CustomClickableText(
           text: getLikeText<Comment>(currentUserUid, widget.comment),
           onTap: () async {
@@ -71,7 +70,9 @@ class _CommentActionsRowState extends State<CommentActionsRow> {
               _isLiked = !_isLiked;
             });
           },
-          textColor: AppColors.secondaryColor,
+          textColor: widget.comment.isLikedBy(currentUserUid)
+              ? AppColors.primaryColor
+              : AppColors.secondaryColor,
           fontSize: 12.sp,
         ),
         Text(

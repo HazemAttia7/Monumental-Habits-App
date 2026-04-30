@@ -59,7 +59,6 @@ class _ReplyActionsRowState extends State<ReplyActionsRow> {
           textColor: Color.lerp(AppColors.primaryColor, Colors.black, .35),
           fontSize: 12.sp,
         ),
-        // TODO : change text color when liked
         CustomClickableText(
           text: getLikeText<Reply>(currentUserUid, widget.reply),
           onTap: () async {
@@ -70,7 +69,9 @@ class _ReplyActionsRowState extends State<ReplyActionsRow> {
               _isLiked = !_isLiked;
             });
           },
-          textColor: AppColors.secondaryColor,
+          textColor: widget.reply.isLikedBy(currentUserUid)
+              ? AppColors.primaryColor
+              : AppColors.secondaryColor,
           fontSize: 12.sp,
         ),
         Text(
