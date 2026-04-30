@@ -40,4 +40,5 @@ class PostDetailsViewController extends ChangeNotifier {
     _isEditReplyMode = false;
     notifyListeners();
   }
+
 }
