@@ -31,10 +31,16 @@ class CommentsCubit extends Cubit<CommentsState> {
         );
   }
 
-  Future<void> addComment(Comment comment) async {
-    final result = await _repo.addComment(comment);
-    result.fold((failure) => emit(CommentsError(failure.errMessage)), (_) {});
-  }
+Future<bool> addComment(Comment comment) async {
+  final result = await _repo.addComment(comment);
+  return result.fold(
+    (failure) {
+      emit(CommentsError(failure.errMessage));
+      return false;
+    },
+    (_) => true,
+  );
+}
 
   /// Optimistic edit: update locally first, roll back on failure.
   Future<void> editComment(

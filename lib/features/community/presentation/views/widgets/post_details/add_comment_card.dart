@@ -42,7 +42,7 @@ class _AddCommentCardState extends State<AddCommentCard> {
     final currentUser = BlocProvider.of<AuthCubit>(context).currentUser!;
     final id = sl<CommentsRepo>().generateCommentId(post.id);
 
-    await context.read<CommentsCubit>().addComment(
+    bool isAdded = await context.read<CommentsCubit>().addComment(
       Comment(
         id: id,
         postId: post.id,
@@ -53,8 +53,7 @@ class _AddCommentCardState extends State<AddCommentCard> {
         likedByUids: [],
       ),
     );
-
-    if (!mounted) return;
+    if (!mounted || !isAdded) return;
     setState(() => _isLoading = false);
     _controller.clear();
   }

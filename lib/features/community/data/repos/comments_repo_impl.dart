@@ -52,19 +52,19 @@ class CommentsRepoImpl extends CommentsRepo {
     }
   }
 
-  @override
-  Future<Either<Failure, Unit>> addComment(Comment comment) async {
-    try {
-      await _commentsRef(comment.postId).doc(comment.id).set(comment.toJson());
-      return const Right(unit);
-    } catch (e) {
-      return Left(
-        e is FirebaseException
-            ? FirebaseFailure.fromFirestore(e)
-            : FirebaseFailure(e.toString()),
-      );
-    }
+@override
+Future<Either<Failure, bool>> addComment(Comment comment) async {
+  try {
+    await _commentsRef(comment.postId).doc(comment.id).set(comment.toJson());
+    return const Right(true);
+  } catch (e) {
+    return Left(
+      e is FirebaseException
+          ? FirebaseFailure.fromFirestore(e)
+          : FirebaseFailure(e.toString()),
+    );
   }
+}
 
   @override
   Future<Either<Failure, Unit>> editComment(
