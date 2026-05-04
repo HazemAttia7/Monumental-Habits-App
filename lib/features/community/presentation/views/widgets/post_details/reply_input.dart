@@ -87,6 +87,7 @@ class _ReplyInputState extends State<ReplyInput> {
         authorUsername: currentUser.name,
         replyToUsername: widget.replyingToUsername,
         createdAt: DateTime.now(),
+        editedAt: DateTime.now(),
         likedByUids: [],
       ),
     );

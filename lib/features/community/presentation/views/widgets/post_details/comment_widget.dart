@@ -55,6 +55,7 @@ class _CommentWidgetState extends State<CommentWidget> {
       authorUsername: context.read<AuthCubit>().currentUser!.name,
       content: '',
       createdAt: DateTime.now(),
+      editedAt: DateTime.now(),
       postId: widget.comment.postId,
       commentId: widget.comment.id,
       authorUid: '',
