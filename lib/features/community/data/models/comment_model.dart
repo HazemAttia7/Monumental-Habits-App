@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pixel_true_app/features/community/helper/get_like_text.dart';
 
-// TODO : add editedAt to show "Edited" flag in card
 class Comment implements Likable {
   final String id;
   final String postId;
@@ -11,6 +10,7 @@ class Comment implements Likable {
   @override
   final List<String> likedByUids;
   final DateTime createdAt;
+  final DateTime? editedAt;
 
   Comment({
     required this.id,
@@ -20,6 +20,7 @@ class Comment implements Likable {
     required this.content,
     required this.likedByUids,
     required this.createdAt,
+    this.editedAt,
   });
 
   @override
@@ -34,6 +35,9 @@ class Comment implements Likable {
     content: json['content'] ?? '',
     likedByUids: List<String>.from(json['likedByUids'] ?? []),
     createdAt: (json['createdAt'] as Timestamp).toDate(),
+    editedAt: json['editedAt'] != null
+        ? (json['editedAt'] as Timestamp).toDate()
+        : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -44,6 +48,7 @@ class Comment implements Likable {
     'content': content,
     'likedByUids': likedByUids,
     'createdAt': Timestamp.fromDate(createdAt),
+    if (editedAt != null) 'editedAt': Timestamp.fromDate(editedAt!),
   };
 
   Comment copyWith({List<String>? likedByUids}) => Comment(
@@ -54,6 +59,7 @@ class Comment implements Likable {
     content: content,
     likedByUids: likedByUids ?? this.likedByUids,
     createdAt: createdAt,
+    editedAt: editedAt,
   );
 
   Comment copyWithContent(String newContent) {
@@ -65,6 +71,7 @@ class Comment implements Likable {
       content: newContent,
       likedByUids: likedByUids,
       createdAt: createdAt,
+      editedAt: editedAt,
     );
-  }
+  }    
 }
