@@ -56,6 +56,7 @@ class _AddCommentCardState extends State<AddCommentCard> {
 
     if (!mounted) return;
     setState(() => _isLoading = false);
+    _controller.clear();
   }
 
   @override
