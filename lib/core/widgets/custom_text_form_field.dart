@@ -69,6 +69,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onTapOutside: (_) => FocusScope.of(context).unfocus(),
       maxLines: widget.maxLines,
       autofocus: widget.autofocus,
       onChanged: widget.onChanged,
