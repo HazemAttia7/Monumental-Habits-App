@@ -20,7 +20,10 @@ class CommentsSliverList extends StatelessWidget {
         : SliverList.separated(
             itemCount: comments.length,
             separatorBuilder: (_, __) => Gap(18.h),
-            itemBuilder: (_, index) => CommentWidget(comment: comments[index]),
+            itemBuilder: (_, index) => CommentWidget(
+              key: ValueKey(comments[index].id),  
+              comment: comments[index],
+            ),
           );
   }
 }
