@@ -29,7 +29,9 @@ class RepliesTeaser extends StatelessWidget {
               return const SizedBox.shrink();
             }
             final replies = state.replies;
-            final post = GoRouterState.of(context).extra as Post;
+            final extra =
+                GoRouterState.of(context).extra as Map<String, dynamic>;
+            final post = extra['post'] as Post;
             final bool isPostAuthorReplied = replies.any(
               (reply) => reply.authorUid == post.authorUid,
             );

@@ -30,7 +30,7 @@ class PostInteractions extends StatelessWidget {
             );
           },
         ),
-        CommentsCount(commentsCount: post.commentsCount),
+        CommentsCount(post: post),
       ],
     );
   }

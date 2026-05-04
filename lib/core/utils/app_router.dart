@@ -191,7 +191,10 @@ abstract class AppRouter {
       GoRoute(
         path: kPostDetailsView,
         builder: (context, state) {
-          final post = state.extra as Post;
+          final extra = state.extra as Map<String, dynamic>;
+          final post = extra['post'] as Post;
+          final scrollToComments = extra['scrollToComments'] as bool? ?? false;
+
           return MultiBlocProvider(
             providers: [
               BlocProvider(
@@ -202,7 +205,7 @@ abstract class AppRouter {
                 create: (context) => PostDetailsViewController(),
               ),
             ],
-            child: const PostDetailsView(),
+            child: PostDetailsView(scrollToComments: scrollToComments),
           );
         },
       ),

@@ -7,8 +7,42 @@ import 'package:pixel_true_app/features/community/presentation/views/widgets/pos
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comments_section_header.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/post_section.dart';
 
-class PostDetailsViewBody extends StatelessWidget {
-  const PostDetailsViewBody({super.key});
+class PostDetailsViewBody extends StatefulWidget {
+  final bool scrollToComments;
+  const PostDetailsViewBody({super.key, required this.scrollToComments});
+
+  @override
+  State<PostDetailsViewBody> createState() => _PostDetailsViewBodyState();
+}
+
+class _PostDetailsViewBodyState extends State<PostDetailsViewBody> {
+  late final ScrollController _scrollController;
+  final _commentsKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    if (widget.scrollToComments) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => scrollToComments());
+    }
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void scrollToComments() {
+    final ctx = _commentsKey.currentContext;
+    if (ctx == null) return;
+    Scrollable.ensureVisible(
+      ctx,
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +66,7 @@ class PostDetailsViewBody extends StatelessWidget {
               padding: EdgeInsets.only(bottom: 18.h),
               sliver: const SliverToBoxAdapter(child: CommentsSectionHeader()),
             ),
-            const CommentsSection(),
+            CommentsSection(key: _commentsKey),
             SliverToBoxAdapter(child: Gap(40.h)),
           ],
         ),

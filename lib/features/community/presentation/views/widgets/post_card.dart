@@ -19,8 +19,9 @@ class PostCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16.r),
       child: InkWell(
         borderRadius: BorderRadius.circular(16.r),
-        onTap: () =>
-            GoRouter.of(context).push(AppRouter.kPostDetailsView, extra: post),
+        onTap: () => GoRouter.of(
+          context,
+        ).push(AppRouter.kPostDetailsView, extra: {"post": post}),
         splashColor: AppColors.secondaryColor.withValues(alpha: .1),
         highlightColor: AppColors.secondaryColor.withValues(alpha: .1),
         child: Container(
