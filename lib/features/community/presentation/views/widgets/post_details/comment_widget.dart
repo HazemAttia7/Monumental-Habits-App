@@ -6,8 +6,8 @@ import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/aut
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
 import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/edit_content_controller.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comment_when_collapsed.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/replies_tree.dart';
@@ -72,7 +72,7 @@ class _CommentWidgetState extends State<CommentWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final postController = context.watch<PostDetailsViewController>();
+    final postController = context.watch<CommunityViewController>();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (postController.isEditCommentMode &&
@@ -110,7 +110,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                     CommentWhenCollapsed(
                       comment: widget.comment,
                       showReplies: _showReplies,
-                      onReplyTap: isEditMode() ? () {} : _onReplyToCommentTap,
+                      onReplyTap:
+                          isEditMode(
+                            postController.isEditCommentMode,
+                            postController.isEditReplyMode,
+                          )
+                          ? () {}
+                          : _onReplyToCommentTap,
                     ),
 
                   /// 🔽 VIEW REPLIES
@@ -131,7 +137,11 @@ class _CommentWidgetState extends State<CommentWidget> {
                       comment: widget.comment,
                       displayReplies: displayReplies,
                       replyingToUsername: _replyingToUsername,
-                      onReplyToReplyTap: isEditMode()
+                      onReplyToReplyTap:
+                          isEditMode(
+                            postController.isEditCommentMode,
+                            postController.isEditReplyMode,
+                          )
                           ? (reply) {}
                           : (Reply reply) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -158,7 +168,13 @@ class _CommentWidgetState extends State<CommentWidget> {
                           }
                         });
                       },
-                      onReplyTap: isEditMode() ? () {} : _onReplyToCommentTap,
+                      onReplyTap:
+                          isEditMode(
+                            postController.isEditCommentMode,
+                            postController.isEditReplyMode,
+                          )
+                          ? () {}
+                          : _onReplyToCommentTap,
                     ),
                 ],
               );
@@ -171,8 +187,7 @@ class _CommentWidgetState extends State<CommentWidget> {
     );
   }
 
-  bool isEditMode() {
-    final controller = context.read<PostDetailsViewController>();
-    return controller.isEditCommentMode || controller.isEditReplyMode;
+  bool isEditMode(bool isEditCommentMode, bool isEditReplyMode) {
+    return isEditCommentMode || isEditReplyMode;
   }
 }

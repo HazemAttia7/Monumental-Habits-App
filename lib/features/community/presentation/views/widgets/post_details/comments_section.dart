@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/enums/community_enums.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/add_comment_widget.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comments_sliver_list.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/shimmer/comments_list_shimmer.dart';
@@ -15,7 +15,7 @@ class CommentsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<PostDetailsViewController>();
+    final controller = context.watch<CommunityViewController>();
     return BlocBuilder<CommentsCubit, CommentsState>(
       builder: (context, state) {
         if (state is CommentsInitial) {

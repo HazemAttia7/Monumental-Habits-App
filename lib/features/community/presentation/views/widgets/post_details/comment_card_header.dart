@@ -6,7 +6,7 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/comment_model.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/three_dots.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +39,7 @@ class CommentCardHeader extends StatelessWidget {
             child: ThreeDots(
               onEditTap: () {
                 GoRouter.of(context).pop();
-                context.read<PostDetailsViewController>().onEditCommentTap(
+                context.read<CommunityViewController>().onEditCommentTap(
                   comment.id,
                 );
               },

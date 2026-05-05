@@ -5,6 +5,10 @@ import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 abstract class PostsRepo {
   Stream<Either<Failure, List<Post>>> watchPosts();
   Future<Either<Failure, bool>> createPost(Post post);
+  Future<Either<Failure, Unit>> editPost(
+    String postId,
+    String newContent,
+  ); 
   Future<Either<Failure, Unit>> deletePost(Post post);
   Future<Either<Failure, Unit>> likePost(String postId, String uid);
   Future<Either<Failure, Unit>> unlikePost(String postId, String uid);

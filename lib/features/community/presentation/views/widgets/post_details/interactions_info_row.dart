@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/post_interactions_avatars.dart';
 
+// TODO : make the full 'Show Interactions' view and implement the logic
 class InteractionsInfoRow extends StatelessWidget {
   const InteractionsInfoRow({super.key});
 

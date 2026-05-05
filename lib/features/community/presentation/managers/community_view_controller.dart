@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/core/enums/community_enums.dart';
 
-class PostDetailsViewController extends ChangeNotifier {
+class CommunityViewController extends ChangeNotifier {
   enCommentsFilterBy _commentsFilterBy = enCommentsFilterBy.newest;
   enCommentsFilterBy get commentsFilterBy => _commentsFilterBy;
   bool _isEditCommentMode = false;
@@ -9,6 +9,9 @@ class PostDetailsViewController extends ChangeNotifier {
   bool _isEditReplyMode = false;
   bool get isEditReplyMode => _isEditReplyMode;
   String? commentIdToEdit, replyIdToEdit;
+  bool _isEditPostMode = false;
+  bool get isEditPostMode => _isEditPostMode;
+  String? postIdToEdit;
 
   void onSortCommentsTap() {
     _commentsFilterBy = _commentsFilterBy.next();
@@ -41,4 +44,15 @@ class PostDetailsViewController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void onEditPostTap(String postId) {
+    postIdToEdit = postId;
+    _isEditPostMode = true;
+    notifyListeners();
+  }
+
+  void onDoneEditPost() {
+    postIdToEdit = null;
+    _isEditPostMode = false;
+    notifyListeners();
+  }
 }

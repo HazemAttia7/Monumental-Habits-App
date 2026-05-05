@@ -5,7 +5,7 @@ import 'package:pixel_true_app/features/community/presentation/managers/edit_con
 import 'package:provider/provider.dart';
 
 class EditableContent extends StatelessWidget {
-  const EditableContent({super.key,});
+  const EditableContent({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class EditableContent extends StatelessWidget {
         fontWeight: FontWeight.normal,
         validator: (_) {
           if (controller.textController.text.trim().isEmpty) {
-            return 'comment cannot be empty';
+            return 'content cannot be empty';
           }
           return null;
         },

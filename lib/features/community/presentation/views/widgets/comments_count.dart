@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +8,7 @@ import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 import 'package:pixel_true_app/features/community/helper/format_count.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/posts_cubit/posts_cubit.dart';
 
 class CommentsCount extends StatelessWidget {
   final Post post;
@@ -20,7 +22,11 @@ class CommentsCount extends StatelessWidget {
       child: InkWell(
         onTap: () => GoRouter.of(context).push(
           AppRouter.kPostDetailsView,
-          extra: {'post': post, 'scrollToComments': true},
+          extra: {
+            'post': post,
+            'scrollToComments': true,
+            'cubit': context.read<PostsCubit>(),
+          },
         ),
         borderRadius: BorderRadius.circular(2.r),
         splashColor: AppColors.primaryColor.withValues(alpha: .1),

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_button.dart';
 import 'package:pixel_true_app/core/widgets/custom_clickable_text.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:provider/provider.dart';
 
 class EditActionsRow extends StatelessWidget {
@@ -36,7 +36,7 @@ class EditActionsRow extends StatelessWidget {
           text: "Cancel",
           textColor: AppColors.secondaryColor,
           onTap: () {
-            final controller = context.read<PostDetailsViewController>();
+            final controller = context.read<CommunityViewController>();
 
             if (controller.isEditCommentMode) {
               controller.onDoneEditComment();

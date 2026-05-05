@@ -50,6 +50,26 @@ class PostsRepoImpl implements PostsRepo {
   }
 
   @override
+  Future<Either<Failure, Unit>> editPost(
+    String postId,
+    String newContent,
+  ) async {
+    try {
+      await _ref().doc(postId).update({
+        'content': newContent,
+        'editedAt': FieldValue.serverTimestamp(),
+      });
+      return const Right(unit);
+    } catch (e) {
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
+    }
+  }
+
+  @override
   Future<Either<Failure, Unit>> deletePost(Post post) async {
     try {
       await _ref().doc(post.id).delete();

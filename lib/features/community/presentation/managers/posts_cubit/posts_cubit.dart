@@ -37,6 +37,11 @@ class PostsCubit extends Cubit<PostsState> {
     }, (_) => true);
   }
 
+  Future<void> editPost(String postId, String newContent) async {
+    final result = await postRepo.editPost(postId, newContent);
+    result.fold((failure) => emit(PostError(failure.errMessage)), (_) => null);
+  }
+
   Future<void> deletePost(Post post) async {
     final currentState = state;
     if (currentState is! PostSuccess) return;

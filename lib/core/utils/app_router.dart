@@ -11,7 +11,8 @@ import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/posts_cubit/posts_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/post_details_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
@@ -194,15 +195,17 @@ abstract class AppRouter {
           final extra = state.extra as Map<String, dynamic>;
           final post = extra['post'] as Post;
           final scrollToComments = extra['scrollToComments'] as bool? ?? false;
+          final cubit = extra['cubit'] as PostsCubit;
 
           return MultiBlocProvider(
             providers: [
+              BlocProvider.value(value: cubit),
               BlocProvider(
                 create: (context) =>
                     CommentsCubit(sl<CommentsRepo>())..watchComments(post.id),
               ),
               ChangeNotifierProvider(
-                create: (context) => PostDetailsViewController(),
+                create: (context) => CommunityViewController(),
               ),
             ],
             child: PostDetailsView(scrollToComments: scrollToComments),

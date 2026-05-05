@@ -4,7 +4,7 @@ import 'package:pixel_true_app/core/enums/community_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_clickable_text.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:provider/provider.dart';
 
 class CommentsSectionHeader extends StatelessWidget {
@@ -12,7 +12,7 @@ class CommentsSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<PostDetailsViewController>();
+    final controller = context.watch<CommunityViewController>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

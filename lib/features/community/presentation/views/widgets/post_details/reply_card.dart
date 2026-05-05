@@ -4,8 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/edit_content_controller.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/expandable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/editable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_actions_row.dart';
@@ -19,7 +19,7 @@ class ReplyCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<PostDetailsViewController>();
+    final controller = context.watch<CommunityViewController>();
     return Container(
       constraints: BoxConstraints(
         maxWidth: 1.sw - 2 * kPagePadding.w - 52.w - 38.w,

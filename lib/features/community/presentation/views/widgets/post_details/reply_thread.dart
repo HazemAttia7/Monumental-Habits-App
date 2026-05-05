@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/features/community/data/models/reply_model.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/edit_content_controller.dart';
-import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/replies_cubit/replies_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/edit_actions_row.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/reply_card.dart';
@@ -19,7 +19,7 @@ class ReplyThread extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = context.watch<PostDetailsViewController>();
+    final controller = context.watch<CommunityViewController>();
     final editController = context.watch<EditContentController>();
     return Column(
       spacing: 8.h,
