@@ -14,22 +14,22 @@ class PostsRepoImpl implements PostsRepo {
       _firestore.collection('posts');
 
   @override
-  Future<Either<Failure, List<Post>>> getPosts() async {
+  Stream<Either<Failure, List<Post>>> watchPosts() async* {
     try {
-      final snapshot = await _ref()
+      yield* _ref()
           .orderBy('createdAt', descending: true)
-          .get();
-      final posts = snapshot.docs.map((doc) {
-        return Post.fromJson(doc.data());
-      }).toList();
-
-      return Right(posts);
+          .snapshots()
+          .map<Either<Failure, List<Post>>>(
+            (snapshot) => Right(
+              snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList(),
+            ),
+          );
     } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      } else {
-        return Left(FirebaseFailure(e.toString()));
-      }
+      yield Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 

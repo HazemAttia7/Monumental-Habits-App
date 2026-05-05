@@ -28,6 +28,7 @@ class PostCard extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r)),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               PostCardHeader(
                 userName: post.authorUsername,

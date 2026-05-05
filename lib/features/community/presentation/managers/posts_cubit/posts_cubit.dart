@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
@@ -9,23 +11,27 @@ class PostsCubit extends Cubit<PostsState> {
   PostsRepo postRepo;
   PostsCubit(this.postRepo) : super(PostsInitial());
 
-  Future<void> getPosts() async {
+  StreamSubscription? _subscription;
+
+  void watchPosts() {
     emit(PostLoading());
-    final result = await postRepo.getPosts();
-    result.fold(
-      (failure) => emit(PostError(failure.errMessage)),
-      (posts) => emit(PostSuccess(posts)),
+    _subscription = postRepo.watchPosts().listen(
+      (result) => result.fold(
+        (failure) => emit(PostError(failure.errMessage)),
+        (posts) => emit(PostSuccess(posts)),
+      ),
     );
   }
 
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
+  }
+
   Future<bool> createPost(Post post) async {
-    final currentState = state;
-    if (currentState is! PostSuccess) return false;
-    final currentPosts = currentState.posts;
-    emit(PostSuccess([...currentPosts, post]));
     final result = await postRepo.createPost(post);
     return result.fold((failure) {
-      emit(PostSuccess(currentPosts));
       emit(PostError(failure.errMessage));
       return false;
     }, (_) => true);
@@ -34,16 +40,8 @@ class PostsCubit extends Cubit<PostsState> {
   Future<void> deletePost(Post post) async {
     final currentState = state;
     if (currentState is! PostSuccess) return;
-
-    final currentPosts = currentState.posts;
-    emit(PostSuccess(currentPosts.where((p) => p.id != post.id).toList()));
-
     final result = await postRepo.deletePost(post);
-
-    result.fold((failure) {
-      emit(PostSuccess(currentPosts));
-      emit(PostError(failure.errMessage));
-    }, (_) => null);
+    result.fold((failure) => emit(PostError(failure.errMessage)), (_) => null);
   }
 
   Future<void> toggleLike(String postId, String uid) async {
@@ -55,25 +53,21 @@ class PostsCubit extends Cubit<PostsState> {
     if (index == -1) return;
 
     final post = currentPosts[index];
-
     final isLiked = post.likedByUids.contains(uid);
 
-    final newLikedByUids = isLiked
-        ? post.likedByUids.where((u) => u != uid).toList()
-        : [...post.likedByUids, uid];
-
+    // Keep optimistic update for snappy UI
     final optimisticPosts = List<Post>.from(currentPosts);
-    optimisticPosts[index] = post.copyWith(likedByUids: newLikedByUids);
-
+    optimisticPosts[index] = post.copyWith(
+      likedByUids: isLiked
+          ? post.likedByUids.where((u) => u != uid).toList()
+          : [...post.likedByUids, uid],
+    );
     emit(PostSuccess(optimisticPosts));
 
     final result = isLiked
         ? await postRepo.unlikePost(postId, uid)
         : await postRepo.likePost(postId, uid);
 
-    result.fold((failure) {
-      emit(PostSuccess(currentPosts));
-      emit(PostError(failure.errMessage));
-    }, (_) => null);
+    result.fold((failure) => emit(PostError(failure.errMessage)), (_) => null);
   }
 }

@@ -32,7 +32,7 @@ class AppGate extends StatelessWidget {
           return MultiBlocProvider(
             providers: [
               BlocProvider(
-                create: (context) => PostsCubit(sl<PostsRepo>())..getPosts(),
+                create: (context) => PostsCubit(sl<PostsRepo>())..watchPosts(),
               ),
               BlocProvider(
                 create: (context) =>
