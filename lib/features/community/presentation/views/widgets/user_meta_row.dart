@@ -8,11 +8,13 @@ import 'package:pixel_true_app/features/community/helper/get_time_ago.dart';
 
 class UserMetaRow extends StatelessWidget {
   final String userName;
-  final Duration postedSince;
+  final String? displayName;
+  final Duration? postedSince;
   const UserMetaRow({
     super.key,
     required this.userName,
-    required this.postedSince,
+    this.postedSince,
+    this.displayName,
   });
 
   @override
@@ -32,19 +34,20 @@ class UserMetaRow extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              userName,
+              displayName ?? userName,
               style: AppStyles.textStyle14.copyWith(
                 fontWeight: FontWeight.bold,
                 height: 1.15,
               ),
             ),
-            Text(
-              getTimeAgo(postedSince),
-              style: AppStyles.textStyle12.copyWith(
-                color: AppColors.secondaryColor.withValues(alpha: .5),
-                height: 1.15,
+            if (postedSince != null)
+              Text(
+                getTimeAgo(postedSince!),
+                style: AppStyles.textStyle12.copyWith(
+                  color: AppColors.secondaryColor.withValues(alpha: .5),
+                  height: 1.15,
+                ),
               ),
-            ),
           ],
         ),
       ],

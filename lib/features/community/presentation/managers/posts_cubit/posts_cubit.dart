@@ -18,19 +18,17 @@ class PostsCubit extends Cubit<PostsState> {
     );
   }
 
-  Future<void> createPost(Post post) async {
+  Future<bool> createPost(Post post) async {
     final currentState = state;
-    if (currentState is! PostSuccess) return;
-
+    if (currentState is! PostSuccess) return false;
     final currentPosts = currentState.posts;
     emit(PostSuccess([...currentPosts, post]));
-
     final result = await postRepo.createPost(post);
-
-    result.fold((failure) {
+    return result.fold((failure) {
       emit(PostSuccess(currentPosts));
       emit(PostError(failure.errMessage));
-    }, (_) => null);
+      return false;
+    }, (_) => true);
   }
 
   Future<void> deletePost(Post post) async {

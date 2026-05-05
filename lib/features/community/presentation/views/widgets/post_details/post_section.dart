@@ -14,8 +14,8 @@ class PostSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-        final extra = GoRouterState.of(context).extra as Map<String, dynamic>;
-    final post = extra['post'] as Post; // ← fix
+    final extra = GoRouterState.of(context).extra as Map<String, dynamic>;
+    final post = extra['post'] as Post;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,

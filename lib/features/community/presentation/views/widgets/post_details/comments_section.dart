@@ -6,7 +6,7 @@ import 'package:pixel_true_app/core/enums/community_enums.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/post_details_view_controller.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/add_comment_placeholder.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/add_comment_widget.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comments_sliver_list.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/shimmer/comments_list_shimmer.dart';
 
@@ -37,9 +37,7 @@ class CommentsSection extends StatelessWidget {
           return SliverMainAxisGroup(
             slivers: [
               SliverToBoxAdapter(
-                child: Column(
-                  children: [const AddCommentPlaceholder(), Gap(18.h)],
-                ),
+                child: Column(children: [const AddCommentWidget(), Gap(18.h)]),
               ),
               CommentsSliverList(comments: comments),
             ],

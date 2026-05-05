@@ -34,20 +34,18 @@ class PostsRepoImpl implements PostsRepo {
   }
 
   @override
-  Future<Either<Failure, Unit>> createPost(Post post) async {
+  Future<Either<Failure, bool>> createPost(Post post) async {
     try {
       final docRef = _ref().doc();
-
       final newPost = post.copyWith(id: docRef.id);
-
       await docRef.set(newPost.toJson());
-      return const Right(unit);
+      return const Right(true);
     } catch (e) {
-      if (e is FirebaseException) {
-        return Left(FirebaseFailure.fromFirestore(e));
-      } else {
-        return Left(FirebaseFailure(e.toString()));
-      }
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
     }
   }
 
@@ -96,4 +94,7 @@ class PostsRepoImpl implements PostsRepo {
       }
     }
   }
+
+  @override
+  String generatePostId() => _ref().doc().id;
 }

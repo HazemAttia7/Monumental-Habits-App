@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/view_header.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/add_post_card.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/posts_sliver_list.dart';
 
 class CommunityLoadedView extends StatelessWidget {
@@ -25,6 +26,12 @@ class CommunityLoadedView extends StatelessWidget {
                   const ViewHeader(header: "Community"),
                   Gap(36.h),
                 ],
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(bottom: 12.h),
+                child: const AddPostCard(),
               ),
             ),
             PostsSliverList(posts: posts),
