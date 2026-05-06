@@ -37,4 +37,6 @@ abstract class AuthRepo {
   Future<Either<Failure, bool>> isEmailAvailable(String email);
 
   bool isGoogleUser();
+
+  Future<Either<Failure, List<String>>> getUsernamesByUids(List<String> uids);
 }

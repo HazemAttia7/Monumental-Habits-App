@@ -26,6 +26,7 @@ class PostCardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentUserUid = context.read<AuthCubit>().currentUser!.uid;
+    final isCurrentUser = post.authorUid == currentUserUid;
     return Column(
       children: [
         Row(
@@ -33,6 +34,8 @@ class PostCardHeader extends StatelessWidget {
             UserMetaRow(
               userName: post.authorUsername,
               postedSince: postedSince,
+              displayName: isCurrentUser ? "You" : post.authorUsername,
+              backColor: isCurrentUser ? AppColors.primaryColor : null,
             ),
             const Spacer(),
             CustomIconButton(
@@ -43,7 +46,7 @@ class PostCardHeader extends StatelessWidget {
               iconSize: 16.sp,
               padding: EdgeInsets.all(12.sp),
             ),
-            if (post.authorUid == currentUserUid)
+            if (isCurrentUser)
               Padding(
                 padding: EdgeInsets.only(left: 8.w),
                 child: ThreeDots(

@@ -384,9 +384,59 @@ class AuthRepoImpl implements AuthRepo {
         "username_lower": newUsername.toLowerCase(),
       });
 
+      await _updateAuthorUsernameInPosts(user.uid, newUsername);
+
       return const Right(unit);
     } on Exception catch (e) {
       return Left(FirebaseFailure.fromException(e));
+    }
+  }
+
+  Future<void> _updateAuthorUsernameInPosts(
+    String uid,
+    String newUsername,
+  ) async {
+    try {
+      final posts = await _firestore
+          .collection('posts')
+          .where('authorUid', isEqualTo: uid)
+          .get();
+
+      final comments = await _firestore
+          .collectionGroup('comments')
+          .where('authorUid', isEqualTo: uid)
+          .get();
+
+      final replies = await _firestore
+          .collectionGroup('replies')
+          .where('authorUid', isEqualTo: uid)
+          .get();
+
+      final allRefs = [
+        ...posts.docs.map((d) => d.reference),
+        ...comments.docs.map((d) => d.reference),
+        ...replies.docs.map((d) => d.reference),
+      ];
+
+      const chunkSize = 500;
+      for (var i = 0; i < allRefs.length; i += chunkSize) {
+        final batch = _firestore.batch();
+        final chunk = allRefs.sublist(
+          i,
+          (i + chunkSize).clamp(0, allRefs.length),
+        );
+        for (final ref in chunk) {
+          batch.update(ref, {'authorUsername': newUsername});
+        }
+        await batch.commit();
+      }
+    } on FirebaseException catch (e) {
+      // This will print the exact error code and message
+      debugPrint('Firebase error: ${e.code} — ${e.message}');
+      debugPrint(
+        'Link to fix: ${e.message}',
+      ); // index link usually appears here
+      rethrow;
     }
   }
 
@@ -410,5 +460,22 @@ class AuthRepoImpl implements AuthRepo {
     final user = _auth.currentUser;
 
     return user?.providerData.any((p) => p.providerId == 'google.com') ?? false;
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getUsernamesByUids(
+    List<String> uids,
+  ) async {
+    try {
+      final docs = await Future.wait(
+        uids.map((uid) => _firestore.collection('users').doc(uid).get()),
+      );
+      final usernames = docs
+          .map((doc) => (doc.data()?['username'] as String? ?? '??'))
+          .toList();
+      return Right(usernames);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
   }
 }

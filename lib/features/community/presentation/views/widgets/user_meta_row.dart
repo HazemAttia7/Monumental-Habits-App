@@ -10,11 +10,12 @@ class UserMetaRow extends StatelessWidget {
   final String userName;
   final String? displayName;
   final Duration? postedSince;
+  final Color? backColor;
   const UserMetaRow({
     super.key,
     required this.userName,
     this.postedSince,
-    this.displayName,
+    this.displayName, this.backColor,
   });
 
   @override
@@ -27,6 +28,7 @@ class UserMetaRow extends StatelessWidget {
           fontSize: 14.sp,
           padding: EdgeInsets.all(2.sp),
           userName: userName,
+          backColor:  backColor,
         ),
         Gap(10.w),
         Column(

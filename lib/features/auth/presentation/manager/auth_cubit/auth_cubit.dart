@@ -221,4 +221,16 @@ class AuthCubit extends Cubit<AuthState> {
         (p) => p.providerId == 'google.com',
       ) ??
       false;
+
+  Future<List<String>> getUsernameInitialsByUids(List<String> uids) async {
+    final toFetch = uids.take(2).toList();
+    if (toFetch.isEmpty) return [];
+
+    final result = await authRepo.getUsernamesByUids(toFetch);
+    return result.fold(
+      (_) => [],
+      (usernames) =>
+          usernames.map((name) => name.substring(0, 2).toUpperCase()).toList(),
+    );
+  }
 }

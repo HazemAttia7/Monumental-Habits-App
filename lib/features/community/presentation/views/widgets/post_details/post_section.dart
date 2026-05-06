@@ -114,7 +114,20 @@ class _PostSectionState extends State<PostSection> {
             Gap(18.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w),
-              child: const InteractionsInfoRow(),
+              child: BlocBuilder<PostsCubit, PostsState>(
+                builder: (context, state) {
+                  final livePost = state is PostSuccess
+                      ? state.posts.firstWhere(
+                          (p) => p.id == post.id,
+                          orElse: () => post,
+                        )
+                      : post;
+                  return InteractionsInfoRow(
+                    likesCount: livePost.likesCount,
+                    likedByUids: livePost.likedByUids,
+                  );
+                },
+              ),
             ),
             Gap(8.h),
             Divider(

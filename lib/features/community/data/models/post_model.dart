@@ -22,6 +22,13 @@ class Post {
   bool isLikedBy(String uid) => likedByUids.contains(uid);
   int get likesCount => likedByUids.length;
 
+  String? get firstInitial =>
+      likedByUids.isEmpty ? null : likedByUids[0].substring(0, 2).toUpperCase();
+      
+  String? get secondInitial => likedByUids.isEmpty || likedByUids.length == 1
+      ? null
+      : likedByUids[1].substring(0, 2).toUpperCase();
+
   factory Post.fromJson(Map<String, dynamic> json) => Post(
     id: json['id'] ?? '',
     authorUid: json['authorUid'] ?? '',
