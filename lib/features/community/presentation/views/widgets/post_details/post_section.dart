@@ -122,7 +122,7 @@ class _PostSectionState extends State<PostSection> {
               thickness: 1.sp,
               height: 1,
             ),
-            const ActionsRow(),
+            ActionsRow(post: post),
           ],
         ),
       ),
