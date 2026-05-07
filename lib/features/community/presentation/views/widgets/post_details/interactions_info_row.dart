@@ -1,5 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/post_interactions_avatars.dart';
@@ -45,15 +49,27 @@ class _InteractionsInfoRowState extends State<InteractionsInfoRow> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        PostInteractionsAvatars(
-          firstInitial: _initials.isNotEmpty ? _initials[0] : null,
-          secondInitial: _initials.length > 1 ? _initials[1] : null,
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(12.r),
+      child: InkWell(
+        onTap: () => GoRouter.of(
+          context,
+        ).push(AppRouter.kLikesListView, extra: widget.likedByUids),
+        borderRadius: BorderRadius.circular(12.r),
+        splashColor: AppColors.primaryColor.withValues(alpha: .1),
+        highlightColor: AppColors.primaryColor.withValues(alpha: .1),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            PostInteractionsAvatars(
+              firstInitial: _initials.isNotEmpty ? _initials[0] : null,
+              secondInitial: _initials.length > 1 ? _initials[1] : null,
+            ),
+            LikesInfo(likesCount: widget.likesCount),
+          ],
         ),
-        LikesInfo(likesCount: widget.likesCount),
-      ],
+      ),
     );
   }
 }

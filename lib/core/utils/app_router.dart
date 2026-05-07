@@ -13,6 +13,7 @@ import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart'
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/posts_cubit/posts_cubit.dart';
+import 'package:pixel_true_app/features/community/presentation/views/likes_list_view.dart';
 import 'package:pixel_true_app/features/community/presentation/views/post_details_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
@@ -53,6 +54,8 @@ abstract class AppRouter {
   static const String kAboutUs = "/about-us";
   static const String kCourseDetailsView = "/course-details";
   static const String kPostDetailsView = "/post-details";
+  static const String kLikesListView = "/likes";
+
   static final router = GoRouter(
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
@@ -211,6 +214,10 @@ abstract class AppRouter {
             child: PostDetailsView(scrollToComments: scrollToComments),
           );
         },
+      ),
+      GoRoute(
+        path: kLikesListView,
+        builder: (context, state) => const LikesListView(),
       ),
     ],
   );
