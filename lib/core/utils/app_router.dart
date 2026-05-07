@@ -10,8 +10,10 @@ import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/likes_list_repo.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
+import 'package:pixel_true_app/features/community/presentation/managers/likes_list_cubit/likes_list_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/posts_cubit/posts_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/likes_list_view.dart';
 import 'package:pixel_true_app/features/community/presentation/views/post_details_view.dart';
@@ -217,7 +219,10 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kLikesListView,
-        builder: (context, state) => const LikesListView(),
+        builder: (context, state) => BlocProvider(
+          create: (context) => LikesListCubit(sl<LikesListRepo>())..getLikesList(state.extra as List<String>),
+          child: const LikesListView(),
+        ),
       ),
     ],
   );

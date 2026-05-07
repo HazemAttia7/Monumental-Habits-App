@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
-class AddFriendButton extends StatelessWidget {
-  final String uid;
-  const AddFriendButton({super.key, required this.uid});
+class FriendsButton extends StatelessWidget {
+  const FriendsButton({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColors.morning,
+      color: const Color(0xffFEEAFA),
       borderRadius: BorderRadius.circular(16.r),
       child: InkWell(
         onTap: () {
-          // TODO : implement add friend
+          // TODO : implement remove friend
         },
         borderRadius: BorderRadius.circular(16.r),
         splashColor: AppColors.secondaryColor.withValues(alpha: .1),
@@ -22,12 +22,21 @@ class AddFriendButton extends StatelessWidget {
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 6.sp),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r)),
-          child: Text(
-            "ADD FRIEND",
-            style: AppStyles.textStyle14.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
+          child: Row(
+            spacing: 8.w,
+            children: [
+              Icon(
+                FontAwesomeIcons.check,
+                size: 17.sp,
+                color: AppColors.secondaryColor,
+              ),
+              Text(
+                "FRIENDS",
+                style: AppStyles.textStyle14.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       ),

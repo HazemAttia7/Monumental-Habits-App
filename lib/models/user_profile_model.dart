@@ -20,6 +20,8 @@ class UserProfile {
     this.savedCourseIds = const [],
   });
 
+  bool isFriend(String uid) => friendUids.contains(uid);
+
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
     uid: json['uid'] ?? '',
     username: json['username'] ?? '',

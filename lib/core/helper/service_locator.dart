@@ -7,6 +7,8 @@ import 'package:pixel_true_app/core/services/isar_service.dart';
 import 'package:pixel_true_app/core/services/notification_service.dart';
 import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
 import 'package:pixel_true_app/features/community/data/repos/comments_repo_impl.dart';
+import 'package:pixel_true_app/features/community/data/repos/likes_list_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/likes_list_repo_impl.dart';
 import 'package:pixel_true_app/features/community/data/repos/posts_repo.dart';
 import 'package:pixel_true_app/features/community/data/repos/posts_repo_impl.dart';
 import 'package:pixel_true_app/features/community/data/repos/replies_repo.dart';
@@ -70,6 +72,8 @@ Future<void> setupServiceLocator({
   sl.registerSingleton<RepliesRepo>(
     RepliesRepoImpl(firestore: sl<FirebaseFirestore>()),
   );
+
+  sl.registerSingleton<LikesListRepo>(LikesListRepoImpl());
 
   // ──── Cubits ───────────────────────────────────────────────
   sl.registerFactory(() => CommentsCubit(sl<CommentsRepo>()));
