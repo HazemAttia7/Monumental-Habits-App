@@ -23,13 +23,10 @@ class LikeByUserInfo extends StatelessWidget {
           backColor: isCurrentUser ? AppColors.primaryColor : null,
         ),
         Gap(12.w),
-        Column(
-          children: [
-            Text(
-              userName,
-              style: AppStyles.textStyle16.copyWith(color: Colors.black),
-            ),
-          ],
+
+        Text(
+          userName,
+          style: AppStyles.textStyle16.copyWith(color: Colors.black),
         ),
       ],
     );

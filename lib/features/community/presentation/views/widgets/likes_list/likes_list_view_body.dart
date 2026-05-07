@@ -6,6 +6,7 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/likes_list_cubit/likes_list_cubit.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/likes_list/shimmer/users_list_shimmer.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/likes_list/user_list.dart';
 
 class LikesListViewBody extends StatelessWidget {
@@ -31,10 +32,7 @@ class LikesListViewBody extends StatelessWidget {
             BlocBuilder<LikesListCubit, LikesListState>(
               builder: (context, state) {
                 if (state is LikesListLoading) {
-                  // TODO : make shimmer effect
-                  return const SliverToBoxAdapter(
-                    child: Center(child: CircularProgressIndicator()),
-                  );
+                  return const SliverToBoxAdapter(child: UsersListShimmer());
                 }
 
                 if (state is LikesListFailure) {
@@ -44,7 +42,7 @@ class LikesListViewBody extends StatelessWidget {
                     ),
                   );
                 }
-
+                
                 if (state is LikesListSuccess) {
                   return UsersList(users: state.users);
                 }
