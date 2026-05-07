@@ -69,6 +69,7 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
       create: (_) => CommunityViewController(),
       child: const CommunityView(),
     ),
+    // TODO : implement settings view
     const Center(child: Text("Settings View")),
     AddEditHabitView(
       backToHome: backToHome,
