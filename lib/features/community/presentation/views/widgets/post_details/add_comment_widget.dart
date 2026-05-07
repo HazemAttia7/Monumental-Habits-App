@@ -11,15 +11,24 @@ class AddCommentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.watch<AuthCubit>();
+    final currentUser = authCubit.currentUser;
+
+    if (currentUser == null) {
+      return const SizedBox.shrink();
+    }
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProfilePlaceholder(
-          userName: BlocProvider.of<AuthCubit>(context).currentUser!.name,
+          userName: currentUser.name,
           padding: EdgeInsets.all(12.sp),
         ),
         Gap(8.w),
-        const Expanded(child: AddCommentCard()),
+        const Expanded(
+          child: AddCommentCard(),
+        ),
       ],
     );
   }

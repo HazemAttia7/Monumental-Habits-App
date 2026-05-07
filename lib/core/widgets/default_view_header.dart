@@ -9,14 +9,20 @@ import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 class DefaultViewHeader extends StatelessWidget {
   final String title;
   final Color? themeColor;
-  const DefaultViewHeader({super.key, required this.title, this.themeColor});
+  final VoidCallback? onBackTap;
+  const DefaultViewHeader({
+    super.key,
+    required this.title,
+    this.themeColor,
+    this.onBackTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         CustomIconButton(
-          onTap: () => Navigator.pop(context),
+          onTap: onBackTap ?? () => Navigator.pop(context),
           iconColor: themeColor ?? AppColors.secondaryColor,
           backColor:
               themeColor?.withValues(alpha: .1) ??

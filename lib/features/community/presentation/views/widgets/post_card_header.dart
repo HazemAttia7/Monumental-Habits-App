@@ -13,6 +13,7 @@ import 'package:pixel_true_app/features/community/presentation/views/widgets/pos
 import 'package:pixel_true_app/features/community/presentation/views/widgets/user_meta_row.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class PostCardHeader extends StatelessWidget {
   final Post post;
@@ -40,7 +41,15 @@ class PostCardHeader extends StatelessWidget {
             const Spacer(),
             CustomIconButton(
               onTap: () {
-                // TODO : share post
+                final link =
+                    'https://hazemattia7.github.io/monument-links/post/${post.id}';
+                SharePlus.instance.share(
+                  ShareParams(
+                    text:
+                        'Check out this post by ${post.authorUsername}!\n$link',
+                    subject: 'Post on Monumental Habits',
+                  ),
+                );
               },
               icon: FontAwesomeIcons.share,
               iconSize: 16.sp,

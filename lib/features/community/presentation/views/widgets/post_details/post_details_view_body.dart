@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/comments_section.dart';
@@ -55,7 +57,17 @@ class _PostDetailsViewBodyState extends State<PostDetailsViewBody> {
               child: Column(
                 children: [
                   Gap(12.h),
-                  const DefaultViewHeader(title: 'Post Details'),
+                  DefaultViewHeader(
+                    title: 'Post Details',
+                    onBackTap: () {
+                      final router = GoRouter.of(context);
+                      if (router.canPop()) {
+                        router.pop();
+                      } else {
+                        router.go(AppRouter.kAppGate);
+                      }
+                    },
+                  ),
                   Gap(18.h),
                   const PostSection(),
                   Gap(24.h),

@@ -116,5 +116,24 @@ class PostsRepoImpl implements PostsRepo {
   }
 
   @override
+  Future<Either<Failure, Post>> getPostById(String postId) async {
+    try {
+      final doc = await _ref().doc(postId).get();
+
+      if (!doc.exists || doc.data() == null) {
+        return const Left(FirebaseFailure('Post not found'));
+      }
+
+      return Right(Post.fromJson(doc.data()!));
+    } catch (e) {
+      return Left(
+        e is FirebaseException
+            ? FirebaseFailure.fromFirestore(e)
+            : FirebaseFailure(e.toString()),
+      );
+    }
+  }
+
+  @override
   String generatePostId() => _ref().doc().id;
 }

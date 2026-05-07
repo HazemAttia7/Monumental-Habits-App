@@ -11,10 +11,12 @@ import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 import 'package:pixel_true_app/features/community/data/repos/comments_repo.dart';
 import 'package:pixel_true_app/features/community/data/repos/likes_list_repo.dart';
+import 'package:pixel_true_app/features/community/data/repos/posts_repo.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/comments_cubit/comments_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/likes_list_cubit/likes_list_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/posts_cubit/posts_cubit.dart';
+import 'package:pixel_true_app/features/community/presentation/views/community_view.dart';
 import 'package:pixel_true_app/features/community/presentation/views/likes_list_view.dart';
 import 'package:pixel_true_app/features/community/presentation/views/post_details_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
@@ -57,8 +59,21 @@ abstract class AppRouter {
   static const String kCourseDetailsView = "/course-details";
   static const String kPostDetailsView = "/post-details";
   static const String kLikesListView = "/likes";
+  static const String kCommunityView = "/community";
 
   static final router = GoRouter(
+    onException: (context, state, router) {
+      final uri = state.uri;
+      final segments = uri.pathSegments;
+      if (segments.length == 3 &&
+          segments[0] == 'monument-links' &&
+          segments[1] == 'post') {
+        final postId = segments[2];
+        router.go('/post/$postId');
+      } else {
+        router.go('/');
+      }
+    },
     routes: [
       GoRoute(path: "/", builder: (context, state) => const SplashView()),
       GoRoute(path: kAppGate, builder: (context, state) => const AppGate()),
@@ -195,6 +210,18 @@ abstract class AppRouter {
         },
       ),
       GoRoute(
+        path: AppRouter.kCommunityView,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (_) => PostsCubit(sl<PostsRepo>())..watchPosts(),
+            child: ChangeNotifierProvider(
+              create: (_) => CommunityViewController(),
+              child: const CommunityView(),
+            ),
+          );
+        },
+      ),
+      GoRoute(
         path: kPostDetailsView,
         builder: (context, state) {
           final extra = state.extra as Map<String, dynamic>;
@@ -220,9 +247,31 @@ abstract class AppRouter {
       GoRoute(
         path: kLikesListView,
         builder: (context, state) => BlocProvider(
-          create: (context) => LikesListCubit(sl<LikesListRepo>())..getLikesList(state.extra as List<String>),
+          create: (context) =>
+              LikesListCubit(sl<LikesListRepo>())
+                ..getLikesList(state.extra as List<String>),
           child: const LikesListView(),
         ),
+      ),
+      GoRoute(
+        path: '/post/:postId',
+        builder: (context, state) {
+          final postId = state.pathParameters['postId']!;
+
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => PostsCubit(sl<PostsRepo>())..getPostById(postId),
+              ),
+              BlocProvider(
+                create: (_) =>
+                    CommentsCubit(sl<CommentsRepo>())..watchComments(postId),
+              ),
+              ChangeNotifierProvider(create: (_) => CommunityViewController()),
+            ],
+            child: const PostDetailsView(scrollToComments: false),
+          );
+        },
       ),
     ],
   );

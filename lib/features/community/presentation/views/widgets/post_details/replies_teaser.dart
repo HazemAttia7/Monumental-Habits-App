@@ -11,10 +11,19 @@ import 'package:pixel_true_app/features/community/presentation/managers/replies_
 
 class RepliesTeaser extends StatelessWidget {
   final VoidCallback onViewRepliesTap;
-  const RepliesTeaser({super.key, required this.onViewRepliesTap});
+
+  const RepliesTeaser({
+    super.key,
+    required this.onViewRepliesTap,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final extra =
+        GoRouterState.of(context).extra as Map<String, dynamic>?;
+
+    final Post? post = extra?['post'] as Post?;
+
     return Padding(
       padding: EdgeInsets.only(top: 6.h),
       child: InkWell(
@@ -28,13 +37,17 @@ class RepliesTeaser extends StatelessWidget {
             if (state is! RepliesSuccess || state.replies.isEmpty) {
               return const SizedBox.shrink();
             }
+
+            if (post == null) {
+              return const SizedBox.shrink();
+            }
+
             final replies = state.replies;
-            final extra =
-                GoRouterState.of(context).extra as Map<String, dynamic>;
-            final post = extra['post'] as Post;
+
             final bool isPostAuthorReplied = replies.any(
               (reply) => reply.authorUid == post.authorUid,
             );
+
             return isPostAuthorReplied
                 ? Row(
                     children: [
@@ -76,17 +89,13 @@ class RepliesTeaser extends StatelessWidget {
     );
   }
 
-  _getViewRepliesText(int repliesLength) {
-    if (repliesLength == 1) {
-      return "View 1 reply";
-    }
+  String _getViewRepliesText(int repliesLength) {
+    if (repliesLength == 1) return "View 1 reply";
     return "View all $repliesLength replies";
   }
 
-  _getRepliesText(int repliesLength) {
-    if (repliesLength == 1) {
-      return "1 reply";
-    }
+  String _getRepliesText(int repliesLength) {
+    if (repliesLength == 1) return "1 reply";
     return "$repliesLength replies";
   }
 }

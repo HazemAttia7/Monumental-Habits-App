@@ -95,6 +95,8 @@ class _SplashViewBodyState extends State<SplashViewBody>
 
     await Future.delayed(const Duration(seconds: 3));
 
+    if (!mounted) return;
+
     if (hasSeenOnboarding) {
       GoRouter.of(context).pushReplacement(AppRouter.kAppGate);
     } else {

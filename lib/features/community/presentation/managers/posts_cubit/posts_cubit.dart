@@ -75,4 +75,13 @@ class PostsCubit extends Cubit<PostsState> {
 
     result.fold((failure) => emit(PostError(failure.errMessage)), (_) => null);
   }
+
+  Future<Post?> getPostById(String postId) async {
+    final result = await postRepo.getPostById(postId);
+
+    return result.fold((failure) {
+      emit(PostError(failure.errMessage));
+      return null;
+    }, (post) => post);
+  }
 }

@@ -23,7 +23,7 @@ class ActionsRow extends StatelessWidget {
             borderRadius: BorderRadius.circular(9999.r),
             margin: 0,
           ),
-          const Expanded(child: ShareButton()),
+          Expanded(child: ShareButton(post: post)),
         ],
       ),
     );

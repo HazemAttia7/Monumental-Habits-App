@@ -25,38 +25,69 @@ class PostSection extends StatefulWidget {
 }
 
 class _PostSectionState extends State<PostSection> {
-  late final EditContentController _editController;
-  late Post post;
+  EditContentController? _editController;
+  Post? post;
+
   bool _initialized = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+
     if (_initialized) return;
     _initialized = true;
 
-    final extra = GoRouterState.of(context).extra as Map<String, dynamic>;
-    post = extra['post'] as Post;
-    _editController = EditContentController(post.content);
+    _loadPost();
+  }
+
+  Future<void> _loadPost() async {
+    final state = GoRouterState.of(context);
+    final extra = state.extra as Map<String, dynamic>?;
+
+    if (extra != null && extra['post'] != null) {
+      post = extra['post'] as Post;
+    } else {
+      final postId = state.pathParameters['postId']!;
+
+      post = await context.read<PostsCubit>().getPostById(postId);
+    }
+
+    _editController = EditContentController(post?.content ?? '');
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
   void dispose() {
-    _editController.dispose();
+    _editController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (post == null || _editController == null) {
+      // TODO : add shimmer effect
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    final currentPost = post!;
+    final editController = _editController!;
+
     final controller = context.watch<CommunityViewController>();
+
     final isEditing =
-        controller.isEditPostMode && controller.postIdToEdit == post.id;
+        controller.isEditPostMode && controller.postIdToEdit == currentPost.id;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (isEditing) _editController.setText(post.content);
+      if (isEditing) {
+        editController.setText(currentPost.content);
+      }
     });
 
     return ChangeNotifierProvider.value(
-      value: _editController,
+      value: editController,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -66,11 +97,14 @@ class _PostSectionState extends State<PostSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Gap(16.h),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w),
-              child: PostSectionHeader(post: post),
+              child: PostSectionHeader(post: currentPost),
             ),
+
             Gap(24.h),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w),
               child: isEditing
@@ -80,11 +114,12 @@ class _PostSectionState extends State<PostSection> {
                         final liveContent = state is PostSuccess
                             ? state.posts
                                   .firstWhere(
-                                    (p) => p.id == post.id,
-                                    orElse: () => post,
+                                    (p) => p.id == currentPost.id,
+                                    orElse: () => currentPost,
                                   )
                                   .content
-                            : post.content;
+                            : currentPost.content;
+
                         return ExpandableContent(
                           content: liveContent,
                           style: AppStyles.textStyle14.copyWith(
@@ -94,34 +129,41 @@ class _PostSectionState extends State<PostSection> {
                       },
                     ),
             ),
+
             if (isEditing) ...[
               Gap(8.h),
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 18.w),
                 child: EditActionsRow(
-                  onConfirm: () => _editController.submit((newContent) async {
-                    if (newContent == post.content) return;
+                  onConfirm: () => editController.submit((newContent) async {
+                    if (newContent == currentPost.content) return;
+
                     await context.read<PostsCubit>().editPost(
-                      post.id,
+                      currentPost.id,
                       newContent,
                     );
+
                     controller.onDoneEditPost();
                   }),
-                  isLoading: _editController.isLoading,
+                  isLoading: editController.isLoading,
                 ),
               ),
             ],
+
             Gap(18.h),
+
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w),
               child: BlocBuilder<PostsCubit, PostsState>(
                 builder: (context, state) {
                   final livePost = state is PostSuccess
                       ? state.posts.firstWhere(
-                          (p) => p.id == post.id,
-                          orElse: () => post,
+                          (p) => p.id == currentPost.id,
+                          orElse: () => currentPost,
                         )
-                      : post;
+                      : currentPost;
+
                   return InteractionsInfoRow(
                     likesCount: livePost.likesCount,
                     likedByUids: livePost.likedByUids,
@@ -129,13 +171,16 @@ class _PostSectionState extends State<PostSection> {
                 },
               ),
             ),
+
             Gap(8.h),
+
             Divider(
               color: AppColors.secondaryColor.withValues(alpha: .3),
               thickness: 1.sp,
               height: 1,
             ),
-            ActionsRow(post: post),
+
+            ActionsRow(post: currentPost),
           ],
         ),
       ),
