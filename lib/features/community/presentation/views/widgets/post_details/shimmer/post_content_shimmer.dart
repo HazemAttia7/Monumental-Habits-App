@@ -8,8 +8,15 @@ class PostContentShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      spacing: 16.h,
-      children: List.generate(3, (_) => LineShimmer(height: 12.h)),
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: List.generate(
+        3,
+        (index) => Padding(
+          padding: EdgeInsets.only(bottom: 8.h),
+          child: LineShimmer(width: double.infinity, height: 12.h),
+        ),
+      ),
     );
   }
 }

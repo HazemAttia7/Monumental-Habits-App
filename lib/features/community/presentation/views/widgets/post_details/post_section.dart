@@ -15,6 +15,7 @@ import 'package:pixel_true_app/features/community/presentation/views/widgets/pos
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/editable_content.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/interactions_info_row.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/post_section_header.dart';
+import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/shimmer/post_section_shimmer.dart';
 import 'package:provider/provider.dart';
 
 class PostSection extends StatefulWidget {
@@ -68,8 +69,7 @@ class _PostSectionState extends State<PostSection> {
   @override
   Widget build(BuildContext context) {
     if (post == null || _editController == null) {
-      // TODO : add shimmer effect
-      return const Center(child: CircularProgressIndicator());
+      return const PostSectionShimmer();
     }
 
     final currentPost = post!;
