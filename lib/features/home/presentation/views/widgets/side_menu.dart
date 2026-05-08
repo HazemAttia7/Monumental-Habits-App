@@ -63,9 +63,7 @@ class SideMenu extends StatelessWidget {
             SideMenuListTile(
               icon: FontAwesomeIcons.users,
               title: "Friends",
-              onTap: () {
-                // TODO(Last) : Open Friends list
-              },
+              onTap: () => GoRouter.of(context).push(AppRouter.kFriends),
             ),
             Gap(24.h),
             SideMenuListTile(

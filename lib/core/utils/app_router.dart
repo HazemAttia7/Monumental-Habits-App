@@ -23,6 +23,9 @@ import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
 import 'package:pixel_true_app/features/courses/presentation/views/course_details_view.dart';
+import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
+import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/friends_view.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/habits_history_view.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
@@ -60,6 +63,7 @@ abstract class AppRouter {
   static const String kPostDetailsView = "/post-details";
   static const String kLikesListView = "/likes";
   static const String kCommunityView = "/community";
+  static const String kFriends = "/friends";
 
   static final router = GoRouter(
     onException: (context, state, router) {
@@ -245,15 +249,6 @@ abstract class AppRouter {
         },
       ),
       GoRoute(
-        path: kLikesListView,
-        builder: (context, state) => BlocProvider(
-          create: (context) =>
-              LikesListCubit(sl<LikesListRepo>())
-                ..getLikesList(state.extra as List<String>),
-          child: const LikesListView(),
-        ),
-      ),
-      GoRoute(
         path: '/post/:postId',
         builder: (context, state) {
           final postId = state.pathParameters['postId']!;
@@ -272,6 +267,28 @@ abstract class AppRouter {
             child: const PostDetailsView(scrollToComments: false),
           );
         },
+      ),
+      GoRoute(
+        path: kLikesListView,
+        builder: (context, state) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (_) => FriendsCubit(sl<FriendsRepo>())..getPendingRequestIds()),
+            BlocProvider(
+              create: (_) =>
+                  LikesListCubit(sl<LikesListRepo>())
+                    ..getLikesList(state.extra as List<String>),
+            ),
+          ],
+          child: const LikesListView(),
+        ),
+      ),
+      GoRoute(
+        path: kFriends,
+        builder: (context, state) => BlocProvider(
+          create: (context) => FriendsCubit(sl<FriendsRepo>()),
+          // ..getFriendsList(context.read<AuthCubit>().currentUser!.uid)
+          child: const FriendsView(),
+        ),
       ),
     ],
   );
