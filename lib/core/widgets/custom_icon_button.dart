@@ -9,6 +9,8 @@ class CustomIconButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Color? iconColor, backColor;
   final BoxShape? shape;
+  final BorderRadius? borderRadius;
+
   const CustomIconButton({
     super.key,
     required this.onTap,
@@ -19,34 +21,39 @@ class CustomIconButton extends StatelessWidget {
     this.backColor,
     this.shape,
     this.elevation,
+    this.borderRadius,
   });
+
+  bool get _isCircle => (shape ?? BoxShape.circle) == BoxShape.circle;
+
+  BorderRadius get _resolvedRadius =>
+      borderRadius ?? BorderRadius.circular(12.r);
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color:
-          backColor ??
+      color: backColor ??
           iconColor?.withValues(alpha: .1) ??
           AppColors.secondaryColor.withValues(alpha: .1),
-      shape: shape == BoxShape.circle ? null : const CircleBorder(),
+      shape: _isCircle
+          ? const CircleBorder()
+          : RoundedRectangleBorder(borderRadius: _resolvedRadius),
       elevation: elevation ?? 0,
       shadowColor: AppColors.secondaryColor,
       child: InkWell(
-        customBorder: shape == BoxShape.circle ? null : const CircleBorder(),
-        highlightColor:
-            iconColor?.withValues(alpha: .1) ??
+        customBorder: _isCircle
+            ? const CircleBorder()
+            : RoundedRectangleBorder(borderRadius: _resolvedRadius),
+        highlightColor: iconColor?.withValues(alpha: .1) ??
             AppColors.secondaryColor.withValues(alpha: .1),
-        splashColor:
-            iconColor?.withValues(alpha: .1) ??
+        splashColor: iconColor?.withValues(alpha: .1) ??
             AppColors.secondaryColor.withValues(alpha: .1),
         onTap: onTap,
         child: Container(
           padding: padding ?? EdgeInsets.all(11.sp),
           decoration: BoxDecoration(
             shape: shape ?? BoxShape.circle,
-            borderRadius: shape == BoxShape.circle
-                ? BorderRadius.circular(9999.r)
-                : null,
+            borderRadius: _isCircle ? null : _resolvedRadius,
           ),
           child: Icon(
             icon,
