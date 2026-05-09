@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_card.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_reqs_list.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_view_header.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/section_header.dart';
@@ -19,7 +20,7 @@ class FriendsViewBody extends StatelessWidget {
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Gap(12.h), const FriendsViewHeader(), Gap(24.h)],
+                children: [Gap(18.h), const FriendsViewHeader(), Gap(24.h)],
               ),
             ),
             const SliverToBoxAdapter(
@@ -27,6 +28,12 @@ class FriendsViewBody extends StatelessWidget {
             ),
             SliverToBoxAdapter(child: Gap(16.h)),
             const FriendReqsList(),
+            SliverToBoxAdapter(child: Gap(36.h)),
+            const SliverToBoxAdapter(
+              child: SectionHeader(text: "YOUR FRIENDS"),
+            ),
+            SliverToBoxAdapter(child: Gap(16.h)),
+            const SliverToBoxAdapter(child: FriendCard()),
           ],
         ),
       ),
