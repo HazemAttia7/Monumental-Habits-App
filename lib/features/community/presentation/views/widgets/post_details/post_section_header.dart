@@ -18,6 +18,8 @@ class PostSectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isCurrentUser =
+        post.authorUid == context.read<AuthCubit>().currentUser!.uid;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -34,6 +36,8 @@ class PostSectionHeader extends StatelessWidget {
               UserMetaInfoRow(
                 userName: post.authorUsername,
                 createdAt: post.createdAt,
+                displayName: isCurrentUser ? "You" : post.authorUsername,
+                backColor: isCurrentUser ? AppColors.primaryColor : null,
               ),
               if (post.authorUid == context.read<AuthCubit>().currentUser!.uid)
                 Padding(

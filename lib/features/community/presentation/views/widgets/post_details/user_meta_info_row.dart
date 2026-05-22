@@ -10,9 +10,13 @@ class UserMetaInfoRow extends StatelessWidget {
     super.key,
     required this.userName,
     required this.createdAt,
+    this.displayName,
+    this.backColor,
   });
 
   final String userName;
+  final String? displayName;
+  final Color? backColor;
   final DateTime createdAt;
 
   @override
@@ -23,12 +27,20 @@ class UserMetaInfoRow extends StatelessWidget {
           fontSize: 18.sp,
           padding: EdgeInsets.all(10.sp),
           username: userName,
+          backColor: backColor,
         ),
         Gap(12.h),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(userName, style: AppStyles.textStyle16),
-            Text(_getPostedSince(), style: AppStyles.textStyle12),
+            Text(
+              displayName ?? userName,
+              style: AppStyles.textStyle16,
+            ),
+            Text(
+              _getPostedSince(),
+              style: AppStyles.textStyle12,
+            ),
           ],
         ),
       ],
