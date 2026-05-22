@@ -27,7 +27,7 @@ class ViewHeader extends StatelessWidget {
         ),
         Text(header, style: AppStyles.textStyle18),
         ProfilePlaceholder(
-          userName: context.watch<AuthCubit>().currentUser?.name ?? "",
+          username: context.watch<AuthCubit>().currentUser?.name ?? "",
         ),
       ],
     );

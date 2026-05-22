@@ -4,10 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
+import 'package:pixel_true_app/features/friends/data/models/friend_model.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_req_info_row.dart';
 
 class FriendCard extends StatelessWidget {
-  const FriendCard({super.key});
+  final Friend friend;
+  const FriendCard({super.key, required this.friend});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class FriendCard extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const FriendReqInfoRow(),
+              FriendReqInfoRow(username: friend.username),
               Column(
                 children: [
                   Row(
@@ -39,7 +41,7 @@ class FriendCard extends StatelessWidget {
                       ),
                       Gap(4.w),
                       Text(
-                        "24",
+                        friend.bestStreak.toString(),
                         style: AppStyles.textStyle20.copyWith(
                           color: Colors.black,
                         ),

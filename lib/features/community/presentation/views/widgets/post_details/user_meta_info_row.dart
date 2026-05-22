@@ -22,7 +22,7 @@ class UserMetaInfoRow extends StatelessWidget {
         ProfilePlaceholder(
           fontSize: 18.sp,
           padding: EdgeInsets.all(10.sp),
-          userName: userName,
+          username: userName,
         ),
         Gap(12.h),
         Column(

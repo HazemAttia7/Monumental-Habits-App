@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dartz/dartz.dart';
 import 'package:pixel_true_app/core/enums/habit_enums.dart';
@@ -17,9 +18,9 @@ class HabitsRepoImpl implements HabitsRepo {
     required HabitsLocalDataSource local,
     required HabitsRemoteDataSource remote,
     Connectivity? connectivity,
-  })  : _local = local,
-        _remote = remote,
-        _connectivity = connectivity ?? Connectivity();
+  }) : _local = local,
+       _remote = remote,
+       _connectivity = connectivity ?? Connectivity();
 
   // ── Public API ──────────────────────────────────────────────
 
@@ -148,21 +149,28 @@ class HabitsRepoImpl implements HabitsRepo {
     }
   }
 
-  /// Pushes unsynced local changes and pulls fresh data from Firestore.
-/// Returns null if nothing changed, or the refreshed habit list on success.
-@override
-Future<Either<Failure, List<Habit>?>> syncPendingChanges(String uid) async {
-  try {
-    final unsynced = await _local.getUnsyncedHabits(uid);
-    if (unsynced.isEmpty) return const Right(null); // nothing to do
-
-    await _pushUnsyncedChanges(uid); // throws on failure
-    await _pullFromFirestore(uid);
-    return Right(await _local.getHabits(uid));
-  } on Exception catch (e) {
-    return Left(FirebaseFailure.fromException(e));
+  @override
+  Future<void> updateUserBestStreak(String uid, int bestStreak) async {
+    await FirebaseFirestore.instance.collection('users').doc(uid).update({
+      'bestStreak': bestStreak,
+    });
   }
-}
+
+  /// Pushes unsynced local changes and pulls fresh data from Firestore.
+  /// Returns null if nothing changed, or the refreshed habit list on success.
+  @override
+  Future<Either<Failure, List<Habit>?>> syncPendingChanges(String uid) async {
+    try {
+      final unsynced = await _local.getUnsyncedHabits(uid);
+      if (unsynced.isEmpty) return const Right(null); // nothing to do
+
+      await _pushUnsyncedChanges(uid); // throws on failure
+      await _pullFromFirestore(uid);
+      return Right(await _local.getHabits(uid));
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
 
   // ── Sync helpers ────────────────────────────────────────────
 

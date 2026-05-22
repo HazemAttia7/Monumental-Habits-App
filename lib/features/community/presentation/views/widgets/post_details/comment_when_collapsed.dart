@@ -25,7 +25,7 @@ class CommentWhenCollapsed extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProfilePlaceholder(
-          userName: comment.authorUsername,
+          username: comment.authorUsername,
           padding: EdgeInsets.all(12.sp),
           backColor:
               comment.authorUid == context.read<AuthCubit>().currentUser!.uid

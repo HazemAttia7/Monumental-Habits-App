@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
+import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
+import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
 
 class ReqActions extends StatelessWidget {
-  const ReqActions({super.key});
+  final FriendRequest request;
+  const ReqActions({super.key, required this.request});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +22,9 @@ class ReqActions extends StatelessWidget {
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(16.r),
           icon: FontAwesomeIcons.xmark,
-          onTap: () {
-            // TODO : implement decline request
-          },
+          onTap: () => BlocProvider.of<FriendsCubit>(
+            context,
+          ).declineFriendRequest(senderId: request.senderId),
         ),
         Gap(8.w),
         CustomIconButton(
@@ -29,9 +33,12 @@ class ReqActions extends StatelessWidget {
           shape: BoxShape.rectangle,
           borderRadius: BorderRadius.circular(16.r),
           icon: FontAwesomeIcons.check,
-          onTap: () {
-            // TODO : implement accept request
-          },
+          onTap: () =>
+              BlocProvider.of<FriendsCubit>(context).acceptFriendRequest(
+                senderId: request.senderId,
+                senderUsername: request.username,
+                senderBestStreak: request.bestStreak,
+              ),
         ),
       ],
     );

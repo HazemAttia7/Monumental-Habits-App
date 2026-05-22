@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_req_info_row.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/req_actions.dart';
 
 class FriendReqCard extends StatelessWidget {
-  // final FriendRequest friendReq;
-  const FriendReqCard({super.key});
+  final FriendRequest friendReq;
+  const FriendReqCard({super.key, required this.friendReq});
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +41,12 @@ class FriendReqCard extends StatelessWidget {
                 width: 2.w,
               ),
             ),
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [FriendReqInfoRow(), ReqActions()],
+              children: [
+                FriendReqInfoRow(username: friendReq.username),
+                ReqActions(request: friendReq),
+              ],
             ),
           ),
         ),

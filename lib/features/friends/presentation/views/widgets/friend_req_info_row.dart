@@ -5,16 +5,17 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
 
 class FriendReqInfoRow extends StatelessWidget {
-  const FriendReqInfoRow({super.key});
+  final String username;
+  const FriendReqInfoRow({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const ProfilePlaceholder(userName: 'Hazem'),
+        ProfilePlaceholder(username: username),
         Gap(12.w),
         Text(
-          "Hazem",
+          username,
           style: AppStyles.textStyle16.copyWith(color: Colors.black),
         ),
       ],

@@ -25,7 +25,7 @@ class HabitsCubit extends Cubit<HabitsState> {
     this._repo,
     this._uid,
     this._notificationService,
-    this._connectivity, // inject Connectivity
+    this._connectivity,
   ) : super(HabitsInitial()) {
     _listenToConnectivity();
   }
@@ -35,6 +35,7 @@ class HabitsCubit extends Cubit<HabitsState> {
       results,
     ) {
       final isOnline = results.any((r) => r != ConnectivityResult.none);
+
       if (isOnline) {
         _syncNow();
       }
@@ -42,35 +43,44 @@ class HabitsCubit extends Cubit<HabitsState> {
   }
 
   /// Syncs unsynced local changes to Firestore without touching the UI state.
-  /// Called automatically when internet reconnects.
   Future<void> _syncNow() async {
     if (state is! HabitsLoaded) return;
+
     final result = await _repo.syncPendingChanges(_uid);
-    result.fold(
-      (_) {}, // sync failed silently — will retry next reconnect
-      (updatedHabits) {
-        if (updatedHabits == null) return; // nothing changed
-        emit(
-          HabitsLoaded(
-            updatedHabits..sort((a, b) => a.createdAt.compareTo(b.createdAt)),
-          ),
-        );
-      },
-    );
+
+    result.fold((_) {}, (updatedHabits) async {
+      if (updatedHabits == null) return;
+
+      updatedHabits.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
+      emit(HabitsLoaded(updatedHabits));
+
+      await _updateBestStreak(updatedHabits);
+    });
   }
 
   Future<void> fetchHabits() async {
     emit(HabitsLoading());
+
     final result = await _repo.getHabits(_uid);
-    result.fold((failure) => emit(HabitsError(failure.errMessage)), (habits) {
-      habits.sort((a, b) => a.createdAt.compareTo(b.createdAt));
-      emit(HabitsLoaded(habits));
-      _rescheduleAllNotifications(habits);
-    });
+
+    result.fold(
+      (failure) {
+        emit(HabitsError(failure.errMessage));
+      },
+      (habits) async {
+        habits.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
+        emit(HabitsLoaded(habits));
+
+        _rescheduleAllNotifications(habits);
+
+        await _updateBestStreak(habits);
+      },
+    );
   }
 
-  /// Reschedules notifications only for habits whose reminders have changed,
-  /// avoiding duplicate notifications on repeated fetchHabits calls.
+  /// Reschedules notifications only for habits whose reminders have changed.
   void _rescheduleAllNotifications(List<Habit> habits) {
     for (final habit in habits) {
       if (habit.reminders.isNotEmpty) {
@@ -85,30 +95,36 @@ class HabitsCubit extends Cubit<HabitsState> {
     if (state is! HabitsLoaded) return;
 
     final habits = (state as HabitsLoaded).habits;
+
     final habit = habits.firstWhere((h) => h.id == habitId);
+
     final key = dateKey(date);
+
     final current = habit.logs[key] ?? enHabitDailyStatus.none;
+
     final next = current.next();
 
-    // Track the latest intended value for this habit+date
     final pendingKey = '${habitId}_$key';
+
     _pendingLogUpdates[pendingKey] = next;
 
-    // Instant optimistic UI update
     final updatedHabit = habit.copyWith(
       logs: Map.from(habit.logs)..[key] = next,
     );
-    emit(
-      HabitsLoaded(
-        habits.map((h) => h.id == habitId ? updatedHabit : h).toList(),
-      ),
-    );
 
-    // Debounced write — always writes the latest value, not a captured closure value
+    final updatedHabits = habits
+        .map((h) => h.id == habitId ? updatedHabit : h)
+        .toList();
+
+    emit(HabitsLoaded(updatedHabits));
+
     _debounceTimer?.cancel();
+
     _debounceTimer = Timer(const Duration(milliseconds: 800), () async {
       final latestStatus = _pendingLogUpdates[pendingKey];
+
       if (latestStatus == null) return;
+
       _pendingLogUpdates.remove(pendingKey);
 
       final result = await _repo.updateHabitLog(
@@ -116,14 +132,14 @@ class HabitsCubit extends Cubit<HabitsState> {
         habitId,
         key,
         latestStatus,
-        updatedHabit, // pass full habit so repo doesn't re-fetch stale data
+        updatedHabit,
       );
 
       result.fold(
         (failure) {
-          // Roll back to the original state on failure
           if (state is HabitsLoaded) {
             final currentHabits = (state as HabitsLoaded).habits;
+
             emit(
               HabitsLoaded(
                 currentHabits.map((h) => h.id == habitId ? habit : h).toList(),
@@ -131,22 +147,28 @@ class HabitsCubit extends Cubit<HabitsState> {
             );
           }
         },
-        (_) {}, // success — UI already reflects the change
+        (_) async {
+          if (state is HabitsLoaded) {
+            await _updateBestStreak((state as HabitsLoaded).habits);
+          }
+        },
       );
     });
   }
 
   Future<void> addHabit(Habit habit) async {
     if (state is! HabitsLoaded) return;
+
     final habits = (state as HabitsLoaded).habits;
 
-    // Immediate UI update
-    emit(HabitsLoaded([...habits, habit]));
+    final updatedHabits = [...habits, habit];
+
+    emit(HabitsLoaded(updatedHabits));
 
     final result = await _repo.addHabit(_uid, habit);
+
     result.fold(
       (failure) {
-        // Roll back — remove the habit we just added
         if (state is HabitsLoaded) {
           emit(
             HabitsLoaded(
@@ -157,9 +179,13 @@ class HabitsCubit extends Cubit<HabitsState> {
           );
         }
       },
-      (_) {
+      (_) async {
         if (habit.reminders.isNotEmpty) {
           _notificationService.scheduleHabitReminders(habit);
+        }
+
+        if (state is HabitsLoaded) {
+          await _updateBestStreak((state as HabitsLoaded).habits);
         }
       },
     );
@@ -167,87 +193,103 @@ class HabitsCubit extends Cubit<HabitsState> {
 
   Future<void> deleteHabit(String habitId) async {
     if (state is! HabitsLoaded) return;
+
     final habits = (state as HabitsLoaded).habits;
+
     final habit = habits.firstWhere((h) => h.id == habitId);
 
-    emit(HabitsLoaded(habits.where((h) => h.id != habitId).toList()));
-    // Cancel notification after immediate UI update
+    final updatedHabits = habits.where((h) => h.id != habitId).toList();
+
+    emit(HabitsLoaded(updatedHabits));
+
     await _notificationService.cancelHabitReminders(habitId);
 
     final result = await _repo.deleteHabit(_uid, habitId);
-    result.fold((failure) {
-      // Roll back — restore the habit and its notification
-      if (state is HabitsLoaded) {
-        emit(HabitsLoaded([...(state as HabitsLoaded).habits, habit]));
-      }
-      if (habit.reminders.isNotEmpty) {
-        _notificationService.scheduleHabitReminders(habit);
-      }
-    }, (_) {});
+
+    result.fold(
+      (failure) {
+        if (state is HabitsLoaded) {
+          emit(HabitsLoaded([...(state as HabitsLoaded).habits, habit]));
+        }
+
+        if (habit.reminders.isNotEmpty) {
+          _notificationService.scheduleHabitReminders(habit);
+        }
+      },
+      (_) async {
+        if (state is HabitsLoaded) {
+          await _updateBestStreak((state as HabitsLoaded).habits);
+        }
+      },
+    );
   }
 
   Future<void> updateHabitStatus(String habitId, enHabitStatus status) async {
     if (state is! HabitsLoaded) return;
 
     final habits = (state as HabitsLoaded).habits;
+
     final original = habits.firstWhere((h) => h.id == habitId);
 
-    // Optimistic UI update
-    emit(
-      HabitsLoaded(
-        habits
-            .map((h) => h.id == habitId ? h.copyWith(status: status) : h)
-            .toList(),
-      ),
-    );
+    final updatedHabits = habits
+        .map((h) => h.id == habitId ? h.copyWith(status: status) : h)
+        .toList();
 
-    // Handle notifications based on status
+    emit(HabitsLoaded(updatedHabits));
+
     if (status == enHabitStatus.inProgress) {
-      // Back to in progress → reschedule if has reminders
       if (original.reminders.isNotEmpty) {
         _notificationService.scheduleHabitReminders(original);
       }
     } else {
-      // Completed or missed → cancel reminders, no point notifying
       await _notificationService.cancelHabitReminders(habitId);
     }
 
     final result = await _repo.updateHabitStatus(_uid, habitId, status);
-    result.fold((failure) {
-      // Roll back on failure
-      if (state is HabitsLoaded) {
-        emit(
-          HabitsLoaded(
-            (state as HabitsLoaded).habits
-                .map((h) => h.id == habitId ? original : h)
-                .toList(),
-          ),
-        );
-      }
-      // Roll back notification too
-      if (original.reminders.isNotEmpty) {
-        _notificationService.scheduleHabitReminders(original);
-      } else {
-        _notificationService.cancelHabitReminders(habitId);
-      }
-    }, (_) {});
+
+    result.fold(
+      (failure) {
+        if (state is HabitsLoaded) {
+          emit(
+            HabitsLoaded(
+              (state as HabitsLoaded).habits
+                  .map((h) => h.id == habitId ? original : h)
+                  .toList(),
+            ),
+          );
+        }
+
+        if (original.reminders.isNotEmpty) {
+          _notificationService.scheduleHabitReminders(original);
+        } else {
+          _notificationService.cancelHabitReminders(habitId);
+        }
+      },
+      (_) async {
+        if (state is HabitsLoaded) {
+          await _updateBestStreak((state as HabitsLoaded).habits);
+        }
+      },
+    );
   }
 
   Future<void> updateHabit(Habit habit) async {
     if (state is! HabitsLoaded) return;
 
     final habits = (state as HabitsLoaded).habits;
+
     final original = habits.firstWhere((h) => h.id == habit.id);
 
-    // Optimistic UI update
-    emit(
-      HabitsLoaded(habits.map((h) => h.id == habit.id ? habit : h).toList()),
-    );
+    final updatedHabits = habits
+        .map((h) => h.id == habit.id ? habit : h)
+        .toList();
+
+    emit(HabitsLoaded(updatedHabits));
 
     final result = await _repo.updateHabit(_uid, habit);
+
     result.fold(
       (failure) {
-        // Roll back on failure
         if (state is HabitsLoaded) {
           emit(
             HabitsLoaded(
@@ -258,15 +300,30 @@ class HabitsCubit extends Cubit<HabitsState> {
           );
         }
       },
-      (_) {
-        // Sync notifications with new habit config
+      (_) async {
         if (habit.reminders.isNotEmpty) {
           _notificationService.scheduleHabitReminders(habit);
         } else {
           _notificationService.cancelHabitReminders(habit.id);
         }
+
+        if (state is HabitsLoaded) {
+          await _updateBestStreak((state as HabitsLoaded).habits);
+        }
       },
     );
+  }
+
+  Future<void> _updateBestStreak(List<Habit> habits) async {
+    int bestStreak = 0;
+
+    for (final habit in habits) {
+      if (habit.currentStreak > bestStreak) {
+        bestStreak = habit.currentStreak;
+      }
+    }
+
+    await _repo.updateUserBestStreak(_uid, bestStreak);
   }
 
   @override

@@ -74,7 +74,7 @@ class _HomeHeader extends StatelessWidget {
         ),
         Text("Home Page", style: AppStyles.textStyle18),
         ProfilePlaceholder(
-          userName: context.watch<AuthCubit>().currentUser?.name ?? "",
+          username: context.watch<AuthCubit>().currentUser?.name ?? "",
         ),
       ],
     );

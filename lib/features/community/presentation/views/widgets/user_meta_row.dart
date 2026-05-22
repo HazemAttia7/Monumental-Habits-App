@@ -15,7 +15,8 @@ class UserMetaRow extends StatelessWidget {
     super.key,
     required this.userName,
     this.postedSince,
-    this.displayName, this.backColor,
+    this.displayName,
+    this.backColor,
   });
 
   @override
@@ -27,8 +28,8 @@ class UserMetaRow extends StatelessWidget {
           height: 34.h,
           fontSize: 14.sp,
           padding: EdgeInsets.all(2.sp),
-          userName: userName,
-          backColor:  backColor,
+          username: userName,
+          backColor: backColor,
         ),
         Gap(10.w),
         Column(

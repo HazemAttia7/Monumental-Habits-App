@@ -20,7 +20,7 @@ class UserInfoRow extends StatelessWidget {
           width: 60.w,
           height: 60.h,
           fontSize: 20.sp,
-          userName: context.watch<AuthCubit>().currentUser?.name ?? "",
+          username: context.watch<AuthCubit>().currentUser?.name ?? "",
         ),
         Gap(10.w),
         const NameWidget(),

@@ -12,15 +12,11 @@ import 'package:pixel_true_app/features/community/presentation/managers/replies_
 class RepliesTeaser extends StatelessWidget {
   final VoidCallback onViewRepliesTap;
 
-  const RepliesTeaser({
-    super.key,
-    required this.onViewRepliesTap,
-  });
+  const RepliesTeaser({super.key, required this.onViewRepliesTap});
 
   @override
   Widget build(BuildContext context) {
-    final extra =
-        GoRouterState.of(context).extra as Map<String, dynamic>?;
+    final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
 
     final Post? post = extra?['post'] as Post?;
 
@@ -52,7 +48,7 @@ class RepliesTeaser extends StatelessWidget {
                 ? Row(
                     children: [
                       ProfilePlaceholder(
-                        userName: post.authorUsername,
+                        username: post.authorUsername,
                         padding: EdgeInsets.all(6.sp),
                         fontSize: 10.sp,
                       ),

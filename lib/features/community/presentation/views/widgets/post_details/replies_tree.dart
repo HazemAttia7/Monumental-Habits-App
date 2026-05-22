@@ -43,7 +43,7 @@ class RepliesTree extends StatelessWidget {
       avatarRoot: (context, data) => PreferredSize(
         preferredSize: Size(40.w, 40.h),
         child: ProfilePlaceholder(
-          userName: data.authorUsername,
+          username: data.authorUsername,
           backColor:
               comment.authorUid == context.read<AuthCubit>().currentUser!.uid
               ? AppColors.primaryColor
@@ -56,7 +56,7 @@ class RepliesTree extends StatelessWidget {
       avatarChild: (context, reply) => PreferredSize(
         preferredSize: Size(34.w, 34.h),
         child: ProfilePlaceholder(
-          userName: reply.authorUsername,
+          username: reply.authorUsername,
           backColor:
               reply.authorUid == context.read<AuthCubit>().currentUser!.uid
               ? AppColors.primaryColor
@@ -91,7 +91,10 @@ class RepliesTree extends StatelessWidget {
         /// 🔹 NORMAL REPLY
         return Padding(
           padding: EdgeInsets.only(bottom: 10.h),
-          child: ReplyThread(onReplyToReplyTap: onReplyToReplyTap, reply: reply,),
+          child: ReplyThread(
+            onReplyToReplyTap: onReplyToReplyTap,
+            reply: reply,
+          ),
         );
       },
     );

@@ -23,4 +23,5 @@ abstract class HabitsRepo {
   );
   Future<Either<Failure, Unit>> updateHabit(String uid, Habit habit);
   Future<Either<Failure, List<Habit>?>> syncPendingChanges(String uid);
+  Future<void> updateUserBestStreak(String uid, int bestStreak);
 }

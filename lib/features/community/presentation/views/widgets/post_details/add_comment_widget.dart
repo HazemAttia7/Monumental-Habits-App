@@ -22,13 +22,11 @@ class AddCommentWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ProfilePlaceholder(
-          userName: currentUser.name,
+          username: currentUser.name,
           padding: EdgeInsets.all(12.sp),
         ),
         Gap(8.w),
-        const Expanded(
-          child: AddCommentCard(),
-        ),
+        const Expanded(child: AddCommentCard()),
       ],
     );
   }

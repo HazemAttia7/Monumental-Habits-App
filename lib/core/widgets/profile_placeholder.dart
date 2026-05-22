@@ -5,7 +5,7 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class ProfilePlaceholder extends StatelessWidget {
   final double? width, height, fontSize;
-  final String userName;
+  final String username;
   final EdgeInsets? padding;
   final Color? backColor;
   const ProfilePlaceholder({
@@ -13,7 +13,7 @@ class ProfilePlaceholder extends StatelessWidget {
     this.width,
     this.height,
     this.fontSize,
-    required this.userName,
+    required this.username,
     this.padding,
     this.backColor,
   });
@@ -30,7 +30,7 @@ class ProfilePlaceholder extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          userName.substring(0, 2).toUpperCase(),
+          username.substring(0, 2).toUpperCase(),
           style: AppStyles.textStyle16.copyWith(
             color: AppColors.scaffoldColor,
             fontSize: fontSize,

@@ -1,68 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:gap/gap.dart';
-import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/constants.dart';
-import 'package:pixel_true_app/core/widgets/custom_clickable_text.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_reqs_list.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_list_.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_view_header.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/section_header.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/custom_search_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
+import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/friends_loaded_view.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/friends_loading_view.dart';
 
 class FriendsViewBody extends StatelessWidget {
   const FriendsViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
-        child: CustomScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          slivers: [
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Gap(18.h),
-                  const FriendsViewHeader(),
-                  Gap(12.h),
-                  CustomSearchField(
-                    onChanged: (value) {},
-                    hintText: "Search for friends...",
-                  ),
-                  Gap(24.h),
-                ],
-              ),
-            ),
-            const SliverToBoxAdapter(
-              child: SectionHeader(text: "FRIEND REQUESTS (2)"),
-            ),
-            SliverToBoxAdapter(child: Gap(16.h)),
-            const FriendReqsList(),
-            SliverToBoxAdapter(child: Gap(36.h)),
-            SliverToBoxAdapter(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SectionHeader(text: "YOUR FRIENDS"),
-                  CustomClickableText(
-                    text: "View All",
-                    fontSize: 14.sp,
-                    textColor: AppColors.secondaryColor,
-                    onTap: () {
-                      // TODO : implement view all friends
-                    },
-                  ),
-                ],
-              ),
-            ),
-            SliverToBoxAdapter(child: Gap(16.h)),
-            const FriendsList(),
-          ],
-        ),
-      ),
+    return BlocConsumer<FriendsCubit, FriendsState>(
+      buildWhen: (previous, current) {
+        return current is FriendsViewLoaded || current is FriendsInitial;
+      },
+      listenWhen: (previous, current) {
+        return current is FriendsFailure ||
+            current is FriendRequestsFailure ||
+            current is AcceptFriendRequestFailure ||
+            current is DeclineFriendRequestFailure;
+      },
+      listener: (context, state) {
+        if (state is FriendsFailure) {
+          buildErrorSnackBar(context, message: state.errMessage);
+        } else if (state is FriendRequestsFailure) {
+          buildErrorSnackBar(context, message: state.errMessage);
+        }
+      },
+      builder: (context, state) {
+        if (state is FriendsViewLoaded) {
+          return FriendsLoadedView(
+            friends: state.friends,
+            requests: state.requests,
+          );
+        }
+        return const FriendsLoadingView();
+      },
     );
   }
 }

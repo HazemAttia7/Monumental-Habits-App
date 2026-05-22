@@ -272,7 +272,10 @@ abstract class AppRouter {
         path: kLikesListView,
         builder: (context, state) => MultiBlocProvider(
           providers: [
-            BlocProvider(create: (_) => FriendsCubit(sl<FriendsRepo>())..getPendingRequestIds()),
+            BlocProvider(
+              create: (_) =>
+                  FriendsCubit(sl<FriendsRepo>())..getPendingRequestIds(),
+            ),
             BlocProvider(
               create: (_) =>
                   LikesListCubit(sl<LikesListRepo>())
@@ -285,8 +288,9 @@ abstract class AppRouter {
       GoRoute(
         path: kFriends,
         builder: (context, state) => BlocProvider(
-          create: (context) => FriendsCubit(sl<FriendsRepo>()),
-          // ..getFriendsList(context.read<AuthCubit>().currentUser!.uid)
+          create: (context) => FriendsCubit(sl<FriendsRepo>())
+            ..getIncomingFriendRequests()
+            ..getFriends(),
           child: const FriendsView(),
         ),
       ),

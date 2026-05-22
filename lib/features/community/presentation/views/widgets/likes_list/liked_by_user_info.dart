@@ -19,7 +19,7 @@ class LikeByUserInfo extends StatelessWidget {
     return Row(
       children: [
         ProfilePlaceholder(
-          userName: userName,
+          username: userName,
           backColor: isCurrentUser ? AppColors.primaryColor : null,
         ),
         Gap(12.w),
