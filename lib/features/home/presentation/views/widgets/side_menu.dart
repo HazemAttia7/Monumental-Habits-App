@@ -26,59 +26,61 @@ class SideMenu extends StatelessWidget {
           bottomRight: Radius.circular(48.r),
         ),
       ),
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Gap(12.h),
-            const SideMenuCloseButton(),
-            const Spacer(flex: 3),
-            SideMenuListTile(
-              icon: FontAwesomeIcons.solidUser,
-              title: "Profile",
-              onTap: () => GoRouter.of(context).push(
-                AppRouter.kProfileView,
-                extra: context.read<HabitsCubit>(),
-              ),
+      child: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Gap(12.h),
+                const SideMenuCloseButton(),
+                Gap(48.h),
+                SideMenuListTile(
+                  icon: FontAwesomeIcons.solidUser,
+                  title: "Profile",
+                  onTap: () => GoRouter.of(context).push(
+                    AppRouter.kProfileView,
+                    extra: context.read<HabitsCubit>(),
+                  ),
+                ),
+                Gap(24.h),
+                SideMenuListTile(
+                  icon: FontAwesomeIcons.solidRectangleList,
+                  title: "Activity Log",
+                  onTap: () {},
+                ),
+                Gap(24.h),
+                SideMenuListTile(
+                  icon: FontAwesomeIcons.clockRotateLeft,
+                  title: "Habits History",
+                  onTap: () => GoRouter.of(context).push(
+                    AppRouter.kHabitsHistory,
+                    extra: context.read<HabitsCubit>(),
+                  ),
+                ),
+                Gap(24.h),
+                SideMenuListTile(
+                  icon: FontAwesomeIcons.users,
+                  title: "Friends",
+                  onTap: () => GoRouter.of(context).push(AppRouter.kFriends),
+                ),
+                Gap(24.h),
+                SideMenuListTile(
+                  icon: FontAwesomeIcons.circleQuestion,
+                  title: "Support",
+                  onTap: () => GoRouter.of(context).push(AppRouter.kSupport),
+                ),
+                Gap(64.h),
+                UpgradeToProButton(
+                  onTap: () => GoRouter.of(context).push(AppRouter.kSubcrption),
+                ),
+                Gap(36.h),
+                const MoreActions(),
+                Gap(16.h),
+              ],
             ),
-            Gap(24.h),
-            SideMenuListTile(
-              icon: FontAwesomeIcons.solidRectangleList,
-              title: "Activity Log",
-              onTap: () {
-                // TODO(Last) : Open Activity Log (Comments , liked comments , posts , like pots , saved courses)
-              },
-            ),
-            Gap(24.h),
-            SideMenuListTile(
-              icon: FontAwesomeIcons.clockRotateLeft,
-              title: "Habits History",
-              onTap: () => GoRouter.of(context).push(
-                AppRouter.kHabitsHistory,
-                extra: context.read<HabitsCubit>(),
-              ),
-            ),
-            Gap(24.h),
-            SideMenuListTile(
-              icon: FontAwesomeIcons.users,
-              title: "Friends",
-              onTap: () => GoRouter.of(context).push(AppRouter.kFriends),
-            ),
-            Gap(24.h),
-            SideMenuListTile(
-              icon: FontAwesomeIcons.circleQuestion,
-              title: "Support",
-              onTap: () => GoRouter.of(context).push(AppRouter.kSupport),
-            ),
-            const Spacer(flex: 4),
-            UpgradeToProButton(
-              onTap: () => GoRouter.of(context).push(AppRouter.kSubcrption),
-            ),
-            Gap(36.h),
-            const MoreActions(),
-            const Spacer(),
-          ],
+          ),
         ),
       ),
     );
