@@ -25,7 +25,9 @@ class FriendsViewHeader extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         CustomIconButton(
-          onTap: () => Navigator.pop(context),
+          onTap: () {
+            // TODO : implement add friend
+          },
           iconColor: AppColors.secondaryColor,
           backColor: Colors.transparent,
           icon: FontAwesomeIcons.userPlus,

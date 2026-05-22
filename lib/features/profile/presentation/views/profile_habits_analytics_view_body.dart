@@ -30,7 +30,10 @@ class ProfileHabitsAnalyticsViewBody extends StatelessWidget {
                     themeColor: AppColors.primaryColor,
                   ),
                   Gap(24.h),
-                  CustomSearchField(onChanged: controller.setQuery),
+                  CustomSearchField(
+                    onChanged: controller.setQuery,
+                    hintText: "Search by habit name...",
+                  ),
                   Gap(24.h),
                 ],
               ),

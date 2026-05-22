@@ -5,7 +5,8 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 
 class CustomSearchField extends StatelessWidget {
   final void Function(String)? onChanged;
-  const CustomSearchField({super.key, this.onChanged});
+  final String hintText;
+  const CustomSearchField({super.key, this.onChanged, required this.hintText});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class CustomSearchField extends StatelessWidget {
           minHeight: 40.sp,
         ),
         prefixIconColor: AppColors.secondaryColor.withValues(alpha: .7),
-        hintText: "Search by habit name...",
+        hintText: hintText,
         hintStyle: AppStyles.textStyle14.copyWith(
           color: AppColors.secondaryColor.withValues(alpha: .7),
         ),

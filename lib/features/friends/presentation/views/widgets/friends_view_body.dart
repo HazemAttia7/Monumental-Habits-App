@@ -8,6 +8,7 @@ import 'package:pixel_true_app/features/friends/presentation/views/widgets/frien
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_list_.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_view_header.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/section_header.dart';
+import 'package:pixel_true_app/features/profile/presentation/views/widgets/custom_search_field.dart';
 
 class FriendsViewBody extends StatelessWidget {
   const FriendsViewBody({super.key});
@@ -18,11 +19,21 @@ class FriendsViewBody extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
         child: CustomScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           slivers: [
             SliverToBoxAdapter(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Gap(18.h), const FriendsViewHeader(), Gap(24.h)],
+                children: [
+                  Gap(18.h),
+                  const FriendsViewHeader(),
+                  Gap(12.h),
+                  CustomSearchField(
+                    onChanged: (value) {},
+                    hintText: "Search for friends...",
+                  ),
+                  Gap(24.h),
+                ],
               ),
             ),
             const SliverToBoxAdapter(
