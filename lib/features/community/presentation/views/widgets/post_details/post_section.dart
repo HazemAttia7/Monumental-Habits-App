@@ -97,14 +97,8 @@ class _PostSectionState extends State<PostSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Gap(16.h),
-
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 18.w),
-              child: PostSectionHeader(post: currentPost),
-            ),
-
+            PostSectionHeader(post: currentPost),
             Gap(24.h),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w),
               child: isEditing

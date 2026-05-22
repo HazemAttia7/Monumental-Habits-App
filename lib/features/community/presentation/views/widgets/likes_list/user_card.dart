@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/likes_list/add_friend_button.dart';
@@ -46,68 +47,83 @@ class _UserCardState extends State<UserCard> {
     final isCurrentUser =
         widget.user.uid == context.read<AuthCubit>().currentUser!.uid;
 
-    return Container(
-      padding: EdgeInsets.all(12.sp),
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(12.r),
+      child: InkWell(
+        onTap: () {
+          // TODO : navigate to profile
+        },
         borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          LikeByUserInfo(
-            userName: widget.user.username,
-            isCurrentUser: isCurrentUser,
+        splashColor: AppColors.primaryColor.withValues(alpha: .1),
+        highlightColor: AppColors.primaryColor.withValues(alpha: .1),
+        child: Container(
+          padding: EdgeInsets.all(12.sp),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.r)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              LikeByUserInfo(
+                userName: widget.user.username,
+                isCurrentUser: isCurrentUser,
+              ),
+              isCurrentUser
+                  ? const SizedBox()
+                  : widget.isFriend
+                  ? const FriendsButton()
+                  : BlocListener<FriendsCubit, FriendsState>(
+                      listener: (context, state) {
+                        if (state is SendFriendRequestSuccess &&
+                            state.receiverId == widget.user.uid) {
+                          setState(() {
+                            _isLoading = false;
+                            _isPending = true;
+                          });
+                          buildSuccessSnackBar(
+                            context,
+                            message: 'Friend request sent!',
+                          );
+                        } else if (state is SendFriendRequestFailure &&
+                            state.receiverId == widget.user.uid) {
+                          setState(() => _isLoading = false);
+                          buildErrorSnackBar(
+                            context,
+                            message: state.errMessage,
+                          );
+                        } else if (state is SendFriendRequestLoading &&
+                            state.receiverId == widget.user.uid) {
+                          setState(() => _isLoading = true);
+                        } else if (state is CancelFriendRequestSuccess &&
+                            state.receiverId == widget.user.uid) {
+                          setState(() {
+                            _isLoading = false;
+                            _isPending = false;
+                          });
+                          buildSuccessSnackBar(
+                            context,
+                            message: 'Friend request cancelled!',
+                          );
+                        } else if (state is CancelFriendRequestFailure &&
+                            state.receiverId == widget.user.uid) {
+                          setState(() => _isLoading = false);
+                          buildErrorSnackBar(
+                            context,
+                            message: state.errMessage,
+                          );
+                        } else if (state is CancelFriendRequestLoading &&
+                            state.receiverId == widget.user.uid) {
+                          setState(() => _isLoading = true);
+                        }
+                      },
+                      child: AddFriendButton(
+                        uid: widget.user.uid,
+                        isPending: _isPending,
+                        isLoading: _isLoading,
+                      ),
+                    ),
+            ],
           ),
-          isCurrentUser
-              ? const SizedBox()
-              : widget.isFriend
-              ? const FriendsButton()
-              : BlocListener<FriendsCubit, FriendsState>(
-                  listener: (context, state) {
-                    if (state is SendFriendRequestSuccess &&
-                        state.receiverId == widget.user.uid) {
-                      setState(() {
-                        _isLoading = false;
-                        _isPending = true;
-                      });
-                      buildSuccessSnackBar(
-                        context,
-                        message: 'Friend request sent!',
-                      );
-                    } else if (state is SendFriendRequestFailure &&
-                        state.receiverId == widget.user.uid) {
-                      setState(() => _isLoading = false);
-                      buildErrorSnackBar(context, message: state.errMessage);
-                    } else if (state is SendFriendRequestLoading &&
-                        state.receiverId == widget.user.uid) {
-                      setState(() => _isLoading = true);
-                    } else if (state is CancelFriendRequestSuccess &&
-                        state.receiverId == widget.user.uid) {
-                      setState(() {
-                        _isLoading = false;
-                        _isPending = false;
-                      });
-                      buildSuccessSnackBar(
-                        context,
-                        message: 'Friend request cancelled!',
-                      );
-                    } else if (state is CancelFriendRequestFailure &&
-                        state.receiverId == widget.user.uid) {
-                      setState(() => _isLoading = false);
-                      buildErrorSnackBar(context, message: state.errMessage);
-                    } else if (state is CancelFriendRequestLoading &&
-                        state.receiverId == widget.user.uid) {
-                      setState(() => _isLoading = true);
-                    }
-                  },
-                  child: AddFriendButton(
-                    uid: widget.user.uid,
-                    isPending: _isPending,
-                    isLoading: _isLoading,
-                  ),
-                ),
-        ],
+        ),
       ),
     );
   }

@@ -11,26 +11,41 @@ class FriendReqCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12.sp),
       decoration: BoxDecoration(
-        color: Colors.white,
         borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: AppColors.primaryColor.withValues(alpha: .5),
-          width: 2.w,
-        ),
         boxShadow: [
           BoxShadow(
             color: AppColors.primaryColor.withValues(alpha: .4),
-            blurRadius: 12,
+            blurRadius: 18,
             spreadRadius: 2,
-            offset: Offset.zero,
           ),
         ],
       ),
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [FriendReqInfoRow(), ReqActions()],
+      child: Material(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16.r),
+        child: InkWell(
+          onTap: () {
+            // TODO : navigate to profile
+          },
+          borderRadius: BorderRadius.circular(16.r),
+          splashColor: AppColors.primaryColor.withValues(alpha: .1),
+          highlightColor: AppColors.primaryColor.withValues(alpha: .1),
+          child: Container(
+            padding: EdgeInsets.all(12.sp),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.r),
+              border: Border.all(
+                color: AppColors.primaryColor.withValues(alpha: .5),
+                width: 2.w,
+              ),
+            ),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [FriendReqInfoRow(), ReqActions()],
+            ),
+          ),
+        ),
       ),
     );
   }

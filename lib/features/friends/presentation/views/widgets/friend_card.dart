@@ -11,39 +11,50 @@ class FriendCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(12.sp),
-      decoration: BoxDecoration(
-        color: Colors.white,
+    return Material(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(16.r),
+      child: InkWell(
+        onTap: () {
+          // TODO : navigate to profile
+        },
         borderRadius: BorderRadius.circular(16.r),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          const FriendReqInfoRow(),
-          Column(
+        splashColor: AppColors.primaryColor.withValues(alpha: .1),
+        highlightColor: AppColors.primaryColor.withValues(alpha: .1),
+        child: Container(
+          padding: EdgeInsets.all(12.sp),
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(16.r)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              const FriendReqInfoRow(),
+              Column(
                 children: [
-                  Icon(
-                    FontAwesomeIcons.fireFlameCurved,
-                    color: AppColors.primaryColor,
-                    size: 24.sp,
+                  Row(
+                    children: [
+                      Icon(
+                        FontAwesomeIcons.fireFlameCurved,
+                        color: AppColors.primaryColor,
+                        size: 24.sp,
+                      ),
+                      Gap(4.w),
+                      Text(
+                        "24",
+                        style: AppStyles.textStyle20.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
+                    ],
                   ),
-                  Gap(4.w),
                   Text(
-                    "24",
-                    style: AppStyles.textStyle20.copyWith(color: Colors.black),
+                    "Best Streak",
+                    style: AppStyles.textStyle14.copyWith(color: Colors.black),
                   ),
                 ],
               ),
-              Text(
-                "Best Streak",
-                style: AppStyles.textStyle14.copyWith(color: Colors.black),
-              ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
