@@ -4,8 +4,30 @@ import 'package:pixel_true_app/core/widgets/custom_text_form_field.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/edit_content_controller.dart';
 import 'package:provider/provider.dart';
 
-class EditableContent extends StatelessWidget {
+class EditableContent extends StatefulWidget {
   const EditableContent({super.key});
+
+  @override
+  State<EditableContent> createState() => _EditableContentState();
+}
+
+class _EditableContentState extends State<EditableContent> {
+  final FocusNode _focusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _focusNode.requestFocus();
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +39,8 @@ class EditableContent extends StatelessWidget {
       child: CustomTextFormField(
         fillColor: Colors.white,
         isDense: true,
-        autofocus: true,
+        autofocus: false, // IMPORTANT: remove autofocus
+        focusNode: _focusNode,
         controller: controller.textController,
         hintText: "edit content...",
         textColor: Colors.black,
