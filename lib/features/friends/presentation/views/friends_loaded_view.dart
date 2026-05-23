@@ -4,10 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_model.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_reqs_list.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_list_.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_requests_section.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_view_header.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/section_header.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/widgets/your_friends_section.dart';
 
 class FriendsLoadedView extends StatelessWidget {
   final List<Friend> friends;
@@ -42,27 +41,9 @@ class FriendsLoadedView extends StatelessWidget {
                 ],
               ),
             ),
-            SliverToBoxAdapter(
-              child: SectionHeader(
-                text: "FRIEND REQUESTS (${requests.length})",
-                viewAll: () {
-                  // TODO : implement view all friend requests
-                },
-              ),
-            ),
-            SliverToBoxAdapter(child: Gap(16.h)),
-            FriendReqsList(friendReqs: requests),
-            SliverToBoxAdapter(child: Gap(36.h)),
-            SliverToBoxAdapter(
-              child: SectionHeader(
-                text: "YOUR FRIENDS",
-                viewAll: () {
-                  // TODO : implement view all friends
-                },
-              ),
-            ),
-            SliverToBoxAdapter(child: Gap(16.h)),
-            FriendsList(friends: friends),
+            FriendRequestsSection(requests: requests),
+            SliverToBoxAdapter(child: Gap(18.h)),
+            YourFriendsSection(friends: friends),
             // TODO : make "PENDING REQUESTS" - Recieved , Sent
           ],
         ),
