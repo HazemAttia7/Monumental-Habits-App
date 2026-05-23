@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 
-class MoreRequestsBadge extends StatelessWidget {
-  final int requestsLength;
-  const MoreRequestsBadge({super.key, required this.requestsLength});
+class MoreFriendsBadge extends StatelessWidget {
+  final int friendsLength;
+  const MoreFriendsBadge({super.key, required this.friendsLength});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(top: 16.h),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
@@ -20,10 +21,10 @@ class MoreRequestsBadge extends StatelessWidget {
   }
 
   String _getRequestText() {
-    if (requestsLength - 2 == 1) {
-      return "1 more request";
+    if (friendsLength - 4 == 1) {
+      return "1 more friend";
     } else {
-      return "${requestsLength - 2} more requests";
+      return "${friendsLength - 4} more friends";
     }
   }
 }

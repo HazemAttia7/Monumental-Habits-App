@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_model.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/widgets/best_streak_widget.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_req_info_row.dart';
 
 class FriendCard extends StatelessWidget {
@@ -30,30 +28,7 @@ class FriendCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               FriendReqInfoRow(username: friend.username),
-              Column(
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        FontAwesomeIcons.fireFlameCurved,
-                        color: AppColors.primaryColor,
-                        size: 24.sp,
-                      ),
-                      Gap(4.w),
-                      Text(
-                        friend.bestStreak.toString(),
-                        style: AppStyles.textStyle20.copyWith(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Text(
-                    "Best Streak",
-                    style: AppStyles.textStyle14.copyWith(color: Colors.black),
-                  ),
-                ],
-              ),
+              BestStreakWidget(bestStreak: friend.bestStreak),
             ],
           ),
         ),

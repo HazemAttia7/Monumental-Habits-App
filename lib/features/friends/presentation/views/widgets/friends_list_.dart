@@ -5,14 +5,12 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_model.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_card.dart';
 
-// TODO : make only 3 5 friends shown
 class FriendsList extends StatelessWidget {
   final List<Friend> friends;
   const FriendsList({super.key, required this.friends});
 
   @override
   Widget build(BuildContext context) {
-    // TODO : make only 3 in list style and 2 in grid style
     return friends.isEmpty
         ? SliverFillRemaining(
             child: Center(
@@ -26,7 +24,7 @@ class FriendsList extends StatelessWidget {
         : SliverList.separated(
             itemBuilder: (_, index) => FriendCard(friend: friends[index]),
             separatorBuilder: (_, __) => Gap(16.h),
-            itemCount: friends.length,
+            itemCount: friends.length >= 4 ? 2 : friends.length,
           );
   }
 }
