@@ -32,7 +32,7 @@ class FriendReqsList extends StatelessWidget {
           )
         : SliverList.separated(
             itemBuilder: (_, index) =>
-                FriendReqCard(friendReq: friendReqs[index]),
+                FriendReqCard(friendReq: friendReqs[index], type: type),
             separatorBuilder: (_, __) => Gap(16.h),
             itemCount: isLong ? 2 : friendReqs.length,
           );

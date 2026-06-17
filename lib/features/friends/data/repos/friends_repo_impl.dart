@@ -5,6 +5,7 @@ import 'package:pixel_true_app/core/errors/failure.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_model.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
 import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
+import 'package:pixel_true_app/models/user_profile_model.dart';
 
 class FriendsRepoImpl implements FriendsRepo {
   final FirebaseFirestore _firestore;
@@ -83,7 +84,7 @@ class FriendsRepoImpl implements FriendsRepo {
 
   @override
   Future<Either<Failure, void>> sendFriendRequest({
-    required String receiverId,
+    required String receiverId, required String receiverUsername
   }) async {
     try {
       final senderId = FirebaseAuth.instance.currentUser!.uid;
@@ -128,6 +129,7 @@ class FriendsRepoImpl implements FriendsRepo {
         {
           'senderId': senderId,
           'receiverId': receiverId,
+          'receiverUsername': receiverUsername,
           'senderUsername': senderUsername,
           'senderBestStreak': senderBestStreak,
           'status': 'pending',
@@ -303,6 +305,36 @@ class FriendsRepoImpl implements FriendsRepo {
       final ids = snapshot.docs.map((doc) => doc.id).toList();
 
       return right(ids);
+    } on FirebaseException catch (e) {
+      return left(FirebaseFailure(e.message ?? 'Firebase error'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<UserProfile>>> searchUsersByUsername(
+    String query,
+  ) async {
+    try {
+      final normalized = query.trim().toLowerCase();
+
+      if (normalized.isEmpty) {
+        return right([]);
+      }
+
+      // Requires a 'usernameLower' field on each user document.
+      // If your existing users don't have it yet, see migration note below.
+      final snapshot = await _firestore
+          .collection('users')
+          .where('username_lower', isGreaterThanOrEqualTo: normalized)
+          .where('username_lower', isLessThan: '$normalized\uf8ff')
+          .limit(20)
+          .get();
+
+      final users = snapshot.docs
+          .map((doc) => UserProfile.fromJson(doc.data()))
+          .toList();
+
+      return right(users);
     } on FirebaseException catch (e) {
       return left(FirebaseFailure(e.message ?? 'Firebase error'));
     }

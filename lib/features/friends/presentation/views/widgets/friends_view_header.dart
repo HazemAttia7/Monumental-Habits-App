@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 
@@ -25,9 +27,7 @@ class FriendsViewHeader extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         CustomIconButton(
-          onTap: () {
-            // TODO : implement add friend
-          },
+          onTap: () => GoRouter.of(context).push(AppRouter.kAddFriend),
           iconColor: AppColors.secondaryColor,
           backColor: Colors.transparent,
           icon: FontAwesomeIcons.userPlus,

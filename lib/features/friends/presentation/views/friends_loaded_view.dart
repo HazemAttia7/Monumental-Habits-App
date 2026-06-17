@@ -28,19 +28,9 @@ class FriendsLoadedView extends StatelessWidget {
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           slivers: [
             SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Gap(18.h),
-                  const FriendsViewHeader(),
-                  // Gap(12.h),
-                  // TODO : add in "View All" view
-                  // CustomSearchField(
-                  //   onChanged: (value) {},
-                  //   hintText: "Search for friends...",
-                  // ),
-                  Gap(24.h),
-                ],
+              child: Padding(
+                padding: EdgeInsets.only(top: 18.h, bottom: 24.h),
+                child: const FriendsViewHeader(),
               ),
             ),
             FriendRequestsSection(

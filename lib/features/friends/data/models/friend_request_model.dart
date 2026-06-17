@@ -1,22 +1,28 @@
 class FriendRequest {
-  final String senderId;
+  final String userId;
   final String username;
   final int bestStreak;
 
   FriendRequest({
-    required this.senderId,
+    required this.userId,
     required this.username,
     required this.bestStreak,
   });
 
-  factory FriendRequest.fromJson(
-    String senderId,
-    Map<String, dynamic> map,
-  ) {
+  factory FriendRequest.fromJson(String docId, Map<String, dynamic> map) {
+    final type = map['type'] ?? 'incoming';
+    final isOutgoing = type == 'outgoing';
+
     return FriendRequest(
-      senderId: senderId,
-      username: map['senderUsername'] ?? '',
-      bestStreak: map['senderBestStreak'] ?? 0,
+      userId: isOutgoing
+          ? (map['receiverId'] ?? docId)
+          : (map['senderId'] ?? docId),
+      username: isOutgoing
+          ? (map['receiverUsername'] ?? '')
+          : (map['senderUsername'] ?? ''),
+      bestStreak: isOutgoing
+          ? (map['receiverBestStreak'] ?? 0)
+          : (map['senderBestStreak'] ?? 0),
     );
   }
 }

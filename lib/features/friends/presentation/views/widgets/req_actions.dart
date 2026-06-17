@@ -24,7 +24,7 @@ class ReqActions extends StatelessWidget {
           icon: FontAwesomeIcons.xmark,
           onTap: () => BlocProvider.of<FriendsCubit>(
             context,
-          ).declineFriendRequest(senderId: request.senderId),
+          ).declineFriendRequest(senderId: request.userId),
         ),
         Gap(8.w),
         CustomIconButton(
@@ -35,7 +35,7 @@ class ReqActions extends StatelessWidget {
           icon: FontAwesomeIcons.check,
           onTap: () =>
               BlocProvider.of<FriendsCubit>(context).acceptFriendRequest(
-                senderId: request.senderId,
+                senderId: request.userId,
                 senderUsername: request.username,
                 senderBestStreak: request.bestStreak,
               ),

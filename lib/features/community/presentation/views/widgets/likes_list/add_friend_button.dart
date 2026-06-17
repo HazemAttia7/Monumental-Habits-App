@@ -6,13 +6,13 @@ import 'package:pixel_true_app/features/friends/presentation/managers/friends_cu
 import 'package:provider/provider.dart';
 
 class AddFriendButton extends StatelessWidget {
-  final String uid;
+  final String uid , username;
   final bool isPending, isLoading;
   const AddFriendButton({
     super.key,
     required this.uid,
     this.isPending = false,
-    this.isLoading = false,
+    this.isLoading = false, required this.username,
   });
 
   @override
@@ -28,6 +28,7 @@ class AddFriendButton extends StatelessWidget {
                   receiverId: uid,
                 )
               : () => context.read<FriendsCubit>().sendFriendRequest(
+                  receiverUsername: username,
                   receiverId: uid,
                 ),
           borderRadius: BorderRadius.circular(16.r),

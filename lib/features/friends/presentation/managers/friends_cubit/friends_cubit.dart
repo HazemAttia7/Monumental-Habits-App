@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_model.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
 import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
+import 'package:pixel_true_app/models/user_profile_model.dart';
 
 part 'friends_state.dart';
 
@@ -108,10 +109,10 @@ class FriendsCubit extends Cubit<FriendsState> {
     });
   }
 
-  Future<void> sendFriendRequest({required String receiverId}) async {
+  Future<void> sendFriendRequest({required String receiverId , required String receiverUsername}) async {
     emit(SendFriendRequestLoading(receiverId: receiverId));
 
-    final result = await _friendsRepo.sendFriendRequest(receiverId: receiverId);
+    final result = await _friendsRepo.sendFriendRequest(receiverId: receiverId , receiverUsername: receiverId);
 
     result.fold(
       (failure) => emit(
@@ -192,11 +193,36 @@ class FriendsCubit extends Cubit<FriendsState> {
     });
   }
 
+  Timer? _searchDebounce;
+  List<UserProfile> searchResults = [];
+
+  void searchUsers(String query) {
+    _searchDebounce?.cancel();
+
+    if (query.trim().isEmpty) {
+      searchResults = [];
+      emit(const UserSearchResults([]));
+      return;
+    }
+
+    _searchDebounce = Timer(const Duration(milliseconds: 400), () async {
+      emit(UserSearchLoading());
+      final result = await _friendsRepo.searchUsersByUsername(query);
+      result.fold((failure) => emit(UserSearchFailure(failure.errMessage)), (
+        users,
+      ) {
+        searchResults = users;
+        emit(UserSearchResults(users));
+      });
+    });
+  }
+
   @override
   Future<void> close() {
     _sentRequestsSub?.cancel();
     _receivedRequestsSub?.cancel();
     _friendsSub?.cancel();
+    _searchDebounce?.cancel();
     return super.close();
   }
 }

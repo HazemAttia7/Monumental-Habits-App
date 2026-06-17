@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:pixel_true_app/core/enums/friends_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_req_info_row.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/req_actions.dart';
 
 class FriendReqCard extends StatelessWidget {
   final FriendRequest friendReq;
-  const FriendReqCard({super.key, required this.friendReq});
+  final enRequestType type;
+  const FriendReqCard({super.key, required this.friendReq, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,26 @@ class FriendReqCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FriendReqInfoRow(username: friendReq.username),
-                ReqActions(request: friendReq),
+                if (type == enRequestType.received)
+                  ReqActions(request: friendReq),
+                if (type == enRequestType.sent)
+                  Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.sp,
+                      vertical: 6.sp,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.secondaryColor,
+                      borderRadius: BorderRadius.circular(16.r),
+                    ),
+                    child: Text(
+                      "PENDING",
+                      style: AppStyles.textStyle14.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
               ],
             ),
           ),

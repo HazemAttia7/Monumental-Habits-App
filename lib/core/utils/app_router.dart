@@ -25,6 +25,7 @@ import 'package:pixel_true_app/features/courses/presentation/managers/courses_cu
 import 'package:pixel_true_app/features/courses/presentation/views/course_details_view.dart';
 import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
 import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/add_friend_view.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/friends_view.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/views/habits_history_view.dart';
@@ -64,6 +65,7 @@ abstract class AppRouter {
   static const String kLikesListView = "/likes";
   static const String kCommunityView = "/community";
   static const String kFriends = "/friends";
+  static const String kAddFriend = "/add-friend";
 
   static final router = GoRouter(
     onException: (context, state, router) {
@@ -294,6 +296,12 @@ abstract class AppRouter {
             ..getFriends(),
           child: const FriendsView(),
         ),
+      ),
+      GoRoute(
+        path: kAddFriend,
+        builder: (context, state) =>BlocProvider(
+          create: (context) => FriendsCubit(sl<FriendsRepo>()),
+          child: const AddFriendView()),
       ),
     ],
   );

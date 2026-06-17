@@ -69,6 +69,7 @@ class _UserCardState extends State<UserCard> {
               ),
               isCurrentUser
                   ? const SizedBox()
+                  // TODO : fix issue of showing "ADD FRIEND" button even if user is already a friend
                   : widget.isFriend
                   ? const FriendsButton()
                   : BlocListener<FriendsCubit, FriendsState>(
@@ -119,6 +120,7 @@ class _UserCardState extends State<UserCard> {
                         uid: widget.user.uid,
                         isPending: _isPending,
                         isLoading: _isLoading,
+                        username: widget.user.username,
                       ),
                     ),
             ],
