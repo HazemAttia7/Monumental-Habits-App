@@ -17,6 +17,7 @@ abstract class FriendsRepo {
   Future<Either<Failure, void>> declineFriendRequest({
     required String senderId,
   });
+  // TODO : remove friend
   Future<Either<Failure, List<String>>> getPendingRequestIds();
   Stream<Either<Failure, List<FriendRequest>>> getIncomingFriendRequests();
   Stream<Either<Failure, List<FriendRequest>>> getOutgoingFriendRequests();

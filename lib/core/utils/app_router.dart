@@ -25,6 +25,7 @@ import 'package:pixel_true_app/features/courses/presentation/managers/courses_cu
 import 'package:pixel_true_app/features/courses/presentation/views/course_details_view.dart';
 import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
 import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
+import 'package:pixel_true_app/features/friends/presentation/managers/user_search_cubit/user_search_cubit.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/add_friend_view.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/friends_view.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
@@ -275,8 +276,9 @@ abstract class AppRouter {
         builder: (context, state) => MultiBlocProvider(
           providers: [
             BlocProvider(
-              create: (_) =>
-                  FriendsCubit(sl<FriendsRepo>())..getPendingRequestIds(),
+              create: (_) => FriendsCubit(sl<FriendsRepo>())
+                ..getPendingRequestIds()
+                ..getFriends(),
             ),
             BlocProvider(
               create: (_) =>
@@ -299,9 +301,18 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kAddFriend,
-        builder: (context, state) =>BlocProvider(
-          create: (context) => FriendsCubit(sl<FriendsRepo>()),
-          child: const AddFriendView()),
+        builder: (context, state) {
+          final cubit = state.extra as FriendsCubit;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: cubit),
+              BlocProvider(
+                create: (context) => UserSearchCubit(sl<FriendsRepo>()),
+              ),
+            ],
+            child: const AddFriendView(),
+          );
+        },
       ),
     ],
   );

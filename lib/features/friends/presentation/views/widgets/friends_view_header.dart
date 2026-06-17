@@ -5,6 +5,8 @@ import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
+import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
+import 'package:provider/provider.dart';
 
 class FriendsViewHeader extends StatelessWidget {
   const FriendsViewHeader({super.key});
@@ -27,7 +29,9 @@ class FriendsViewHeader extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
         ),
         CustomIconButton(
-          onTap: () => GoRouter.of(context).push(AppRouter.kAddFriend),
+          onTap: () => GoRouter.of(
+            context,
+          ).push(AppRouter.kAddFriend, extra: context.read<FriendsCubit>()),
           iconColor: AppColors.secondaryColor,
           backColor: Colors.transparent,
           icon: FontAwesomeIcons.userPlus,

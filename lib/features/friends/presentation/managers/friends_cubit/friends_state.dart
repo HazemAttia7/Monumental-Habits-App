@@ -160,21 +160,3 @@ class DeclineFriendRequestFailure extends FriendsState {
   List<Object> get props => [errMessage, senderId];
 }
 
-// User Search
-class UserSearchLoading extends FriendsState {}
-
-class UserSearchResults extends FriendsState {
-  final List<UserProfile> users;
-  const UserSearchResults(this.users);
-
-  @override
-  List<Object> get props => [users];
-}
-
-class UserSearchFailure extends FriendsState {
-  final String message;
-  const UserSearchFailure(this.message);
-
-  @override
-  List<Object> get props => [message];
-}
