@@ -58,6 +58,30 @@ class FriendsRepoImpl implements FriendsRepo {
   }
 
   @override
+  Stream<Either<Failure, List<FriendRequest>>> getOutgoingFriendRequests() {
+    try {
+      final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+      return _firestore
+          .collection('users')
+          .doc(currentUserId)
+          .collection('friendRequests')
+          .where('type', isEqualTo: 'outgoing')
+          .where('status', isEqualTo: 'pending')
+          .snapshots()
+          .map((snapshot) {
+            final requests = snapshot.docs
+                .map((doc) => FriendRequest.fromJson(doc.id, doc.data()))
+                .toList();
+
+            return right<Failure, List<FriendRequest>>(requests);
+          });
+    } on FirebaseException catch (e) {
+      return Stream.value(left(FirebaseFailure(e.message ?? 'Firebase error')));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> sendFriendRequest({
     required String receiverId,
   }) async {

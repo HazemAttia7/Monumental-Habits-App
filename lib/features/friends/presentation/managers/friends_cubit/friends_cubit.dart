@@ -13,31 +13,77 @@ class FriendsCubit extends Cubit<FriendsState> {
 
   List<String> pendingIds = [];
 
-  List<FriendRequest> _friendRequests = [];
+  List<FriendRequest> _sentRequests = [];
+  List<FriendRequest> _receivedRequests = [];
   List<Friend> _friends = [];
-  bool _requestsLoaded = false;
-  bool _friendsLoaded = false;
 
-  StreamSubscription? _friendRequestsSub;
+  bool _sentSettled = false;
+  bool _receivedSettled = false;
+  bool _friendsSettled = false;
+
+  String? _sentError;
+  String? _receivedError;
+  String? _friendsError;
+
+  StreamSubscription? _sentRequestsSub;
+  StreamSubscription? _receivedRequestsSub;
   StreamSubscription? _friendsSub;
 
-  void _emitIfBothLoaded() {
-    if (_requestsLoaded && _friendsLoaded) {
-      emit(FriendsViewLoaded(requests: _friendRequests, friends: _friends));
+  void _emitIfAllSettled() {
+    if (!_sentSettled || !_receivedSettled || !_friendsSettled) return;
+
+    final error = _sentError ?? _receivedError ?? _friendsError;
+    if (error != null) {
+      emit(FriendsFailure(error));
+      return;
     }
+
+    emit(
+      FriendsViewLoaded(
+        sentRequests: _sentRequests,
+        receivedRequests: _receivedRequests,
+        friends: _friends,
+      ),
+    );
   }
 
-  void getIncomingFriendRequests() {
-    _friendRequestsSub?.cancel();
-    _friendRequestsSub = _friendsRepo.getIncomingFriendRequests().listen((
+  void getOutgoingFriendRequests() {
+    _sentRequestsSub?.cancel();
+    _sentRequestsSub = _friendsRepo.getOutgoingFriendRequests().listen((
       result,
     ) {
       result.fold(
-        (failure) => emit(FriendRequestsFailure(failure.errMessage)),
+        (failure) {
+          _sentError = failure.errMessage;
+          _sentSettled = true;
+          _emitIfAllSettled();
+        },
         (requests) {
-          _friendRequests = requests;
-          _requestsLoaded = true;
-          _emitIfBothLoaded();
+          _sentRequests = requests;
+          _sentError = null;
+          _sentSettled = true;
+          _emitIfAllSettled();
+        },
+      );
+    });
+  }
+
+  void getIncomingFriendRequests() {
+    _receivedRequestsSub?.cancel();
+    _receivedRequestsSub = _friendsRepo.getIncomingFriendRequests().listen((
+      result,
+    ) {
+      result.fold(
+        (failure) {
+          _receivedError = failure.errMessage;
+          _receivedSettled = true;
+          _emitIfAllSettled();
+        },
+        (requests) {
+          _receivedRequests = requests;
+          _receivedError = null;
+          _receivedSettled = true;
+          _emitIfAllSettled();
         },
       );
     });
@@ -46,13 +92,19 @@ class FriendsCubit extends Cubit<FriendsState> {
   void getFriends() {
     _friendsSub?.cancel();
     _friendsSub = _friendsRepo.getFriends().listen((result) {
-      result.fold((failure) => emit(FriendsFailure(failure.errMessage)), (
-        friends,
-      ) {
-        _friends = friends;
-        _friendsLoaded = true;
-        _emitIfBothLoaded();
-      });
+      result.fold(
+        (failure) {
+          _friendsError = failure.errMessage;
+          _friendsSettled = true;
+          _emitIfAllSettled();
+        },
+        (friends) {
+          _friends = friends;
+          _friendsError = null;
+          _friendsSettled = true;
+          _emitIfAllSettled();
+        },
+      );
     });
   }
 
@@ -142,7 +194,8 @@ class FriendsCubit extends Cubit<FriendsState> {
 
   @override
   Future<void> close() {
-    _friendRequestsSub?.cancel();
+    _sentRequestsSub?.cancel();
+    _receivedRequestsSub?.cancel();
     _friendsSub?.cancel();
     return super.close();
   }

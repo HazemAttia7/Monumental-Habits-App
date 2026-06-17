@@ -290,6 +290,7 @@ abstract class AppRouter {
         builder: (context, state) => BlocProvider(
           create: (context) => FriendsCubit(sl<FriendsRepo>())
             ..getIncomingFriendRequests()
+            ..getOutgoingFriendRequests()
             ..getFriends(),
           child: const FriendsView(),
         ),

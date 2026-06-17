@@ -18,5 +18,6 @@ abstract class FriendsRepo {
   });
   Future<Either<Failure, List<String>>> getPendingRequestIds();
   Stream<Either<Failure, List<FriendRequest>>> getIncomingFriendRequests();
+  Stream<Either<Failure, List<FriendRequest>>> getOutgoingFriendRequests();
   Stream<Either<Failure, List<Friend>>> getFriends();
 }

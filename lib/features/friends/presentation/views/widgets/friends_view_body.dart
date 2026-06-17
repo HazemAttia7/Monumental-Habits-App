@@ -31,7 +31,8 @@ class FriendsViewBody extends StatelessWidget {
         if (state is FriendsViewLoaded) {
           return FriendsLoadedView(
             friends: state.friends,
-            requests: state.requests,
+            sentRequests: state.sentRequests,
+            receivedRequests: state.receivedRequests,
           );
         }
         return const FriendsLoadingView();

@@ -72,12 +72,18 @@ class PendingIdsLoaded extends FriendsState {
 
 // Friends and Requests
 class FriendsViewLoaded extends FriendsState {
-  final List<FriendRequest> requests;
+  final List<FriendRequest> sentRequests;
+  final List<FriendRequest> receivedRequests;
   final List<Friend> friends;
-  const FriendsViewLoaded({required this.requests, required this.friends});
+
+  const FriendsViewLoaded({
+    required this.sentRequests,
+    required this.receivedRequests,
+    required this.friends,
+  });
 
   @override
-  List<Object> get props => [requests, friends];
+  List<Object> get props => [sentRequests, receivedRequests, friends];
 }
 
 class FriendRequestsFailure extends FriendsState {
