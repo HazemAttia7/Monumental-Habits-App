@@ -11,6 +11,7 @@ class FriendCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO : on long press show rempve friend dialog
     return Material(
       color: Colors.white,
       borderRadius: BorderRadius.circular(16.r),
