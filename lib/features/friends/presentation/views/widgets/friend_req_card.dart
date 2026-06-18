@@ -51,6 +51,7 @@ class FriendReqCard extends StatelessWidget {
                 if (type == enRequestType.received)
                   ReqActions(request: friendReq),
                 if (type == enRequestType.sent)
+                // TODO : add cancel request action
                   Container(
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.sp,
