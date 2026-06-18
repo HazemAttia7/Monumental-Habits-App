@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pixel_true_app/core/enums/friends_enums.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
-import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_req_info_row.dart';
-import 'package:pixel_true_app/features/friends/presentation/views/widgets/req_actions.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/widgets/sender_req_actions.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/widgets/user_info_row.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/widgets/received_req_actions.dart';
 
 class FriendReqCard extends StatelessWidget {
   final FriendRequest friendReq;
@@ -45,30 +45,12 @@ class FriendReqCard extends StatelessWidget {
               ),
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                FriendReqInfoRow(username: friendReq.username),
+                Expanded(child: UserInfoRow(username: friendReq.username)),
                 if (type == enRequestType.received)
-                  ReqActions(request: friendReq),
+                  ReceivedReqActions(request: friendReq),
                 if (type == enRequestType.sent)
-                // TODO : add cancel request action
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.sp,
-                      vertical: 6.sp,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.secondaryColor,
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: Text(
-                      "PENDING",
-                      style: AppStyles.textStyle14.copyWith(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                  SentReqActions(request: friendReq),
               ],
             ),
           ),

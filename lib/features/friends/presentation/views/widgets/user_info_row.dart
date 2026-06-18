@@ -4,9 +4,9 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/profile_placeholder.dart';
 
-class FriendReqInfoRow extends StatelessWidget {
+class UserInfoRow extends StatelessWidget {
   final String username;
-  const FriendReqInfoRow({super.key, required this.username});
+  const UserInfoRow({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +14,13 @@ class FriendReqInfoRow extends StatelessWidget {
       children: [
         ProfilePlaceholder(username: username),
         Gap(12.w),
-        Text(
-          username,
-          style: AppStyles.textStyle16.copyWith(color: Colors.black),
+        Flexible(
+          child: Text(
+            username,
+            style: AppStyles.textStyle16.copyWith(color: Colors.black),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
         ),
       ],
     );

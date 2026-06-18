@@ -111,6 +111,7 @@ class FriendsRepoImpl implements FriendsRepo {
         {
           'senderId': senderId,
           'receiverId': receiverId,
+          'receiverUsername': receiverUsername,
           'senderUsername': senderUsername,
           'senderBestStreak': senderBestStreak,
           'status': 'pending',

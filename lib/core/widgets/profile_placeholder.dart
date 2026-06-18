@@ -30,7 +30,11 @@ class ProfilePlaceholder extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          username.substring(0, 2).toUpperCase(),
+          username.isEmpty
+              ? '?'
+              : username.length == 1
+              ? username.toUpperCase()
+              : username.substring(0, 2).toUpperCase(),
           style: AppStyles.textStyle16.copyWith(
             color: AppColors.scaffoldColor,
             fontSize: fontSize,

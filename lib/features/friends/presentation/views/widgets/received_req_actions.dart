@@ -8,13 +8,14 @@ import 'package:pixel_true_app/core/widgets/custom_icon_button.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
 import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
 
-class ReqActions extends StatelessWidget {
+class ReceivedReqActions extends StatelessWidget {
   final FriendRequest request;
-  const ReqActions({super.key, required this.request});
+  const ReceivedReqActions({super.key, required this.request});
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
         CustomIconButton(
           iconColor: AppColors.primaryColor,
@@ -24,7 +25,7 @@ class ReqActions extends StatelessWidget {
           icon: FontAwesomeIcons.xmark,
           onTap: () => BlocProvider.of<FriendsCubit>(
             context,
-          ).declineFriendRequest(senderId: request.userId),
+          ).deleteFriendRequest(senderId: request.userId),
         ),
         Gap(8.w),
         CustomIconButton(

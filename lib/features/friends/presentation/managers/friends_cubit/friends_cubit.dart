@@ -119,7 +119,7 @@ class FriendsCubit extends Cubit<FriendsState> {
 
     final result = await _friendsRepo.sendFriendRequest(
       receiverId: receiverId,
-      receiverUsername: receiverId,
+      receiverUsername: receiverUsername,
     );
 
     result.fold(
@@ -176,7 +176,7 @@ class FriendsCubit extends Cubit<FriendsState> {
     );
   }
 
-  Future<void> declineFriendRequest({required String senderId}) async {
+  Future<void> deleteFriendRequest({required String senderId}) async {
     emit(DeclineFriendRequestLoading(senderId: senderId));
 
     final result = await _friendsRepo.declineFriendRequest(senderId: senderId);
