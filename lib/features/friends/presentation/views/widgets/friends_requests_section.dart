@@ -32,8 +32,6 @@ class FriendRequestsSection extends StatelessWidget {
             viewAll: () => GoRouter.of(context).push(
               AppRouter.kAllRequests,
               extra: {
-                // TODO : no need for passing requests
-                "requests": requests,
                 "requestType": requestType,
                 "cubit": context.read<FriendsCubit>(),
               },

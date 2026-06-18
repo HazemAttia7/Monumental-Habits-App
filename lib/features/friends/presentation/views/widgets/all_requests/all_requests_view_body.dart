@@ -27,8 +27,9 @@ class AllRequestsViewBody extends StatelessWidget {
             SliverToBoxAdapter(
               child: Padding(
                 padding: EdgeInsets.only(top: 18.h),
-                // TODO : use request type in header
-                child: const DefaultViewHeader(title: "All Requests"),
+                child: DefaultViewHeader(
+                  title: "All ${_getRequestType(requestType)} Requests",
+                ),
               ),
             ),
             SliverToBoxAdapter(child: Gap(24.h)),
@@ -51,5 +52,14 @@ class AllRequestsViewBody extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _getRequestType(enRequestType requestType) {
+    switch (requestType) {
+      case enRequestType.received:
+        return "Received";
+      case enRequestType.sent:
+        return "Sent";
+    }
   }
 }
