@@ -7,10 +7,12 @@ import 'package:pixel_true_app/features/friends/presentation/views/widgets/frien
 
 class FriendsList extends StatelessWidget {
   final List<Friend> friends;
-  const FriendsList({super.key, required this.friends});
+  final bool viewAll;
+  const FriendsList({super.key, required this.friends, this.viewAll = false});
 
   @override
   Widget build(BuildContext context) {
+    final isLong = friends.length >= 4;
     return friends.isEmpty
         ? SliverFillRemaining(
             child: Center(
@@ -24,7 +26,7 @@ class FriendsList extends StatelessWidget {
         : SliverList.separated(
             itemBuilder: (_, index) => FriendCard(friend: friends[index]),
             separatorBuilder: (_, __) => Gap(16.h),
-            itemCount: friends.length >= 4 ? 2 : friends.length,
+            itemCount: (!viewAll && isLong) ? 2 : friends.length,
           );
   }
 }

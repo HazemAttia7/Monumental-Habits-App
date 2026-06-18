@@ -27,6 +27,7 @@ import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
 import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
 import 'package:pixel_true_app/features/friends/presentation/managers/user_search_cubit/user_search_cubit.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/add_friend_view.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/all_friends_view.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/all_requests_view.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/friends_view.dart';
 import 'package:pixel_true_app/features/habits_hsitory/presentation/managers/habits_history_view_controller.dart';
@@ -69,6 +70,7 @@ abstract class AppRouter {
   static const String kFriends = "/friends";
   static const String kAddFriend = "/add-friend";
   static const String kAllRequests = "/view-all-requests";
+  static const String kAllFriends = "/all-friends";
 
   static final router = GoRouter(
     onException: (context, state, router) {
@@ -324,6 +326,17 @@ abstract class AppRouter {
           return BlocProvider.value(
             value: cubit,
             child: const AllRequestsView(),
+          );
+        },
+      ),
+      GoRoute(
+        path: kAllFriends,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final cubit = extra['cubit'] as FriendsCubit;
+          return BlocProvider.value(
+            value: cubit,
+            child: const AllFriendsView(),
           );
         },
       ),
