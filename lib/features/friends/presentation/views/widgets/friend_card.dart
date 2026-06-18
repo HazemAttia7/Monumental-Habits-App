@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_model.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/best_streak_widget.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friend_req_info_row.dart';
+import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog.dart';
 
 class FriendCard extends StatelessWidget {
   final Friend friend;
@@ -11,7 +14,6 @@ class FriendCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO : on long press show rempve friend dialog
     return Material(
       color: Colors.white,
       borderRadius: BorderRadius.circular(16.r),
@@ -19,6 +21,28 @@ class FriendCard extends StatelessWidget {
         onTap: () {
           // TODO : navigate to profile
         },
+        onLongPress: () => showDialog(
+          context: context,
+          builder: (dialogContext) => DeleteDialog(
+            itemLabel: "'${friend.username}'",
+            onDelete: () {
+              // context.read<FriendsCubit>().removeFriend(friend);
+              GoRouter.of(context).pop();
+            },
+            headerIcon: FontAwesomeIcons.userXmark,
+            headerIconSize: 22.sp,
+            headerIconPadding: EdgeInsets.only(
+              left: 12.w,
+              right: 18.w,
+              top: 12.h,
+              bottom: 12.h,
+            ),
+            headerText: "Remove Friend",
+            confirmButtonText: "Unfriend",
+            collectionLabel: 'friends',
+            itemType: 'friend',
+          ),
+        ),
         borderRadius: BorderRadius.circular(16.r),
         splashColor: AppColors.primaryColor.withValues(alpha: .1),
         highlightColor: AppColors.primaryColor.withValues(alpha: .1),

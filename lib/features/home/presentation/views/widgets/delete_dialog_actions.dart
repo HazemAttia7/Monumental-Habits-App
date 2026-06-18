@@ -7,11 +7,13 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit
 class DeleteDialogActions extends StatelessWidget {
   final VoidCallback onCancel;
   final VoidCallback onDelete;
+  final String? confirmButtonText;
 
   const DeleteDialogActions({
     super.key,
     required this.onCancel,
     required this.onDelete,
+    this.confirmButtonText,
   });
 
   @override
@@ -27,7 +29,11 @@ class DeleteDialogActions extends StatelessWidget {
         ),
         SizedBox(width: 12.w),
         Expanded(
-          child: CustomButton(text: "Delete", onTap: onDelete, height: 50.h),
+          child: CustomButton(
+            text: confirmButtonText ?? "Delete",
+            onTap: onDelete,
+            height: 50.h,
+          ),
         ),
       ],
     );

@@ -6,10 +6,16 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 class DeleteDialogHeader extends StatelessWidget {
   final String itemType;
   final IconData headerIcon;
+  final String? headerText;
+  final double? headerIconSize;
+  final EdgeInsets? headerIconPadding;
   const DeleteDialogHeader({
     super.key,
     required this.itemType,
     required this.headerIcon,
+    this.headerIconSize,
+    this.headerIconPadding,
+    this.headerText,
   });
 
   @override
@@ -31,16 +37,20 @@ class DeleteDialogHeader extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(12.sp),
+            padding: headerIconPadding ?? EdgeInsets.all(12.sp),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: .2),
               shape: BoxShape.circle,
             ),
-            child: Icon(headerIcon, color: Colors.white, size: 28.sp),
+            child: Icon(
+              headerIcon,
+              color: Colors.white,
+              size: headerIconSize ?? 28.sp,
+            ),
           ),
           SizedBox(height: 10.h),
           Text(
-            'Delete ${_capitalize(itemType)}',
+            headerText ?? 'Delete ${_capitalize(itemType)}',
             style: AppStyles.textStyle16.copyWith(
               color: Colors.white,
               fontWeight: FontWeight.bold,

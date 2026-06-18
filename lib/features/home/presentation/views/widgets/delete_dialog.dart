@@ -8,6 +8,10 @@ class DeleteDialog extends StatelessWidget {
   final String itemLabel, collectionLabel, itemType;
   final IconData headerIcon;
   final VoidCallback onDelete;
+  final String? headerText;
+  final double? headerIconSize;
+  final EdgeInsets? headerIconPadding;
+  final String? confirmButtonText;
   const DeleteDialog({
     super.key,
     required this.onDelete,
@@ -15,6 +19,10 @@ class DeleteDialog extends StatelessWidget {
     required this.itemLabel,
     required this.collectionLabel,
     required this.itemType,
+    this.headerText,
+    this.headerIconSize,
+    this.headerIconPadding,
+    this.confirmButtonText,
   });
 
   @override
@@ -37,8 +45,15 @@ class DeleteDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            DeleteDialogHeader(headerIcon: headerIcon, itemType: itemType),
+            DeleteDialogHeader(
+              headerIcon: headerIcon,
+              itemType: itemType,
+              headerText: headerText,
+              headerIconSize: headerIconSize,
+              headerIconPadding: headerIconPadding,
+            ),
             DeleteDialogBody(
+              confirmButtonText: confirmButtonText,
               onDelete: onDelete,
               itemLabel: itemLabel,
               collectionLabel: collectionLabel,

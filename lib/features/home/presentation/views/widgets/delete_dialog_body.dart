@@ -7,11 +7,13 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_d
 class DeleteDialogBody extends StatelessWidget {
   final VoidCallback onDelete;
   final String itemLabel, collectionLabel;
+  final String? confirmButtonText;
   const DeleteDialogBody({
     super.key,
     required this.onDelete,
     required this.itemLabel,
     required this.collectionLabel,
+    this.confirmButtonText,
   });
 
   @override
@@ -26,6 +28,7 @@ class DeleteDialogBody extends StatelessWidget {
           ),
           SizedBox(height: 24.h),
           DeleteDialogActions(
+            confirmButtonText: confirmButtonText,
             onCancel: () => GoRouter.of(context).pop(),
             onDelete: onDelete,
           ),
