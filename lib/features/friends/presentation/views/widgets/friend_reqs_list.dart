@@ -9,10 +9,12 @@ import 'package:pixel_true_app/features/friends/presentation/views/widgets/frien
 class FriendReqsList extends StatelessWidget {
   final List<FriendRequest> friendReqs;
   final enRequestType type;
+  final bool viewAll;
   const FriendReqsList({
     super.key,
     required this.friendReqs,
     required this.type,
+    this.viewAll = false,
   });
 
   @override
@@ -34,7 +36,7 @@ class FriendReqsList extends StatelessWidget {
             itemBuilder: (_, index) =>
                 FriendReqCard(friendReq: friendReqs[index], type: type),
             separatorBuilder: (_, __) => Gap(16.h),
-            itemCount: isLong ? 2 : friendReqs.length,
+            itemCount: (!viewAll && isLong) ? 2 : friendReqs.length,
           );
   }
 }
