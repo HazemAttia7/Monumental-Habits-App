@@ -41,4 +41,11 @@ class HabitsRemoteDataSource {
   ) async {
     await _ref(uid).doc(habitId).update({'status': status.name});
   }
+
+  Future<List<Habit>> getHabitsByUserId(String userId) async {
+    final snapshot = await _ref(userId).get();
+    return snapshot.docs
+        .map((d) => Habit.fromJson(d.data() as Map<String, dynamic>))
+        .toList();
+  }
 }

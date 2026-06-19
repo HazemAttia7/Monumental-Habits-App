@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/community_view_controller.dart';
 import 'package:pixel_true_app/features/community/presentation/managers/posts_cubit/posts_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/three_dots.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/post_details/user_meta_info_row.dart';
+import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
+import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog.dart';
 import 'package:provider/provider.dart';
 
@@ -23,9 +27,17 @@ class PostSectionHeader extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: () {
-          // TODO : navigate to profile
-        },
+        onTap: () => GoRouter.of(context).push(
+          AppRouter.kUserProfile,
+          extra: {
+            "uid": post.authorUid,
+            "cubit": FriendsCubit(sl<FriendsRepo>())
+              ..getFriends()
+              ..getOutgoingFriendRequests()
+              ..getIncomingFriendRequests()
+              ..getPendingRequestIds(),
+          },
+        ),
         splashColor: AppColors.primaryColor.withValues(alpha: .1),
         highlightColor: AppColors.primaryColor.withValues(alpha: .1),
         child: Padding(

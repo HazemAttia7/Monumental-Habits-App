@@ -9,7 +9,12 @@ import 'package:pixel_true_app/features/profile/presentation/views/widgets/item_
 
 class HabitsAnalyticsSliverListItem extends StatelessWidget {
   final Habit habit;
-  const HabitsAnalyticsSliverListItem({super.key, required this.habit});
+  final bool noAnalytics;
+  const HabitsAnalyticsSliverListItem({
+    super.key,
+    required this.habit,
+    this.noAnalytics = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +26,7 @@ class HabitsAnalyticsSliverListItem extends StatelessWidget {
       ),
       child: Column(
         children: [
-          ItemHeader(habit: habit),
+          ItemHeader(habit: habit, noAnalytics: noAnalytics),
           Gap(4.h),
           Divider(color: AppColors.primaryColor.withValues(alpha: .2)),
           Gap(4.h),

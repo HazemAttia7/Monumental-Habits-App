@@ -3,10 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_model.dart';
+import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/best_streak_widget.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/user_info_row.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/delete_dialog.dart';
+import 'package:provider/provider.dart';
 
 class FriendCard extends StatelessWidget {
   final Friend friend;
@@ -18,9 +21,10 @@ class FriendCard extends StatelessWidget {
       color: Colors.white,
       borderRadius: BorderRadius.circular(16.r),
       child: InkWell(
-        onTap: () {
-          // TODO : navigate to profile
-        },
+        onTap: () => GoRouter.of(context).push(
+          AppRouter.kUserProfile,
+          extra: {"uid": friend.uid, "cubit": context.read<FriendsCubit>()},
+        ),
         onLongPress: () => showDialog(
           context: context,
           builder: (dialogContext) => DeleteDialog(

@@ -3,9 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
+import 'package:pixel_true_app/core/managers/cubits/other_user_habits_cubit/other_user_habits_cubit.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/views/other_user_profile_view.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/about_us_view.dart';
+import 'package:pixel_true_app/features/auth/data/repos/user_profile_repo.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:pixel_true_app/features/auth/presentation/manager/user_profile_cubit/user_profile_cubit.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/auth_view.dart';
 import 'package:pixel_true_app/features/auth/presentation/views/forgot_password_view.dart';
 import 'package:pixel_true_app/features/community/data/models/post_model.dart';
@@ -36,6 +40,7 @@ import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
 import 'package:pixel_true_app/core/managers/add_edit_habit_view_controller.dart';
 import 'package:pixel_true_app/core/managers/cubits/habits_cubit/habits_cubit.dart';
 import 'package:pixel_true_app/core/managers/habit_analysis_view_controller.dart';
+import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
@@ -71,6 +76,7 @@ abstract class AppRouter {
   static const String kAddFriend = "/add-friend";
   static const String kAllRequests = "/view-all-requests";
   static const String kAllFriends = "/all-friends";
+  static const String kUserProfile = "/user-profile";
 
   static final router = GoRouter(
     onException: (context, state, router) {
@@ -337,6 +343,32 @@ abstract class AppRouter {
           return BlocProvider.value(
             value: cubit,
             child: const AllFriendsView(),
+          );
+        },
+      ),
+      GoRoute(
+        path: kUserProfile,
+        builder: (context, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final userId = extra['uid'] as String;
+          final cubit = extra['cubit'] as FriendsCubit;
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (BuildContext context) =>
+                    OtherUserHabitsCubit(sl<HabitsRepo>())..fetchHabits(userId),
+              ),
+              BlocProvider(
+                create: (BuildContext context) =>
+                    UserProfileCubit(sl<UserProfileRepo>())
+                      ..fetchProfile(userId),
+              ),
+              BlocProvider.value(value: cubit),
+            ],
+            child: ChangeNotifierProvider<ProfileViewController>(
+              create: (context) => ProfileViewController(),
+              child: const OtherUserProfileView(),
+            ),
           );
         },
       ),

@@ -6,13 +6,15 @@ import 'package:pixel_true_app/features/friends/presentation/managers/friends_cu
 import 'package:provider/provider.dart';
 
 class AddFriendButton extends StatelessWidget {
-  final String uid , username;
-  final bool isPending, isLoading;
+  final String uid, username;
+  final bool isPending, isLoading, isfullWidth;
   const AddFriendButton({
     super.key,
     required this.uid,
     this.isPending = false,
-    this.isLoading = false, required this.username,
+    this.isLoading = false,
+    this.isfullWidth = false,
+    required this.username,
   });
 
   @override
@@ -35,6 +37,7 @@ class AddFriendButton extends StatelessWidget {
           splashColor: AppColors.secondaryColor.withValues(alpha: .1),
           highlightColor: AppColors.secondaryColor.withValues(alpha: .1),
           child: Container(
+            width: isfullWidth ? double.infinity : null,
             padding: EdgeInsets.symmetric(horizontal: 12.sp, vertical: 6.sp),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.r),

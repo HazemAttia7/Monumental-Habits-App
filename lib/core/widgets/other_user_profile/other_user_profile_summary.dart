@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
-import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
+import 'package:pixel_true_app/core/widgets/other_user_profile/other_user_habits_completed_section.dart';
+import 'package:pixel_true_app/core/widgets/other_user_profile/other_user_profile_analytics_row.dart';
 import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/habits_completed_section.dart';
-import 'package:pixel_true_app/features/profile/presentation/views/widgets/profile_analytics_row.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/widgets/user_info_row.dart';
 import 'package:provider/provider.dart';
 
-class ProfileSummary extends StatelessWidget {
-  const ProfileSummary({super.key});
+class OtherUserProfileSummary extends StatelessWidget {
+  final String username;
+  const OtherUserProfileSummary({super.key, required this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +26,15 @@ class ProfileSummary extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: UserInfoRow(
               onDropdownChanged: controller.setFilterBy,
-              username: context.watch<AuthCubit>().currentUser?.name ?? "",
+              username: username,
             ),
           ),
           Gap(12.h),
-          const ProfileAnalyticsRow(),
+          const OtherUserProfileAnalyticsRow(),
           Gap(8.h),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: HabitsCompletedSection(value: controller.filterBy),
+            child: OtherUserHabitsCompletedSection(value: controller.filterBy),
           ),
         ],
       ),

@@ -33,7 +33,8 @@ class PostCardHeader extends StatelessWidget {
         Row(
           children: [
             UserMetaRow(
-              userName: post.authorUsername,
+              username: post.authorUsername,
+              authorUid: post.authorUid,
               postedSince: postedSince,
               displayName: isCurrentUser ? "You" : post.authorUsername,
               backColor: isCurrentUser ? AppColors.primaryColor : null,

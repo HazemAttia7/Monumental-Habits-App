@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/core/widgets/animated_snack_bar.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/likes_list/add_friend_button.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/likes_list/friends_button.dart';
 import 'package:pixel_true_app/features/community/presentation/views/widgets/likes_list/liked_by_user_info.dart';
+import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
 import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
 import 'package:pixel_true_app/models/user_profile_model.dart';
 
@@ -46,14 +50,25 @@ class _UserCardState extends State<UserCard> {
   Widget build(BuildContext context) {
     final isCurrentUser =
         widget.user.uid == context.read<AuthCubit>().currentUser!.uid;
+    // TODO : handle requests from any place like posts and reactions
 
     return Material(
       color: Colors.white,
       borderRadius: BorderRadius.circular(12.r),
       child: InkWell(
-        onTap: () {
-          // TODO : navigate to profile
-        },
+        onTap: isCurrentUser
+            ? null
+            : () => GoRouter.of(context).push(
+                AppRouter.kUserProfile,
+                extra: {
+                  "uid": widget.user.uid,
+                  "cubit": FriendsCubit(sl<FriendsRepo>())
+                    ..getFriends()
+                    ..getOutgoingFriendRequests()
+                    ..getIncomingFriendRequests()
+                    ..getPendingRequestIds(),
+                },
+              ),
         borderRadius: BorderRadius.circular(12.r),
         splashColor: AppColors.primaryColor.withValues(alpha: .1),
         highlightColor: AppColors.primaryColor.withValues(alpha: .1),

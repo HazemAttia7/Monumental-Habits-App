@@ -16,7 +16,7 @@ class AddPostCardHeader extends StatelessWidget {
         BlocBuilder(
           bloc: context.read<AuthCubit>(),
           builder: (BuildContext context, AuthState state) => UserMetaRow(
-            userName: context.read<AuthCubit>().currentUser!.name,
+            username: context.read<AuthCubit>().currentUser!.name,
             displayName: "You",
             backColor: AppColors.primaryColor,
           ),

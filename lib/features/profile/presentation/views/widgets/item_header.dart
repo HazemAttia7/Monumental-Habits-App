@@ -10,7 +10,8 @@ import 'package:provider/provider.dart';
 
 class ItemHeader extends StatelessWidget {
   final Habit habit;
-  const ItemHeader({super.key, required this.habit});
+  final bool noAnalytics;
+  const ItemHeader({super.key, required this.habit, this.noAnalytics = false});
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +24,15 @@ class ItemHeader extends StatelessWidget {
             createdAt: habit.createdAt,
           ),
         ),
-        IconButtonWithShadow(
-          icon: FontAwesomeIcons.ellipsis,
-          color: AppColors.secondaryColor,
-          iconSize: 20.sp,
-          onTap: () => context.read<ProfileViewController>().onHabitMenuTapped(
-            context,
-            habit,
+        if (!noAnalytics)
+          IconButtonWithShadow(
+            icon: FontAwesomeIcons.ellipsis,
+            color: AppColors.secondaryColor,
+            iconSize: 20.sp,
+            onTap: () => context
+                .read<ProfileViewController>()
+                .onHabitMenuTapped(context, habit),
           ),
-        ),
       ],
     );
   }

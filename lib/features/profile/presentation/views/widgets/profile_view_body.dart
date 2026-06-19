@@ -24,7 +24,8 @@ class ProfileViewBody extends StatelessWidget {
               Gap(10.h),
               const ProfileHeader(),
               Gap(32.h),
-              const ProfileSummary(),
+              const ProfileSummary(
+              ),
               Gap(8.h),
               IconTileCard(
                 icon: FontAwesomeIcons.solidCreditCard,

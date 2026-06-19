@@ -172,6 +172,16 @@ class HabitsRepoImpl implements HabitsRepo {
     }
   }
 
+  @override
+  Future<Either<Failure, List<Habit>>> getHabitsByUserId(String userId) async {
+    try {
+      final habits = await _remote.getHabitsByUserId(userId);
+      return Right(habits);
+    } on Exception catch (e) {
+      return Left(FirebaseFailure.fromException(e));
+    }
+  }
+
   // ── Sync helpers ────────────────────────────────────────────
 
   /// Push all unsynced local changes to Firestore.
