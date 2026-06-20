@@ -34,13 +34,19 @@ class _FriendStatusButtonState extends State<FriendStatusButton> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO : handle requests from any place like posts and reactions
-    if (widget.isRequest) return const RequestActionButtons();
+    final friendsCubit = context.watch<FriendsCubit>();
 
-    final isFriend = context.watch<FriendsCubit>().isFriend(widget.uid);
+    final isFriend = friendsCubit.isFriend(widget.uid);
+    final hasReceivedRequest = friendsCubit.hasReceivedRequest(widget.uid);
 
     if (isFriend) {
       return const FriendsButton();
+    }
+
+    if (hasReceivedRequest) {
+      final request = friendsCubit.getReceivedRequest(widget.uid)!;
+
+      return RequestActionButtons(request: request, isReceived: true);
     }
 
     return BlocListener<FriendsCubit, FriendsState>(

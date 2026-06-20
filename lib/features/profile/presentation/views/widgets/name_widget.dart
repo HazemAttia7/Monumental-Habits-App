@@ -12,7 +12,12 @@ class NameWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(name, style: AppStyles.textStyle16),
+        Text(
+          name,
+          style: AppStyles.textStyle16,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         Text(
           "Name",
           style: AppStyles.textStyle12.copyWith(

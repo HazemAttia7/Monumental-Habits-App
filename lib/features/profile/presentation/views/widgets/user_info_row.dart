@@ -26,8 +26,7 @@ class UserInfoRow extends StatelessWidget {
           username: username,
         ),
         Gap(10.w),
-        NameWidget(name: username),
-        const Spacer(),
+        Expanded(child: NameWidget(name: username)),
         EnumDropdown<enProfileFilterBy>(
           options: enProfileFilterBy.values,
           initialValue: enProfileFilterBy.week,

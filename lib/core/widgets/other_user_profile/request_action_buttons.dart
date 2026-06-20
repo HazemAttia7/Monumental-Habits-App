@@ -2,47 +2,49 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/friends/data/models/friend_request_model.dart';
 import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
 
 class RequestActionButtons extends StatelessWidget {
-  const RequestActionButtons({super.key});
+  final FriendRequest request;
+  final bool isReceived;
+
+  const RequestActionButtons({
+    super.key,
+    required this.request,
+    required this.isReceived,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final extra = GoRouterState.of(context).extra as Map<String, dynamic>?;
-    final request = extra?['request'] as FriendRequest?;
-    final isReceived = extra?['isReceived'] as bool?;
-    
     return Column(
       spacing: 12.h,
       children: [
-        if (isReceived ?? false)
+        if (isReceived)
           _Button(
             text: 'ACCEPT REQUEST',
             backColor: AppColors.primaryColor,
             foregroundColor: Colors.white,
-            onTap: () =>
-                BlocProvider.of<FriendsCubit>(context).acceptFriendRequest(
-                  senderId: request!.userId,
-                  senderUsername: request.username,
-                  senderBestStreak: request.bestStreak,
-                ),
+            onTap: () {
+              context.read<FriendsCubit>().acceptFriendRequest(
+                senderId: request.userId,
+                senderUsername: request.username,
+                senderBestStreak: request.bestStreak,
+              );
+            },
             icon: FontAwesomeIcons.check,
           ),
         _Button(
           text: 'DECLINE REQUEST',
           backColor: AppColors.primaryColor.withValues(alpha: .1),
           foregroundColor: AppColors.primaryColor,
-          onTap: () =>
-              BlocProvider.of<FriendsCubit>(context).acceptFriendRequest(
-                senderId: request!.userId,
-                senderUsername: request.username,
-                senderBestStreak: request.bestStreak,
-              ),
+          onTap: () {
+            context.read<FriendsCubit>().deleteFriendRequest(
+              senderId: request.userId,
+            );
+          },
           icon: FontAwesomeIcons.xmark,
         ),
       ],

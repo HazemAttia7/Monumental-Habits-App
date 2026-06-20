@@ -37,9 +37,6 @@ class FriendReqCard extends StatelessWidget {
             AppRouter.kUserProfile,
             extra: {
               "uid": friendReq.userId,
-              "isRequest": true,
-              "request": friendReq,
-              "isReceived": type == enRequestType.received,
               "cubit": context.read<FriendsCubit>(),
             },
           ),

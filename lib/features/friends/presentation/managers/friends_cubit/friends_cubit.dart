@@ -14,6 +14,30 @@ class FriendsCubit extends Cubit<FriendsState> {
   List<String> pendingIds = [];
   bool isFriend(String uid) => _friends.any((friend) => friend.uid == uid);
 
+  bool hasReceivedRequest(String uid) {
+    return _receivedRequests.any((request) => request.userId == uid);
+  }
+
+  bool hasSentRequest(String uid) {
+    return _sentRequests.any((request) => request.userId == uid);
+  }
+
+  FriendRequest? getReceivedRequest(String uid) {
+    try {
+      return _receivedRequests.firstWhere((request) => request.userId == uid);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  FriendRequest? getSentRequest(String uid) {
+    try {
+      return _sentRequests.firstWhere((request) => request.userId == uid);
+    } catch (_) {
+      return null;
+    }
+  }
+
   bool isPending(String uid) => pendingIds.contains(uid);
 
   List<FriendRequest> _sentRequests = [];
