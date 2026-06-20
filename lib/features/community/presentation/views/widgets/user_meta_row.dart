@@ -45,7 +45,6 @@ class UserMetaRow extends StatelessWidget {
                       ..getFriends()
                       ..getOutgoingFriendRequests()
                       ..getIncomingFriendRequests()
-                      ..getPendingRequestIds(),
                   },
                 ),
           child: ProfilePlaceholder(

@@ -38,8 +38,6 @@ class FriendsCubit extends Cubit<FriendsState> {
     }
   }
 
-  bool isPending(String uid) => pendingIds.contains(uid);
-
   List<FriendRequest> _sentRequests = [];
   List<FriendRequest> _receivedRequests = [];
   List<Friend> _friends = [];
@@ -217,13 +215,13 @@ class FriendsCubit extends Cubit<FriendsState> {
     );
   }
 
-  Future<void> getPendingRequestIds() async {
-    final result = await _friendsRepo.getPendingRequestIds();
-    result.fold((failure) => null, (ids) {
-      pendingIds = ids;
-      emit(PendingIdsLoaded(ids));
-    });
-  }
+  // Future<void> getPendingRequestIds() async {
+  //   final result = await _friendsRepo.getPendingRequestIds();
+  //   result.fold((failure) => null, (ids) {
+  //     pendingIds = ids;
+  //     emit(PendingIdsLoaded(ids));
+  //   });
+  // }
 
   @override
   Future<void> close() {

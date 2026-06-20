@@ -35,7 +35,6 @@ class PostSectionHeader extends StatelessWidget {
               ..getFriends()
               ..getOutgoingFriendRequests()
               ..getIncomingFriendRequests()
-              ..getPendingRequestIds(),
           },
         ),
         splashColor: AppColors.primaryColor.withValues(alpha: .1),

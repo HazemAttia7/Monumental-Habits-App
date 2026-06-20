@@ -59,7 +59,6 @@ class RepliesTree extends StatelessWidget {
                       ..getFriends()
                       ..getOutgoingFriendRequests()
                       ..getIncomingFriendRequests()
-                      ..getPendingRequestIds(),
                   },
                 ),
           child: ProfilePlaceholder(
@@ -88,7 +87,6 @@ class RepliesTree extends StatelessWidget {
                       ..getFriends()
                       ..getOutgoingFriendRequests()
                       ..getIncomingFriendRequests()
-                      ..getPendingRequestIds(),
                   },
                 ),
           child: ProfilePlaceholder(

@@ -61,15 +61,6 @@ class CancelFriendRequestFailure extends FriendsState {
   List<Object> get props => [errMessage, receiverId];
 }
 
-// Pending Ids
-class PendingIdsLoaded extends FriendsState {
-  final List<String> pendingIds;
-  const PendingIdsLoaded(this.pendingIds);
-
-  @override
-  List<Object> get props => [pendingIds];
-}
-
 // Friends and Requests
 class FriendsViewLoaded extends FriendsState {
   final List<FriendRequest> sentRequests;
@@ -159,4 +150,3 @@ class DeclineFriendRequestFailure extends FriendsState {
   @override
   List<Object> get props => [errMessage, senderId];
 }
-

@@ -74,7 +74,6 @@ class _UserCardState extends State<UserCard> {
                     ..getFriends()
                     ..getOutgoingFriendRequests()
                     ..getIncomingFriendRequests()
-                    ..getPendingRequestIds(),
                 },
               ),
         borderRadius: BorderRadius.circular(12.r),

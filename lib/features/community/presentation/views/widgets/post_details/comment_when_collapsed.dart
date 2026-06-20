@@ -41,7 +41,6 @@ class CommentWhenCollapsed extends StatelessWidget {
                       ..getFriends()
                       ..getOutgoingFriendRequests()
                       ..getIncomingFriendRequests()
-                      ..getPendingRequestIds(),
                   },
                 ),
           child: ProfilePlaceholder(

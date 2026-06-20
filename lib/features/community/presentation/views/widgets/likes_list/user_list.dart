@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pixel_true_app/features/auth/presentation/manager/auth_cubit/auth_cubit.dart';
-import 'package:pixel_true_app/features/community/presentation/views/widgets/likes_list/shimmer/users_list_shimmer.dart';
-import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/users_list_with_friends_status.dart';
 import 'package:pixel_true_app/models/user_profile_model.dart';
 
@@ -24,15 +22,6 @@ class UsersList extends StatelessWidget {
       sortedUsers.insert(0, currentUser);
     }
 
-    return BlocBuilder<FriendsCubit, FriendsState>(
-      buildWhen: (_, state) => state is PendingIdsLoaded,
-      builder: (context, state) {
-        if (state is! PendingIdsLoaded) {
-          return const SliverToBoxAdapter(child: UsersListShimmer());
-        }
-
-        return UsersListWithFriendStatus(users: sortedUsers);
-      },
-    );
+    return UsersListWithFriendStatus(users: sortedUsers);
   }
 }

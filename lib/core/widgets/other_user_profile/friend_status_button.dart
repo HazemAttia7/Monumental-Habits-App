@@ -24,21 +24,14 @@ class FriendStatusButton extends StatefulWidget {
 
 class _FriendStatusButtonState extends State<FriendStatusButton> {
   bool _isLoading = false;
-  late bool _isPending;
-
-  @override
-  void initState() {
-    super.initState();
-    _isPending = context.read<FriendsCubit>().isPending(widget.uid);
-  }
 
   @override
   Widget build(BuildContext context) {
-    // TODO : handle sent requests
     final friendsCubit = context.watch<FriendsCubit>();
 
     final isFriend = friendsCubit.isFriend(widget.uid);
     final hasReceivedRequest = friendsCubit.hasReceivedRequest(widget.uid);
+    final hasSentRequest = friendsCubit.hasSentRequest(widget.uid);
 
     if (isFriend) {
       return const FriendsButton();
@@ -52,27 +45,17 @@ class _FriendStatusButtonState extends State<FriendStatusButton> {
 
     return BlocListener<FriendsCubit, FriendsState>(
       listener: (context, state) {
-        if (state is SendFriendRequestSuccess &&
-            state.receiverId == widget.uid) {
-          setState(() {
-            _isLoading = false;
-            _isPending = true;
-          });
-          buildSuccessSnackBar(context, message: 'Friend request sent!');
-        } else if (state is SendFriendRequestFailure &&
+        if (state is SendFriendRequestFailure &&
             state.receiverId == widget.uid) {
           setState(() => _isLoading = false);
           buildErrorSnackBar(context, message: state.errMessage);
         } else if (state is SendFriendRequestLoading &&
             state.receiverId == widget.uid) {
           setState(() => _isLoading = true);
-        } else if (state is CancelFriendRequestSuccess &&
+        } else if (state is SendFriendRequestSuccess &&
             state.receiverId == widget.uid) {
-          setState(() {
-            _isLoading = false;
-            _isPending = false;
-          });
-          buildSuccessSnackBar(context, message: 'Friend request cancelled!');
+          setState(() => _isLoading = false);
+          buildSuccessSnackBar(context, message: 'Friend request sent!');
         } else if (state is CancelFriendRequestFailure &&
             state.receiverId == widget.uid) {
           setState(() => _isLoading = false);
@@ -80,11 +63,20 @@ class _FriendStatusButtonState extends State<FriendStatusButton> {
         } else if (state is CancelFriendRequestLoading &&
             state.receiverId == widget.uid) {
           setState(() => _isLoading = true);
+        } else if (state is CancelFriendRequestSuccess &&
+            state.receiverId == widget.uid) {
+          setState(() => _isLoading = false);
+          buildSuccessSnackBar(context, message: 'Friend request cancelled!');
         }
+        // Note: we no longer flip a local "_isPending" flag on success.
+        // hasSentRequest is derived from FriendsCubit's live _sentRequests
+        // stream, so the button's pending state updates automatically
+        // whenever a FriendsViewLoaded state comes through — even if the
+        // request was sent from a different widget/screen entirely.
       },
       child: AddFriendButton(
         uid: widget.uid,
-        isPending: _isPending,
+        isPending: hasSentRequest,
         isLoading: _isLoading,
         username: widget.username,
         isfullWidth: true,

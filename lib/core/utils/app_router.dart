@@ -287,8 +287,9 @@ abstract class AppRouter {
           providers: [
             BlocProvider(
               create: (_) => FriendsCubit(sl<FriendsRepo>())
-                ..getPendingRequestIds()
-                ..getFriends(),
+                ..getFriends()
+                ..getOutgoingFriendRequests()
+                ..getIncomingFriendRequests(),
             ),
             BlocProvider(
               create: (_) =>

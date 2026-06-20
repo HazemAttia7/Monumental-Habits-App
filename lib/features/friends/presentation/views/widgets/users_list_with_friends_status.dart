@@ -26,7 +26,7 @@ class UsersListWithFriendStatus extends StatelessWidget {
             return UserCard(
               user: user,
               isFriend: friendsCubit.isFriend(user.uid),
-              isPending: friendsCubit.isPending(user.uid),
+              isPending: friendsCubit.hasSentRequest(user.uid),
             );
           },
         );
