@@ -34,6 +34,7 @@ class _FriendStatusButtonState extends State<FriendStatusButton> {
 
   @override
   Widget build(BuildContext context) {
+    // TODO : handle sent requests
     final friendsCubit = context.watch<FriendsCubit>();
 
     final isFriend = friendsCubit.isFriend(widget.uid);

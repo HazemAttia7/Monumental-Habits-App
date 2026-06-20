@@ -12,6 +12,7 @@ import 'package:pixel_true_app/features/community/presentation/views/widgets/lik
 import 'package:pixel_true_app/features/community/presentation/views/widgets/likes_list/liked_by_user_info.dart';
 import 'package:pixel_true_app/features/friends/data/repos/friends_repo.dart';
 import 'package:pixel_true_app/features/friends/presentation/managers/friends_cubit/friends_cubit.dart';
+import 'package:pixel_true_app/features/friends/presentation/views/widgets/received_req_actions.dart';
 import 'package:pixel_true_app/models/user_profile_model.dart';
 
 class UserCard extends StatefulWidget {
@@ -50,7 +51,14 @@ class _UserCardState extends State<UserCard> {
   Widget build(BuildContext context) {
     final isCurrentUser =
         widget.user.uid == context.read<AuthCubit>().currentUser!.uid;
-    // TODO : handle requests from any place like posts and reactions
+
+    final friendsCubit = context.watch<FriendsCubit>();
+
+    final hasReceivedRequest = friendsCubit.hasReceivedRequest(widget.user.uid);
+
+    final friendReq = hasReceivedRequest
+        ? friendsCubit.getReceivedRequest(widget.user.uid)
+        : null;
 
     return Material(
       color: Colors.white,
@@ -86,6 +94,8 @@ class _UserCardState extends State<UserCard> {
                   ? const SizedBox()
                   : widget.isFriend
                   ? const FriendsButton()
+                  : hasReceivedRequest
+                  ? ReceivedReqActions(request: friendReq!)
                   : BlocListener<FriendsCubit, FriendsState>(
                       listener: (context, state) {
                         if (state is SendFriendRequestSuccess &&

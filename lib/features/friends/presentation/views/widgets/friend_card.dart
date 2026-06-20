@@ -30,6 +30,7 @@ class FriendCard extends StatelessWidget {
           builder: (dialogContext) => DeleteDialog(
             itemLabel: "'${friend.username}'",
             onDelete: () {
+              // TODO : remove friend
               // context.read<FriendsCubit>().removeFriend(friend);
               GoRouter.of(context).pop();
             },
