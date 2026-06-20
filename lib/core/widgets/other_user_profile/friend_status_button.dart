@@ -34,7 +34,7 @@ class _FriendStatusButtonState extends State<FriendStatusButton> {
     final hasSentRequest = friendsCubit.hasSentRequest(widget.uid);
 
     if (isFriend) {
-      return const FriendsButton();
+      return FriendsButton(friendUid: widget.uid);
     }
 
     if (hasReceivedRequest) {

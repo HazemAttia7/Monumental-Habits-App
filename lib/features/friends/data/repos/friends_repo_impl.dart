@@ -84,7 +84,8 @@ class FriendsRepoImpl implements FriendsRepo {
 
   @override
   Future<Either<Failure, void>> sendFriendRequest({
-    required String receiverId, required String receiverUsername
+    required String receiverId,
+    required String receiverUsername,
   }) async {
     try {
       final senderId = FirebaseAuth.instance.currentUser!.uid;
@@ -172,6 +173,39 @@ class FriendsRepoImpl implements FriendsRepo {
             .doc(receiverId)
             .collection('friendRequests')
             .doc(senderId),
+      );
+
+      await batch.commit();
+
+      return right(null);
+    } on FirebaseException catch (e) {
+      return left(FirebaseFailure(e.message ?? 'Firebase error'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeFriend({required String friendId}) async {
+    try {
+      final currentUserId = FirebaseAuth.instance.currentUser!.uid;
+
+      final batch = _firestore.batch();
+
+      // Remove friend from current user's friends list
+      batch.delete(
+        _firestore
+            .collection('users')
+            .doc(currentUserId)
+            .collection('friends')
+            .doc(friendId),
+      );
+
+      // Remove current user from the other user's friends list
+      batch.delete(
+        _firestore
+            .collection('users')
+            .doc(friendId)
+            .collection('friends')
+            .doc(currentUserId),
       );
 
       await batch.commit();

@@ -73,7 +73,7 @@ class _UserCardState extends State<UserCard> {
                   "cubit": FriendsCubit(sl<FriendsRepo>())
                     ..getFriends()
                     ..getOutgoingFriendRequests()
-                    ..getIncomingFriendRequests()
+                    ..getIncomingFriendRequests(),
                 },
               ),
         borderRadius: BorderRadius.circular(12.r),
@@ -92,7 +92,7 @@ class _UserCardState extends State<UserCard> {
               isCurrentUser
                   ? const SizedBox()
                   : widget.isFriend
-                  ? const FriendsButton()
+                  ? FriendsButton(friendUid: widget.user.uid)
                   : hasReceivedRequest
                   ? ReceivedReqActions(request: friendReq!)
                   : BlocListener<FriendsCubit, FriendsState>(

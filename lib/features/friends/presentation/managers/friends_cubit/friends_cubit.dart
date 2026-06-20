@@ -173,6 +173,21 @@ class FriendsCubit extends Cubit<FriendsState> {
     );
   }
 
+  Future<void> removeFriend({required String friendId}) async {
+    emit(RemoveFriendLoading(friendId: friendId));
+
+    final result = await _friendsRepo.removeFriend(friendId: friendId);
+
+    result.fold(
+      (failure) {
+        emit(RemoveFriendFailure(failure.errMessage, friendId: friendId));
+      },
+      (_) {
+        emit(RemoveFriendSuccess(friendId: friendId));
+      },
+    );
+  }
+
   Future<void> acceptFriendRequest({
     required String senderId,
     required String senderUsername,

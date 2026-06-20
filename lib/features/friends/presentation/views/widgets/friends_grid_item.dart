@@ -34,8 +34,7 @@ class FriendGridItem extends StatelessWidget {
           builder: (dialogContext) => DeleteDialog(
             itemLabel: "'${friend.username}'",
             onDelete: () {
-              // TODO : remove friend
-              // context.read<FriendsCubit>().removeFriend(friend);
+              context.read<FriendsCubit>().removeFriend(friendId: friend.uid);
               GoRouter.of(context).pop();
             },
             headerIcon: FontAwesomeIcons.userXmark,

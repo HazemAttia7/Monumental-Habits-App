@@ -150,3 +150,29 @@ class DeclineFriendRequestFailure extends FriendsState {
   @override
   List<Object> get props => [errMessage, senderId];
 }
+
+// Remove Friend
+class RemoveFriendLoading extends FriendsState {
+  final String friendId;
+  const RemoveFriendLoading({required this.friendId});
+
+  @override
+  List<Object> get props => [friendId];
+}
+
+class RemoveFriendSuccess extends FriendsState {
+  final String friendId;
+  const RemoveFriendSuccess({required this.friendId});
+
+  @override
+  List<Object> get props => [friendId];
+}
+
+class RemoveFriendFailure extends FriendsState {
+  final String errMessage;
+  final String friendId;
+  const RemoveFriendFailure(this.errMessage, {required this.friendId});
+
+  @override
+  List<Object> get props => [errMessage, friendId];
+}
