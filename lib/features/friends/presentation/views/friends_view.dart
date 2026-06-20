@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixel_true_app/features/friends/presentation/views/widgets/friends_view_body.dart';
 
+// TODO : refactor code using controller
 class FriendsView extends StatelessWidget {
   const FriendsView({super.key});
 
