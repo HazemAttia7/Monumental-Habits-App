@@ -20,4 +20,5 @@ abstract class AssetsData {
   static const appIcon = "assets/images/app icon.png";
   static const coursesCard = "assets/images/courses card.png";
   static const imagePlaceholder = "assets/images/image placeholder.png";
+  static const profileCheck = "assets/images/profile check.png";
 }

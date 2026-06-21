@@ -9,6 +9,7 @@ import 'package:pixel_true_app/features/courses/presentation/managers/courses_vi
 import 'package:pixel_true_app/features/courses/presentation/views/courses_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/home_view.dart';
+import 'package:pixel_true_app/features/settings/presentation/views/settings_view.dart';
 import 'package:provider/provider.dart';
 
 class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
@@ -69,8 +70,7 @@ class MainViewController extends ChangeNotifier with WidgetsBindingObserver {
       create: (_) => CommunityViewController(),
       child: const CommunityView(),
     ),
-    // TODO : implement settings view
-    const Center(child: Text("Settings View")),
+    const SettingsView(),
     AddEditHabitView(
       backToHome: backToHome,
       habitFormMode: enHabitFormMode.create,
