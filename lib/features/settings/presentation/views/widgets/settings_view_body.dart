@@ -4,7 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/settings/presentation/views/widgets/check_profile_widget.dart';
-import 'package:pixel_true_app/features/settings/presentation/views/widgets/setting_card.dart';
+import 'package:pixel_true_app/features/settings/presentation/views/widgets/general_settings_section.dart';
 import 'package:pixel_true_app/features/settings/presentation/views/widgets/settings_view_header.dart';
 
 class SettingsViewBody extends StatelessWidget {
@@ -25,17 +25,7 @@ class SettingsViewBody extends StatelessWidget {
             Gap(16.h),
             const _SectionTitle(),
             Gap(16.h),
-            Column(
-              spacing: 12.h,
-              children: [
-                SettingCard(
-                  title: 'Notifications',
-                  subtitle: 'Customize notifications',
-                  icon: Icons.circle_notifications_rounded,
-                  onTap: () {},
-                ),
-              ],
-            ),
+            const GeneralSettingsSection(),
           ],
         ),
       ),
