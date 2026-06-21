@@ -28,9 +28,7 @@ class SupportSection extends StatelessWidget {
         SettingCard(
           title: 'Privacy Policy',
           icon: FontAwesomeIcons.shield,
-          onTap: () {
-            // TODO : navigate to privacy policy
-          },
+          onTap: () => GoRouter.of(context).push(AppRouter.kPrivacyPolicy),
         ),
         SettingCard(
           title: 'About',

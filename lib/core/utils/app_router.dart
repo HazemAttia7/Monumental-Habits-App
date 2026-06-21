@@ -46,6 +46,7 @@ import 'package:pixel_true_app/features/home/data/repos/habits_repo.dart';
 import 'package:pixel_true_app/features/home/presentation/views/add_edit_habit_view.dart';
 import 'package:pixel_true_app/features/home/presentation/views/habit_analysis_view.dart';
 import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding_view.dart';
+import 'package:pixel_true_app/features/privacy_policy/presentation/views/privacy_plicy_view.dart';
 import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_habits_analytics_view.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_view.dart';
@@ -83,6 +84,7 @@ abstract class AppRouter {
   static const String kUserProfile = "/user-profile";
   static const String kNotificationSettings = "/notification-settings";
   static const String kConnect = "/connect";
+  static const String kPrivacyPolicy = "/privacy-policy";
 
   static final router = GoRouter(
     onException: (context, state, router) {
@@ -399,6 +401,10 @@ abstract class AppRouter {
         },
       ),
       GoRoute(path: kConnect, builder: (context, state) => const ConnectView()),
+      GoRoute(
+        path: kPrivacyPolicy,
+        builder: (context, state) => const PrivacyPolicyView(),
+      ),
     ],
   );
 }
