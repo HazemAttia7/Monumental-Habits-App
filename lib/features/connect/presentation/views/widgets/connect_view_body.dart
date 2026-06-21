@@ -7,6 +7,7 @@ import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/core/widgets/default_view_header.dart';
 import 'package:pixel_true_app/features/connect/presentation/views/widgets/collab_card.dart';
 import 'package:pixel_true_app/features/connect/presentation/views/widgets/find_me_online_section.dart';
+import 'package:pixel_true_app/features/connect/presentation/views/widgets/get_in_touch_section.dart';
 
 class ConnectViewBody extends StatelessWidget {
   const ConnectViewBody({super.key});
@@ -31,6 +32,8 @@ class ConnectViewBody extends StatelessWidget {
                 const CollabCard(),
                 Gap(32.h),
                 const FindMeOnlineSection(),
+                Gap(32.h),
+                const GetInTouchSection(),
                 Gap(16.h),
               ],
             ),
