@@ -6,6 +6,7 @@ import 'package:pixel_true_app/core/utils/constants.dart';
 import 'package:pixel_true_app/features/settings/presentation/views/widgets/check_profile_widget.dart';
 import 'package:pixel_true_app/features/settings/presentation/views/widgets/general_settings_section.dart';
 import 'package:pixel_true_app/features/settings/presentation/views/widgets/settings_view_header.dart';
+import 'package:pixel_true_app/features/settings/presentation/views/widgets/support_section.dart';
 
 class SettingsViewBody extends StatelessWidget {
   const SettingsViewBody({super.key});
@@ -15,18 +16,25 @@ class SettingsViewBody extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Gap(10.h),
-            const SettingsViewHeader(),
-            Gap(32.h),
-            const CheckProfileWidget(),
-            Gap(16.h),
-            const _SectionTitle(),
-            Gap(16.h),
-            const GeneralSettingsSection(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Gap(10.h),
+              const SettingsViewHeader(),
+              Gap(32.h),
+              const CheckProfileWidget(),
+              Gap(16.h),
+              const _SectionTitle(title: 'General'),
+              Gap(16.h),
+              const GeneralSettingsSection(),
+              Gap(16.h),
+              const _SectionTitle(title: 'Support'),
+              Gap(16.h),
+              const SupportSection(),
+              Gap(128.h),
+            ],
+          ),
         ),
       ),
     );
@@ -34,12 +42,13 @@ class SettingsViewBody extends StatelessWidget {
 }
 
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle();
+  final String title;
+  const _SectionTitle({required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      "General",
+      title,
       style: AppStyles.textStyle18.copyWith(fontWeight: FontWeight.w500),
       textAlign: TextAlign.center,
     );

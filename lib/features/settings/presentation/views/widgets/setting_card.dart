@@ -7,15 +7,18 @@ import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/core/widgets/icon_container.dart';
 
 class SettingCard extends StatelessWidget {
-  final String title, subtitle;
+  final String title;
+  final String? subtitle;
   final IconData icon;
+  final double? iconSize;
   final VoidCallback onTap;
   const SettingCard({
     super.key,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     required this.icon,
     required this.onTap,
+    this.iconSize,
   });
 
   @override
@@ -38,7 +41,7 @@ class SettingCard extends StatelessWidget {
                 icon: icon,
                 iconColor: AppColors.primaryColor,
                 borderRadius: BorderRadius.circular(12.r),
-                iconSize: 24.sp,
+                iconSize: iconSize ?? 18.sp,
               ),
               Gap(12.w),
               _TextSection(title: title, subtitle: subtitle),
@@ -64,10 +67,10 @@ class SettingCard extends StatelessWidget {
 }
 
 class _TextSection extends StatelessWidget {
-  const _TextSection({required this.title, required this.subtitle});
+  const _TextSection({required this.title, this.subtitle});
 
   final String title;
-  final String subtitle;
+  final String? subtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +82,13 @@ class _TextSection extends StatelessWidget {
           title,
           style: AppStyles.textStyle16.copyWith(fontWeight: FontWeight.w500),
         ),
-        Text(
-          subtitle,
-          style: AppStyles.textStyle14.copyWith(
-            color: AppColors.secondaryColor.withValues(alpha: .5),
+        if (subtitle != null)
+          Text(
+            subtitle!,
+            style: AppStyles.textStyle14.copyWith(
+              color: AppColors.secondaryColor.withValues(alpha: .5),
+            ),
           ),
-        ),
       ],
     );
   }
