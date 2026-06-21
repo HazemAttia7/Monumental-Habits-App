@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:pixel_true_app/features/home/data/models/habit_model.dart';
+import 'package:pixel_true_app/features/settings/data/models/notification_settings_model.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
 
@@ -20,7 +21,6 @@ class NotificationService {
           await FlutterTimezone.getLocalTimezone();
       tz.setLocalLocation(tz.getLocation(currentTimeZone.identifier));
     } catch (e) {
-      // Fallback to UTC if timezone detection fails
       tz.setLocalLocation(tz.UTC);
     }
 
@@ -49,6 +49,9 @@ class NotificationService {
     _isInitialized = true;
   }
 
+  // ── Notification details ───────────────────────────────────
+
+  // Original — stays exactly as-is, untouched
   NotificationDetails getNotificationDetails() => const NotificationDetails(
     android: AndroidNotificationDetails(
       'reminders_channel_id',
@@ -59,6 +62,24 @@ class NotificationService {
     ),
     iOS: DarwinNotificationDetails(),
   );
+
+  // New — adds sound/vibration support
+  NotificationDetails getNotificationDetailsWithSettings(
+    NotificationSettings settings,
+  ) => NotificationDetails(
+    android: AndroidNotificationDetails(
+      'reminders_channel_id',
+      'Reminders Notifications',
+      channelDescription: 'Notifications for reminders channel',
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: settings.soundEnabled,
+      enableVibration: settings.vibrationEnabled,
+    ),
+    iOS: DarwinNotificationDetails(presentSound: settings.soundEnabled),
+  );
+
+  // ── Show / Schedule ─────────────────────────────────────────
 
   Future<void> showNotification({
     int id = 0,
@@ -73,6 +94,7 @@ class NotificationService {
     );
   }
 
+  // Original — stays exactly as-is, untouched
   Future<void> scheduleNotification({
     required int id,
     required DateTime date,
@@ -102,19 +124,47 @@ class NotificationService {
     );
   }
 
+  // New — adds settings support
+  Future<void> scheduleNotificationWithSettings({
+    required int id,
+    required DateTime date,
+    required String title,
+    required String body,
+    required NotificationSettings settings,
+  }) async {
+    var scheduledDate = tz.TZDateTime(
+      tz.local,
+      date.year,
+      date.month,
+      date.day,
+      date.hour,
+      date.minute,
+      date.second,
+      date.millisecond,
+      date.microsecond,
+    );
+
+    await notificationsPlugin.zonedSchedule(
+      id: id,
+      title: title,
+      body: body,
+      scheduledDate: scheduledDate,
+      notificationDetails: getNotificationDetailsWithSettings(settings),
+      androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+      matchDateTimeComponents: DateTimeComponents.dayOfWeekAndTime,
+    );
+  }
+
+  // ── Habit reminders ─────────────────────────────────────────
+
+  // Original — stays exactly as-is, untouched
   Future<void> scheduleHabitReminders(Habit habit) async {
-    // First cancel any existing notifications for this habit
     await cancelHabitReminders(habit.id);
 
     for (final reminder in habit.reminders) {
       for (final day in habit.frequency) {
-        // Parse reminder time e.g. "5:00 AM"
         final time = _parseReminderTime(reminder);
-
-        // Find next occurrence of this weekday
         final nextDate = _nextWeekday(day, time.hour, time.minute);
-
-        // Unique id per habit+day+reminder combination
         final notifId = _notificationId(
           habit.id,
           day,
@@ -132,8 +182,59 @@ class NotificationService {
     }
   }
 
+  // New — adds settings support (master switch, quiet hours, sound, vibration)
+  Future<void> scheduleHabitRemindersWithSettings(
+    Habit habit,
+    NotificationSettings settings,
+  ) async {
+    await cancelHabitReminders(habit.id);
+
+    if (!settings.masterEnabled) return;
+
+    for (final reminder in habit.reminders) {
+      for (final day in habit.frequency) {
+        final time = _parseReminderTime(reminder);
+
+        if (settings.quietHoursEnabled && _isInQuietHours(time, settings)) {
+          continue;
+        }
+
+        final nextDate = _nextWeekday(day, time.hour, time.minute);
+        final notifId = _notificationId(
+          habit.id,
+          day,
+          reminder,
+          habit.reminders,
+        );
+
+        await scheduleNotificationWithSettings(
+          // ← fixed, was calling old method
+          id: notifId,
+          date: nextDate,
+          title: '${habit.name} ⏰',
+          body: 'Time to work on your habit!',
+          settings: settings,
+        );
+      }
+    }
+  }
+
+  bool _isInQuietHours(TimeOfDay time, NotificationSettings settings) {
+    final start = _parseReminderTime(settings.quietHoursStart);
+    final end = _parseReminderTime(settings.quietHoursEnd);
+
+    final timeMinutes = time.hour * 60 + time.minute;
+    final startMinutes = start.hour * 60 + start.minute;
+    final endMinutes = end.hour * 60 + end.minute;
+
+    if (startMinutes < endMinutes) {
+      return timeMinutes >= startMinutes && timeMinutes < endMinutes;
+    } else {
+      return timeMinutes >= startMinutes || timeMinutes < endMinutes;
+    }
+  }
+
   Future<void> cancelHabitReminders(String habitId) async {
-    // Cancel all possible notification ids for this habit
     for (int day = 0; day < 7; day++) {
       for (int reminder = 0; reminder < 12; reminder++) {
         await notificationsPlugin.cancel(
@@ -145,7 +246,6 @@ class NotificationService {
 
   // ── Helpers ─────────────────────────────────────────────────
 
-  // Converts "5:00 AM" → TimeOfDay
   TimeOfDay _parseReminderTime(String reminder) {
     final parts = reminder.split(' ');
     final hm = parts[0].split(':');
@@ -159,14 +259,11 @@ class NotificationService {
     return TimeOfDay(hour: hour, minute: minute);
   }
 
-  // Gets next occurrence of a weekday (0=Sun...6=Sat) at given time
   DateTime _nextWeekday(int targetDay, int hour, int minute) {
     final now = DateTime.now();
-    // Convert your 0=Sun system to DateTime's 1=Mon...7=Sun
     final dartDay = targetDay == 0 ? 7 : targetDay;
     int daysUntil = (dartDay - now.weekday + 7) % 7;
 
-    // If today is the day but time has passed, schedule for next week
     if (daysUntil == 0) {
       final todayTime = DateTime(now.year, now.month, now.day, hour, minute);
       if (todayTime.isBefore(now)) daysUntil = 7;
@@ -176,7 +273,6 @@ class NotificationService {
     return DateTime(date.year, date.month, date.day, hour, minute);
   }
 
-  // Stable unique int id from habitId + day + reminder index
   int _notificationId(
     String habitId,
     int day,

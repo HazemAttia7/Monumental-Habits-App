@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:pixel_true_app/app_gate.dart';
 import 'package:pixel_true_app/core/helper/service_locator.dart';
 import 'package:pixel_true_app/core/managers/cubits/other_user_habits_cubit/other_user_habits_cubit.dart';
+import 'package:pixel_true_app/core/services/notification_service.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/views/other_user_profile_view.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/about_us_view.dart';
@@ -47,6 +48,8 @@ import 'package:pixel_true_app/features/onboarding/presentation/views/onboarding
 import 'package:pixel_true_app/features/profile/presentation/managers/profile_view_controller.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_habits_analytics_view.dart';
 import 'package:pixel_true_app/features/profile/presentation/views/profile_view.dart';
+import 'package:pixel_true_app/features/settings/presentation/managers/notification_settings_controller.dart';
+import 'package:pixel_true_app/features/settings/presentation/views/notification_settings_view.dart';
 import 'package:pixel_true_app/features/splash/presentation/views/splash_view.dart';
 import 'package:pixel_true_app/features/subscription/presentation/views/subscription_view.dart';
 import 'package:pixel_true_app/features/support/presentation/managers/support_view_controller.dart';
@@ -77,6 +80,7 @@ abstract class AppRouter {
   static const String kAllRequests = "/view-all-requests";
   static const String kAllFriends = "/all-friends";
   static const String kUserProfile = "/user-profile";
+  static const String kNotificationSettings = "/notification-settings";
 
   static final router = GoRouter(
     onException: (context, state, router) {
@@ -369,6 +373,25 @@ abstract class AppRouter {
             child: ChangeNotifierProvider<ProfileViewController>(
               create: (context) => ProfileViewController(),
               child: const OtherUserProfileView(),
+            ),
+          );
+        },
+      ),
+      GoRoute(
+        path: kNotificationSettings,
+        builder: (context, state) {
+          final cubit = state.extra as HabitsCubit;
+          return BlocProvider.value(
+            value: cubit,
+            child: ChangeNotifierProvider(
+              create: (context) => NotificationSettingsController(
+                notificationService: sl<NotificationService>(),
+                getHabits: () {
+                  final state = cubit.state;
+                  return state is HabitsLoaded ? state.habits : <Habit>[];
+                },
+              ),
+              child: const NotificationSettingsView(),
             ),
           );
         },

@@ -13,7 +13,7 @@ import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_frequency_widget.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_name_input.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/habit_status_segmented_button.dart';
-import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/notifications_widget.dart';
+import 'package:pixel_true_app/core/widgets/switch_widget.dart';
 import 'package:pixel_true_app/features/home/presentation/views/widgets/add_edit_habit_widgets/reminder_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +30,8 @@ class AddEditHabitViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<AddEditHabitViewController>();
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
@@ -52,7 +54,12 @@ class AddEditHabitViewBody extends StatelessWidget {
               Gap(10.h),
               ReminderWidget(themeColor: themeColor),
               Gap(10.h),
-              NotificationsWidget(themeColor: themeColor),
+              SwitchWidget(
+                themeColor: themeColor,
+                onToggle: controller.onNotificationToggle,
+                isOn: controller.isNotificationOn,
+                text: "Notification",
+              ),
               Gap(24.h),
               if (mode == enHabitFormMode.edit)
                 Column(
