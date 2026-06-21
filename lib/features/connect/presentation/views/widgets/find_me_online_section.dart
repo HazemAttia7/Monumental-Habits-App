@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/connect/presentation/views/widgets/social_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class FindMeOnlineSection extends StatelessWidget {
   const FindMeOnlineSection({super.key});
@@ -27,7 +28,7 @@ class FindMeOnlineSection extends StatelessWidget {
           icon: FontAwesomeIcons.linkedinIn,
           themeColor: AppColors.twilight,
           onTap: () {
-            // TODO : open linkedin link
+            _launchUrl('https://www.linkedin.com/in/hazem-attia-607155313/');
           },
         ),
         Gap(12.h),
@@ -37,10 +38,18 @@ class FindMeOnlineSection extends StatelessWidget {
           icon: FontAwesomeIcons.github,
           themeColor: AppColors.sunset,
           onTap: () {
-            // TODO : open github link
+            _launchUrl('https://github.com/HazemAttia7');
           },
         ),
       ],
     );
+  }
+}
+
+Future<void> _launchUrl(String url) async {
+  final uri = Uri.parse(url);
+
+  if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
+    throw Exception('Could not launch $url');
   }
 }

@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/app_colors.dart';
 import 'package:pixel_true_app/core/utils/app_styles.dart';
 import 'package:pixel_true_app/features/connect/presentation/views/widgets/social_card.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class GetInTouchSection extends StatelessWidget {
   const GetInTouchSection({super.key});
@@ -21,17 +22,20 @@ class GetInTouchSection extends StatelessWidget {
           ),
         ),
         Gap(16.h),
-        AbsorbPointer(
-          absorbing: true,
-          child: SocialCard(
-            title: 'Email',
-            subtitle: 'hazemco711@gmail.com',
-            icon: FontAwesomeIcons.envelope,
-            themeColor: AppColors.secondaryColor,
-            onTap: () {},
-          ),
+        SocialCard(
+          title: 'Email',
+          subtitle: 'hazemco711@gmail.com',
+          icon: FontAwesomeIcons.envelope,
+          themeColor: AppColors.secondaryColor,
+          onTap: launchEmail,
         ),
       ],
     );
+  }
+
+  Future<void> launchEmail() async {
+    final Uri emailUri = Uri(scheme: 'mailto', path: 'hazemco711@gmail.com');
+
+    await launchUrl(emailUri);
   }
 }

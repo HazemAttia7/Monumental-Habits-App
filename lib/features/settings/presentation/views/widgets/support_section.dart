@@ -22,7 +22,7 @@ class SupportSection extends StatelessWidget {
           title: 'Feedback',
           icon: FontAwesomeIcons.solidComment,
           onTap: () {
-            // TODO : open coming soon dialog
+            // TODO : rate app
           },
         ),
         SettingCard(
