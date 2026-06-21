@@ -14,11 +14,9 @@ class SupportSection extends StatelessWidget {
       spacing: 12.h,
       children: [
         SettingCard(
-          title: 'Contact',
-          icon: FontAwesomeIcons.phone,
-          onTap: () {
-            // TODO : navigate to contact
-          },
+          title: 'Connect',
+          icon: FontAwesomeIcons.diamond,
+          onTap: () => GoRouter.of(context).push(AppRouter.kConnect),
         ),
         SettingCard(
           title: 'Feedback',

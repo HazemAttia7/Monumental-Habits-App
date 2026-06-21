@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/widgets/card_header.dart';
 import 'package:pixel_true_app/features/about_us/presentation/views/widgets/custom_outline_button.dart';
 
@@ -33,11 +35,9 @@ class GetInTouchCard extends StatelessWidget {
               ),
               Expanded(
                 child: CustomOutlineButton(
-                  icon: Icons.chat_bubble_outline_rounded,
-                  text: "Contact US",
-                  onTap: () {
-                    // TODO : contact us
-                  },
+                  icon: Icons.diamond,
+                  text: "Connect",
+                  onTap: () => GoRouter.of(context).push(AppRouter.kConnect),
                 ),
               ),
             ],

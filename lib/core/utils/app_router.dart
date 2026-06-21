@@ -24,6 +24,7 @@ import 'package:pixel_true_app/features/community/presentation/managers/posts_cu
 import 'package:pixel_true_app/features/community/presentation/views/community_view.dart';
 import 'package:pixel_true_app/features/community/presentation/views/likes_list_view.dart';
 import 'package:pixel_true_app/features/community/presentation/views/post_details_view.dart';
+import 'package:pixel_true_app/features/connect/presentation/views/connect_view.dart';
 import 'package:pixel_true_app/features/courses/data/models/course_model.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/course_details_view_controller.dart';
 import 'package:pixel_true_app/features/courses/presentation/managers/courses_cubit/courses_cubit.dart';
@@ -81,6 +82,7 @@ abstract class AppRouter {
   static const String kAllFriends = "/all-friends";
   static const String kUserProfile = "/user-profile";
   static const String kNotificationSettings = "/notification-settings";
+  static const String kConnect = "/connect";
 
   static final router = GoRouter(
     onException: (context, state, router) {
@@ -396,6 +398,7 @@ abstract class AppRouter {
           );
         },
       ),
+      GoRoute(path: kConnect, builder: (context, state) => const ConnectView()),
     ],
   );
 }
