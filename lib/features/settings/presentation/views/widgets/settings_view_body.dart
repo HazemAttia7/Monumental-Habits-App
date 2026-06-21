@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gap/gap.dart';
 import 'package:pixel_true_app/core/utils/constants.dart';
+import 'package:pixel_true_app/features/settings/presentation/views/widgets/check_profile_widget.dart';
 import 'package:pixel_true_app/features/settings/presentation/views/widgets/settings_view_header.dart';
 
 class SettingsViewBody extends StatelessWidget {
@@ -12,7 +13,14 @@ class SettingsViewBody extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: kPagePadding.w),
-        child: Column(children: [Gap(10.h), const SettingsViewHeader()]),
+        child: Column(
+          children: [
+            Gap(10.h),
+            const SettingsViewHeader(),
+            Gap(32.h),
+            const CheckProfileWidget(),
+          ],
+        ),
       ),
     );
   }
