@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:pixel_true_app/core/utils/app_router.dart';
 import 'package:pixel_true_app/features/settings/presentation/views/widgets/setting_card.dart';
 
 class SupportSection extends StatelessWidget {
@@ -35,9 +37,7 @@ class SupportSection extends StatelessWidget {
         SettingCard(
           title: 'About',
           icon: FontAwesomeIcons.circleExclamation,
-          onTap: () {
-            // TODO :  navigate to about
-          },
+          onTap: () => GoRouter.of(context).push(AppRouter.kAboutUs),
         ),
       ],
     );

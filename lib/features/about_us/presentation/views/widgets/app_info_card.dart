@@ -22,7 +22,7 @@ class AppInfoCard extends StatelessWidget {
           Gap(14.h),
           const CustomBadge(
             title: "Version 1.0.0",
-            subtitle: "Designed by Pixel True",
+            subtitle: "Designed by Pixel True & hazem",
           ),
         ],
       ),
