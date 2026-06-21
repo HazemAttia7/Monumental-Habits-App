@@ -48,7 +48,9 @@ class SideMenu extends StatelessWidget {
                 SideMenuListTile(
                   icon: FontAwesomeIcons.solidRectangleList,
                   title: "Activity Log",
-                  onTap: () {},
+                  onTap: () {
+                    // TODO : open coming soon dialog or not implemented yet dialog
+                  },
                 ),
                 Gap(24.h),
                 SideMenuListTile(
