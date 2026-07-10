@@ -301,9 +301,32 @@ shared_preferences
 
 ---
 
+
 ## 📸 Screenshots
 
-Will be added Soon
+<p align="center">
+  <img src="screenshots/login.jpg" width="250">
+  <img src="screenshots/forgot pass.jpg" width="250">
+  <img src="screenshots/sign up.jpg" width="250">
+  <img src="screenshots/home.jpg" width="250">
+  <img src="screenshots/courses.jpg" width="250">
+  <img src="screenshots/course filters.jpg" width="250">
+  <img src="screenshots/community.jpg" width="250">
+  <img src="screenshots/post details.jpg" width="250">
+  <img src="screenshots/settings.jpg" width="250">
+  <img src="screenshots/side menu.jpg" width="250">
+  <img src="screenshots/profile.jpg" width="250">
+  <img src="screenshots/habit analytics.jpg" width="250">
+  <img src="screenshots/support.jpg" width="250">
+  <img src="screenshots/habit analysis 1.jpg" width="250">
+  <img src="screenshots/habit analysis 2.jpg" width="250">
+  <img src="screenshots/edit habit.jpg" width="250">
+  <img src="screenshots/habit freq.jpg" width="250">
+  <img src="screenshots/habit reminders.jpg" width="250">
+  <img src="screenshots/friends.jpg" width="250">
+  <img src="screenshots/user profile.jpg" width="250">
+</p>
+
 
 ```text
 Onboarding
